@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios - Todo en Rojas</title>
+  <style>
+    :root{
+      --blue:#1f5db3;
+      --blue-dark:#123e7c;
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#dbe4f0;
+      --green:#17a34a;
+      --red:#dc2626;
+      --chip:#eaf1fb;
+      --shadow:0 10px 24px rgba(18,62,124,.10);
+    }
+
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,var(--blue),var(--bg) 180px);
+      color:var(--text);
+    }
+
+    .app{
+      max-width:430px;
+      margin:0 auto;
+      min-height:100vh;
+    }
+
+    .topbar{
+      color:white;
+      padding:18px 16px 12px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .back-btn{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      border:none;
+      background:rgba(255,255,255,.18);
+      color:white;
+      font-size:1.4rem;
+      cursor:pointer;
+    }
+
+    .topbar h1{
+      margin:0;
+      font-size:1.6rem;
+      font-weight:800;
+    }
+
+    .content{
+      background:var(--bg);
+      border-radius:28px 28px 0 0;
+      min-height:calc(100vh - 76px);
+      padding:18px 16px 30px;
+    }
+
+    .search{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 6px 18px rgba(18,62,124,.06);
+      margin-bottom:16px;
+    }
+
+    .search input{
+      border:none;
+      outline:none;
+      width:100%;
+      font-size:1rem;
+      background:transparent;
+      color:var(--text);
+    }
+
+    .search input::placeholder{color:var(--muted)}
+
+    .subcats{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding-bottom:8px;
+      margin-bottom:16px;
+    }
+
+    .subcats::-webkit-scrollbar{height:6px}
+    .subcats::-webkit-scrollbar-thumb{
+      background:#c8d6ea;
+      border-radius:20px;
+    }
+
+    .chip{
+      border:none;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:700;
+      background:#eaf1fb;
+      color:var(--blue-dark);
+      white-space:nowrap;
+      cursor:pointer;
+    }
+
+    .chip.active{
+      background:var(--blue-dark);
+      color:white;
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:14px;
+      box-shadow:0 8px 18px rgba(18,62,124,.08);
+    }
+
+    .card-top{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+
+    .avatar{
+      width:78px;
+      height:78px;
+      border-radius:18px;
+      object-fit:cover;
+      flex-shrink:0;
+      border:2px solid #eef3fb;
+      background:#fff;
+    }
+
+    .info{flex:1;min-width:0}
+
+    .name{
+      margin:0 0 4px;
+      font-size:1.22rem;
+      font-weight:800;
+      color:var(--blue-dark);
+    }
+
+    .rubro{
+      margin:0 0 8px;
+      color:var(--muted);
+      font-size:.98rem;
+      font-weight:700;
+    }
+
+    .state{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      font-size:.92rem;
+      font-weight:700;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      display:inline-block;
+    }
+
+    .green{background:var(--green)}
+    .red{background:var(--red)}
+
+    .section-label{
+      font-size:.83rem;
+      font-weight:800;
+      color:var(--blue-dark);
+      margin:0 0 8px;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
+
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:12px;
+    }
+
+    .badge{
+      background:#eef4fb;
+      color:var(--blue-dark);
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:.84rem;
+      font-weight:700;
+    }
+
+    .badge.factura-si{
+      background:#e4f7e8;
+      color:#176738;
+    }
+
+    .badge.factura-no{
+      background:#fde8e8;
+      color:#9f1d1d;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+    }
+
+    .btn{
+      flex:1;
+      border:none;
+      border-radius:14px;
+      padding:13px 14px;
+      font-size:.96rem;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .btn-profile{
+      background:#eaf1fb;
+      color:var(--blue-dark);
+    }
+
+    .btn-wa{
+      background:var(--green);
+      color:#fff;
+    }
+
+    .empty{
+      text-align:center;
+      color:var(--muted);
+      padding:24px 8px;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+      <h1>Servicios</h1>
+    </header>
+
+    <main class="content">
+      <div class="search">
+        <span>🔎</span>
+        <input type="text" id="searchInput" placeholder="Buscar por nombre o rubro..." />
+      </div>
+
+      <div class="subcats">
+        <button class="chip active" data-filter="todos">Todos</button>
+        <button class="chip" data-filter="plomero">Plomeros</button>
+        <button class="chip" data-filter="electricista">Electricistas</button>
+        <button class="chip" data-filter="gasista">Gasistas</button>
+        <button class="chip" data-filter="cerrajero">Cerrajeros</button>
+        <button class="chip" data-filter="cortepasto">Corte de pasto</button>
+      </div>
+
+      <div class="list" id="providersList">
+
+        <div class="card provider-card" data-category="plomero" data-name="Juan Pérez" data-rubro="Plomero">
+          <div class="card-top">
+            <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Juan Pérez" />
+            <div class="info">
+              <h3 class="name">Juan Pérez</h3>
+              <p class="rubro">Plomero</p>
+              <div class="state"><span class="dot green"></span>Disponible</div>
+            </div>
+          </div>
+
+          <p class="section-label">Medios de pago</p>
+          <div class="badges">
+            <span class="badge">💵 Efectivo</span>
+            <span class="badge">📲 Transferencia</span>
+            <span class="badge">💳 Tarjeta</span>
+            <span class="badge factura-si">🧾 Hace factura</span>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-profile" onclick="window.location.href='perfil-juan-perez.html'">Ver perfil</button>
+            <button class="btn btn-wa" onclick="window.open('https://wa.me/5492474000001?text=Hola%20Juan,%20te%20vi%20en%20Todo%20en%20Rojas%20y%20necesito%20un%20plomero.', '_blank')">WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="card provider-card" data-category="electricista" data-name="Carlos Gómez" data-rubro="Electricista">
+          <div class="card-top">
+            <img class="avatar" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Carlos Gómez" />
+            <div class="info">
+              <h3 class="name">Carlos Gómez</h3>
+              <p class="rubro">Electricista</p>
+              <div class="state"><span class="dot red"></span>No disponible</div>
+            </div>
+          </div>
+
+          <p class="section-label">Medios de pago</p>
+          <div class="badges">
+            <span class="badge">💵 Efectivo</span>
+            <span class="badge">📲 Transferencia</span>
+            <span class="badge factura-no">🧾 Sin factura</span>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-profile" onclick="alert('Próximamente')">Ver perfil</button>
+            <button class="btn btn-wa" onclick="window.open('https://wa.me/5492474000002?text=Hola%20Carlos,%20te%20vi%20en%20Todo%20en%20Rojas%20y%20necesito%20un%20electricista.', '_blank')">WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="card provider-card" data-category="gasista" data-name="Mariano López" data-rubro="Gasista matriculado">
+          <div class="card-top">
+            <img class="avatar" src="https://randomuser.me/api/portraits/men/67.jpg" alt="Mariano López" />
+            <div class="info">
+              <h3 class="name">Mariano López</h3>
+              <p class="rubro">Gasista matriculado</p>
+              <div class="state"><span class="dot green"></span>Disponible</div>
+            </div>
+          </div>
+
+          <p class="section-label">Medios de pago</p>
+          <div class="badges">
+            <span class="badge">💵 Efectivo</span>
+            <span class="badge">📲 Transferencia</span>
+            <span class="badge">💳 Tarjeta</span>
+            <span class="badge factura-si">🧾 Hace factura</span>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-profile" onclick="alert('Próximamente')">Ver perfil</button>
+            <button class="btn btn-wa" onclick="window.open('https://wa.me/5492474000003?text=Hola%20Mariano,%20te%20vi%20en%20Todo%20en%20Rojas%20y%20necesito%20un%20gasista.', '_blank')">WhatsApp</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="empty" id="emptyState">No se encontraron prestadores con esa búsqueda.</div>
+    </main>
+  </div>
+
+  <script>
+    const chips = document.querySelectorAll(".chip");
+    const cards = document.querySelectorAll(".provider-card");
+    const searchInput = document.getElementById("searchInput");
+    const emptyState = document.getElementById("emptyState");
+    let activeFilter = "todos";
+
+    function filterCards() {
+      const search = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const category = card.dataset.category.toLowerCase();
+        const name = card.dataset.name.toLowerCase();
+        const rubro = card.dataset.rubro.toLowerCase();
+
+        const matchesFilter = activeFilter === "todos" || category === activeFilter;
+        const matchesSearch =
+          name.includes(search) ||
+          rubro.includes(search) ||
+          category.includes(search);
+
+        const show = matchesFilter && matchesSearch;
+        card.style.display = show ? "block" : "none";
+        if (show) visibleCount++;
+      });
+
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.dataset.filter;
+        filterCards();
+      });
+    });
+
+    searchInput.addEventListener("input", filterCards);
+    filterCards();
+  </script>
+</body>
+</html>

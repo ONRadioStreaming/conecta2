@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiero aparecer en Todo en Rojas</title>
+  <style>
+    :root{
+      --blue:#1f5db3;
+      --blue-dark:#123e7c;
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#dbe4f0;
+      --green:#17a34a;
+      --red:#dc2626;
+      --shadow:0 10px 24px rgba(18,62,124,.10);
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    body{
+      background:linear-gradient(180deg,var(--blue),var(--bg) 220px);
+      color:var(--text);
+    }
+
+    .app{
+      max-width:430px;
+      margin:0 auto;
+      min-height:100vh;
+    }
+
+    .header{
+      padding:16px;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .back{
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:12px;
+      background:rgba(255,255,255,.18);
+      color:#fff;
+      font-size:22px;
+      cursor:pointer;
+      flex-shrink:0;
+    }
+
+    .header h1{
+      font-size:1.12rem;
+      font-weight:800;
+      line-height:1.2;
+    }
+
+    .content{
+      background:var(--bg);
+      border-radius:28px 28px 0 0;
+      min-height:calc(100vh - 74px);
+      padding:16px;
+    }
+
+    .section{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:16px;
+      margin-bottom:14px;
+    }
+
+    .section-title{
+      font-size:1rem;
+      font-weight:800;
+      color:var(--blue-dark);
+      margin-bottom:12px;
+      text-transform:uppercase;
+      letter-spacing:.3px;
+    }
+
+    .field{
+      margin-bottom:12px;
+    }
+
+    .field label{
+      display:block;
+      font-size:.9rem;
+      font-weight:700;
+      color:#334155;
+      margin-bottom:6px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px 13px;
+      font-size:.95rem;
+      outline:none;
+      background:#fff;
+      color:#1f2937;
+    }
+
+    .field textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .checks{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .check{
+      background:#eef4fb;
+      border:1px solid #d9e6f6;
+      border-radius:14px;
+      padding:10px 12px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:.92rem;
+      font-weight:700;
+      color:#29405f;
+    }
+
+    .check input{
+      width:auto;
+      transform:scale(1.1);
+    }
+
+    .photo-wrap{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .photo-preview{
+      width:86px;
+      height:86px;
+      border-radius:18px;
+      object-fit:cover;
+      background:#e8eef7;
+      border:2px solid #dbe4f0;
+      flex-shrink:0;
+    }
+
+    .note{
+      font-size:.84rem;
+      color:var(--muted);
+      margin-top:4px;
+      line-height:1.35;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .btn{
+      flex:1;
+      border:none;
+      border-radius:16px;
+      padding:14px 14px;
+      font-size:.95rem;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .btn-secondary{
+      background:#eaf1fb;
+      color:var(--blue-dark);
+    }
+
+    .btn-primary{
+      background:var(--green);
+      color:#fff;
+    }
+
+    /* ===== VISTA PREVIA BUENA ===== */
+
+    .preview-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .preview-cover{
+      height:120px;
+      background:linear-gradient(135deg,#1f5db3,#4fb5ff);
+      position:relative;
+    }
+
+    .preview-avatar-wrap{
+      position:absolute;
+      left:16px;
+      bottom:-34px;
+      width:86px;
+      height:86px;
+      background:#fff;
+      padding:4px;
+      border-radius:18px;
+      box-shadow:0 6px 16px rgba(0,0,0,.15);
+    }
+
+    .preview-avatar{
+      width:100%;
+      height:100%;
+      border-radius:14px;
+      object-fit:cover;
+      background:#e8eef7;
+    }
+
+    .preview-body{
+      padding:46px 16px 16px;
+    }
+
+    .preview-membership{
+      display:inline-block;
+      background:#e4f7e8;
+      color:#176738;
+      font-size:.82rem;
+      font-weight:800;
+      padding:7px 12px;
+      border-radius:999px;
+      margin-bottom:6px;
+    }
+
+    .preview-expiry{
+      font-size:.85rem;
+      font-weight:700;
+      color:#6b7280;
+      margin-bottom:10px;
+    }
+
+    .preview-name{
+      font-size:1.35rem;
+      font-weight:800;
+      color:var(--blue-dark);
+      margin-bottom:4px;
+    }
+
+    .preview-rubro{
+      color:var(--muted);
+      font-size:.98rem;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+
+    .preview-status{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      font-size:.92rem;
+      font-weight:700;
+      margin-bottom:12px;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      display:inline-block;
+      background:var(--green);
+    }
+
+    .preview-desc{
+      font-size:.94rem;
+      line-height:1.4;
+      color:#374151;
+      margin-bottom:12px;
+    }
+
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:12px;
+    }
+
+    .badge{
+      background:#eef4fb;
+      color:var(--blue-dark);
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:.82rem;
+      font-weight:700;
+    }
+
+    .badge.invoice-yes{
+      background:#e4f7e8;
+      color:#176738;
+    }
+
+    .badge.invoice-no{
+      background:#fde8e8;
+      color:#9f1d1d;
+    }
+
+    .preview-line{
+      font-size:.9rem;
+      color:#334155;
+      margin-bottom:8px;
+      font-weight:700;
+      line-height:1.35;
+    }
+
+    .preview-buttons{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+.preview-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+    .preview-btn{
+      width:100%;
+      border:none;
+      border-radius:14px;
+      padding:13px 12px;
+      font-size:.92rem;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .preview-wa{
+      background:var(--green);
+      color:#fff;
+    }
+
+    .preview-call{
+      background:#eaf1fb;
+      color:var(--blue-dark);
+    }
+
+    .preview-map{
+      background:#1f5db3;
+      color:#fff;
+    }
+
+    @media (max-width:380px){
+      .row{
+        grid-template-columns:1fr;
+      }
+
+      .checks{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <button class="back" onclick="window.location.href='index.html'">←</button>
+      <h1>Quiero aparecer en Todo en Rojas</h1>
+    </div>
+
+    <div class="content">
+      <div class="section">
+        <div class="section-title">Datos del prestador o comercio</div>
+
+        <div class="field">
+          <label for="nombre">Nombre del comercio o prestador</label>
+          <input type="text" id="nombre" value="Juan Pérez">
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="rubro">Rubro</label>
+            <select id="rubro">
+              <option>Plomero</option>
+              <option>Electricista</option>
+              <option>Gasista</option>
+              <option>Cerrajero</option>
+              <option>Gomería</option>
+              <option>Mecánico</option>
+              <option>Albañil</option>
+              <option>Pintor</option>
+              <option>Herrero</option>
+              <option>Carpintero</option>
+              <option>Técnico en refrigeración</option>
+              <option>Jardinero</option>
+              <option>Corte de césped</option>
+              <option>Fumigación</option>
+              <option>Limpieza</option>
+              <option>Vidriería</option>
+              <option>Kiosco</option>
+              <option>Librería</option>
+              <option>Ferretería</option>
+              <option>Panadería</option>
+              <option>Rotisería</option>
+              <option>Restaurante</option>
+              <option>Farmacia</option>
+              <option>Veterinaria</option>
+              <option>Abogado</option>
+              <option>Contador</option>
+              <option>Psicólogo</option>
+              <option>Médico</option>
+              <option>Remisería</option>
+              <option>Fletes</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="zona">Zona</label>
+            <input type="text" id="zona" value="Rojas y alrededores">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="direccion">Dirección</label>
+          <input type="text" id="direccion" value="Av. 25 de Mayo 123, Rojas">
+        </div>
+
+        <div class="field">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion">Servicios para hogares, comercios y urgencias. Atención rápida y contacto directo por WhatsApp.</textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="whatsapp">WhatsApp</label>
+            <input type="text" id="whatsapp" value="2474 000001">
+          </div>
+
+          <div class="field">
+            <label for="telefono">Teléfono alternativo</label>
+            <input type="text" id="telefono" value="2474 000002">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="horarios">Horarios</label>
+            <input type="text" id="horarios" value="Lunes a sábado de 08:00 a 19:00">
+          </div>
+
+          <div class="field">
+            <label for="inicio">Año de inicio / inauguración</label>
+            <input type="number" id="inicio" value="2010">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="foto">Foto principal</label>
+          <div class="photo-wrap">
+            <img id="fotoPreview" class="photo-preview" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Vista previa">
+            <input type="file" id="foto" accept="image/*">
+          </div>
+          <div class="note">Prestadores: conviene foto de la persona. Comercios: puede ser logo, frente del local o foto del negocio.</div>
+        </div>
+
+        <div class="field">
+          <label>Medios de pago</label>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="efectivo" checked> Efectivo</label>
+            <label class="check"><input type="checkbox" id="transferencia" checked> Transferencia</label>
+            <label class="check"><input type="checkbox" id="tarjeta" checked> Tarjeta</label>
+            <label class="check"><input type="checkbox" id="factura" checked> Hace factura</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-secondary" type="button" id="btnVista">Actualizar vista previa</button>
+          <button class="btn btn-primary" type="button" id="btnEnviar">Enviar solicitud</button>
+        </div>
+
+        <div class="note">Esta pantalla sirve para mostrar el funcionamiento completo. Más adelante se puede conectar a una base de datos real.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Vista previa de cómo quedás en la app</div>
+
+        <div class="preview-card">
+          <div class="preview-cover">
+            <div class="preview-avatar-wrap">
+              <img id="previewAvatar" class="preview-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Vista previa">
+            </div>
+          </div>
+
+          <div class="preview-body">
+            <div class="preview-membership" id="previewMembership">Suscripción activa</div>
+            <div class="preview-expiry" id="previewExpiry">Membresía vigente • 180 días restantes</div>
+
+            <div class="preview-name" id="previewNombre">Juan Pérez</div>
+            <div class="preview-rubro" id="previewRubro">Plomero</div>
+
+            <div class="preview-status">
+              <span class="dot"></span>
+              Disponible ahora
+            </div>
+
+            <div class="preview-desc" id="previewDesc">
+              Servicios para hogares, comercios y urgencias. Atención rápida y contacto directo por WhatsApp.
+            </div>
+
+            <div class="preview-line" id="previewZona">📍 Rojas y alrededores</div>
+            <div class="preview-line" id="previewDireccion">📌 Av. 25 de Mayo 123, Rojas</div>
+            <div class="preview-line" id="previewHorarios">🕒 Lunes a sábado de 08:00 a 19:00</div>
+            <div class="preview-line" id="previewAntiguedad">Desde 2010</div>
+
+            <div class="badges" id="previewBadges">
+              <span class="badge">💵 Efectivo</span>
+              <span class="badge">📲 Transferencia</span>
+              <span class="badge">💳 Tarjeta</span>
+              <span class="badge invoice-yes">🧾 Hace factura</span>
+            </div>
+
+            <div class="preview-buttons">
+  <button class="preview-btn preview-wa">WhatsApp</button>
+
+  <div class="preview-row">
+    <button class="preview-btn preview-call">📞 Llamar</button>
+    <button class="preview-btn preview-map">📍 Ver ubicación</button>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const nombre = document.getElementById("nombre");
+    const rubro = document.getElementById("rubro");
+    const zona = document.getElementById("zona");
+    const direccion = document.getElementById("direccion");
+    const descripcion = document.getElementById("descripcion");
+    const whatsapp = document.getElementById("whatsapp");
+    const telefono = document.getElementById("telefono");
+    const horarios = document.getElementById("horarios");
+    const inicio = document.getElementById("inicio");
+
+    const efectivo = document.getElementById("efectivo");
+    const transferencia = document.getElementById("transferencia");
+    const tarjeta = document.getElementById("tarjeta");
+    const factura = document.getElementById("factura");
+
+    const foto = document.getElementById("foto");
+    const fotoPreview = document.getElementById("fotoPreview");
+    const previewAvatar = document.getElementById("previewAvatar");
+
+    const previewNombre = document.getElementById("previewNombre");
+    const previewRubro = document.getElementById("previewRubro");
+    const previewDesc = document.getElementById("previewDesc");
+    const previewZona = document.getElementById("previewZona");
+    const previewDireccion = document.getElementById("previewDireccion");
+    const previewHorarios = document.getElementById("previewHorarios");
+    const previewAntiguedad = document.getElementById("previewAntiguedad");
+    const previewBadges = document.getElementById("previewBadges");
+    const previewCall = document.getElementById("previewCall");
+    const previewWa = document.getElementById("previewWa");
+    const previewMap = document.getElementById("previewMap");
+
+    function limpiarTelefono(valor) {
+      return valor.replace(/\D/g, "");
+    }
+
+    function actualizarVista() {
+      previewNombre.textContent = nombre.value || "Sin nombre";
+      previewRubro.textContent = rubro.value || "Sin rubro";
+      previewDesc.textContent = descripcion.value || "Sin descripción";
+      previewZona.textContent = "📍 " + (zona.value || "Sin zona");
+      previewDireccion.textContent = "📌 " + (direccion.value || "Sin dirección");
+      previewHorarios.textContent = "🕒 " + (horarios.value || "Sin horarios");
+      previewAntiguedad.textContent = inicio.value ? "Desde " + inicio.value : "Sin año de inicio";
+
+      previewBadges.innerHTML = "";
+
+      if (efectivo.checked) previewBadges.innerHTML += '<span class="badge">💵 Efectivo</span>';
+      if (transferencia.checked) previewBadges.innerHTML += '<span class="badge">📲 Transferencia</span>';
+      if (tarjeta.checked) previewBadges.innerHTML += '<span class="badge">💳 Tarjeta</span>';
+
+      if (factura.checked) {
+        previewBadges.innerHTML += '<span class="badge invoice-yes">🧾 Hace factura</span>';
+      } else {
+        previewBadges.innerHTML += '<span class="badge invoice-no">🧾 Sin factura</span>';
+      }
+
+      const tel = limpiarTelefono(telefono.value || whatsapp.value);
+      const wa = limpiarTelefono(whatsapp.value);
+      const mapa = encodeURIComponent(direccion.value || zona.value || "Rojas");
+
+      previewCall.onclick = function() {
+        if (tel) window.location.href = "tel:+54" + tel;
+      };
+
+      previewWa.onclick = function() {
+        if (wa) {
+          const texto = encodeURIComponent("Hola, te vi en Todo en Rojas y quiero consultar.");
+          window.open("https://wa.me/54" + wa + "?text=" + texto, "_blank");
+        }
+      };
+
+      previewMap.onclick = function() {
+        window.open("https://www.google.com/maps/search/?api=1&query=" + mapa, "_blank");
+      };
+    }
+
+    document.getElementById("btnVista").addEventListener("click", actualizarVista);
+
+    document.getElementById("btnEnviar").addEventListener("click", function() {
+      actualizarVista();
+
+      const nombreVal = nombre.value || "No especificado";
+      const rubroVal = rubro.value || "No especificado";
+      const zonaVal = zona.value || "No especificado";
+      const direccionVal = direccion.value || "No especificado";
+      const descVal = descripcion.value || "No especificado";
+      const waVal = whatsapp.value || "No especificado";
+      const telVal = telefono.value || "No especificado";
+      const horariosVal = horarios.value || "No especificado";
+      const inicioVal = inicio.value || "No especificado";
+
+      let pagos = [];
+      if (efectivo.checked) pagos.push("Efectivo");
+      if (transferencia.checked) pagos.push("Transferencia");
+      if (tarjeta.checked) pagos.push("Tarjeta");
+
+      const facturaVal = factura.checked ? "Sí" : "No";
+
+      const mensaje = `
+Hola, quiero aparecer en Todo en Rojas.
+
+📌 Nombre: ${nombreVal}
+🛠 Rubro: ${rubroVal}
+📍 Zona: ${zonaVal}
+🏠 Dirección: ${direccionVal}
+
+📝 Descripción:
+${descVal}
+
+📲 WhatsApp: ${waVal}
+📞 Teléfono: ${telVal}
+
+🕒 Horarios: ${horariosVal}
+📅 Desde: ${inicioVal}
+
+💳 Medios de pago: ${pagos.join(", ")}
+🧾 Factura: ${facturaVal}
+`;
+
+      const numeroAdmin = "5492474445664"; // CAMBIAR POR TU NÚMERO
+      const url = "https://wa.me/" + numeroAdmin + "?text=" + encodeURIComponent(mensaje);
+      window.open(url, "_blank");
+    });
+
+    foto.addEventListener("change", function(e) {
+      const archivo = e.target.files[0];
+      if (!archivo) return;
+
+      const lector = new FileReader();
+      lector.onload = function(evt) {
+        fotoPreview.src = evt.target.result;
+        previewAvatar.src = evt.target.result;
+      };
+      lector.readAsDataURL(archivo);
+    });
+
+    [
+      nombre, rubro, zona, direccion, descripcion, whatsapp, telefono, horarios, inicio,
+      efectivo, transferencia, tarjeta, factura
+    ].forEach(campo => {
+      campo.addEventListener("input", actualizarVista);
+      campo.addEventListener("change", actualizarVista);
+    });
+
+    actualizarVista();
+  </script>
+</body>
+</html>
