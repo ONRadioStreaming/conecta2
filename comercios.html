@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comercios - Todo en Rojas</title>
+  <style>
+    :root{--blue:#1f5db3;--blue-dark:#123e7c;--bg:#f3f6fb;--card:#ffffff;--text:#1f2937;--muted:#6b7280;--border:#dbe4f0;--green:#17a34a;--green-dark:#166534;--amber:#f59e0b;--amber-dark:#9a3412;--shadow:0 10px 24px rgba(18,62,124,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;-webkit-tap-highlight-color:transparent;}
+    body{background:linear-gradient(180deg,var(--blue),var(--bg) 220px);color:var(--text);}
+    .app{max-width:430px;margin:0 auto;min-height:100vh;}
+    .header{padding:16px;color:#fff;display:flex;align-items:center;gap:12px;}
+    .back{width:42px;height:42px;border:none;border-radius:12px;background:rgba(255,255,255,.18);color:#fff;font-size:22px;cursor:pointer;flex-shrink:0;}
+    .header h1{font-size:1.15rem;font-weight:800;}
+    .content{background:var(--bg);border-radius:28px 28px 0 0;min-height:calc(100vh - 74px);padding:16px;}
+    .search{margin-bottom:12px;} .search input{width:100%;border:none;outline:none;border-radius:16px;padding:14px 16px;font-size:.98rem;box-shadow:var(--shadow);background:#fff;}
+    .tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:10px;} .tabs::-webkit-scrollbar{display:none;}
+    .tab,.state-btn{border:none;border-radius:999px;padding:10px 14px;font-size:.86rem;font-weight:800;white-space:nowrap;background:#eaf1fb;color:var(--blue-dark);cursor:pointer;flex-shrink:0;}
+    .tab.active{background:var(--blue);color:#fff;} .state-filter{display:flex;gap:8px;margin-bottom:14px;} .state-btn.active{background:var(--green);color:#fff;}
+    .card{background:#fff;border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:14px;margin-bottom:14px;}
+    .top{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;} .avatar{width:72px;height:72px;border-radius:18px;object-fit:cover;border:2px solid #dbe4f0;flex-shrink:0;}
+    .name{font-size:1.08rem;font-weight:800;color:var(--blue-dark);margin-bottom:4px;} .rubro{font-size:.94rem;color:var(--muted);font-weight:700;margin-bottom:4px;}
+    .persona{font-size:.84rem;color:#6b7280;font-weight:700;margin-bottom:8px;} .status{display:inline-flex;align-items:center;gap:7px;font-size:.88rem;font-weight:700;color:var(--green-dark);}
+    .status.busy{color:var(--amber-dark);} .dot{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;} .dot.busy{background:var(--amber);}
+    .desc{font-size:.92rem;line-height:1.4;color:#374151;margin:12px 0;} .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;} .badge{background:#eef4fb;color:var(--blue-dark);border-radius:999px;padding:7px 10px;font-size:.8rem;font-weight:700;}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;} .btn{border:none;border-radius:14px;padding:13px 10px;font-size:.9rem;font-weight:800;cursor:pointer;} .btn-wa{background:var(--green);color:#fff;} .btn-profile{background:#eaf1fb;color:var(--blue-dark);}
+    .empty{display:none;text-align:center;color:#6b7280;font-weight:700;padding:20px 10px 6px;}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="header"><button class="back" onclick="window.location.href='index.html'">←</button><h1>Comercios</h1></div>
+  <div class="content">
+    <div class="search"><input type="text" id="searchInput" placeholder="Buscar kiosco, librería, ferretería..." /></div>
+    <div class="tabs">
+      <button class="tab active" data-rubro="todos">Todos</button>
+      <button class="tab" data-rubro="kiosco">Kioscos</button>
+      <button class="tab" data-rubro="libreria">Librerías</button>
+      <button class="tab" data-rubro="ferreteria">Ferreterías</button>
+      <button class="tab" data-rubro="ropa">Indumentaria</button>
+    </div>
+    <div class="state-filter">
+      <button class="state-btn active" data-estado="todos">Todos</button>
+      <button class="state-btn" data-estado="disponible">Disponibles</button>
+    </div>
+
+    <div class="card" data-rubro="kiosco" data-estado="disponible" data-search="kiosco 247 centro rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=200&q=80"><div><div class="name">Kiosco 24/7 Centro</div><div class="rubro">Kiosco</div><div class="persona">👤 Responsable a cargo: Diego Paz</div><div class="status"><span class="dot"></span>Disponible ahora</div></div></div>
+      <div class="desc">Bebidas, snacks, cigarrillos y recargas. Atención rápida todo el día.</div>
+      <div class="badges"><span class="badge">🥤 Bebidas</span><span class="badge">🛒 Recargas</span><span class="badge">💳 Tarjeta</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542475011111','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="card" data-rubro="libreria" data-estado="disponible" data-search="libreria del centro utiles escolares rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=200&q=80"><div><div class="name">Librería del Centro</div><div class="rubro">Librería</div><div class="persona">👤 Responsable a cargo: Mariana Suárez</div><div class="status"><span class="dot"></span>Disponible ahora</div></div></div>
+      <div class="desc">Útiles escolares, fotocopias, cuadernos y artículos de oficina.</div>
+      <div class="badges"><span class="badge">📚 Escolares</span><span class="badge">🖨 Fotocopias</span><span class="badge">📲 Transferencia</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542475022222','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="card" data-rubro="ferreteria" data-estado="ocupado" data-search="ferreteria canelo herramientas rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?w=200&q=80"><div><div class="name">Ferretería Canelo</div><div class="rubro">Ferretería</div><div class="persona">👤 Responsable a cargo: Jorge Canelo</div><div class="status busy"><span class="dot busy"></span>Ocupado en este momento</div></div></div>
+      <div class="desc">Herramientas, tornillos, pinturas, conexiones y artículos para el hogar.</div>
+      <div class="badges"><span class="badge">🔩 Tornillería</span><span class="badge">🧰 Herramientas</span><span class="badge">💵 Efectivo</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542475033333','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="card" data-rubro="ropa" data-estado="disponible" data-search="moda urbana indumentaria rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=200&q=80"><div><div class="name">Moda Urbana</div><div class="rubro">Indumentaria</div><div class="persona">👤 Responsable a cargo: Belén Arias</div><div class="status"><span class="dot"></span>Disponible ahora</div></div></div>
+      <div class="desc">Ropa femenina, masculina y accesorios. Novedades semanales.</div>
+      <div class="badges"><span class="badge">👕 Ropa</span><span class="badge">👜 Accesorios</span><span class="badge">💳 Tarjeta</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542475044444','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="empty" id="emptyMessage">No hay resultados para ese filtro.</div>
+  </div>
+</div>
+<script>
+const searchInput=document.getElementById("searchInput"),tabs=document.querySelectorAll(".tab"),stateButtons=document.querySelectorAll(".state-btn"),cards=document.querySelectorAll(".card"),emptyMessage=document.getElementById("emptyMessage");let rubroActivo="todos",estadoActivo="todos";
+function aplicarFiltros(){const texto=searchInput.value.toLowerCase().trim();let visibles=0;cards.forEach(card=>{const rubro=card.dataset.rubro,estado=card.dataset.estado,search=card.dataset.search;const okR=rubroActivo==="todos"||rubro===rubroActivo;const okE=estadoActivo==="todos"||estado===estadoActivo;const okT=texto===""||search.includes(texto);card.style.display=(okR&&okE&&okT)?"block":"none";if(okR&&okE&&okT)visibles++;});emptyMessage.style.display=visibles===0?"block":"none";}
+tabs.forEach(tab=>tab.addEventListener("click",()=>{tabs.forEach(t=>t.classList.remove("active"));tab.classList.add("active");rubroActivo=tab.dataset.rubro;aplicarFiltros();}));
+stateButtons.forEach(btn=>btn.addEventListener("click",()=>{stateButtons.forEach(b=>b.classList.remove("active"));btn.classList.add("active");estadoActivo=btn.dataset.estado;aplicarFiltros();}));
+searchInput.addEventListener("input",aplicarFiltros);
+</script>
+</body>
+</html>

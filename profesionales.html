@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profesionales - Todo en Rojas</title>
+  <style>
+    :root{--blue:#1f5db3;--blue-dark:#123e7c;--bg:#f3f6fb;--card:#ffffff;--text:#1f2937;--muted:#6b7280;--border:#dbe4f0;--green:#17a34a;--green-dark:#166534;--amber:#f59e0b;--amber-dark:#9a3412;--shadow:0 10px 24px rgba(18,62,124,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;-webkit-tap-highlight-color:transparent;}
+    body{background:linear-gradient(180deg,var(--blue),var(--bg) 220px);color:var(--text);}
+    .app{max-width:430px;margin:0 auto;min-height:100vh;}
+    .header{padding:16px;color:#fff;display:flex;align-items:center;gap:12px;}
+    .back{width:42px;height:42px;border:none;border-radius:12px;background:rgba(255,255,255,.18);color:#fff;font-size:22px;cursor:pointer;flex-shrink:0;}
+    .header h1{font-size:1.15rem;font-weight:800;}
+    .content{background:var(--bg);border-radius:28px 28px 0 0;min-height:calc(100vh - 74px);padding:16px;}
+    .search{margin-bottom:12px;} .search input{width:100%;border:none;outline:none;border-radius:16px;padding:14px 16px;font-size:.98rem;box-shadow:var(--shadow);background:#fff;}
+    .tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:10px;} .tabs::-webkit-scrollbar{display:none;}
+    .tab,.state-btn{border:none;border-radius:999px;padding:10px 14px;font-size:.86rem;font-weight:800;white-space:nowrap;background:#eaf1fb;color:var(--blue-dark);cursor:pointer;flex-shrink:0;}
+    .tab.active{background:var(--blue);color:#fff;} .state-filter{display:flex;gap:8px;margin-bottom:14px;} .state-btn.active{background:var(--green);color:#fff;}
+    .card{background:#fff;border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:14px;margin-bottom:14px;}
+    .top{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;} .avatar{width:72px;height:72px;border-radius:18px;object-fit:cover;border:2px solid #dbe4f0;flex-shrink:0;}
+    .name{font-size:1.08rem;font-weight:800;color:var(--blue-dark);margin-bottom:4px;} .rubro{font-size:.94rem;color:var(--muted);font-weight:700;margin-bottom:4px;}
+    .persona{font-size:.84rem;color:#6b7280;font-weight:700;margin-bottom:8px;} .status{display:inline-flex;align-items:center;gap:7px;font-size:.88rem;font-weight:700;color:var(--green-dark);}
+    .status.busy{color:var(--amber-dark);} .dot{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;} .dot.busy{background:var(--amber);}
+    .desc{font-size:.92rem;line-height:1.4;color:#374151;margin:12px 0;} .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;} .badge{background:#eef4fb;color:var(--blue-dark);border-radius:999px;padding:7px 10px;font-size:.8rem;font-weight:700;}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;} .btn{border:none;border-radius:14px;padding:13px 10px;font-size:.9rem;font-weight:800;cursor:pointer;} .btn-wa{background:var(--green);color:#fff;} .btn-profile{background:#eaf1fb;color:var(--blue-dark);}
+    .empty{display:none;text-align:center;color:#6b7280;font-weight:700;padding:20px 10px 6px;}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="header"><button class="back" onclick="window.location.href='index.html'">←</button><h1>Profesionales</h1></div>
+  <div class="content">
+    <div class="search"><input type="text" id="searchInput" placeholder="Buscar abogado, contador, arquitecto..." /></div>
+    <div class="tabs">
+      <button class="tab active" data-rubro="todos">Todos</button>
+      <button class="tab" data-rubro="abogado">Abogados</button>
+      <button class="tab" data-rubro="contador">Contadores</button>
+      <button class="tab" data-rubro="arquitecto">Arquitectos</button>
+      <button class="tab" data-rubro="escribano">Escribanos</button>
+    </div>
+    <div class="state-filter">
+      <button class="state-btn active" data-estado="todos">Todos</button>
+      <button class="state-btn" data-estado="disponible">Disponibles</button>
+    </div>
+
+    <div class="card" data-rubro="abogado" data-estado="disponible" data-search="estudio lopez abogado rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=200&q=80"><div><div class="name">Estudio López</div><div class="rubro">Abogado</div><div class="persona">👤 Responsable a cargo: Dra. Sofía López</div><div class="status"><span class="dot"></span>Disponible ahora</div></div></div>
+      <div class="desc">Asesoramiento legal, civil, familia y consultas comerciales.</div>
+      <div class="badges"><span class="badge">⚖ Legal</span><span class="badge">📅 Turnos</span><span class="badge">💳 Tarjeta</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542474911111','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="card" data-rubro="contador" data-estado="disponible" data-search="estudio contable perez contador rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=200&q=80"><div><div class="name">Estudio Contable Pérez</div><div class="rubro">Contador</div><div class="persona">👤 Responsable a cargo: Marcelo Pérez</div><div class="status"><span class="dot"></span>Disponible ahora</div></div></div>
+      <div class="desc">Monotributo, impuestos, altas y bajas, asesoramiento a comercios.</div>
+      <div class="badges"><span class="badge">📊 Impuestos</span><span class="badge">🧾 Monotributo</span><span class="badge">📲 Transferencia</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542474922222','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="card" data-rubro="arquitecto" data-estado="ocupado" data-search="arquitecta romina arquitectura planos rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=200&q=80"><div><div class="name">Arq. Romina Vega</div><div class="rubro">Arquitecta</div><div class="status busy"><span class="dot busy"></span>Ocupado en este momento</div></div></div>
+      <div class="desc">Planos, reformas, diseño de espacios y dirección de obra.</div>
+      <div class="badges"><span class="badge">📐 Planos</span><span class="badge">🏠 Reformas</span><span class="badge">💵 Efectivo</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542474933333','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="card" data-rubro="escribano" data-estado="disponible" data-search="escribania del centro rojas">
+      <div class="top"><img class="avatar" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=200&q=80"><div><div class="name">Escribanía del Centro</div><div class="rubro">Escribano</div><div class="persona">👤 Responsable a cargo: Ana Belén Suárez</div><div class="status"><span class="dot"></span>Disponible ahora</div></div></div>
+      <div class="desc">Certificaciones, firmas, poderes y trámites notariales.</div>
+      <div class="badges"><span class="badge">📄 Trámites</span><span class="badge">✍ Firmas</span><span class="badge">💳 Tarjeta</span></div>
+      <div class="actions"><button class="btn btn-wa" onclick="window.open('https://wa.me/542474944444','_blank')">WhatsApp</button><button class="btn btn-profile">Ver perfil</button></div>
+    </div>
+
+    <div class="empty" id="emptyMessage">No hay resultados para ese filtro.</div>
+  </div>
+</div>
+<script>
+const searchInput=document.getElementById("searchInput"),tabs=document.querySelectorAll(".tab"),stateButtons=document.querySelectorAll(".state-btn"),cards=document.querySelectorAll(".card"),emptyMessage=document.getElementById("emptyMessage");let rubroActivo="todos",estadoActivo="todos";
+function aplicarFiltros(){const texto=searchInput.value.toLowerCase().trim();let visibles=0;cards.forEach(card=>{const rubro=card.dataset.rubro,estado=card.dataset.estado,search=card.dataset.search;const okR=rubroActivo==="todos"||rubro===rubroActivo;const okE=estadoActivo==="todos"||estado===estadoActivo;const okT=texto===""||search.includes(texto);card.style.display=(okR&&okE&&okT)?"block":"none";if(okR&&okE&&okT)visibles++;});emptyMessage.style.display=visibles===0?"block":"none";}
+tabs.forEach(tab=>tab.addEventListener("click",()=>{tabs.forEach(t=>t.classList.remove("active"));tab.classList.add("active");rubroActivo=tab.dataset.rubro;aplicarFiltros();}));
+stateButtons.forEach(btn=>btn.addEventListener("click",()=>{stateButtons.forEach(b=>b.classList.remove("active"));btn.classList.add("active");estadoActivo=btn.dataset.estado;aplicarFiltros();}));
+searchInput.addEventListener("input",aplicarFiltros);
+</script>
+</body>
+</html>
