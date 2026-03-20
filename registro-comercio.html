@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Comercio - Conecta2</title>
+  <meta name="theme-color" content="#07142b" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Manrope', Arial, sans-serif;
+      background: linear-gradient(180deg, #041126 0%, #071b3a 38%, #0c6f8d 100%);
+      color: #fff;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    .header {
+      padding: 18px 16px 20px;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.45rem;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      backdrop-filter: blur(3px);
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .content {
+      background: #eef4f7;
+      color: #12243a;
+      border-radius: 32px 32px 0 0;
+      padding: 20px 16px 30px;
+      min-height: calc(100vh - 92px);
+    }
+
+    .title {
+      margin: 0 0 8px 0;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0 0 16px 0;
+      color: #5e7084;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .notice {
+      background: linear-gradient(135deg, #dff9f8, #e7f6ff);
+      border: 1px solid #c6eaf0;
+      color: #15506d;
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+    .field-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #16304d;
+      font-size: 0.93rem;
+      font-weight: 800;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #d4e0ea;
+      outline: none;
+      background: #f8fbfd;
+      color: #21364f;
+      border-radius: 16px;
+      padding: 14px 14px;
+      font-size: 0.96rem;
+      font-family: inherit;
+      font-weight: 700;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #1bcfd0;
+      background: #ffffff;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .help {
+      margin-top: 6px;
+      color: #66788c;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    .preview-box {
+      margin-top: 10px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: #f4f8fb;
+      border: 1px solid #dbe6ef;
+      border-radius: 18px;
+      padding: 10px;
+    }
+
+    .preview-box.show {
+      display: flex;
+    }
+
+    .preview-box img {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      object-fit: cover;
+      background: #dfe8f0;
+      flex-shrink: 0;
+    }
+
+    .preview-text {
+      color: #35516d;
+      font-size: 0.88rem;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    .btn-submit {
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 6px;
+      background: linear-gradient(135deg, #17d0cf, #10b6d2);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .error-box {
+      display: none;
+      margin-bottom: 14px;
+      background: #ffe7e7;
+      color: #a32020;
+      border: 1px solid #ffc8c8;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .error-box.show {
+      display: block;
+    }
+
+    .footer-space {
+      height: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="header-row">
+        <a href="index.html" class="back-btn">←</a>
+        <div class="header-title">Registro de comercio</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1 class="title">Registrá tu comercio</h1>
+      <p class="subtitle">
+        Completá tus datos para formar parte de Conecta2. La información y la imagen son obligatorias para brindar mayor confianza a los usuarios.
+      </p>
+
+      <div class="notice">
+        Importante: el sistema no permite avanzar si faltan datos clave. La imagen del comercio, local o logo también es obligatoria.
+      </div>
+
+      <div id="errorBox" class="error-box"></div>
+
+      <div class="form-card">
+        <form id="comercioForm">
+          <div class="field-group">
+            <label for="foto">Foto o logo del comercio *</label>
+            <input type="file" id="foto" accept="image/*" required>
+            <div class="help">Subí una imagen clara del local, frente o logo del comercio.</div>
+
+            <div id="previewBox" class="preview-box">
+              <img id="previewImg" src="" alt="Vista previa">
+              <div class="preview-text">Imagen cargada correctamente.</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="nombreComercio">Nombre del comercio *</label>
+            <input type="text" id="nombreComercio" required>
+          </div>
+
+          <div class="field-group">
+            <label for="rubro">Rubro *</label>
+            <input type="text" id="rubro" placeholder="Ej: Ferretería, panadería, indumentaria" required>
+          </div>
+
+          <div class="field-group">
+            <label for="descripcion">Descripción *</label>
+            <textarea id="descripcion" placeholder="Contanos qué ofrecés, qué te diferencia y qué debería saber el cliente." required></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="direccion">Dirección *</label>
+            <input type="text" id="direccion" required>
+          </div>
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label for="telefono">Teléfono *</label>
+              <input type="tel" id="telefono" required>
+            </div>
+
+            <div class="field-group">
+              <label for="whatsapp">WhatsApp *</label>
+              <input type="tel" id="whatsapp" required>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="horarios">Horarios de atención *</label>
+            <input type="text" id="horarios" placeholder="Ej: Lun a Vie de 8 a 18 hs" required>
+          </div>
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label for="mediosPago">Medios de pago *</label>
+              <input type="text" id="mediosPago" placeholder="Ej: Efectivo, transferencia, tarjeta" required>
+            </div>
+
+            <div class="field-group">
+              <label for="factura">¿Hace factura? *</label>
+              <select id="factura" required>
+                <option value="">Seleccionar</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="instagram">Instagram o Facebook</label>
+            <input type="text" id="instagram" placeholder="Opcional">
+          </div>
+
+          <button type="submit" class="btn-submit">Enviar registro por WhatsApp</button>
+        </form>
+      </div>
+
+      <div class="footer-space"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('comercioForm');
+    const foto = document.getElementById('foto');
+    const previewBox = document.getElementById('previewBox');
+    const previewImg = document.getElementById('previewImg');
+    const errorBox = document.getElementById('errorBox');
+
+    foto.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImg.src = e.target.result;
+          previewBox.classList.add('show');
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewImg.src = '';
+        previewBox.classList.remove('show');
+      }
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      errorBox.classList.remove('show');
+      errorBox.innerHTML = '';
+
+      const requiredFields = [
+        { id: 'foto', label: 'Foto o logo del comercio' },
+        { id: 'nombreComercio', label: 'Nombre del comercio' },
+        { id: 'rubro', label: 'Rubro' },
+        { id: 'descripcion', label: 'Descripción' },
+        { id: 'direccion', label: 'Dirección' },
+        { id: 'telefono', label: 'Teléfono' },
+        { id: 'whatsapp', label: 'WhatsApp' },
+        { id: 'horarios', label: 'Horarios de atención' },
+        { id: 'mediosPago', label: 'Medios de pago' },
+        { id: 'factura', label: 'Factura' }
+      ];
+
+      const missing = [];
+
+      requiredFields.forEach(field => {
+        const element = document.getElementById(field.id);
+
+        if (field.id === 'foto') {
+          if (!element.files || !element.files.length) {
+            missing.push(field.label);
+          }
+        } else if (!element.value.trim()) {
+          missing.push(field.label);
+        }
+      });
+
+      if (missing.length > 0) {
+        errorBox.innerHTML = 'Faltan completar estos campos obligatorios:<br><br>• ' + missing.join('<br>• ');
+        errorBox.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      const nombreComercio = document.getElementById('nombreComercio').value.trim();
+      const rubro = document.getElementById('rubro').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
+      const direccion = document.getElementById('direccion').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const horarios = document.getElementById('horarios').value.trim();
+      const mediosPago = document.getElementById('mediosPago').value.trim();
+      const factura = document.getElementById('factura').value.trim();
+      const instagram = document.getElementById('instagram').value.trim();
+
+      let mensaje = Hola, quiero registrar mi comercio en Conecta2.%0A%0A;
+      mensaje += *Nombre del comercio:* ${nombreComercio}%0A;
+      mensaje += *Rubro:* ${rubro}%0A;
+      mensaje += *Descripción:* ${descripcion}%0A;
+      mensaje += *Dirección:* ${direccion}%0A;
+      mensaje += *Teléfono:* ${telefono}%0A;
+      mensaje += *WhatsApp:* ${whatsapp}%0A;
+      mensaje += *Horarios:* ${horarios}%0A;
+      mensaje += *Medios de pago:* ${mediosPago}%0A;
+      mensaje += *Hace factura:* ${factura}%0A;
+
+      if (instagram) {
+        mensaje += *Instagram / Facebook:* ${instagram}%0A;
+      }
+
+      mensaje += %0A*Foto o logo:* cargado en el formulario.;
+
+      const url = https://wa.me/542474445664?text=${mensaje};
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
+</html>
