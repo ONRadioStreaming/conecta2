@@ -122,6 +122,23 @@
       display: block;
     }
 
+    .success-box {
+      display: none;
+      margin-bottom: 14px;
+      background: #e5f9e8;
+      color: #166534;
+      border: 1px solid #bce7c4;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .success-box.show {
+      display: block;
+    }
+
     .form-card {
       background: #fff;
       border-radius: 24px;
@@ -179,6 +196,18 @@
       font-weight: 600;
     }
 
+    .contact-note {
+      margin: 0 0 10px 0;
+      color: #35516d;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      font-weight: 700;
+      background: #eef7fc;
+      border: 1px solid #d7eaf6;
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+
     .preview-frame {
       margin-top: 10px;
       width: 120px;
@@ -208,6 +237,32 @@
       font-weight: 700;
     }
 
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fbfd;
+      border: 1px solid #d4e0ea;
+      border-radius: 14px;
+      padding: 12px;
+      color: #21364f;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      transform: scale(1.15);
+    }
+
     .actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -230,7 +285,7 @@
     }
 
     .btn-submit {
-      background: #19ad4a;
+      background: linear-gradient(135deg, #17d0cf, #10b6d2);
       color: #fff;
     }
 
@@ -343,11 +398,14 @@
 
     .card-btn-wa,
     .card-btn-call {
+      border: 0;
       border-radius: 18px;
       padding: 15px 12px;
       text-align: center;
       font-size: .98rem;
       font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
     }
 
     .card-btn-wa {
@@ -373,21 +431,22 @@
     <div class="content">
       <h1 class="title">Ofrecé tus servicios</h1>
       <p class="subtitle">
-        Completá tus datos reales para sumarte a Conecta2. La foto personal y la información básica son obligatorias para transmitir confianza a quienes te contacten.
+        Completá tu perfil para sumarte a Conecta2. La foto y los datos principales son obligatorios para brindar confianza y facilitar el contacto.
       </p>
 
       <div class="notice">
-        Importante: para profesionales, técnicos y oficios, la foto personal es obligatoria. Si faltan datos, no vas a poder avanzar.
+        Importante: el sistema valida que la tarjeta esté bien cargada. Si todo está correcto, la solicitud queda lista para continuar con la activación del perfil.
       </div>
 
       <div id="errorBox" class="error-box"></div>
+      <div id="successBox" class="success-box"></div>
 
       <div class="form-card">
         <form id="servicioForm">
           <div class="field-group">
             <label for="foto">Foto personal *</label>
             <input type="file" id="foto" accept="image/*" required>
-            <div class="help">Subí una foto clara y real. Esto da tranquilidad al usuario.</div>
+            <div class="help">Subí una foto clara y real. Esto transmite tranquilidad al usuario.</div>
 
             <div class="preview-frame">
               <img id="previewImg" alt="Vista previa">
@@ -412,7 +471,47 @@
           <div class="grid-2">
             <div class="field-group">
               <label for="oficio">Profesión u oficio *</label>
-              <input type="text" id="oficio" placeholder="Ej: Electricista, plomero, gasista" required>
+              <select id="oficio" required>
+                <option value="">Seleccionar</option>
+                <option>Abogado/a</option>
+                <option>Albañil</option>
+                <option>Arquitecto/a</option>
+                <option>Asistente terapéutico/a</option>
+                <option>Carpintero</option>
+                <option>Cerrajero</option>
+                <option>Chofer particular</option>
+                <option>Clases particulares</option>
+                <option>Contador/a</option>
+                <option>Corte de pasto</option>
+                <option>Cuidador/a</option>
+                <option>Diseñador/a gráfico/a</option>
+                <option>Electricista</option>
+                <option>Enfermero/a</option>
+                <option>Flete / mudanzas</option>
+                <option>Gasista</option>
+                <option>Herrero</option>
+                <option>Jardinero</option>
+                <option>Kinesiólogo/a</option>
+                <option>Mantenimiento general</option>
+                <option>Maquilladora/or</option>
+                <option>Mecánico</option>
+                <option>Médico/a</option>
+                <option>Peluquero/a</option>
+                <option>Pintor</option>
+                <option>Plomero</option>
+                <option>Profesor/a</option>
+                <option>Psicólogo/a</option>
+                <option>Reparación de celulares</option>
+                <option>Reparación de PC</option>
+                <option>Seguridad privada</option>
+                <option>Servicio técnico</option>
+                <option>Soldador</option>
+                <option>Técnico en aire acondicionado</option>
+                <option>Técnico en refrigeración</option>
+                <option>Uñas / manicura</option>
+                <option>Veterinario/a</option>
+                <option>Otro</option>
+              </select>
             </div>
 
             <div class="field-group">
@@ -426,27 +525,82 @@
             <textarea id="descripcion" placeholder="Explicá qué hacés, qué tipo de trabajos realizás y qué debería saber el cliente." required></textarea>
           </div>
 
-          <div class="grid-2">
-            <div class="field-group">
-              <label for="telefono">Teléfono *</label>
-              <input type="tel" id="telefono" required>
+          <div class="field-group">
+            <div class="contact-note">
+              Debés completar al menos una vía de contacto: WhatsApp o teléfono alternativo.
             </div>
 
-            <div class="field-group">
-              <label for="whatsapp">WhatsApp *</label>
-              <input type="tel" id="whatsapp" required>
+            <div class="grid-2">
+              <div>
+                <label for="whatsapp">WhatsApp</label>
+                <input type="tel" id="whatsapp" placeholder="Opcional si cargás teléfono alternativo">
+              </div>
+
+              <div>
+                <label for="telefonoAlternativo">Teléfono alternativo</label>
+                <input type="tel" id="telefonoAlternativo" placeholder="Opcional si cargás WhatsApp">
+              </div>
             </div>
           </div>
 
           <div class="grid-2">
             <div class="field-group">
-              <label for="disponibilidad">Disponibilidad *</label>
-              <input type="text" id="disponibilidad" placeholder="Ej: 08:00-20:00" required>
+              <label for="horarioDesde">Horario desde *</label>
+              <select id="horarioDesde" required>
+                <option value="">Seleccionar</option>
+                <option>06:00</option><option>06:30</option>
+                <option>07:00</option><option>07:30</option>
+                <option>08:00</option><option>08:30</option>
+                <option>09:00</option><option>09:30</option>
+                <option>10:00</option><option>10:30</option>
+                <option>11:00</option><option>11:30</option>
+                <option>12:00</option><option>12:30</option>
+                <option>13:00</option><option>13:30</option>
+                <option>14:00</option><option>14:30</option>
+                <option>15:00</option><option>15:30</option>
+                <option>16:00</option><option>16:30</option>
+                <option>17:00</option><option>17:30</option>
+                <option>18:00</option><option>18:30</option>
+                <option>19:00</option><option>19:30</option>
+                <option>20:00</option><option>20:30</option>
+                <option>21:00</option><option>21:30</option>
+                <option>22:00</option>
+              </select>
             </div>
 
             <div class="field-group">
-              <label for="mediosPago">Medios de pago *</label>
-              <input type="text" id="mediosPago" placeholder="Ej: efectivo, transferencia" required>
+              <label for="horarioHasta">Horario hasta *</label>
+              <select id="horarioHasta" required>
+                <option value="">Seleccionar</option>
+                <option>06:00</option><option>06:30</option>
+                <option>07:00</option><option>07:30</option>
+                <option>08:00</option><option>08:30</option>
+                <option>09:00</option><option>09:30</option>
+                <option>10:00</option><option>10:30</option>
+                <option>11:00</option><option>11:30</option>
+                <option>12:00</option><option>12:30</option>
+                <option>13:00</option><option>13:30</option>
+                <option>14:00</option><option>14:30</option>
+                <option>15:00</option><option>15:30</option>
+                <option>16:00</option><option>16:30</option>
+                <option>17:00</option><option>17:30</option>
+                <option>18:00</option><option>18:30</option>
+                <option>19:00</option><option>19:30</option>
+                <option>20:00</option><option>20:30</option>
+                <option>21:00</option><option>21:30</option>
+                <option>22:00</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Que medios de pago aceptas para cobrar tus servicios? *</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Efectivo"> Efectivo</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Transferencia"> Transferencia</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Débito"> Débito</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Crédito"> Crédito</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Mercado Pago"> Mercado Pago</label>
             </div>
           </div>
 
@@ -467,7 +621,7 @@
           </div>
 
           <div class="actions">
-            <button type="submit" class="btn-submit">Enviar por WhatsApp</button>
+            <button type="submit" class="btn-submit">Enviar solicitud</button>
             <button type="button" id="btnPreview" class="btn-preview">Simular tarjeta</button>
           </div>
         </form>
@@ -490,8 +644,8 @@
         <div id="cardTags" class="card-tags"></div>
 
         <div class="card-buttons">
-          <div class="card-btn-wa">WhatsApp</div>
-          <div class="card-btn-call">Llamar</div>
+          <button type="button" id="cardBtnWhatsapp" class="card-btn-wa">WhatsApp</button>
+          <button type="button" id="cardBtnCall" class="card-btn-call">Llamar</button>
         </div>
       </div>
     </div>
@@ -503,8 +657,11 @@
     const previewImg = document.getElementById('previewImg');
     const previewPlaceholder = document.getElementById('previewPlaceholder');
     const errorBox = document.getElementById('errorBox');
+    const successBox = document.getElementById('successBox');
     const btnPreview = document.getElementById('btnPreview');
     const previewCard = document.getElementById('previewCard');
+    const cardBtnWhatsapp = document.getElementById('cardBtnWhatsapp');
+    const cardBtnCall = document.getElementById('cardBtnCall');
 
     function valor(id) {
       return document.getElementById(id).value.trim();
@@ -519,7 +676,35 @@
         .join(" ");
     }
 
+    function limpiarMensajes() {
+      errorBox.classList.remove('show');
+      errorBox.innerHTML = '';
+      successBox.classList.remove('show');
+      successBox.innerHTML = '';
+    }
+
+    function mostrarError(html) {
+      errorBox.innerHTML = html;
+      errorBox.classList.add('show');
+      successBox.classList.remove('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function mostrarExito(html) {
+      successBox.innerHTML = html;
+      successBox.classList.add('show');
+      errorBox.classList.remove('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function obtenerMediosPagoSeleccionados() {
+      const checks = document.querySelectorAll('input[name="mediosPago"]:checked');
+      return Array.from(checks).map(c => c.value);
+    }
+
     function validarFormulario() {
+      limpiarMensajes();
+
       const faltantes = [];
 
       if (!foto.files || !foto.files.length) faltantes.push("Foto personal");
@@ -528,21 +713,27 @@
       if (!valor('oficio')) faltantes.push("Profesión u oficio");
       if (!valor('zona')) faltantes.push("Zona de trabajo");
       if (!valor('descripcion')) faltantes.push("Descripción");
-      if (!valor('telefono')) faltantes.push("Teléfono");
-      if (!valor('whatsapp')) faltantes.push("WhatsApp");
-      if (!valor('disponibilidad')) faltantes.push("Disponibilidad");
-      if (!valor('mediosPago')) faltantes.push("Medios de pago");
+      if (!valor('horarioDesde')) faltantes.push("Horario desde");
+      if (!valor('horarioHasta')) faltantes.push("Horario hasta");
       if (!valor('factura')) faltantes.push("Factura");
 
+      const whatsapp = valor('whatsapp');
+      const telefonoAlternativo = valor('telefonoAlternativo');
+
+      if (!whatsapp && !telefonoAlternativo) {
+        faltantes.push("Al menos una vía de contacto: WhatsApp o teléfono alternativo");
+      }
+
+      const mediosPago = obtenerMediosPagoSeleccionados();
+      if (mediosPago.length === 0) {
+        faltantes.push("Al menos un medio de pago");
+      }
+
       if (faltantes.length > 0) {
-        errorBox.innerHTML = 'Faltan completar estos campos obligatorios:<br><br>• ' + faltantes.join('<br>• ');
-        errorBox.classList.add('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        mostrarError('Faltan completar estos campos obligatorios:<br><br>• ' + faltantes.join('<br>• '));
         return false;
       }
 
-      errorBox.classList.remove('show');
-      errorBox.innerHTML = '';
       return true;
     }
 
@@ -565,25 +756,25 @@
       const nombreCompleto = capitalizar(valor('nombre') + ' ' + valor('apellido'));
       const oficio = capitalizar(valor('oficio'));
       const descripcion = valor('descripcion');
-      const mediosPago = valor('mediosPago');
       const factura = valor('factura');
+      const whatsapp = valor('whatsapp');
+      const telefonoAlternativo = valor('telefonoAlternativo');
+      const horario = valor('horarioDesde') + '-' + valor('horarioHasta');
+      const mediosPago = obtenerMediosPagoSeleccionados();
 
       document.getElementById('cardName').textContent = nombreCompleto;
-      document.getElementById('cardJob').textContent = oficio;
+      document.getElementById('cardJob').textContent = oficio + ' · ' + horario;
       document.getElementById('cardDesc').textContent = descripcion;
       document.getElementById('cardAvatar').src = previewImg.src;
 
       const tagsContainer = document.getElementById('cardTags');
       tagsContainer.innerHTML = '';
 
-      mediosPago.split(',').forEach(function(item) {
-        const limpio = item.trim();
-        if (limpio) {
-          const tag = document.createElement('div');
-          tag.className = 'card-tag';
-          tag.textContent = capitalizar(limpio);
-          tagsContainer.appendChild(tag);
-        }
+      mediosPago.forEach(function(item) {
+        const tag = document.createElement('div');
+        tag.className = 'card-tag';
+        tag.textContent = item;
+        tagsContainer.appendChild(tag);
       });
 
       const facturaTag = document.createElement('div');
@@ -591,30 +782,36 @@
       facturaTag.textContent = factura === 'si' ? 'Hace factura' : 'Sin factura';
       tagsContainer.appendChild(facturaTag);
 
+      cardBtnWhatsapp.onclick = function () {
+        if (whatsapp) {
+          window.open('https://wa.me/54' + whatsapp.replace(/\D/g, ''), '_blank');
+        } else {
+          alert('No dispone de WhatsApp');
+        }
+      };
+
+      cardBtnCall.onclick = function () {
+        if (telefonoAlternativo) {
+          window.location.href = 'tel:' + telefonoAlternativo.replace(/\D/g, '');
+        } else {
+          alert('No dispone de teléfono alternativo');
+        }
+      };
+
       previewCard.classList.add('show');
       previewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
       if (!validarFormulario()) return;
 
-      const nombreCompleto = capitalizar(valor('nombre') + ' ' + valor('apellido'));
-      const mensaje =
-        Hola, quiero ofrecer mis servicios en Conecta2.%0A%0A +
-        *Nombre y apellido:* ${encodeURIComponent(nombreCompleto)}%0A +
-        *Profesión u oficio:* ${encodeURIComponent(valor('oficio'))}%0A +
-        *Zona de trabajo:* ${encodeURIComponent(valor('zona'))}%0A +
-        *Descripción:* ${encodeURIComponent(valor('descripcion'))}%0A +
-        *Teléfono:* ${encodeURIComponent(valor('telefono'))}%0A +
-        *WhatsApp:* ${encodeURIComponent(valor('whatsapp'))}%0A +
-        *Disponibilidad:* ${encodeURIComponent(valor('disponibilidad'))}%0A +
-        *Medios de pago:* ${encodeURIComponent(valor('mediosPago'))}%0A +
-        *Hace factura:* ${encodeURIComponent(valor('factura'))}%0A +
-        *Matrícula / especialidad:* ${encodeURIComponent(valor('matricula') || 'No informa')}%0A%0A +
-        *Foto personal:* cargada en el formulario.;
-
-      window.open(https://wa.me/542474445664?text=${mensaje}, '_blank');
+      mostrarExito(
+        'Tu solicitud fue enviada correctamente.<br><br>' +
+        'Ahora quedó pendiente de aprobación.<br>' +
+        'En el siguiente paso podrás continuar con la activación de tu perfil en Conecta2.'
+      );
     });
   </script>
 </body>
