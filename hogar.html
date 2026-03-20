@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servicios para el Hogar - Conecta2</title>
-  <meta name="theme-color" content="#2f69c6" />
+  <meta name="theme-color" content="#2f69c6">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
@@ -137,7 +137,6 @@
       border-radius: 22px;
       object-fit: cover;
       background: #d9e3ee;
-      box-shadow: inset 0 0 0 2px #d3dde8;
       flex-shrink: 0;
     }
 
@@ -151,7 +150,6 @@
       color: #173a68;
       line-height: 1.2;
       margin-bottom: 4px;
-      letter-spacing: -0.02em;
     }
 
     .job {
@@ -164,17 +162,10 @@
     .status {
       font-size: .92rem;
       font-weight: 800;
+      color: #17763f;
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-
-    .status.abierto {
-      color: #17763f;
-    }
-
-    .status.cerrado {
-      color: #b23a2a;
     }
 
     .status::before {
@@ -182,15 +173,8 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      display: inline-block;
-    }
-
-    .status.abierto::before {
       background: #1cab4b;
-    }
-
-    .status.cerrado::before {
-      background: #e0553a;
+      display: inline-block;
     }
 
     .desc {
@@ -201,21 +185,12 @@
       font-weight: 600;
     }
 
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .meta {
       margin-bottom: 14px;
-    }
-
-    .meta-chip {
-      background: #eef4f8;
-      color: #32506f;
-      border-radius: 999px;
-      padding: 9px 13px;
-      font-size: .84rem;
-      font-weight: 800;
-      line-height: 1;
+      color: #5c6e82;
+      font-size: .9rem;
+      line-height: 1.5;
+      font-weight: 700;
     }
 
     .tags {
@@ -247,7 +222,6 @@
       text-align: center;
       font-size: .98rem;
       font-weight: 800;
-      letter-spacing: -0.01em;
     }
 
     .btn-wa {
@@ -268,10 +242,6 @@
       color: #607185;
       font-weight: 700;
       box-shadow: 0 8px 18px rgba(0,0,0,0.05);
-    }
-
-    .hidden {
-      display: none !important;
     }
   </style>
 </head>
@@ -302,172 +272,124 @@
     const searchInput = document.getElementById("searchInput");
     let tarjetas = [];
 
-    function capitalizarTexto(texto) {
+    function textoSeguro(valor) {
+      return valor ? String(valor).trim() : "";
+    }
+
+    function capitalizar(texto) {
+      texto = textoSeguro(texto);
       if (!texto) return "";
-      return texto
-        .toLowerCase()
-        .split(" ")
-        .map(p => p.charAt(0).toUpperCase() + p.slice(1))
-        .join(" ");
+      return texto.charAt(0).toUpperCase() + texto.slice(1);
     }
 
-    function obtenerNombreCompleto(item) {
-      const nombre = item.nombre ? item.nombre.trim() : "";
-      const apellido = item.apellido ? item.apellido.trim() : "";
-      return ${capitalizarTexto(nombre)} ${capitalizarTexto(apellido)}.trim();
-    }
-
-    function obtenerEstadoHorario(rango) {
-      if (!rango || !rango.includes("-")) {
-        return { clase: "abierto", texto: "Disponible ahora" };
-      }
-
-      const partes = rango.split("-");
-      if (partes.length !== 2) {
-        return { clase: "abierto", texto: "Disponible ahora" };
-      }
-
-      const ahora = new Date();
-      const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
-
-      const [inicioH, inicioM] = partes[0].split(":").map(Number);
-      const [finH, finM] = partes[1].split(":").map(Number);
-
-      if (
-        Number.isNaN(inicioH) || Number.isNaN(inicioM) ||
-        Number.isNaN(finH) || Number.isNaN(finM)
-      ) {
-        return { clase: "abierto", texto: "Disponible ahora" };
-      }
-
-      const inicio = inicioH * 60 + inicioM;
-      const fin = finH * 60 + finM;
-
-      if (horaActual >= inicio && horaActual <= fin) {
-        return { clase: "abierto", texto: "Disponible ahora" };
-      }
-
-      return { clase: "cerrado", texto: "Cerrado ahora" };
+    function nombreCompleto(item) {
+      return (textoSeguro(item.nombre) + " " + textoSeguro(item.apellido)).trim();
     }
 
     function crearTags(mediosPago, factura) {
       const tags = [];
+      const mp = textoSeguro(mediosPago);
 
-      if (mediosPago) {
-        mediosPago.split(",").forEach(item => {
+      if (mp) {
+        mp.split(",").forEach(function(item) {
           const limpio = item.trim();
-          if (limpio) tags.push(capitalizarTexto(limpio));
+          if (limpio) tags.push(capitalizar(limpio));
         });
       }
 
-      if (factura && factura.trim().toLowerCase() === "si") {
-        tags.push("Hace factura");
-      } else if (factura && factura.trim().toLowerCase() === "no") {
-        tags.push("Sin factura");
-      }
+      const fac = textoSeguro(factura).toLowerCase();
+      if (fac === "si") tags.push("Hace factura");
+      if (fac === "no") tags.push("Sin factura");
 
       return tags;
     }
 
-    function crearLinkMaps(direccion) {
-      if (!direccion) return "#";
-      return https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(direccion)};
-    }
-
     function crearTarjeta(item) {
-      const nombreCompleto = obtenerNombreCompleto(item) || "Prestador sin nombre";
-      const oficio = "Servicio para el hogar";
-      const estadoHorario = obtenerEstadoHorario(item.horarios || "");
-      const tags = crearTags(item.medios_pago || "", item.factura || "");
-      const telefono = (item.telefono || "").replace(/\D/g, "");
-      const whatsapp = (item.whatsapp || "").replace(/\D/g, "");
-      const descripcion = item.descripcion ? capitalizarTexto(item.descripcion) : "Sin descripción disponible.";
-      const direccion = item.direccion ? capitalizarTexto(item.direccion) : "Dirección no informada";
-      const foto = item.foto_url && item.foto_url.trim() !== "" ? item.foto_url : "https://via.placeholder.com/150";
-      const linkMaps = crearLinkMaps(direccion);
+      const nombre = nombreCompleto(item) || "Prestador sin nombre";
+      const descripcion = textoSeguro(item.descripcion) || "Sin descripción disponible.";
+      const direccion = textoSeguro(item.direccion) || "Dirección no informada";
+      const horarios = textoSeguro(item.horarios) || "Horario no informado";
+      const telefono = textoSeguro(item.telefono).replace(/\D/g, "");
+      const whatsapp = textoSeguro(item.whatsapp).replace(/\D/g, "");
+      const foto = textoSeguro(item.foto_url) || "https://via.placeholder.com/150";
+      const tags = crearTags(item.medios_pago, item.factura);
 
       return `
-        <div class="card provider-card" data-search="${(nombreCompleto + " " + descripcion + " " + direccion).toLowerCase()}">
+        <div class="card">
           <div class="top">
-            <img src="${foto}" alt="${nombreCompleto}" class="avatar">
+            <img src="${foto}" alt="${nombre}" class="avatar">
             <div class="info">
-              <div class="name">${nombreCompleto}</div>
-              <div class="job">${oficio}</div>
-              <div class="status ${estadoHorario.clase}">${estadoHorario.texto}</div>
+              <div class="name">${nombre}</div>
+              <div class="job">Servicio para el hogar</div>
+              <div class="status">Disponible ahora</div>
             </div>
           </div>
 
           <div class="desc">${descripcion}</div>
 
-          <div class="meta-row">
-            <a class="meta-chip" href="${linkMaps}" target="_blank">Ubicación</a>
-            <div class="meta-chip">${direccion}</div>
-            <div class="meta-chip">${item.horarios || "Horario no informado"}</div>
+          <div class="meta">
+            <div><strong>Ubicación:</strong> ${direccion}</div>
+            <div><strong>Horario:</strong> ${horarios}</div>
           </div>
 
           <div class="tags">
-            ${tags.map(tag => <div class="tag">${tag}</div>).join("")}
+            ${tags.map(function(tag) { return <div class="tag">${tag}</div>; }).join("")}
           </div>
 
           <div class="actions">
-            <a class="btn-wa" href="https://wa.me/54${whatsapp}?text=Hola%20${encodeURIComponent(nombreCompleto)},%20te%20consulto%20por%20tu%20servicio" target="_blank">WhatsApp</a>
+            <a class="btn-wa" href="https://wa.me/54${whatsapp}" target="_blank">WhatsApp</a>
             <a class="btn-call" href="tel:${telefono}">Llamar</a>
           </div>
         </div>
       `;
     }
 
-    function renderizarTarjetas(lista) {
+    function renderizar(lista) {
       if (!lista.length) {
-        cardsContainer.innerHTML = <div class="empty">No hay servicios disponibles en esta categoría.</div>;
+        cardsContainer.innerHTML = '<div class="empty">No hay servicios disponibles en esta categoría.</div>';
         return;
       }
 
       cardsContainer.innerHTML = lista.map(crearTarjeta).join("");
     }
 
-    async function cargarDatos() {
-      statusBox.textContent = "Conectando con la base de datos...";
-
-      try {
-        const response = await fetch(sheetURL, { cache: "no-store" });
-        const data = await response.json();
-
-        tarjetas = data.filter(item =>
-          (item.estado || "").trim().toLowerCase() === "activo" &&
-          (item.categoria || "").trim().toLowerCase() === "servicios para el hogar"
-        );
-
-        statusBox.textContent = Se encontraron ${tarjetas.length} servicio(s) activo(s).;
-        renderizarTarjetas(tarjetas);
-
-      } catch (error) {
-        statusBox.textContent = "No se pudieron cargar los datos.";
-        cardsContainer.innerHTML = <div class="empty">Hubo un problema al leer la base de datos.</div>;
-      }
+    function filtrarActivos(data) {
+      return data.filter(function(item) {
+        return textoSeguro(item.estado).toLowerCase() === "activo" &&
+               textoSeguro(item.categoria).toLowerCase() === "servicios para el hogar";
+      });
     }
 
-    searchInput.addEventListener("input", function () {
-      const valor = this.value.trim().toLowerCase();
-
-      const filtradas = tarjetas.filter(item => {
-        const nombre = obtenerNombreCompleto(item).toLowerCase();
-        const categoria = (item.categoria || "").toLowerCase();
-        const descripcion = (item.descripcion || "").toLowerCase();
-        const direccion = (item.direccion || "").toLowerCase();
-
-        return (
-          nombre.includes(valor) ||
-          categoria.includes(valor) ||
-          descripcion.includes(valor) ||
-          direccion.includes(valor)
-        );
+    fetch(sheetURL)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        tarjetas = filtrarActivos(data);
+        statusBox.innerHTML = "Se encontraron " + tarjetas.length + " servicio(s) activo(s).";
+        renderizar(tarjetas);
+      })
+      .catch(function(error) {
+        statusBox.innerHTML = "Error al cargar la base de datos.";
+        cardsContainer.innerHTML = '<div class="empty">No se pudieron leer los datos.</div>';
       });
 
-      renderizarTarjetas(filtradas);
-    });
+    searchInput.addEventListener("input", function() {
+      const valor = this.value.toLowerCase().trim();
 
-    cargarDatos();
+      const filtradas = tarjetas.filter(function(item) {
+        const texto = (
+          textoSeguro(item.nombre) + " " +
+          textoSeguro(item.apellido) + " " +
+          textoSeguro(item.descripcion) + " " +
+          textoSeguro(item.direccion)
+        ).toLowerCase();
+
+        return texto.includes(valor);
+      });
+
+      renderizar(filtradas);
+    });
   </script>
 </body>
 </html>
