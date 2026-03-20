@@ -309,6 +309,11 @@
       color: #fff;
     }
 
+    .btn-submit:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+
     .btn-preview {
       background: #e8eef5;
       color: #24497a;
@@ -770,6 +775,8 @@
     const bloqueCorrido = document.getElementById('bloqueCorrido');
     const bloqueCortado = document.getElementById('bloqueCortado');
 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaEZ47CNDLhtlJCA70lOMBesQOWqFwGbfO14N3Gmi9zRZynR608cub3YMgglQ2Wo5P/exec";
+
     function valor(id) {
       return document.getElementById(id).value.trim();
     }
@@ -877,6 +884,15 @@
       return true;
     }
 
+    function convertirImagenABase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
+
     foto.addEventListener('change', function () {
       const file = this.files[0];
       if (!file) return;
@@ -945,170 +961,70 @@
       previewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    <script>
-  const form = document.getElementById('servicioForm');
-  const foto = document.getElementById('foto');
-  const previewImg = document.getElementById('previewImg');
-  const previewPlaceholder = document.getElementById('previewPlaceholder');
-  const errorBox = document.getElementById('errorBox');
-  const successBox = document.getElementById('successBox');
-  const btnPreview = document.getElementById('btnPreview');
-  const previewCard = document.getElementById('previewCard');
-  const cardBtnWhatsapp = document.getElementById('cardBtnWhatsapp');
-  const cardBtnCall = document.getElementById('cardBtnCall');
-  const horarioCorrido = document.getElementById('horarioCorrido');
-  const bloqueCorrido = document.getElementById('bloqueCorrido');
-  const bloqueCortado = document.getElementById('bloqueCortado');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaEZ47CNDLhtlJCA70lOMBesQOWqFwGbfO14N3Gmi9zRZynR608cub3YMgglQ2Wo5P/exec";
+      if (!validarFormulario()) return;
 
-  function valor(id) {
-    return document.getElementById(id).value.trim();
-  }
+      const submitBtn = form.querySelector('.btn-submit');
 
-  function capitalizar(texto) {
-    if (!texto) return "";
-    return texto
-      .toLowerCase()
-      .split(" ")
-      .map(p => p.charAt(0).toUpperCase() + p.slice(1))
-      .join(" ");
-  }
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
 
-  function limpiarMensajes() {
-    errorBox.classList.remove('show');
-    errorBox.innerHTML = '';
-    successBox.classList.remove('show');
-    successBox.innerHTML = '';
-  }
+        const file = foto.files[0];
+        const fotoBase64 = file ? await convertirImagenABase64(file) : '';
 
-  function mostrarError(html) {
-    errorBox.innerHTML = html;
-    errorBox.classList.add('show');
-    successBox.classList.remove('show');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+        const payload = {
+          nombre: valor('nombre'),
+          apellido: valor('apellido'),
+          oficio: valor('oficio'),
+          zona: valor('zona'),
+          descripcion: valor('descripcion'),
+          whatsapp: valor('whatsapp'),
+          telefonoAlternativo: valor('telefonoAlternativo'),
+          horario: obtenerHorarioFinal(),
+          mediosPago: obtenerMediosPagoSeleccionados().join(', '),
+          factura: valor('factura'),
+          matricula: valor('matricula'),
+          fotoBase64: fotoBase64
+        };
 
-  function mostrarExito(html) {
-    successBox.innerHTML = html;
-    successBox.classList.add('show');
-    errorBox.classList.remove('show');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(payload)
+        });
 
-  function obtenerMediosPagoSeleccionados() {
-    const checks = document.querySelectorAll('input[name="mediosPago"]:checked');
-    return Array.from(checks).map(c => c.value);
-  }
+        const result = await response.json();
 
-  function actualizarModoHorario() {
-    if (horarioCorrido.checked) {
-      bloqueCorrido.classList.remove('hidden');
-      bloqueCortado.classList.add('hidden');
-    } else {
-      bloqueCorrido.classList.add('hidden');
-      bloqueCortado.classList.remove('hidden');
-    }
-  }
+        if (result.ok) {
+          mostrarExito(
+            'Tu solicitud fue enviada correctamente.<br><br>' +
+            'Ya quedó guardada en el sistema con estado pendiente de pago.<br>' +
+            'El siguiente paso será activar tu perfil en Conecta2.'
+          );
 
-  function obtenerHorarioFinal() {
-    if (horarioCorrido.checked) {
-      const desde = valor('horarioDesde');
-      const hasta = valor('horarioHasta');
-      if (!desde || !hasta) return '';
-      return desde + '-' + hasta;
-    } else {
-      const mananaDesde = valor('mananaDesde');
-      const mananaHasta = valor('mananaHasta');
-      const tardeDesde = valor('tardeDesde');
-      const tardeHasta = valor('tardeHasta');
+          form.reset();
+          previewImg.src = '';
+          previewImg.style.display = 'none';
+          previewPlaceholder.style.display = 'block';
+          previewCard.classList.remove('show');
+          horarioCorrido.checked = true;
+          actualizarModoHorario();
+        } else {
+          mostrarError('No se pudo guardar la solicitud.<br><br>Detalle: ' + (result.error || 'Error desconocido'));
+        }
 
-      if (!mananaDesde || !mananaHasta || !tardeDesde || !tardeHasta) return '';
-      return mananaDesde + '-' + mananaHasta + ' / ' + tardeDesde + '-' + tardeHasta;
-    }
-  }
-
-  function validarFormulario() {
-    limpiarMensajes();
-
-    const faltantes = [];
-
-    if (!foto.files || !foto.files.length) faltantes.push("Foto personal");
-    if (!valor('nombre')) faltantes.push("Nombre");
-    if (!valor('apellido')) faltantes.push("Apellido");
-    if (!valor('oficio')) faltantes.push("Profesión u oficio");
-    if (!valor('zona')) faltantes.push("Zona de trabajo");
-    if (!valor('descripcion')) faltantes.push("Descripción");
-    if (!valor('factura')) faltantes.push("Factura");
-
-    const whatsapp = valor('whatsapp');
-    const telefonoAlternativo = valor('telefonoAlternativo');
-
-    if (!whatsapp && !telefonoAlternativo) {
-      faltantes.push("Al menos una vía de contacto: WhatsApp o teléfono alternativo");
-    }
-
-    const mediosPago = obtenerMediosPagoSeleccionados();
-    if (mediosPago.length === 0) {
-      faltantes.push("Al menos un medio de pago");
-    }
-
-    if (!obtenerHorarioFinal()) {
-      if (horarioCorrido.checked) {
-        faltantes.push("Horario corrido completo");
-      } else {
-        faltantes.push("Horario matutino y vespertino completos");
+      } catch (error) {
+        mostrarError('Ocurrió un error al enviar la solicitud.<br><br>Detalle: ' + error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar solicitud';
       }
-    }
-
-    if (faltantes.length > 0) {
-      mostrarError('Faltan completar estos campos obligatorios:<br><br>• ' + faltantes.join('<br>• '));
-      return false;
-    }
-
-    return true;
-  }
-
-  function convertirImagenABase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-      reader.readAsDataURL(file);
     });
-  }
-
-  foto.addEventListener('change', function () {
-    const file = this.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      previewImg.src = e.target.result;
-      previewImg.style.display = 'block';
-      previewPlaceholder.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-  });
-
-  horarioCorrido.addEventListener('change', actualizarModoHorario);
-  actualizarModoHorario();
-
-  btnPreview.addEventListener('click', function () {
-    if (!validarFormulario()) return;
-
-    const nombreCompleto = capitalizar(valor('nombre') + ' ' + valor('apellido'));
-    const oficio = capitalizar(valor('oficio'));
-    const descripcion = valor('descripcion');
-    const factura = valor('factura');
-    const whatsapp = valor('whatsapp');
-    const telefonoAlternativo = valor('telefonoAlternativo');
-    const horario = obtenerHorarioFinal();
-    const mediosPago = obtenerMediosPagoSeleccionados();
-
-    document.getElementById('cardName').textContent = nombreCompleto;
-    document.getElementById('cardJob').textContent = oficio + ' · ' + horario;
-    document.getElementById('cardDesc').textContent = descripcion;
-    document.getElementById('cardAvatar').src = previewImg.src;
-
-    const tagsContainer = document.getElementById
+  </script>
+</body>
+</html>
