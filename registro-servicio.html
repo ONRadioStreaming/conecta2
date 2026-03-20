@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro de Servicios - Conecta2</title>
+  <title>Ofrecé tus servicios - Conecta2</title>
   <meta name="theme-color" content="#07142b" />
 
   <style>
@@ -105,6 +105,23 @@
       font-weight: 700;
     }
 
+    .error-box {
+      display: none;
+      margin-bottom: 14px;
+      background: #ffe7e7;
+      color: #a32020;
+      border: 1px solid #ffc8c8;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .error-box.show {
+      display: block;
+    }
+
     .form-card {
       background: #fff;
       border-radius: 24px;
@@ -162,45 +179,48 @@
       font-weight: 600;
     }
 
-    .preview-box {
+    .preview-frame {
       margin-top: 10px;
-      display: none;
-      align-items: center;
-      gap: 12px;
-      background: #f4f8fb;
-      border: 1px solid #dbe6ef;
-      border-radius: 18px;
-      padding: 10px;
-    }
-
-    .preview-box.show {
+      width: 120px;
+      height: 120px;
+      border-radius: 22px;
+      background: #e3ebf2;
+      border: 2px dashed #bfd0de;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    .preview-box img {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
+    .preview-frame img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      background: #dfe8f0;
-      flex-shrink: 0;
+      display: none;
     }
 
-    .preview-text {
-      color: #35516d;
-      font-size: 0.88rem;
-      line-height: 1.4;
+    .preview-placeholder {
+      color: #698095;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 10px;
+      line-height: 1.35;
       font-weight: 700;
     }
 
-    .btn-submit {
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-submit,
+    .btn-preview {
       width: 100%;
       border: 0;
       border-radius: 18px;
       padding: 16px;
-      margin-top: 6px;
-      background: linear-gradient(135deg, #2b7cff, #22b9d9);
-      color: #fff;
       font-size: 1rem;
       font-weight: 800;
       letter-spacing: -0.02em;
@@ -209,25 +229,135 @@
       font-family: inherit;
     }
 
-    .error-box {
-      display: none;
-      margin-bottom: 14px;
-      background: #ffe7e7;
-      color: #a32020;
-      border: 1px solid #ffc8c8;
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-size: 0.92rem;
-      line-height: 1.45;
-      font-weight: 700;
+    .btn-submit {
+      background: #19ad4a;
+      color: #fff;
     }
 
-    .error-box.show {
+    .btn-preview {
+      background: #e8eef5;
+      color: #24497a;
+    }
+
+    .preview-card {
+      display: none;
+      margin-top: 18px;
+      background: #fff;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+    .preview-card.show {
       display: block;
     }
 
-    .footer-space {
-      height: 10px;
+    .preview-card h3 {
+      margin: 0 0 14px 0;
+      color: #173a68;
+      font-size: 1rem;
+    }
+
+    .card-top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .card-avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 22px;
+      object-fit: cover;
+      background: #d9e3ee;
+      flex-shrink: 0;
+    }
+
+    .card-info {
+      flex: 1;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #173a68;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .card-job {
+      font-size: .95rem;
+      font-weight: 800;
+      color: #6a7380;
+      margin-bottom: 8px;
+    }
+
+    .card-status {
+      font-size: .92rem;
+      font-weight: 800;
+      color: #17763f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-status::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #1cab4b;
+      display: inline-block;
+    }
+
+    .card-desc {
+      margin: 16px 0 14px;
+      color: #404f61;
+      font-size: .98rem;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .card-tag {
+      background: #eaf0f6;
+      color: #204979;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .card-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card-btn-wa,
+    .card-btn-call {
+      border-radius: 18px;
+      padding: 15px 12px;
+      text-align: center;
+      font-size: .98rem;
+      font-weight: 800;
+    }
+
+    .card-btn-wa {
+      background: #19ad4a;
+      color: #fff;
+    }
+
+    .card-btn-call {
+      background: #e8eef5;
+      color: #24497a;
     }
   </style>
 </head>
@@ -243,11 +373,11 @@
     <div class="content">
       <h1 class="title">Ofrecé tus servicios</h1>
       <p class="subtitle">
-        Completá tus datos reales para sumarte a Conecta2. La foto personal y la información básica son obligatorias para brindar tranquilidad y confianza a quienes te contacten.
+        Completá tus datos reales para sumarte a Conecta2. La foto personal y la información básica son obligatorias para transmitir confianza a quienes te contacten.
       </p>
 
       <div class="notice">
-        Importante: para profesionales, técnicos y oficios, la foto personal es obligatoria. Si faltan datos, el sistema no deja avanzar.
+        Importante: para profesionales, técnicos y oficios, la foto personal es obligatoria. Si faltan datos, no vas a poder avanzar.
       </div>
 
       <div id="errorBox" class="error-box"></div>
@@ -257,11 +387,13 @@
           <div class="field-group">
             <label for="foto">Foto personal *</label>
             <input type="file" id="foto" accept="image/*" required>
-            <div class="help">Subí una foto clara y real. Esto transmite confianza al usuario.</div>
+            <div class="help">Subí una foto clara y real. Esto da tranquilidad al usuario.</div>
 
-            <div id="previewBox" class="preview-box">
-              <img id="previewImg" src="" alt="Vista previa">
-              <div class="preview-text">Foto cargada correctamente.</div>
+            <div class="preview-frame">
+              <img id="previewImg" alt="Vista previa">
+              <div id="previewPlaceholder" class="preview-placeholder">
+                Vista previa<br>de la foto
+              </div>
             </div>
           </div>
 
@@ -280,7 +412,7 @@
           <div class="grid-2">
             <div class="field-group">
               <label for="oficio">Profesión u oficio *</label>
-              <input type="text" id="oficio" placeholder="Ej: Electricista, plomero, médica clínica" required>
+              <input type="text" id="oficio" placeholder="Ej: Electricista, plomero, gasista" required>
             </div>
 
             <div class="field-group">
@@ -291,7 +423,7 @@
 
           <div class="field-group">
             <label for="descripcion">Descripción *</label>
-            <textarea id="descripcion" placeholder="Explicá qué hacés, qué tipo de trabajos realizás y por qué te elegirían." required></textarea>
+            <textarea id="descripcion" placeholder="Explicá qué hacés, qué tipo de trabajos realizás y qué debería saber el cliente." required></textarea>
           </div>
 
           <div class="grid-2">
@@ -309,12 +441,12 @@
           <div class="grid-2">
             <div class="field-group">
               <label for="disponibilidad">Disponibilidad *</label>
-              <input type="text" id="disponibilidad" placeholder="Ej: Disponible ahora / Turnos" required>
+              <input type="text" id="disponibilidad" placeholder="Ej: 08:00-20:00" required>
             </div>
 
             <div class="field-group">
               <label for="mediosPago">Medios de pago *</label>
-              <input type="text" id="mediosPago" placeholder="Ej: Efectivo, transferencia" required>
+              <input type="text" id="mediosPago" placeholder="Ej: efectivo, transferencia" required>
             </div>
           </div>
 
@@ -323,8 +455,8 @@
               <label for="factura">¿Hace factura? *</label>
               <select id="factura" required>
                 <option value="">Seleccionar</option>
-                <option value="Sí">Sí</option>
-                <option value="No">No</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
               </select>
             </div>
 
@@ -334,107 +466,155 @@
             </div>
           </div>
 
-          <button type="submit" class="btn-submit">Enviar registro por WhatsApp</button>
+          <div class="actions">
+            <button type="submit" class="btn-submit">Enviar por WhatsApp</button>
+            <button type="button" id="btnPreview" class="btn-preview">Simular tarjeta</button>
+          </div>
         </form>
       </div>
 
-      <div class="footer-space"></div>
+      <div id="previewCard" class="preview-card">
+        <h3>Así se vería tu tarjeta</h3>
+
+        <div class="card-top">
+          <img id="cardAvatar" class="card-avatar" alt="Foto del prestador">
+          <div class="card-info">
+            <div id="cardName" class="card-name">Nombre Apellido</div>
+            <div id="cardJob" class="card-job">Profesión u oficio</div>
+            <div class="card-status">Disponible ahora</div>
+          </div>
+        </div>
+
+        <div id="cardDesc" class="card-desc">Descripción del servicio</div>
+
+        <div id="cardTags" class="card-tags"></div>
+
+        <div class="card-buttons">
+          <div class="card-btn-wa">WhatsApp</div>
+          <div class="card-btn-call">Llamar</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
     const form = document.getElementById('servicioForm');
     const foto = document.getElementById('foto');
-    const previewBox = document.getElementById('previewBox');
     const previewImg = document.getElementById('previewImg');
+    const previewPlaceholder = document.getElementById('previewPlaceholder');
     const errorBox = document.getElementById('errorBox');
+    const btnPreview = document.getElementById('btnPreview');
+    const previewCard = document.getElementById('previewCard');
+
+    function valor(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function capitalizar(texto) {
+      if (!texto) return "";
+      return texto
+        .toLowerCase()
+        .split(" ")
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+        .join(" ");
+    }
+
+    function validarFormulario() {
+      const faltantes = [];
+
+      if (!foto.files || !foto.files.length) faltantes.push("Foto personal");
+      if (!valor('nombre')) faltantes.push("Nombre");
+      if (!valor('apellido')) faltantes.push("Apellido");
+      if (!valor('oficio')) faltantes.push("Profesión u oficio");
+      if (!valor('zona')) faltantes.push("Zona de trabajo");
+      if (!valor('descripcion')) faltantes.push("Descripción");
+      if (!valor('telefono')) faltantes.push("Teléfono");
+      if (!valor('whatsapp')) faltantes.push("WhatsApp");
+      if (!valor('disponibilidad')) faltantes.push("Disponibilidad");
+      if (!valor('mediosPago')) faltantes.push("Medios de pago");
+      if (!valor('factura')) faltantes.push("Factura");
+
+      if (faltantes.length > 0) {
+        errorBox.innerHTML = 'Faltan completar estos campos obligatorios:<br><br>• ' + faltantes.join('<br>• ');
+        errorBox.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return false;
+      }
+
+      errorBox.classList.remove('show');
+      errorBox.innerHTML = '';
+      return true;
+    }
 
     foto.addEventListener('change', function () {
       const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          previewImg.src = e.target.result;
-          previewBox.classList.add('show');
-        };
-        reader.readAsDataURL(file);
-      } else {
-        previewImg.src = '';
-        previewBox.classList.remove('show');
-      }
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImg.src = e.target.result;
+        previewImg.style.display = 'block';
+        previewPlaceholder.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    btnPreview.addEventListener('click', function () {
+      if (!validarFormulario()) return;
+
+      const nombreCompleto = capitalizar(valor('nombre') + ' ' + valor('apellido'));
+      const oficio = capitalizar(valor('oficio'));
+      const descripcion = valor('descripcion');
+      const mediosPago = valor('mediosPago');
+      const factura = valor('factura');
+
+      document.getElementById('cardName').textContent = nombreCompleto;
+      document.getElementById('cardJob').textContent = oficio;
+      document.getElementById('cardDesc').textContent = descripcion;
+      document.getElementById('cardAvatar').src = previewImg.src;
+
+      const tagsContainer = document.getElementById('cardTags');
+      tagsContainer.innerHTML = '';
+
+      mediosPago.split(',').forEach(function(item) {
+        const limpio = item.trim();
+        if (limpio) {
+          const tag = document.createElement('div');
+          tag.className = 'card-tag';
+          tag.textContent = capitalizar(limpio);
+          tagsContainer.appendChild(tag);
+        }
+      });
+
+      const facturaTag = document.createElement('div');
+      facturaTag.className = 'card-tag';
+      facturaTag.textContent = factura === 'si' ? 'Hace factura' : 'Sin factura';
+      tagsContainer.appendChild(facturaTag);
+
+      previewCard.classList.add('show');
+      previewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      errorBox.classList.remove('show');
-      errorBox.innerHTML = '';
+      if (!validarFormulario()) return;
 
-      const requiredFields = [
-        { id: 'foto', label: 'Foto personal' },
-        { id: 'nombre', label: 'Nombre' },
-        { id: 'apellido', label: 'Apellido' },
-        { id: 'oficio', label: 'Profesión u oficio' },
-        { id: 'zona', label: 'Zona de trabajo' },
-        { id: 'descripcion', label: 'Descripción' },
-        { id: 'telefono', label: 'Teléfono' },
-        { id: 'whatsapp', label: 'WhatsApp' },
-        { id: 'disponibilidad', label: 'Disponibilidad' },
-        { id: 'mediosPago', label: 'Medios de pago' },
-        { id: 'factura', label: 'Factura' }
-      ];
+      const nombreCompleto = capitalizar(valor('nombre') + ' ' + valor('apellido'));
+      const mensaje =
+        Hola, quiero ofrecer mis servicios en Conecta2.%0A%0A +
+        *Nombre y apellido:* ${encodeURIComponent(nombreCompleto)}%0A +
+        *Profesión u oficio:* ${encodeURIComponent(valor('oficio'))}%0A +
+        *Zona de trabajo:* ${encodeURIComponent(valor('zona'))}%0A +
+        *Descripción:* ${encodeURIComponent(valor('descripcion'))}%0A +
+        *Teléfono:* ${encodeURIComponent(valor('telefono'))}%0A +
+        *WhatsApp:* ${encodeURIComponent(valor('whatsapp'))}%0A +
+        *Disponibilidad:* ${encodeURIComponent(valor('disponibilidad'))}%0A +
+        *Medios de pago:* ${encodeURIComponent(valor('mediosPago'))}%0A +
+        *Hace factura:* ${encodeURIComponent(valor('factura'))}%0A +
+        *Matrícula / especialidad:* ${encodeURIComponent(valor('matricula') || 'No informa')}%0A%0A +
+        *Foto personal:* cargada en el formulario.;
 
-      const missing = [];
-
-      requiredFields.forEach(field => {
-        const element = document.getElementById(field.id);
-
-        if (field.id === 'foto') {
-          if (!element.files || !element.files.length) {
-            missing.push(field.label);
-          }
-        } else if (!element.value.trim()) {
-          missing.push(field.label);
-        }
-      });
-
-      if (missing.length > 0) {
-        errorBox.innerHTML = 'Faltan completar estos campos obligatorios:<br><br>• ' + missing.join('<br>• ');
-        errorBox.classList.add('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-
-      const nombre = document.getElementById('nombre').value.trim();
-      const apellido = document.getElementById('apellido').value.trim();
-      const oficio = document.getElementById('oficio').value.trim();
-      const zona = document.getElementById('zona').value.trim();
-      const descripcion = document.getElementById('descripcion').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const whatsapp = document.getElementById('whatsapp').value.trim();
-      const disponibilidad = document.getElementById('disponibilidad').value.trim();
-      const mediosPago = document.getElementById('mediosPago').value.trim();
-      const factura = document.getElementById('factura').value.trim();
-      const matricula = document.getElementById('matricula').value.trim();
-
-      let mensaje = Hola, quiero ofrecer mis servicios en Conecta2.%0A%0A;
-      mensaje += *Nombre y apellido:* ${nombre} ${apellido}%0A;
-      mensaje += *Profesión u oficio:* ${oficio}%0A;
-      mensaje += *Zona de trabajo:* ${zona}%0A;
-      mensaje += *Descripción:* ${descripcion}%0A;
-      mensaje += *Teléfono:* ${telefono}%0A;
-      mensaje += *WhatsApp:* ${whatsapp}%0A;
-      mensaje += *Disponibilidad:* ${disponibilidad}%0A;
-      mensaje += *Medios de pago:* ${mediosPago}%0A;
-      mensaje += *Hace factura:* ${factura}%0A;
-
-      if (matricula) {
-        mensaje += *Matrícula / especialidad:* ${matricula}%0A;
-      }
-
-      mensaje += %0A*Foto personal:* cargada en el formulario.;
-
-      const url = https://wa.me/542474445664?text=${mensaje};
-      window.open(url, '_blank');
+      window.open(https://wa.me/542474445664?text=${mensaje}, '_blank');
     });
   </script>
 </body>
