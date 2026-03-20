@@ -4,244 +4,191 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servicios para el Hogar - Conecta2</title>
-  <meta name="theme-color" content="#2f69c6">
-
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:linear-gradient(180deg,#2f69c6 0%,#9ab2d9 34%,#dfe8f2 100%);
+      color:#12243a;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Manrope', Arial, sans-serif;
-      background: #dfe8f2;
-      color: #12243a;
+    .app{
+      max-width:480px;
+      margin:0 auto;
+      min-height:100vh;
     }
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(180deg, #2f69c6 0%, #9ab2d9 34%, #dfe8f2 100%);
+    .header{
+      padding:18px 16px 22px;
+      color:white;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .header-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .app {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100vh;
+    .back-btn{
+      width:54px;
+      height:54px;
+      border-radius:18px;
+      background:rgba(255,255,255,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:28px;
+      font-weight:bold;
+      color:white;
+      text-decoration:none;
     }
 
-    .header {
-      padding: 18px 16px 22px;
-      color: #fff;
+    .header-title{
+      font-size:18px;
+      font-weight:bold;
     }
 
-    .header-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
+    .content{
+      background:#edf2f7;
+      border-radius:34px 34px 0 0;
+      padding:18px 16px 28px;
+      min-height:calc(100vh - 110px);
     }
 
-    .back-btn {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: 800;
-      backdrop-filter: blur(3px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-      flex-shrink: 0;
+    .search-box{
+      background:white;
+      border-radius:18px;
+      padding:14px 16px;
+      margin-bottom:16px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.06);
     }
 
-    .header-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+    .search-box input{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:#364b63;
+      font-size:16px;
+      font-weight:bold;
     }
 
-    .content {
-      background: #edf2f7;
-      border-radius: 34px 34px 0 0;
-      padding: 18px 16px 28px;
-      min-height: calc(100vh - 110px);
-      box-shadow: 0 -8px 24px rgba(0,0,0,0.06);
+    .status-box{
+      background:white;
+      border-radius:18px;
+      padding:14px 16px;
+      margin-bottom:16px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.05);
+      color:#4c6077;
+      font-size:15px;
+      font-weight:bold;
     }
 
-    .search-box {
-      background: #fff;
-      border-radius: 18px;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+    .card{
+      background:white;
+      border-radius:24px;
+      padding:16px;
+      margin-bottom:16px;
+      box-shadow:0 8px 18px rgba(0,0,0,0.06);
     }
 
-    .search-box input {
-      width: 100%;
-      border: 0;
-      outline: none;
-      background: transparent;
-      color: #364b63;
-      font-size: 1rem;
-      font-family: inherit;
-      font-weight: 700;
+    .top{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
     }
 
-    .search-box input::placeholder {
-      color: #7b8998;
-      font-weight: 600;
+    .avatar{
+      width:92px;
+      height:92px;
+      border-radius:22px;
+      object-fit:cover;
+      background:#d9e3ee;
+      flex-shrink:0;
     }
 
-    .status-box {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.05);
-      color: #4c6077;
-      font-size: 0.92rem;
-      line-height: 1.5;
-      font-weight: 700;
+    .info{
+      flex:1;
     }
 
-    .card {
-      background: #fff;
-      border-radius: 24px;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    .name{
+      font-size:16px;
+      font-weight:bold;
+      color:#173a68;
+      line-height:1.2;
+      margin-bottom:4px;
     }
 
-    .top {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
+    .job{
+      font-size:15px;
+      font-weight:bold;
+      color:#6a7380;
+      margin-bottom:8px;
     }
 
-    .avatar {
-      width: 92px;
-      height: 92px;
-      border-radius: 22px;
-      object-fit: cover;
-      background: #d9e3ee;
-      flex-shrink: 0;
+    .status{
+      font-size:14px;
+      font-weight:bold;
+      color:#17763f;
     }
 
-    .info {
-      flex: 1;
+    .desc{
+      margin:16px 0 14px;
+      color:#404f61;
+      font-size:16px;
+      line-height:1.5;
     }
 
-    .name {
-      font-size: 1rem;
-      font-weight: 800;
-      color: #173a68;
-      line-height: 1.2;
-      margin-bottom: 4px;
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:16px;
     }
 
-    .job {
-      font-size: .95rem;
-      font-weight: 800;
-      color: #6a7380;
-      margin-bottom: 8px;
+    .tag{
+      background:#eaf0f6;
+      color:#204979;
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:14px;
+      font-weight:bold;
+      line-height:1;
     }
 
-    .status {
-      font-size: .92rem;
-      font-weight: 800;
-      color: #17763f;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
     }
 
-    .status::before {
-      content: "";
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #1cab4b;
-      display: inline-block;
+    .btn-wa,.btn-call{
+      border-radius:18px;
+      padding:15px 12px;
+      text-align:center;
+      font-size:16px;
+      font-weight:bold;
+      text-decoration:none;
     }
 
-    .desc {
-      margin: 16px 0 14px;
-      color: #404f61;
-      font-size: .98rem;
-      line-height: 1.55;
-      font-weight: 600;
+    .btn-wa{
+      background:#19ad4a;
+      color:white;
     }
 
-    .meta {
-      margin-bottom: 14px;
-      color: #5c6e82;
-      font-size: .9rem;
-      line-height: 1.5;
-      font-weight: 700;
+    .btn-call{
+      background:#e8eef5;
+      color:#24497a;
     }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .tag {
-      background: #eaf0f6;
-      color: #204979;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: .9rem;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .btn-wa, .btn-call {
-      border-radius: 18px;
-      padding: 15px 12px;
-      text-align: center;
-      font-size: .98rem;
-      font-weight: 800;
-    }
-
-    .btn-wa {
-      background: #19ad4a;
-      color: #fff;
-    }
-
-    .btn-call {
-      background: #e8eef5;
-      color: #24497a;
-    }
-
-    .empty {
-      background: #fff;
-      border-radius: 20px;
-      padding: 18px;
-      text-align: center;
-      color: #607185;
-      font-weight: 700;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+    .empty{
+      background:white;
+      border-radius:20px;
+      padding:18px;
+      text-align:center;
+      color:#607185;
+      font-weight:bold;
+      box-shadow:0 8px 18px rgba(0,0,0,0.05);
     }
   </style>
 </head>
@@ -259,136 +206,134 @@
         <input type="text" id="searchInput" placeholder="Buscar plomero, electricista, jardinero...">
       </div>
 
-      <div class="status-box" id="statusBox">Cargando servicios...</div>
+      <div class="status-box" id="estado">Probando lectura...</div>
 
-      <div id="cardsContainer"></div>
+      <div id="resultado"></div>
     </div>
   </div>
 
   <script>
-    const sheetURL = "https://opensheet.elk.sh/1NOoO8TKcQkKprf8e34h3k3iekaNTxtfMeZ1sO6TO8fw/Hoja%201";
-    const cardsContainer = document.getElementById("cardsContainer");
-    const statusBox = document.getElementById("statusBox");
-    const searchInput = document.getElementById("searchInput");
-    let tarjetas = [];
+    var estado = document.getElementById("estado");
+    var resultado = document.getElementById("resultado");
+    var buscador = document.getElementById("searchInput");
+    var url = "https://opensheet.elk.sh/1NOoO8TKcQkKprf8e34h3k3iekaNTxtfMeZ1sO6TO8fw/Hoja%201";
+    var datosGuardados = [];
 
-    function textoSeguro(valor) {
-      return valor ? String(valor).trim() : "";
+    function limpiar(valor){
+      if(!valor) return "";
+      return String(valor).trim();
     }
 
-    function nombreCompleto(item) {
-      return (textoSeguro(item.nombre) + " " + textoSeguro(item.apellido)).trim();
-    }
-
-    function capitalizar(texto) {
-      texto = textoSeguro(texto);
-      if (!texto) return "";
-      return texto.charAt(0).toUpperCase() + texto.slice(1);
-    }
-
-    function crearTags(mediosPago, factura) {
-      const tags = [];
-      const mp = textoSeguro(mediosPago);
-
-      if (mp) {
-        mp.split(",").forEach(function(item) {
-          const limpio = item.trim();
-          if (limpio) tags.push(capitalizar(limpio));
-        });
+    function crearTags(medios, factura){
+      var html = "";
+      if(medios){
+        var lista = medios.split(",");
+        for(var i=0; i<lista.length; i++){
+          var item = lista[i].trim();
+          if(item !== ""){
+            html += '<div class="tag">' + item + '</div>';
+          }
+        }
       }
 
-      const fac = textoSeguro(factura).toLowerCase();
-      if (fac === "si") tags.push("Hace factura");
-      if (fac === "no") tags.push("Sin factura");
+      if(limpiar(factura).toLowerCase() === "si"){
+        html += '<div class="tag">Hace factura</div>';
+      }
 
-      return tags;
+      if(limpiar(factura).toLowerCase() === "no"){
+        html += '<div class="tag">Sin factura</div>';
+      }
+
+      return html;
     }
 
-    function crearTarjeta(item) {
-      const nombre = nombreCompleto(item) || "Prestador sin nombre";
-      const descripcion = textoSeguro(item.descripcion) || "Sin descripción disponible.";
-      const direccion = textoSeguro(item.direccion) || "Dirección no informada";
-      const horarios = textoSeguro(item.horarios) || "Horario no informado";
-      const telefono = textoSeguro(item.telefono).replace(/\D/g, "");
-      const whatsapp = textoSeguro(item.whatsapp).replace(/\D/g, "");
-      const foto = textoSeguro(item.foto_url) || "https://via.placeholder.com/150";
-      const tags = crearTags(item.medios_pago, item.factura);
-
-      return `
-        <div class="card">
-          <div class="top">
-            <img src="${foto}" alt="${nombre}" class="avatar">
-            <div class="info">
-              <div class="name">${nombre}</div>
-              <div class="job">Servicio para el hogar</div>
-              <div class="status">Disponible ahora</div>
-            </div>
-          </div>
-
-          <div class="desc">${descripcion}</div>
-
-          <div class="meta">
-            <div><strong>Ubicación:</strong> ${direccion}</div>
-            <div><strong>Horario:</strong> ${horarios}</div>
-          </div>
-
-          <div class="tags">
-            ${tags.map(function(tag) { return <div class="tag">${tag}</div>; }).join("")}
-          </div>
-
-          <div class="actions">
-            <a class="btn-wa" href="https://wa.me/54${whatsapp}" target="_blank">WhatsApp</a>
-            <a class="btn-call" href="tel:${telefono}">Llamar</a>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderizar(lista) {
-      if (!lista.length) {
-        cardsContainer.innerHTML = '<div class="empty">No hay servicios disponibles en esta categoría.</div>';
+    function dibujar(lista){
+      if(lista.length === 0){
+        resultado.innerHTML = '<div class="empty">No hay servicios disponibles en esta categoría.</div>';
         return;
       }
 
-      cardsContainer.innerHTML = lista.map(crearTarjeta).join("");
+      var html = "";
+
+      for(var i=0; i<lista.length; i++){
+        var item = lista[i];
+        var nombre = (limpiar(item.nombre) + " " + limpiar(item.apellido)).trim();
+        if(nombre === "") nombre = "Prestador sin nombre";
+
+        var descripcion = limpiar(item.descripcion);
+        if(descripcion === "") descripcion = "Sin descripción disponible.";
+
+        var telefono = limpiar(item.telefono).replace(/[^0-9]/g, "");
+        var whatsapp = limpiar(item.whatsapp).replace(/[^0-9]/g, "");
+        var horarios = limpiar(item.horarios);
+        if(horarios === "") horarios = "Horario no informado";
+
+        var foto = limpiar(item.foto_url);
+        if(foto === "") foto = "https://via.placeholder.com/150";
+
+        html += '<div class="card">';
+        html +=   '<div class="top">';
+        html +=     '<img src="' + foto + '" alt="' + nombre + '" class="avatar">';
+        html +=     '<div class="info">';
+        html +=       '<div class="name">' + nombre + '</div>';
+        html +=       '<div class="job">Servicio para el hogar</div>';
+        html +=       '<div class="status">Disponible ahora</div>';
+        html +=     '</div>';
+        html +=   '</div>';
+
+        html +=   '<div class="desc">' + descripcion + '</div>';
+
+        html +=   '<div class="tags">';
+        html +=     crearTags(limpiar(item.medios_pago), limpiar(item.factura));
+        html +=   '</div>';
+
+        html +=   '<div class="actions">';
+        html +=     '<a class="btn-wa" href="https://wa.me/54' + whatsapp + '" target="_blank">WhatsApp</a>';
+        html +=     '<a class="btn-call" href="tel:' + telefono + '">Llamar</a>';
+        html +=   '</div>';
+        html += '</div>';
+      }
+
+      resultado.innerHTML = html;
     }
 
-    function filtrarActivos(data) {
-      return data.filter(function(item) {
-        return textoSeguro(item.estado).toLowerCase() === "activo" &&
-               textoSeguro(item.categoria).toLowerCase() === "servicios para el hogar";
-      });
-    }
-
-    fetch(sheetURL)
-      .then(function(response) {
+    fetch(url)
+      .then(function(response){
+        estado.innerHTML = "Conexión con la base OK. Leyendo datos...";
         return response.json();
       })
-      .then(function(data) {
-        tarjetas = filtrarActivos(data);
-        statusBox.innerHTML = "Se encontraron " + tarjetas.length + " servicio(s) activo(s).";
-        renderizar(tarjetas);
+      .then(function(data){
+        estado.innerHTML = "Datos recibidos: " + data.length;
+
+        var filtrados = data.filter(function(item){
+          return limpiar(item.estado).toLowerCase() === "activo" &&
+                 limpiar(item.categoria).toLowerCase() === "servicios para el hogar";
+        });
+
+        datosGuardados = filtrados;
+        estado.innerHTML = "Servicios encontrados: " + filtrados.length;
+        dibujar(filtrados);
       })
-      .catch(function(error) {
-        statusBox.innerHTML = "Error al cargar la base de datos.";
-        cardsContainer.innerHTML = '<div class="empty">No se pudieron leer los datos.</div>';
+      .catch(function(error){
+        estado.innerHTML = "Error al leer la planilla.";
+        resultado.innerHTML = '<div class="empty">' + error + '</div>';
       });
 
-    searchInput.addEventListener("input", function() {
-      const valor = this.value.toLowerCase().trim();
+    buscador.addEventListener("input", function(){
+      var valor = this.value.toLowerCase().trim();
 
-      const filtradas = tarjetas.filter(function(item) {
-        const texto = (
-          textoSeguro(item.nombre) + " " +
-          textoSeguro(item.apellido) + " " +
-          textoSeguro(item.descripcion) + " " +
-          textoSeguro(item.direccion)
+      var filtrados = datosGuardados.filter(function(item){
+        var texto = (
+          limpiar(item.nombre) + " " +
+          limpiar(item.apellido) + " " +
+          limpiar(item.descripcion) + " " +
+          limpiar(item.direccion)
         ).toLowerCase();
 
-        return texto.includes(valor);
+        return texto.indexOf(valor) !== -1;
       });
 
-      renderizar(filtradas);
+      dibujar(filtrados);
     });
   </script>
 </body>
