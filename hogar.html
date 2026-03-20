@@ -169,13 +169,8 @@
       gap: 8px;
     }
 
-    .status.abierto {
-      color: #17763f;
-    }
-
-    .status.cerrado {
-      color: #b23a2a;
-    }
+    .status.abierto { color: #17763f; }
+    .status.cerrado { color: #b23a2a; }
 
     .status::before {
       content: "";
@@ -185,13 +180,8 @@
       display: inline-block;
     }
 
-    .status.abierto::before {
-      background: #1cab4b;
-    }
-
-    .status.cerrado::before {
-      background: #e0553a;
-    }
+    .status.abierto::before { background: #1cab4b; }
+    .status.cerrado::before { background: #e0553a; }
 
     .desc {
       margin: 16px 0 14px;
@@ -224,7 +214,7 @@
       gap: 12px;
     }
 
-    .btn-wa, .btn-profile {
+    .btn-wa, .btn-call {
       border-radius: 18px;
       padding: 15px 12px;
       text-align: center;
@@ -238,7 +228,7 @@
       color: #fff;
     }
 
-    .btn-profile {
+    .btn-call {
       background: #e8eef5;
       color: #24497a;
     }
@@ -272,9 +262,7 @@
         <input type="text" id="searchInput" placeholder="Buscar plomero, electricista, jardinero...">
       </div>
 
-      <div class="status-box" id="statusBox">
-        Cargando servicios...
-      </div>
+      <div class="status-box" id="statusBox">Iniciando lectura de base de datos...</div>
 
       <div id="cardsContainer"></div>
     </div>
@@ -313,9 +301,8 @@
 
       if (horaActual >= inicio && horaActual <= fin) {
         return { clase: "abierto", texto: "Disponible ahora" };
-      } else {
-        return { clase: "cerrado", texto: "Cerrado ahora" };
       }
+      return { clase: "cerrado", texto: "Cerrado ahora" };
     }
 
     function crearTags(mediosPago, factura) {
@@ -338,7 +325,7 @@
 
     function crearTarjeta(item) {
       const nombreCompleto = ${item.nombre || ""} ${item.apellido || ""}.trim();
-      const oficio = item.categoria ? capitalizar(item.categoria) : "Servicio";
+      const oficio = "Servicio para el hogar";
       const estadoHorario = obtenerEstadoHorario(item.horarios || "");
       const tags = crearTags(item.medios_pago || "", item.factura || "");
       const telefono = (item.telefono || "").replace(/\D/g, "");
@@ -347,7 +334,7 @@
       const foto = item.foto_url && item.foto_url.trim() !== "" ? item.foto_url : "https://via.placeholder.com/150";
 
       return `
-        <div class="card provider-card" data-search="${(nombreCompleto + ' ' + oficio + ' ' + descripcion).toLowerCase()}">
+        <div class="card provider-card" data-search="${(nombreCompleto + ' ' + descripcion + ' ' + oficio).toLowerCase()}">
           <div class="top">
             <img src="${foto}" alt="${nombreCompleto}" class="avatar">
             <div class="info">
@@ -365,7 +352,7 @@
 
           <div class="actions">
             <a class="btn-wa" href="https://wa.me/54${whatsapp}?text=Hola%20${encodeURIComponent(nombreCompleto)},%20te%20consulto%20por%20tu%20servicio" target="_blank">WhatsApp</a>
-            <a class="btn-profile" href="tel:${telefono}">Llamar</a>
+            <a class="btn-call" href="tel:${telefono}">Llamar</a>
           </div>
         </div>
       `;
@@ -381,9 +368,14 @@
     }
 
     async function cargarDatos() {
+      statusBox.textContent = "Conectando con la base de datos...";
+
       try {
-        const response = await fetch(sheetURL);
+        const response = await fetch(sheetURL, { cache: "no-store" });
+        statusBox.textContent = "Base encontrada. Leyendo registros...";
+
         const data = await response.json();
+        console.log("DATOS RECIBIDOS:", data);
 
         tarjetas = data.filter(item =>
           (item.estado || "").trim().toLowerCase() === "activo" &&
@@ -394,8 +386,9 @@
         renderizarTarjetas(tarjetas);
 
       } catch (error) {
-        statusBox.textContent = "No se pudieron cargar los datos.";
-        cardsContainer.innerHTML = <div class="empty">Hubo un problema al leer la base de datos.</div>;
+        console.error("ERROR AL CARGAR:", error);
+        statusBox.textContent = "Error al cargar la base de datos.";
+        cardsContainer.innerHTML = <div class="empty">No se pudieron leer los datos de Google Sheets.</div>;
       }
     }
 
