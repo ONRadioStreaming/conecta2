@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro de Comercio - Conecta2</title>
+  <title>Registrá tu comercio - Conecta2</title>
   <meta name="theme-color" content="#07142b" />
 
   <style>
@@ -105,6 +105,40 @@
       font-weight: 700;
     }
 
+    .error-box {
+      display: none;
+      margin-bottom: 14px;
+      background: #ffe7e7;
+      color: #a32020;
+      border: 1px solid #ffc8c8;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .error-box.show {
+      display: block;
+    }
+
+    .success-box {
+      display: none;
+      margin-bottom: 14px;
+      background: #e5f9e8;
+      color: #166534;
+      border: 1px solid #bce7c4;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .success-box.show {
+      display: block;
+    }
+
     .form-card {
       background: #fff;
       border-radius: 24px;
@@ -162,45 +196,106 @@
       font-weight: 600;
     }
 
-    .preview-box {
-      margin-top: 10px;
-      display: none;
-      align-items: center;
-      gap: 12px;
-      background: #f4f8fb;
-      border: 1px solid #dbe6ef;
-      border-radius: 18px;
-      padding: 10px;
-    }
-
-    .preview-box.show {
-      display: flex;
-    }
-
-    .preview-box img {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      object-fit: cover;
-      background: #dfe8f0;
-      flex-shrink: 0;
-    }
-
-    .preview-text {
+    .contact-note {
+      margin: 0 0 10px 0;
       color: #35516d;
-      font-size: 0.88rem;
-      line-height: 1.4;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      font-weight: 700;
+      background: #eef7fc;
+      border: 1px solid #d7eaf6;
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+
+    .preview-frame {
+      margin-top: 10px;
+      width: 120px;
+      height: 120px;
+      border-radius: 22px;
+      background: #e3ebf2;
+      border: 2px dashed #bfd0de;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .preview-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .preview-placeholder {
+      color: #698095;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 10px;
+      line-height: 1.35;
       font-weight: 700;
     }
 
-    .btn-submit {
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fbfd;
+      border: 1px solid #d4e0ea;
+      border-radius: 14px;
+      padding: 12px;
+      color: #21364f;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      transform: scale(1.15);
+    }
+
+    .schedule-mode {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #eef7fc;
+      border: 1px solid #d7eaf6;
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #244b68;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .schedule-mode input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      transform: scale(1.15);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-submit,
+    .btn-preview {
       width: 100%;
       border: 0;
       border-radius: 18px;
       padding: 16px;
-      margin-top: 6px;
-      background: linear-gradient(135deg, #17d0cf, #10b6d2);
-      color: #fff;
       font-size: 1rem;
       font-weight: 800;
       letter-spacing: -0.02em;
@@ -209,25 +304,159 @@
       font-family: inherit;
     }
 
-    .error-box {
-      display: none;
-      margin-bottom: 14px;
-      background: #ffe7e7;
-      color: #a32020;
-      border: 1px solid #ffc8c8;
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-size: 0.92rem;
-      line-height: 1.45;
-      font-weight: 700;
+    .btn-submit {
+      background: linear-gradient(135deg, #17d0cf, #10b6d2);
+      color: #fff;
     }
 
-    .error-box.show {
+    .btn-preview {
+      background: #e8eef5;
+      color: #24497a;
+    }
+
+    .preview-card {
+      display: none;
+      margin-top: 18px;
+      background: #fff;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+    .preview-card.show {
       display: block;
     }
 
-    .footer-space {
-      height: 10px;
+    .preview-card h3 {
+      margin: 0 0 14px 0;
+      color: #173a68;
+      font-size: 1rem;
+    }
+
+    .card-top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .card-avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 22px;
+      object-fit: cover;
+      background: #d9e3ee;
+      flex-shrink: 0;
+    }
+
+    .card-info {
+      flex: 1;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #173a68;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .card-job {
+      font-size: .95rem;
+      font-weight: 800;
+      color: #6a7380;
+      margin-bottom: 8px;
+    }
+
+    .card-status {
+      font-size: .92rem;
+      font-weight: 800;
+      color: #17763f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-status::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #1cab4b;
+      display: inline-block;
+    }
+
+    .card-desc {
+      margin: 16px 0 14px;
+      color: #404f61;
+      font-size: .98rem;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .card-chip {
+      background: #eef4f8;
+      color: #32506f;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: .84rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .card-tag {
+      background: #eaf0f6;
+      color: #204979;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .card-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card-btn-wa,
+    .card-btn-call {
+      border: 0;
+      border-radius: 18px;
+      padding: 15px 12px;
+      text-align: center;
+      font-size: .98rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .card-btn-wa {
+      background: #19ad4a;
+      color: #fff;
+    }
+
+    .card-btn-call {
+      background: #e8eef5;
+      color: #24497a;
+    }
+
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -243,36 +472,98 @@
     <div class="content">
       <h1 class="title">Registrá tu comercio</h1>
       <p class="subtitle">
-        Completá tus datos para formar parte de Conecta2. La información y la imagen son obligatorias para brindar mayor confianza a los usuarios.
+        Completá la información de tu comercio, negocio o empresa para sumarte a Conecta2. La imagen y los datos principales son obligatorios para transmitir confianza y facilitar el contacto.
       </p>
 
       <div class="notice">
-        Importante: el sistema no permite avanzar si faltan datos clave. La imagen del comercio, local o logo también es obligatoria.
+        Importante: el sistema valida que la ficha esté bien cargada. Si todo está correcto, la solicitud queda lista para continuar con la activación del perfil comercial.
       </div>
 
       <div id="errorBox" class="error-box"></div>
+      <div id="successBox" class="success-box"></div>
 
       <div class="form-card">
         <form id="comercioForm">
           <div class="field-group">
-            <label for="foto">Foto o logo del comercio *</label>
+            <label for="foto">Foto o logo del comercio / negocio / empresa *</label>
             <input type="file" id="foto" accept="image/*" required>
-            <div class="help">Subí una imagen clara del local, frente o logo del comercio.</div>
+            <div class="help">Subí una imagen clara del local, frente, marca o logo.</div>
 
-            <div id="previewBox" class="preview-box">
-              <img id="previewImg" src="" alt="Vista previa">
-              <div class="preview-text">Imagen cargada correctamente.</div>
+            <div class="preview-frame">
+              <img id="previewImg" alt="Vista previa">
+              <div id="previewPlaceholder" class="preview-placeholder">
+                Vista previa<br>de la imagen
+              </div>
             </div>
           </div>
 
           <div class="field-group">
-            <label for="nombreComercio">Nombre del comercio *</label>
+            <label for="nombreComercio">Nombre del comercio / negocio / empresa *</label>
             <input type="text" id="nombreComercio" required>
           </div>
 
           <div class="field-group">
             <label for="rubro">Rubro *</label>
-            <input type="text" id="rubro" placeholder="Ej: Ferretería, panadería, indumentaria" required>
+            <select id="rubro" required>
+              <option value="">Seleccionar</option>
+              <option>Accesorios</option>
+              <option>Almacén</option>
+              <option>Artículos para el hogar</option>
+              <option>Autoservicio</option>
+              <option>Bazar</option>
+              <option>Bebidas</option>
+              <option>Bicicletería</option>
+              <option>Calzado</option>
+              <option>Carnicería</option>
+              <option>Casa de comida</option>
+              <option>Cerrajería</option>
+              <option>Construcción</option>
+              <option>Corralón</option>
+              <option>Cotillón</option>
+              <option>Decoración</option>
+              <option>Distribuidora</option>
+              <option>Electrodomésticos</option>
+              <option>Empresa de servicios</option>
+              <option>Farmacia</option>
+              <option>Ferretería</option>
+              <option>Fiambres y quesos</option>
+              <option>Floristería</option>
+              <option>Forrajería</option>
+              <option>Fotografía</option>
+              <option>Gastronomía</option>
+              <option>Gimnasio</option>
+              <option>Gráfica / imprenta</option>
+              <option>Heladería</option>
+              <option>Herramientas</option>
+              <option>Indumentaria</option>
+              <option>Industria</option>
+              <option>Informática</option>
+              <option>Inmobiliaria</option>
+              <option>Joyería</option>
+              <option>Kiosco</option>
+              <option>Librería</option>
+              <option>Logística / transporte</option>
+              <option>Maderera</option>
+              <option>Mascotas</option>
+              <option>Mueblería</option>
+              <option>Óptica</option>
+              <option>Panadería</option>
+              <option>Peluquería</option>
+              <option>Pinturería</option>
+              <option>Pizzería</option>
+              <option>Regalería</option>
+              <option>Repuestos</option>
+              <option>Restaurant</option>
+              <option>Rotisería</option>
+              <option>Salud</option>
+              <option>Seguros</option>
+              <option>Servicios empresariales</option>
+              <option>Supermercado</option>
+              <option>Tecnología</option>
+              <option>Veterinaria</option>
+              <option>Vidriería</option>
+              <option>Otro</option>
+            </select>
           </div>
 
           <div class="field-group">
@@ -282,146 +573,408 @@
 
           <div class="field-group">
             <label for="direccion">Dirección *</label>
-            <input type="text" id="direccion" required>
+            <input type="text" id="direccion" placeholder="Ej: Av. San Martín 450, Rojas" required>
+            <div class="help">Esta dirección después se puede usar para abrir Google Maps.</div>
           </div>
 
-          <div class="grid-2">
-            <div class="field-group">
-              <label for="telefono">Teléfono *</label>
-              <input type="tel" id="telefono" required>
+          <div class="field-group">
+            <div class="contact-note">
+              Debés completar al menos una vía de contacto: WhatsApp o teléfono alternativo.
             </div>
 
-            <div class="field-group">
-              <label for="whatsapp">WhatsApp *</label>
-              <input type="tel" id="whatsapp" required>
+            <div class="grid-2">
+              <div>
+                <label for="whatsapp">WhatsApp</label>
+                <input type="tel" id="whatsapp" placeholder="Opcional si cargás teléfono alternativo">
+              </div>
+
+              <div>
+                <label for="telefonoAlternativo">Teléfono alternativo</label>
+                <input type="tel" id="telefonoAlternativo" placeholder="Opcional si cargás WhatsApp">
+              </div>
             </div>
           </div>
 
           <div class="field-group">
-            <label for="horarios">Horarios de atención *</label>
-            <input type="text" id="horarios" placeholder="Ej: Lun a Vie de 8 a 18 hs" required>
-          </div>
+            <label>Horario de atención *</label>
 
-          <div class="grid-2">
-            <div class="field-group">
-              <label for="mediosPago">Medios de pago *</label>
-              <input type="text" id="mediosPago" placeholder="Ej: Efectivo, transferencia, tarjeta" required>
+            <div class="schedule-mode">
+              <input type="checkbox" id="horarioCorrido" checked>
+              <label for="horarioCorrido" style="margin:0;">Horario corrido</label>
             </div>
 
-            <div class="field-group">
-              <label for="factura">¿Hace factura? *</label>
-              <select id="factura" required>
-                <option value="">Seleccionar</option>
-                <option value="Sí">Sí</option>
-                <option value="No">No</option>
-              </select>
+            <div id="bloqueCorrido">
+              <div class="grid-2">
+                <div class="field-group">
+                  <label for="horarioDesde">Horario desde *</label>
+                  <select id="horarioDesde">
+                    <option value="">Seleccionar</option>
+                    <option>06:00</option><option>06:30</option>
+                    <option>07:00</option><option>07:30</option>
+                    <option>08:00</option><option>08:30</option>
+                    <option>09:00</option><option>09:30</option>
+                    <option>10:00</option><option>10:30</option>
+                    <option>11:00</option><option>11:30</option>
+                    <option>12:00</option><option>12:30</option>
+                    <option>13:00</option><option>13:30</option>
+                    <option>14:00</option><option>14:30</option>
+                    <option>15:00</option><option>15:30</option>
+                    <option>16:00</option><option>16:30</option>
+                    <option>17:00</option><option>17:30</option>
+                    <option>18:00</option><option>18:30</option>
+                    <option>19:00</option><option>19:30</option>
+                    <option>20:00</option><option>20:30</option>
+                    <option>21:00</option><option>21:30</option>
+                    <option>22:00</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="horarioHasta">Horario hasta *</label>
+                  <select id="horarioHasta">
+                    <option value="">Seleccionar</option>
+                    <option>06:00</option><option>06:30</option>
+                    <option>07:00</option><option>07:30</option>
+                    <option>08:00</option><option>08:30</option>
+                    <option>09:00</option><option>09:30</option>
+                    <option>10:00</option><option>10:30</option>
+                    <option>11:00</option><option>11:30</option>
+                    <option>12:00</option><option>12:30</option>
+                    <option>13:00</option><option>13:30</option>
+                    <option>14:00</option><option>14:30</option>
+                    <option>15:00</option><option>15:30</option>
+                    <option>16:00</option><option>16:30</option>
+                    <option>17:00</option><option>17:30</option>
+                    <option>18:00</option><option>18:30</option>
+                    <option>19:00</option><option>19:30</option>
+                    <option>20:00</option><option>20:30</option>
+                    <option>21:00</option><option>21:30</option>
+                    <option>22:00</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="bloqueCortado" class="hidden">
+              <div class="grid-2">
+                <div class="field-group">
+                  <label for="mananaDesde">Horario matutino desde *</label>
+                  <select id="mananaDesde">
+                    <option value="">Seleccionar</option>
+                    <option>06:00</option><option>06:30</option>
+                    <option>07:00</option><option>07:30</option>
+                    <option>08:00</option><option>08:30</option>
+                    <option>09:00</option><option>09:30</option>
+                    <option>10:00</option><option>10:30</option>
+                    <option>11:00</option><option>11:30</option>
+                    <option>12:00</option><option>12:30</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="mananaHasta">Horario matutino hasta *</label>
+                  <select id="mananaHasta">
+                    <option value="">Seleccionar</option>
+                    <option>06:00</option><option>06:30</option>
+                    <option>07:00</option><option>07:30</option>
+                    <option>08:00</option><option>08:30</option>
+                    <option>09:00</option><option>09:30</option>
+                    <option>10:00</option><option>10:30</option>
+                    <option>11:00</option><option>11:30</option>
+                    <option>12:00</option><option>12:30</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="field-group">
+                  <label for="tardeDesde">Horario vespertino desde *</label>
+                  <select id="tardeDesde">
+                    <option value="">Seleccionar</option>
+                    <option>13:00</option><option>13:30</option>
+                    <option>14:00</option><option>14:30</option>
+                    <option>15:00</option><option>15:30</option>
+                    <option>16:00</option><option>16:30</option>
+                    <option>17:00</option><option>17:30</option>
+                    <option>18:00</option><option>18:30</option>
+                    <option>19:00</option><option>19:30</option>
+                    <option>20:00</option><option>20:30</option>
+                    <option>21:00</option><option>21:30</option>
+                    <option>22:00</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="tardeHasta">Horario vespertino hasta *</label>
+                  <select id="tardeHasta">
+                    <option value="">Seleccionar</option>
+                    <option>13:00</option><option>13:30</option>
+                    <option>14:00</option><option>14:30</option>
+                    <option>15:00</option><option>15:30</option>
+                    <option>16:00</option><option>16:30</option>
+                    <option>17:00</option><option>17:30</option>
+                    <option>18:00</option><option>18:30</option>
+                    <option>19:00</option><option>19:30</option>
+                    <option>20:00</option><option>20:30</option>
+                    <option>21:00</option><option>21:30</option>
+                    <option>22:00</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
 
           <div class="field-group">
-            <label for="instagram">Instagram o Facebook</label>
-            <input type="text" id="instagram" placeholder="Opcional">
+            <label>¿Qué medios de pago aceptás para cobrar tus productos o servicios? *</label>
+            <div class="help">Marcá cómo pueden abonarte los clientes cuando compran o contratan.</div>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Efectivo"> Efectivo</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Transferencia"> Transferencia</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Débito"> Débito</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Crédito"> Crédito</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Mercado Pago"> Mercado Pago</label>
+            </div>
           </div>
 
-          <button type="submit" class="btn-submit">Enviar registro por WhatsApp</button>
+          <div class="field-group">
+            <label for="factura">¿Hace factura? *</label>
+            <select id="factura" required>
+              <option value="">Seleccionar</option>
+              <option value="si">Sí</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn-submit">Enviar solicitud</button>
+            <button type="button" id="btnPreview" class="btn-preview">Simular tarjeta</button>
+          </div>
         </form>
       </div>
 
-      <div class="footer-space"></div>
+      <div id="previewCard" class="preview-card">
+        <h3>Así se vería tu tarjeta</h3>
+
+        <div class="card-top">
+          <img id="cardAvatar" class="card-avatar" alt="Imagen del comercio">
+          <div class="card-info">
+            <div id="cardName" class="card-name">Nombre del comercio</div>
+            <div id="cardJob" class="card-job">Rubro</div>
+            <div class="card-status">Abierto ahora</div>
+          </div>
+        </div>
+
+        <div id="cardDesc" class="card-desc">Descripción del comercio</div>
+
+        <div id="cardMeta" class="card-meta"></div>
+        <div id="cardTags" class="card-tags"></div>
+
+        <div class="card-buttons">
+          <button type="button" id="cardBtnWhatsapp" class="card-btn-wa">WhatsApp</button>
+          <button type="button" id="cardBtnCall" class="card-btn-call">Llamar</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
     const form = document.getElementById('comercioForm');
     const foto = document.getElementById('foto');
-    const previewBox = document.getElementById('previewBox');
     const previewImg = document.getElementById('previewImg');
+    const previewPlaceholder = document.getElementById('previewPlaceholder');
     const errorBox = document.getElementById('errorBox');
+    const successBox = document.getElementById('successBox');
+    const btnPreview = document.getElementById('btnPreview');
+    const previewCard = document.getElementById('previewCard');
+    const cardBtnWhatsapp = document.getElementById('cardBtnWhatsapp');
+    const cardBtnCall = document.getElementById('cardBtnCall');
+    const horarioCorrido = document.getElementById('horarioCorrido');
+    const bloqueCorrido = document.getElementById('bloqueCorrido');
+    const bloqueCortado = document.getElementById('bloqueCortado');
+
+    function valor(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function limpiarMensajes() {
+      errorBox.classList.remove('show');
+      errorBox.innerHTML = '';
+      successBox.classList.remove('show');
+      successBox.innerHTML = '';
+    }
+
+    function mostrarError(html) {
+      errorBox.innerHTML = html;
+      errorBox.classList.add('show');
+      successBox.classList.remove('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function mostrarExito(html) {
+      successBox.innerHTML = html;
+      successBox.classList.add('show');
+      errorBox.classList.remove('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function obtenerMediosPagoSeleccionados() {
+      const checks = document.querySelectorAll('input[name="mediosPago"]:checked');
+      return Array.from(checks).map(c => c.value);
+    }
+
+    function actualizarModoHorario() {
+      if (horarioCorrido.checked) {
+        bloqueCorrido.classList.remove('hidden');
+        bloqueCortado.classList.add('hidden');
+      } else {
+        bloqueCorrido.classList.add('hidden');
+        bloqueCortado.classList.remove('hidden');
+      }
+    }
+
+    function obtenerHorarioFinal() {
+      if (horarioCorrido.checked) {
+        const desde = valor('horarioDesde');
+        const hasta = valor('horarioHasta');
+        if (!desde || !hasta) return '';
+        return desde + '-' + hasta;
+      } else {
+        const mananaDesde = valor('mananaDesde');
+        const mananaHasta = valor('mananaHasta');
+        const tardeDesde = valor('tardeDesde');
+        const tardeHasta = valor('tardeHasta');
+
+        if (!mananaDesde || !mananaHasta || !tardeDesde || !tardeHasta) return '';
+        return mananaDesde + '-' + mananaHasta + ' / ' + tardeDesde + '-' + tardeHasta;
+      }
+    }
+
+    function validarFormulario() {
+      limpiarMensajes();
+
+      const faltantes = [];
+
+      if (!foto.files || !foto.files.length) faltantes.push("Foto o logo del comercio / negocio / empresa");
+      if (!valor('nombreComercio')) faltantes.push("Nombre del comercio / negocio / empresa");
+      if (!valor('rubro')) faltantes.push("Rubro");
+      if (!valor('descripcion')) faltantes.push("Descripción");
+      if (!valor('direccion')) faltantes.push("Dirección");
+      if (!valor('factura')) faltantes.push("Factura");
+
+      const whatsapp = valor('whatsapp');
+      const telefonoAlternativo = valor('telefonoAlternativo');
+
+      if (!whatsapp && !telefonoAlternativo) {
+        faltantes.push("Al menos una vía de contacto: WhatsApp o teléfono alternativo");
+      }
+
+      const mediosPago = obtenerMediosPagoSeleccionados();
+      if (mediosPago.length === 0) {
+        faltantes.push("Al menos un medio de pago");
+      }
+
+      if (!obtenerHorarioFinal()) {
+        if (horarioCorrido.checked) {
+          faltantes.push("Horario corrido completo");
+        } else {
+          faltantes.push("Horario matutino y vespertino completos");
+        }
+      }
+
+      if (faltantes.length > 0) {
+        mostrarError('Faltan completar estos campos obligatorios:<br><br>• ' + faltantes.join('<br>• '));
+        return false;
+      }
+
+      return true;
+    }
 
     foto.addEventListener('change', function () {
       const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          previewImg.src = e.target.result;
-          previewBox.classList.add('show');
-        };
-        reader.readAsDataURL(file);
-      } else {
-        previewImg.src = '';
-        previewBox.classList.remove('show');
-      }
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImg.src = e.target.result;
+        previewImg.style.display = 'block';
+        previewPlaceholder.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    horarioCorrido.addEventListener('change', actualizarModoHorario);
+    actualizarModoHorario();
+
+    btnPreview.addEventListener('click', function () {
+      if (!validarFormulario()) return;
+
+      const nombreComercio = valor('nombreComercio');
+      const rubro = valor('rubro');
+      const descripcion = valor('descripcion');
+      const direccion = valor('direccion');
+      const factura = valor('factura');
+      const whatsapp = valor('whatsapp');
+      const telefonoAlternativo = valor('telefonoAlternativo');
+      const horario = obtenerHorarioFinal();
+      const mediosPago = obtenerMediosPagoSeleccionados();
+
+      document.getElementById('cardName').textContent = nombreComercio;
+      document.getElementById('cardJob').textContent = rubro + ' · ' + horario;
+      document.getElementById('cardDesc').textContent = descripcion;
+      document.getElementById('cardAvatar').src = previewImg.src;
+
+      const metaContainer = document.getElementById('cardMeta');
+      metaContainer.innerHTML = '';
+      const chipDireccion = document.createElement('div');
+      chipDireccion.className = 'card-chip';
+      chipDireccion.textContent = direccion;
+      metaContainer.appendChild(chipDireccion);
+
+      const tagsContainer = document.getElementById('cardTags');
+      tagsContainer.innerHTML = '';
+
+      mediosPago.forEach(function(item) {
+        const tag = document.createElement('div');
+        tag.className = 'card-tag';
+        tag.textContent = item;
+        tagsContainer.appendChild(tag);
+      });
+
+      const facturaTag = document.createElement('div');
+      facturaTag.className = 'card-tag';
+      facturaTag.textContent = factura === 'si' ? 'Hace factura' : 'Sin factura';
+      tagsContainer.appendChild(facturaTag);
+
+      cardBtnWhatsapp.onclick = function () {
+        if (whatsapp) {
+          window.open('https://wa.me/54' + whatsapp.replace(/\D/g, ''), '_blank');
+        } else {
+          alert('No dispone de WhatsApp');
+        }
+      };
+
+      cardBtnCall.onclick = function () {
+        if (telefonoAlternativo) {
+          window.location.href = 'tel:' + telefonoAlternativo.replace(/\D/g, '');
+        } else {
+          alert('No dispone de teléfono alternativo');
+        }
+      };
+
+      previewCard.classList.add('show');
+      previewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      errorBox.classList.remove('show');
-      errorBox.innerHTML = '';
 
-      const requiredFields = [
-        { id: 'foto', label: 'Foto o logo del comercio' },
-        { id: 'nombreComercio', label: 'Nombre del comercio' },
-        { id: 'rubro', label: 'Rubro' },
-        { id: 'descripcion', label: 'Descripción' },
-        { id: 'direccion', label: 'Dirección' },
-        { id: 'telefono', label: 'Teléfono' },
-        { id: 'whatsapp', label: 'WhatsApp' },
-        { id: 'horarios', label: 'Horarios de atención' },
-        { id: 'mediosPago', label: 'Medios de pago' },
-        { id: 'factura', label: 'Factura' }
-      ];
+      if (!validarFormulario()) return;
 
-      const missing = [];
-
-      requiredFields.forEach(field => {
-        const element = document.getElementById(field.id);
-
-        if (field.id === 'foto') {
-          if (!element.files || !element.files.length) {
-            missing.push(field.label);
-          }
-        } else if (!element.value.trim()) {
-          missing.push(field.label);
-        }
-      });
-
-      if (missing.length > 0) {
-        errorBox.innerHTML = 'Faltan completar estos campos obligatorios:<br><br>• ' + missing.join('<br>• ');
-        errorBox.classList.add('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-
-      const nombreComercio = document.getElementById('nombreComercio').value.trim();
-      const rubro = document.getElementById('rubro').value.trim();
-      const descripcion = document.getElementById('descripcion').value.trim();
-      const direccion = document.getElementById('direccion').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const whatsapp = document.getElementById('whatsapp').value.trim();
-      const horarios = document.getElementById('horarios').value.trim();
-      const mediosPago = document.getElementById('mediosPago').value.trim();
-      const factura = document.getElementById('factura').value.trim();
-      const instagram = document.getElementById('instagram').value.trim();
-
-      let mensaje = Hola, quiero registrar mi comercio en Conecta2.%0A%0A;
-      mensaje += *Nombre del comercio:* ${nombreComercio}%0A;
-      mensaje += *Rubro:* ${rubro}%0A;
-      mensaje += *Descripción:* ${descripcion}%0A;
-      mensaje += *Dirección:* ${direccion}%0A;
-      mensaje += *Teléfono:* ${telefono}%0A;
-      mensaje += *WhatsApp:* ${whatsapp}%0A;
-      mensaje += *Horarios:* ${horarios}%0A;
-      mensaje += *Medios de pago:* ${mediosPago}%0A;
-      mensaje += *Hace factura:* ${factura}%0A;
-
-      if (instagram) {
-        mensaje += *Instagram / Facebook:* ${instagram}%0A;
-      }
-
-      mensaje += %0A*Foto o logo:* cargado en el formulario.;
-
-      const url = https://wa.me/542474445664?text=${mensaje};
-      window.open(url, '_blank');
+      mostrarExito(
+        'Tu solicitud fue enviada correctamente.<br><br>' +
+        'Ahora quedó pendiente de aprobación.<br>' +
+        'En el siguiente paso podrás continuar con la activación de tu comercio en Conecta2.'
+      );
     });
   </script>
 </body>
