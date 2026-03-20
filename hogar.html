@@ -1,114 +1,473 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Servicios para el Hogar - Test</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios para el Hogar - Conecta2</title>
+  <meta name="theme-color" content="#2f69c6" />
+
   <style>
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      font-family: 'Manrope', Arial, sans-serif;
       background: #dfe8f2;
       color: #12243a;
     }
 
-    .wrap {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 20px;
+    body {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #2f69c6 0%, #9ab2d9 34%, #dfe8f2 100%);
     }
 
-    .box {
-      background: white;
-      border-radius: 16px;
-      padding: 16px;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    .header {
+      padding: 18px 16px 22px;
+      color: #fff;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .back-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      backdrop-filter: blur(3px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .content {
+      background: #edf2f7;
+      border-radius: 34px 34px 0 0;
+      padding: 18px 16px 28px;
+      min-height: calc(100vh - 110px);
+      box-shadow: 0 -8px 24px rgba(0,0,0,0.06);
+    }
+
+    .search-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px 16px;
       margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: #364b63;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 700;
+    }
+
+    .search-box input::placeholder {
+      color: #7b8998;
+      font-weight: 600;
+    }
+
+    .status-box {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+      color: #4c6077;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      font-weight: 700;
     }
 
     .card {
-      background: white;
-      border-radius: 16px;
+      background: #fff;
+      border-radius: 24px;
       padding: 16px;
       margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
     }
 
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      background: green;
-      color: white;
-      padding: 10px 14px;
-      border-radius: 10px;
-      text-decoration: none;
+    .top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
     }
 
-    .back {
+    .avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 22px;
+      object-fit: cover;
+      background: #d9e3ee;
+      box-shadow: inset 0 0 0 2px #d3dde8;
+      flex-shrink: 0;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #173a68;
+      line-height: 1.2;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .job {
+      font-size: .95rem;
+      font-weight: 800;
+      color: #6a7380;
+      margin-bottom: 8px;
+    }
+
+    .status {
+      font-size: .92rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status.abierto {
+      color: #17763f;
+    }
+
+    .status.cerrado {
+      color: #b23a2a;
+    }
+
+    .status::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
       display: inline-block;
+    }
+
+    .status.abierto::before {
+      background: #1cab4b;
+    }
+
+    .status.cerrado::before {
+      background: #e0553a;
+    }
+
+    .desc {
+      margin: 16px 0 14px;
+      color: #404f61;
+      font-size: .98rem;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .meta-chip {
+      background: #eef4f8;
+      color: #32506f;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: .84rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 16px;
-      text-decoration: none;
-      font-size: 24px;
-      color: #12243a;
+    }
+
+    .tag {
+      background: #eaf0f6;
+      color: #204979;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-wa, .btn-call {
+      border-radius: 18px;
+      padding: 15px 12px;
+      text-align: center;
+      font-size: .98rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-wa {
+      background: #19ad4a;
+      color: #fff;
+    }
+
+    .btn-call {
+      background: #e8eef5;
+      color: #24497a;
+    }
+
+    .empty {
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px;
+      text-align: center;
+      color: #607185;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+    }
+
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <a href="index.html" class="back">←</a>
+  <div class="app">
+    <div class="header">
+      <div class="header-row">
+        <a href="index.html" class="back-btn">←</a>
+        <div class="header-title">Servicios para el Hogar</div>
+      </div>
+    </div>
 
-    <div class="box" id="estado">Probando script...</div>
+    <div class="content">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar plomero, electricista, jardinero...">
+      </div>
 
-    <div id="resultado"></div>
+      <div class="status-box" id="statusBox">Cargando servicios...</div>
+
+      <div id="cardsContainer"></div>
+    </div>
   </div>
 
   <script>
-    var estado = document.getElementById("estado");
-    var resultado = document.getElementById("resultado");
-    var url = "https://opensheet.elk.sh/1NOoO8TKcQkKprf8e34h3k3iekaNTxtfMeZ1sO6TO8fw/Hoja%201";
+    const sheetURL = "https://opensheet.elk.sh/1NOoO8TKcQkKprf8e34h3k3iekaNTxtfMeZ1sO6TO8fw/Hoja%201";
+    const cardsContainer = document.getElementById("cardsContainer");
+    const statusBox = document.getElementById("statusBox");
+    const searchInput = document.getElementById("searchInput");
+    let tarjetas = [];
 
-    estado.innerHTML = "El script arrancó correctamente.";
+    function capitalizarTexto(texto) {
+      if (!texto) return "";
+      return texto
+        .toLowerCase()
+        .split(" ")
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+        .join(" ");
+    }
 
-    fetch(url)
-      .then(function(response) {
-        estado.innerHTML = "Conexión con la planilla OK. Leyendo datos...";
-        return response.json();
-      })
-      .then(function(data) {
-        estado.innerHTML = "Datos recibidos: " + data.length;
+    function obtenerNombreCompleto(item) {
+      const nombre = item.nombre ? item.nombre.trim() : "";
+      const apellido = item.apellido ? item.apellido.trim() : "";
+      return ${capitalizarTexto(nombre)} ${capitalizarTexto(apellido)}.trim();
+    }
 
-        var filtrados = data.filter(function(item) {
-          return (item.estado || "").toLowerCase().trim() === "activo" &&
-                 (item.categoria || "").toLowerCase().trim() === "servicios para el hogar";
+    function obtenerEstadoHorario(rango) {
+      if (!rango || !rango.includes("-")) {
+        return { clase: "abierto", texto: "Disponible ahora" };
+      }
+
+      const partes = rango.split("-");
+      if (partes.length !== 2) {
+        return { clase: "abierto", texto: "Disponible ahora" };
+      }
+
+      const ahora = new Date();
+      const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+
+      const [inicioH, inicioM] = partes[0].split(":").map(Number);
+      const [finH, finM] = partes[1].split(":").map(Number);
+
+      if (
+        Number.isNaN(inicioH) || Number.isNaN(inicioM) ||
+        Number.isNaN(finH) || Number.isNaN(finM)
+      ) {
+        return { clase: "abierto", texto: "Disponible ahora" };
+      }
+
+      const inicio = inicioH * 60 + inicioM;
+      const fin = finH * 60 + finM;
+
+      if (horaActual >= inicio && horaActual <= fin) {
+        return { clase: "abierto", texto: "Disponible ahora" };
+      }
+
+      return { clase: "cerrado", texto: "Cerrado ahora" };
+    }
+
+    function crearTags(mediosPago, factura) {
+      const tags = [];
+
+      if (mediosPago) {
+        mediosPago.split(",").forEach(item => {
+          const limpio = item.trim();
+          if (limpio) tags.push(capitalizarTexto(limpio));
         });
+      }
 
-        if (filtrados.length === 0) {
-          resultado.innerHTML = '<div class="card">No hay registros activos en esta categoría.</div>';
-          return;
-        }
+      if (factura && factura.trim().toLowerCase() === "si") {
+        tags.push("Hace factura");
+      } else if (factura && factura.trim().toLowerCase() === "no") {
+        tags.push("Sin factura");
+      }
 
-        var html = "";
-        filtrados.forEach(function(item) {
-          var nombre = ((item.nombre || "") + " " + (item.apellido || "")).trim();
-          var descripcion = item.descripcion || "Sin descripción";
-          var whatsapp = (item.whatsapp || "").replace(/\D/g, "");
+      return tags;
+    }
 
-          html += '<div class="card">';
-          html += '<h3>' + nombre + '</h3>';
-          html += '<p><strong>Categoría:</strong> ' + (item.categoria || "") + '</p>';
-          html += '<p><strong>Descripción:</strong> ' + descripcion + '</p>';
-          html += '<p><strong>Dirección:</strong> ' + (item.direccion || "") + '</p>';
-          html += '<p><strong>Horario:</strong> ' + (item.horarios || "") + '</p>';
-          html += '<a class="btn" href="https://wa.me/54' + whatsapp + '" target="_blank">WhatsApp</a>';
-          html += '</div>';
-        });
+    function crearLinkMaps(direccion) {
+      if (!direccion) return "#";
+      return https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(direccion)};
+    }
 
-        resultado.innerHTML = html;
-      })
-      .catch(function(error) {
-        estado.innerHTML = "Error al leer la planilla.";
-        resultado.innerHTML = '<div class="card">' + error + '</div>';
+    function crearTarjeta(item) {
+      const nombreCompleto = obtenerNombreCompleto(item) || "Prestador sin nombre";
+      const oficio = "Servicio para el hogar";
+      const estadoHorario = obtenerEstadoHorario(item.horarios || "");
+      const tags = crearTags(item.medios_pago || "", item.factura || "");
+      const telefono = (item.telefono || "").replace(/\D/g, "");
+      const whatsapp = (item.whatsapp || "").replace(/\D/g, "");
+      const descripcion = item.descripcion ? capitalizarTexto(item.descripcion) : "Sin descripción disponible.";
+      const direccion = item.direccion ? capitalizarTexto(item.direccion) : "Dirección no informada";
+      const foto = item.foto_url && item.foto_url.trim() !== "" ? item.foto_url : "https://via.placeholder.com/150";
+      const linkMaps = crearLinkMaps(direccion);
+
+      return `
+        <div class="card provider-card" data-search="${(nombreCompleto + " " + descripcion + " " + direccion).toLowerCase()}">
+          <div class="top">
+            <img src="${foto}" alt="${nombreCompleto}" class="avatar">
+            <div class="info">
+              <div class="name">${nombreCompleto}</div>
+              <div class="job">${oficio}</div>
+              <div class="status ${estadoHorario.clase}">${estadoHorario.texto}</div>
+            </div>
+          </div>
+
+          <div class="desc">${descripcion}</div>
+
+          <div class="meta-row">
+            <a class="meta-chip" href="${linkMaps}" target="_blank">Ubicación</a>
+            <div class="meta-chip">${direccion}</div>
+            <div class="meta-chip">${item.horarios || "Horario no informado"}</div>
+          </div>
+
+          <div class="tags">
+            ${tags.map(tag => <div class="tag">${tag}</div>).join("")}
+          </div>
+
+          <div class="actions">
+            <a class="btn-wa" href="https://wa.me/54${whatsapp}?text=Hola%20${encodeURIComponent(nombreCompleto)},%20te%20consulto%20por%20tu%20servicio" target="_blank">WhatsApp</a>
+            <a class="btn-call" href="tel:${telefono}">Llamar</a>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderizarTarjetas(lista) {
+      if (!lista.length) {
+        cardsContainer.innerHTML = <div class="empty">No hay servicios disponibles en esta categoría.</div>;
+        return;
+      }
+
+      cardsContainer.innerHTML = lista.map(crearTarjeta).join("");
+    }
+
+    async function cargarDatos() {
+      statusBox.textContent = "Conectando con la base de datos...";
+
+      try {
+        const response = await fetch(sheetURL, { cache: "no-store" });
+        const data = await response.json();
+
+        tarjetas = data.filter(item =>
+          (item.estado || "").trim().toLowerCase() === "activo" &&
+          (item.categoria || "").trim().toLowerCase() === "servicios para el hogar"
+        );
+
+        statusBox.textContent = Se encontraron ${tarjetas.length} servicio(s) activo(s).;
+        renderizarTarjetas(tarjetas);
+
+      } catch (error) {
+        statusBox.textContent = "No se pudieron cargar los datos.";
+        cardsContainer.innerHTML = <div class="empty">Hubo un problema al leer la base de datos.</div>;
+      }
+    }
+
+    searchInput.addEventListener("input", function () {
+      const valor = this.value.trim().toLowerCase();
+
+      const filtradas = tarjetas.filter(item => {
+        const nombre = obtenerNombreCompleto(item).toLowerCase();
+        const categoria = (item.categoria || "").toLowerCase();
+        const descripcion = (item.descripcion || "").toLowerCase();
+        const direccion = (item.direccion || "").toLowerCase();
+
+        return (
+          nombre.includes(valor) ||
+          categoria.includes(valor) ||
+          descripcion.includes(valor) ||
+          direccion.includes(valor)
+        );
       });
+
+      renderizarTarjetas(filtradas);
+    });
+
+    cargarDatos();
   </script>
 </body>
 </html>
