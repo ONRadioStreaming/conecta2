@@ -708,7 +708,7 @@
               <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Efectivo"> Efectivo</label>
               <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Transferencia"> Transferencia</label>
               <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Débito"> Débito</label>
-              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Tarjeta de crédito"> Tarjetas de crédito</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Tarjeta de crédito"> Tarjeta de crédito</label>
             </div>
           </div>
 
@@ -772,130 +772,25 @@
     const otroRubroGroup = document.getElementById('otroRubroGroup');
     const otroRubro = document.getElementById('otroRubro');
 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaEZ47CNDLhtlJCA70lOMBesQOWqFwGbfO14N3Gmi9zRZynR608cub3YMgglQ2Wo5P/exec";
+
     const rubrosPorCategoria = {
-      "Servicios para el hogar": [
-        "Ferretería",
-        "Mueblería",
-        "Decoración",
-        "Pinturería",
-        "Materiales para el hogar",
-        "Tapicería",
-        "Otro"
-      ],
-      "Construcción": [
-        "Corralón",
-        "Sanitarios",
-        "Aberturas",
-        "Construcción en seco / Durlock",
-        "Materiales de obra",
-        "Otro"
-      ],
-      "Gastronomía": [
-        "Restaurant",
-        "Rotisería",
-        "Panadería",
-        "Pastelería",
-        "Heladería",
-        "Casa de comidas",
-        "Catering",
-        "Otro"
-      ],
-      "Salud": [
-        "Farmacia",
-        "Óptica",
-        "Ortopedia",
-        "Insumos médicos",
-        "Veterinaria",
-        "Otro"
-      ],
-      "Estética y bienestar": [
-        "Peluquería",
-        "Centro de estética",
-        "Manicuría",
-        "Perfumería",
-        "Gimnasio",
-        "Masajes y bienestar",
-        "Otro"
-      ],
-      "Educación": [
-        "Librería",
-        "Instituto",
-        "Academia",
-        "Capacitación",
-        "Otro"
-      ],
-      "Tecnología": [
-        "Informática",
-        "Reparación técnica",
-        "Accesorios tecnológicos",
-        "Diseño e impresión",
-        "Sublimación",
-        "Otro"
-      ],
-      "Profesionales": [
-        "Estudio jurídico",
-        "Estudio contable",
-        "Arquitectura",
-        "Consultoría",
-        "Otro"
-      ],
-      "Oficios": [
-        "Taller",
-        "Herrería",
-        "Carpintería",
-        "Cerrajería",
-        "Otro"
-      ],
-      "Automotor": [
-        "Taller mecánico",
-        "Gomería",
-        "Repuestos",
-        "Accesorios",
-        "Lavadero",
-        "Polarizado",
-        "Otro"
-      ],
-      "Comercios": [
-        "Kiosco",
-        "Almacén",
-        "Supermercado",
-        "Autoservicio",
-        "Bazar",
-        "Indumentaria",
-        "Calzado",
-        "Regalería",
-        "Otro"
-      ],
-      "Mascotas": [
-        "Pet shop",
-        "Veterinaria",
-        "Peluquería canina",
-        "Otro"
-      ],
-      "Transporte y logística": [
-        "Fletes",
-        "Mudanzas",
-        "Cadetería",
-        "Logística",
-        "Otro"
-      ],
-      "Deportes y gimnasios": [
-        "Gimnasio",
-        "Venta de artículos deportivos",
-        "Escuela deportiva",
-        "Otro"
-      ],
-      "Empresas y servicios": [
-        "Distribuidora",
-        "Servicios empresariales",
-        "Seguros",
-        "Inmobiliaria",
-        "Logística empresarial",
-        "Otro"
-      ],
-      "Otros rubros": [
-        "Otro"
-      ]
+      "Servicios para el hogar": ["Ferretería","Mueblería","Decoración","Pinturería","Materiales para el hogar","Tapicería","Otro"],
+      "Construcción": ["Corralón","Sanitarios","Aberturas","Construcción en seco / Durlock","Materiales de obra","Otro"],
+      "Gastronomía": ["Restaurant","Rotisería","Panadería","Pastelería","Heladería","Casa de comidas","Catering","Otro"],
+      "Salud": ["Farmacia","Óptica","Ortopedia","Insumos médicos","Veterinaria","Otro"],
+      "Estética y bienestar": ["Peluquería","Centro de estética","Manicuría","Perfumería","Gimnasio","Masajes y bienestar","Otro"],
+      "Educación": ["Librería","Instituto","Academia","Capacitación","Otro"],
+      "Tecnología": ["Informática","Reparación técnica","Accesorios tecnológicos","Diseño e impresión","Sublimación","Otro"],
+      "Profesionales": ["Estudio jurídico","Estudio contable","Arquitectura","Consultoría","Otro"],
+      "Oficios": ["Taller","Herrería","Carpintería","Cerrajería","Otro"],
+      "Automotor": ["Taller mecánico","Gomería","Repuestos","Accesorios","Lavadero","Polarizado","Otro"],
+      "Comercios": ["Kiosco","Almacén","Supermercado","Autoservicio","Bazar","Indumentaria","Calzado","Regalería","Otro"],
+      "Mascotas": ["Pet shop","Veterinaria","Peluquería canina","Otro"],
+      "Transporte y logística": ["Fletes","Mudanzas","Cadetería","Logística","Otro"],
+      "Deportes y gimnasios": ["Gimnasio","Venta de artículos deportivos","Escuela deportiva","Otro"],
+      "Empresas y servicios": ["Distribuidora","Servicios empresariales","Seguros","Inmobiliaria","Logística empresarial","Otro"],
+      "Otros rubros": ["Otro"]
     };
 
     function valor(id) {
@@ -949,7 +844,6 @@
         const mananaHasta = valor('mananaHasta');
         const tardeDesde = valor('tardeDesde');
         const tardeHasta = valor('tardeHasta');
-
         if (!mananaDesde || !mananaHasta || !tardeDesde || !tardeHasta) return '';
         return mananaDesde + '-' + mananaHasta + ' / ' + tardeDesde + '-' + tardeHasta;
       }
@@ -991,15 +885,12 @@
     }
 
     function obtenerRubroFinal() {
-      if (rubroComercial.value === 'Otro') {
-        return valor('otroRubro');
-      }
+      if (rubroComercial.value === 'Otro') return valor('otroRubro');
       return valor('rubroComercial');
     }
 
     function validarFormulario() {
       limpiarMensajes();
-
       const faltantes = [];
 
       if (!foto.files || !foto.files.length) faltantes.push("Foto o logo del comercio");
@@ -1018,17 +909,12 @@
         faltantes.push("Al menos una vía de contacto: WhatsApp o teléfono alternativo");
       }
 
-      const mediosPago = obtenerMediosPagoSeleccionados();
-      if (mediosPago.length === 0) {
+      if (obtenerMediosPagoSeleccionados().length === 0) {
         faltantes.push("Al menos un medio de pago");
       }
 
       if (!obtenerHorarioFinal()) {
-        if (horarioCorrido.checked) {
-          faltantes.push("Horario corrido completo");
-        } else {
-          faltantes.push("Horario matutino y vespertino completos");
-        }
+        faltantes.push(horarioCorrido.checked ? "Horario corrido completo" : "Horario matutino y vespertino completos");
       }
 
       if (faltantes.length > 0) {
@@ -1039,10 +925,18 @@
       return true;
     }
 
+    function convertirImagenABase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
+
     foto.addEventListener('change', function () {
       const file = this.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = function(e) {
         previewImg.src = e.target.result;
@@ -1054,8 +948,8 @@
 
     categoriaPrincipal.addEventListener('change', actualizarRubros);
     rubroComercial.addEventListener('change', actualizarOtroRubro);
-
     horarioCorrido.addEventListener('change', actualizarModoHorario);
+
     actualizarModoHorario();
     actualizarRubros();
 
@@ -1126,16 +1020,68 @@
       previewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-
       if (!validarFormulario()) return;
 
-      mostrarExito(
-        'Tu solicitud fue enviada correctamente.<br><br>' +
-        'Ahora quedó pendiente de aprobación.<br>' +
-        'En el siguiente paso podrás continuar con la activación de tu comercio en Conecta2.'
-      );
+      const submitBtn = form.querySelector('.btn-submit');
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+
+        const file = foto.files[0];
+        const fotoBase64 = file ? await convertirImagenABase64(file) : '';
+
+        const payload = {
+          tipo: "comercio",
+          nombreComercio: valor('nombreComercio'),
+          categoriaPrincipal: valor('categoriaPrincipal'),
+          rubroComercial: valor('rubroComercial'),
+          rubroFinal: obtenerRubroFinal(),
+          descripcion: valor('descripcion'),
+          direccion: valor('direccion'),
+          whatsapp: valor('whatsapp'),
+          telefonoAlternativo: valor('telefonoAlternativo'),
+          horario: obtenerHorarioFinal(),
+          mediosPago: obtenerMediosPagoSeleccionados().join(', '),
+          factura: valor('factura'),
+          fotoBase64: fotoBase64
+        };
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          mostrarExito(
+            'Tu solicitud fue enviada correctamente.<br><br>' +
+            'Ya quedó guardada en el sistema con estado pendiente de pago.<br>' +
+            'El siguiente paso será activar tu comercio en Conecta2.'
+          );
+
+          form.reset();
+          previewImg.src = '';
+          previewImg.style.display = 'none';
+          previewPlaceholder.style.display = 'block';
+          previewCard.classList.remove('show');
+          horarioCorrido.checked = true;
+          actualizarModoHorario();
+          actualizarRubros();
+        } else {
+          mostrarError('No se pudo guardar la solicitud.<br><br>Detalle: ' + (result.error || 'Error desconocido'));
+        }
+
+      } catch (error) {
+        mostrarError('Ocurrió un error al enviar la solicitud.<br><br>Detalle: ' + error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar solicitud';
+      }
     });
   </script>
 </body>
