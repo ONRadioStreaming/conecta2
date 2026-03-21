@@ -208,6 +208,29 @@
       padding: 10px 12px;
     }
 
+    .photo-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .photo-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef4f8;
+      color: #24497a;
+      border: 1px solid #d4e0ea;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+    }
+
     .preview-frame {
       margin-top: 10px;
       width: 120px;
@@ -490,9 +513,17 @@
       <div class="form-card">
         <form id="comercioForm">
           <div class="field-group">
-            <label for="foto">Foto o logo del comercio / negocio / empresa *</label>
-           <input type="file" id="foto" accept="image/*" required>
-            <div class="help">Subí una imagen clara del local, frente, marca o logo.</div>
+            <label>Foto o logo del comercio / negocio / empresa *</label>
+
+            <div class="photo-actions">
+              <label class="photo-btn" for="fotoCamara">Tomar una foto</label>
+              <label class="photo-btn" for="fotoGaleria">Elegir de galería</label>
+            </div>
+
+            <input type="file" id="fotoCamara" accept="image/*" capture="environment" style="display:none;">
+            <input type="file" id="fotoGaleria" accept="image/*" style="display:none;">
+
+            <div class="help">Podés sacar una foto del frente del negocio o elegir una imagen que ya tengas guardada, incluido un logo.</div>
 
             <div class="preview-frame">
               <img id="previewImg" alt="Vista previa">
@@ -755,7 +786,8 @@
 
   <script>
     const form = document.getElementById('comercioForm');
-    const foto = document.getElementById('foto');
+    const fotoCamara = document.getElementById('fotoCamara');
+    const fotoGaleria = document.getElementById('fotoGaleria');
     const previewImg = document.getElementById('previewImg');
     const previewPlaceholder = document.getElementById('previewPlaceholder');
     const errorBox = document.getElementById('errorBox');
@@ -771,6 +803,8 @@
     const rubroComercial = document.getElementById('rubroComercial');
     const otroRubroGroup = document.getElementById('otroRubroGroup');
     const otroRubro = document.getElementById('otroRubro');
+
+    let archivoFoto = null;
 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaEZ47CNDLhtlJCA70lOMBesQOWqFwGbfO14N3Gmi9zRZynR608cub3YMgglQ2Wo5P/exec";
 
@@ -893,7 +927,7 @@
       limpiarMensajes();
       const faltantes = [];
 
-      if (!foto.files || !foto.files.length) faltantes.push("Foto o logo del comercio");
+      if (!archivoFoto) faltantes.push("Foto o logo del comercio");
       if (!valor('nombreComercio')) faltantes.push("Nombre del comercio / negocio / empresa");
       if (!valor('categoriaPrincipal')) faltantes.push("Categoría principal");
       if (!valor('rubroComercial')) faltantes.push("Rubro");
@@ -934,9 +968,10 @@
       });
     }
 
-    foto.addEventListener('change', function () {
-      const file = this.files[0];
+    function procesarFoto(file) {
       if (!file) return;
+      archivoFoto = file;
+
       const reader = new FileReader();
       reader.onload = function(e) {
         previewImg.src = e.target.result;
@@ -944,6 +979,14 @@
         previewPlaceholder.style.display = 'none';
       };
       reader.readAsDataURL(file);
+    }
+
+    fotoCamara.addEventListener('change', function () {
+      procesarFoto(this.files[0]);
+    });
+
+    fotoGaleria.addEventListener('change', function () {
+      procesarFoto(this.files[0]);
     });
 
     categoriaPrincipal.addEventListener('change', actualizarRubros);
@@ -1030,7 +1073,7 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Enviando...';
 
-        const file = foto.files[0];
+        const file = archivoFoto;
         const fotoBase64 = file ? await convertirImagenABase64(file) : '';
 
         const payload = {
@@ -1065,6 +1108,7 @@
           );
 
           form.reset();
+          archivoFoto = null;
           previewImg.src = '';
           previewImg.style.display = 'none';
           previewPlaceholder.style.display = 'block';
