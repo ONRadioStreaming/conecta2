@@ -1330,7 +1330,7 @@
       if (!valor('factura')) faltantes.push("¿Trabajan con factura?");
       if (obtenerMediosPagoSeleccionados().length === 0) faltantes.push("Al menos un medio de pago");
 
-      const errorHorarios = validarHorarios();
+      const errorHorarios = validarHorariosPorDia();
       if (errorHorarios) faltantes.push(errorHorarios);
 
       if (toggleAlternativos.checked) {
