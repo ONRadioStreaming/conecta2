@@ -643,7 +643,7 @@
           <div class="section-divider">Contacto</div>
 
           <div class="contact-note">
-            Debés completar el WhatsApp principal y el teléfono para llamadas.
+            Debés completar al menos una vía principal de contacto. Podés cargar WhatsApp, teléfono para llamadas o ambos.
           </div>
 
           <div class="grid-2">
@@ -1257,8 +1257,12 @@
       if (valor('rubroEspecialidad') === 'Otro' && !valor('otroRubro')) faltantes.push("Especificá cuál");
       if (!valor('descripcion')) faltantes.push("Descripción");
       if (!valor('zona')) faltantes.push("Zona de trabajo");
-      if (!valor('whatsapp')) faltantes.push("WhatsApp");
-      if (!valor('telefonoAlternativo')) faltantes.push("Teléfono");
+      const whatsappPrincipal = valor('whatsapp');
+      const telefonoPrincipal = valor('telefonoAlternativo');
+
+      if (!whatsappPrincipal && !telefonoPrincipal) {
+      faltantes.push("Al menos una vía principal de contacto: WhatsApp o teléfono");
+      }
       if (!valor('factura')) faltantes.push("¿Trabajan con factura?");
       if (obtenerMediosPagoSeleccionados().length === 0) faltantes.push("Al menos un medio de pago");
 
