@@ -648,12 +648,12 @@
 
           <div class="grid-2">
             <div class="field-group">
-              <label for="whatsapp">WhatsApp *</label>
+              <label for="whatsapp">WhatsApp</label>
               <input type="tel" id="whatsapp" placeholder="WhatsApp principal">
             </div>
 
             <div class="field-group">
-              <label for="telefonoAlternativo">Teléfono *</label>
+              <label for="telefonoAlternativo">Teléfono</label>
               <input type="tel" id="telefonoAlternativo" placeholder="Teléfono para llamadas">
             </div>
           </div>
@@ -1023,21 +1023,21 @@
     function crearOpcionesHorarios(selectId) {
       const select = document.getElementById(selectId);
       if (!select) return;
+
       select.innerHTML = '<option value="">Seleccionar</option>';
 
-      const horas = [
-        "06:00","06:30","07:00","07:30","08:00","08:30","09:00","09:30",
-        "10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30",
-        "14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30",
-        "18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00"
-      ];
+      for (let h = 0; h < 24; h++) {
+        for (let m = 0; m < 60; m += 30) {
+          const hora = String(h).padStart(2, '0');
+          const minuto = String(m).padStart(2, '0');
+          const valorHora = ${hora}:${minuto};
 
-      horas.forEach(hora => {
-        const option = document.createElement('option');
-        option.value = hora;
-        option.textContent = hora;
-        select.appendChild(option);
-      });
+          const option = document.createElement('option');
+          option.value = valorHora;
+          option.textContent = valorHora;
+          select.appendChild(option);
+        }
+      }
     }
 
     [
@@ -1059,11 +1059,11 @@
       reader.readAsDataURL(file);
     }
 
-    fotoCamara.addEventListener('change', function () {
+    fotoCamara.addEventListener('change', function() {
       procesarFoto(this.files[0]);
     });
 
-    fotoGaleria.addEventListener('change', function () {
+    fotoGaleria.addEventListener('change', function() {
       procesarFoto(this.files[0]);
     });
 
@@ -1119,6 +1119,13 @@
         bloqueCorridoRef.classList.add('hidden');
         bloqueDobleRef.classList.remove('hidden');
       }
+    }
+
+    function horaEnRango(inicio, fin, actual) {
+      if (!inicio || !fin) return false;
+      if (inicio === fin) return true;
+      if (inicio < fin) return actual >= inicio && actual <= fin;
+      return actual >= inicio || actual <= fin;
     }
 
     toggleAlternativos.addEventListener('change', function() {
@@ -1179,6 +1186,7 @@
         const desde = valor(prefix + 'Desde');
         const hasta = valor(prefix + 'Hasta');
         if (!desde || !hasta) return '';
+        if (desde === hasta) return '24 horas';
         return desde + '-' + hasta;
       }
 
@@ -1206,7 +1214,7 @@
         const desde = valor(prefijo + 'Desde');
         const hasta = valor(prefijo + 'Hasta');
         if (!desde || !hasta) return false;
-        return horaActual >= desde && horaActual <= hasta;
+        return horaEnRango(desde, hasta, horaActual);
       }
 
       const mananaDesde = valor(prefijo + 'MananaDesde');
@@ -1214,8 +1222,8 @@
       const tardeDesde = valor(prefijo + 'TardeDesde');
       const tardeHasta = valor(prefijo + 'TardeHasta');
 
-      const enManana = mananaDesde && mananaHasta && horaActual >= mananaDesde && horaActual <= mananaHasta;
-      const enTarde = tardeDesde && tardeHasta && horaActual >= tardeDesde && horaActual <= tardeHasta;
+      const enManana = mananaDesde && mananaHasta && horaEnRango(mananaDesde, mananaHasta, horaActual);
+      const enTarde = tardeDesde && tardeHasta && horaEnRango(tardeDesde, tardeHasta, horaActual);
 
       return !!(enManana || enTarde);
     }
@@ -1257,12 +1265,13 @@
       if (valor('rubroEspecialidad') === 'Otro' && !valor('otroRubro')) faltantes.push("Especificá cuál");
       if (!valor('descripcion')) faltantes.push("Descripción");
       if (!valor('zona')) faltantes.push("Zona de trabajo");
+
       const whatsappPrincipal = valor('whatsapp');
       const telefonoPrincipal = valor('telefonoAlternativo');
-
       if (!whatsappPrincipal && !telefonoPrincipal) {
-      faltantes.push("Al menos una vía principal de contacto: WhatsApp o teléfono");
+        faltantes.push("Al menos una vía principal de contacto: WhatsApp o teléfono");
       }
+
       if (!valor('factura')) faltantes.push("¿Trabajan con factura?");
       if (obtenerMediosPagoSeleccionados().length === 0) faltantes.push("Al menos un medio de pago");
 
@@ -1315,7 +1324,7 @@
       window.open('https://wa.me/54' + limpio, '_blank');
     }
 
-    btnPreview.addEventListener('click', function () {
+    btnPreview.addEventListener('click', function() {
       if (!validarFormulario()) return;
 
       const nombreCompleto = valor('nombre') + ' ' + valor('apellido');
@@ -1387,12 +1396,12 @@
         cardMatriculaWrap.classList.add('hidden');
       }
 
-      cardBtnWhatsapp.onclick = function () {
-        abrirWhatsapp(whatsapp);
+      cardBtnWhatsapp.onclick = function() {
+        if (whatsapp) abrirWhatsapp(whatsapp);
       };
 
-      cardBtnCall.onclick = function () {
-        window.location.href = 'tel:' + telefono.replace(/\D/g, '');
+      cardBtnCall.onclick = function() {
+        if (telefono) window.location.href = 'tel:' + telefono.replace(/\D/g, '');
       };
 
       const altButtons = document.getElementById('altButtons');
@@ -1427,7 +1436,7 @@
       previewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    form.addEventListener('submit', async function (e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       if (!validarFormulario()) return;
 
@@ -1488,7 +1497,7 @@
             'Ahora te vamos a llevar a la pantalla de activación para completar el pago.'
           );
 
-          setTimeout(() => {
+          setTimeout(function() {
             window.location.href = 'activar-membresia.html';
           }, 1200);
 
@@ -1496,7 +1505,6 @@
         } else {
           mostrarError('No se pudo guardar la solicitud.<br><br>Detalle: ' + (result.error || 'Error desconocido'));
         }
-
       } catch (error) {
         mostrarError('Ocurrió un error al enviar la solicitud.<br><br>Detalle: ' + error);
       } finally {
