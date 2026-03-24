@@ -965,9 +965,9 @@
 
         showStatus('Elegiste pago en efectivo para una activación presencial. Tu solicitud quedó registrada con estado pendiente de validación.', 'ok');
       } catch (error) {
-        console.error(error);
-        showStatus(error.message || 'Hubo un problema al registrar la solicitud.', 'error');
-      } finally {
+  console.error('ERROR COMPLETO:', error);
+  showStatus('Hubo un problema al registrar la solicitud. Detalle: ' + (error && error.message ? error.message : String(error)), 'error');
+} finally {
         setLoading(false);
       }
     }
