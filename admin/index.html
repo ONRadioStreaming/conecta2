@@ -188,7 +188,7 @@
         try {
           const parsed = JSON.parse(sessionData);
           if (parsed && parsed.token) {
-            window.location.href = "/admin/panel.html";
+            window.location.href = "panel.html";
           }
         } catch (e) {
           localStorage.removeItem("conecta2_admin_session");
