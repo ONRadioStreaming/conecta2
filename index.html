@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conecta2</title>
+  <meta name="theme-color" content="#07142b" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Manrope', Arial, sans-serif;
+      background: #07142b;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(29, 211, 209, 0.14), transparent 28%),
+        linear-gradient(180deg, #041126 0%, #071b3a 38%, #0c6f8d 100%);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at center, rgba(25, 211, 209, 0.16), transparent 30%),
+        linear-gradient(180deg, #020815 0%, #07142b 45%, #0a2448 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 24px;
+      transition: opacity .45s ease;
+    }
+
+    #welcomeText {
+      max-width: 360px;
+      font-size: 1.28rem;
+      line-height: 1.55;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      animation: fadeOutUp 2.8s ease forwards;
+    }
+
+    #logoStage {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 2.6s;
+    }
+
+    #logoStage img {
+      width: 240px;
+      max-width: 76vw;
+      display: block;
+      filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.34));
+      margin-bottom: 12px;
+      border-radius: 24px;
+    }
+
+    #logoStage p {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.9);
+      font-weight: 700;
+    }
+
+    @keyframes fadeOutUp {
+      0% { opacity: 1; transform: translateY(0); }
+      75% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-18px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-50%) scale(0.97); }
+      to { opacity: 1; transform: translateY(-50%) scale(1); }
+    }
+
+    #mainApp {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: .45s ease;
+      padding-bottom: 26px;
+    }
+
+    #mainApp.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .top-wrap {
+      padding: 16px;
+    }
+
+    .hero-box {
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      backdrop-filter: blur(4px);
+    }
+
+    .banner-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .banner-wrap img {
+      width: 100%;
+      max-width: 360px;
+      display: block;
+      border-radius: 24px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+    }
+
+    .action-stack {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .btn-main, .btn-secondary, .btn-emergency {
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #17d0cf, #10b6d2);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #2b7cff, #22b9d9);
+      color: #fff;
+    }
+
+    .search-box {
+      background: rgba(255,255,255,0.96);
+      border-radius: 18px;
+      padding: 13px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+    }
+
+    .search-box span {
+      font-size: 1.1rem;
+      color: #0b5f86;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: #1b3555;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+    }
+
+    .search-box input::placeholder {
+      color: #6b7d8f;
+      font-weight: 600;
+    }
+
+    .content {
+      background: #eef4f7;
+      color: #11253d;
+      border-radius: 32px 32px 0 0;
+      padding: 22px 16px 30px;
+      min-height: 52vh;
+    }
+
+    .section-title {
+      margin: 0 0 16px 0;
+      font-size: 1.16rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .category-card {
+      border-radius: 22px;
+      min-height: 110px;
+      padding: 14px 12px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow:
+        0 10px 18px rgba(0,0,0,0.18),
+        inset 0 2px 4px rgba(255,255,255,0.22),
+        inset 0 -4px 7px rgba(0,0,0,0.14);
+      transition: all .14s ease;
+      font-size: 0.93rem;
+      font-weight: 700;
+      line-height: 1.14;
+      letter-spacing: -0.01em;
+    }
+
+    .category-card:active {
+      transform: translateY(3px);
+      box-shadow:
+        0 4px 10px rgba(0,0,0,0.18),
+        inset 0 3px 6px rgba(0,0,0,0.18);
+    }
+
+    .cat-1  { background: linear-gradient(145deg, #ff9f1c, #ff6f3d); }
+    .cat-2  { background: linear-gradient(145deg, #ff5f7b, #ff3b68); }
+    .cat-3  { background: linear-gradient(145deg, #1dc9bf, #1799d2); }
+    .cat-4  { background: linear-gradient(145deg, #9b67ff, #6b3de1); }
+    .cat-5  { background: linear-gradient(145deg, #16b7de, #0d80c6); }
+    .cat-6  { background: linear-gradient(145deg, #18cf9a, #11a56e); }
+    .cat-7  { background: linear-gradient(145deg, #5373ff, #3552d9); }
+    .cat-8  { background: linear-gradient(145deg, #f6288c, #b7189d); }
+    .cat-9  { background: linear-gradient(145deg, #ff7a18, #d95a00); }
+    .cat-10 { background: linear-gradient(145deg, #556270, #2c3e50); }
+    .cat-11 { background: linear-gradient(145deg, #24c6dc, #514a9d); }
+    .cat-12 { background: linear-gradient(145deg, #43cea2, #185a9d); }
+    .cat-13 { background: linear-gradient(145deg, #ee0979, #ff6a00); }
+    .cat-14 { background: linear-gradient(145deg, #00c9ff, #92fe9d); }
+    .cat-15 { background: linear-gradient(145deg, #8e2de2, #4a00e0); }
+    .cat-16 { background: linear-gradient(145deg, #667db6, #0082c8); }
+
+    .hidden { display: none !important; }
+    .section-block { margin-top: 18px; }
+    .emergency-bottom { margin-top: 16px; }
+
+    .btn-emergency {
+      background: linear-gradient(135deg, #ff4e4e, #d92424);
+      color: #fff;
+    }
+
+    .farmacia-banner {
+      position: relative;
+      margin-top: 18px;
+      border-radius: 28px;
+      overflow: hidden;
+      min-height: 250px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+      background:
+        linear-gradient(180deg, rgba(5, 19, 20, 0.20), rgba(5, 19, 20, 0.88)),
+        url('https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      isolation: isolate;
+    }
+
+    .farmacia-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(4px);
+      z-index: 0;
+    }
+
+    .pharmacy-cross-glow {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(11, 50, 20, 0.22);
+      border: 1px solid rgba(108, 255, 138, 0.28);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 0 26px rgba(26, 255, 95, 0.30);
+      z-index: 2;
+    }
+
+    .pharmacy-cross-glow span {
+      font-size: 2.9rem;
+      line-height: 1;
+      font-weight: 800;
+      color: #6bff8a;
+      text-shadow: 0 0 14px rgba(107,255,138,0.95), 0 0 28px rgba(107,255,138,0.55);
+    }
+
+    .farmacia-overlay {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+    }
+
+    .farmacia-label {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.88);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 6px;
+    }
+
+    .farmacia-name {
+      font-size: 1.56rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.05;
+      margin: 0 92px 8px 0;
+      text-transform: uppercase;
+    }
+
+    .farmacia-horario {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #dfffea;
+      font-size: 0.93rem;
+      font-weight: 800;
+      padding: 9px 13px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(6px);
+    }
+
+    .farmacia-info {
+      background: rgba(8, 18, 31, 0.56);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(6px);
+    }
+
+    .info-line {
+      font-size: 0.98rem;
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 10px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .info-line:last-child { margin-bottom: 0; }
+
+    .farmacia-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .farmacia-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 10px;
+      font-size: 0.93rem;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+    }
+
+    .btn-call { background: #f1f6fb; color: #24497a; }
+    .btn-wa { background: #19ad4a; color: #fff; }
+    .btn-map { background: #19b8dd; color: #fff; }
+
+    .support-card {
+      margin-top: 16px;
+      background: linear-gradient(135deg, #ffffff, #f4f8fb);
+      border-radius: 26px;
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+      border: 1px solid #e2ecf3;
+      color: #14304c;
+    }
+
+    .support-title {
+      margin: 0 0 8px 0;
+      font-size: 1.12rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .support-text {
+      margin: 0 0 14px 0;
+      font-size: 0.96rem;
+      color: #4b6276;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .support-btn {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0fb8d5, #0a8ecf);
+      color: #fff;
+      border-radius: 18px;
+      padding: 15px 14px;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 24px 16px 34px;
+      color: rgba(255,255,255,0.82);
+      font-size: .84rem;
+      line-height: 1.5;
+      background: linear-gradient(180deg, #0f7c99, #117592);
+    }
+
+    .footer-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .footer-logo img {
+      max-width: 130px;
+      height: auto;
+      display: block;
+    }
+
+    .footer p { margin: 6px 0; }
+
+    .footer a {
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 8, 22, 0.72);
+      z-index: 5000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal.show { display: flex; }
+
+    .sheet {
+      width: 100%;
+      max-width: 480px;
+      background: #eef4f7;
+      border-radius: 28px 28px 0 0;
+      padding: 18px 16px 28px;
+      max-height: 86vh;
+      overflow-y: auto;
+      box-shadow: 0 -10px 28px rgba(0,0,0,0.26);
+      animation: sheetUp .22s ease;
+    }
+
+    @keyframes sheetUp {
+      from { transform: translateY(28px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .sheet-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .sheet-top h2 {
+      margin: 0;
+      color: #10243d;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .sheet-top button {
+      border: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #dde8ef;
+      color: #17314c;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .sheet-note {
+      margin: 0 0 14px 0;
+      color: #58697d;
+      font-size: .94rem;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .emergency-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .emergency-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+    }
+
+    .emergency-card strong {
+      display: block;
+      color: #12304d;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .emergency-card span {
+      display: block;
+      color: #647487;
+      font-size: .92rem;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .call-btn {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff4b4b, #d82424);
+      color: #fff;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-weight: 800;
+      font-size: .96rem;
+    }
+
+    @media (max-width: 420px) {
+      .farmacia-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="intro">
+    <div id="welcomeText">
+      Bienvenido a la nueva app que te conecta con personas que quieren comprar
+    </div>
+
+    <div id="logoStage">
+      <img src="logo.png" alt="Logo Conecta2">
+      <p>A tan solo un clic de encontrar lo que buscás</p>
+    </div>
+  </div>
+
+  <div class="app">
+    <main id="mainApp">
+      <div class="top-wrap">
+        <div class="hero-box">
+          <div class="banner-wrap">
+            <img src="banner.png" alt="Banner Conecta2">
+          </div>
+
+          <div class="action-stack">
+            <a class="btn-main" href="registro-comercio.html">Registrá tu comercio</a>
+            <a class="btn-secondary" href="registro-servicio.html">Ofrecé tus servicios</a>
+          </div>
+
+          <div class="search-box">
+            <span>🔎</span>
+            <input type="text" id="searchInput" placeholder="Buscar categoría...">
+          </div>
+        </div>
+      </div>
+
+      <section class="content">
+        <h2 class="section-title">Categorías</h2>
+
+        <div class="grid" id="categoryGrid">
+          <a class="category-card cat-1" href="servicios-hogar.html" data-name="servicios para el hogar">Servicios para el hogar</a>
+          <a class="category-card cat-2" href="construccion.html" data-name="construcción">Construcción</a>
+          <a class="category-card cat-3" href="gastronomia.html" data-name="gastronomía">Gastronomía</a>
+          <a class="category-card cat-4" href="salud.html" data-name="salud">Salud</a>
+          <a class="category-card cat-5" href="estetica-bienestar.html" data-name="estética y bienestar">Estética y bienestar</a>
+          <a class="category-card cat-6" href="educacion.html" data-name="educación">Educación</a>
+          <a class="category-card cat-7" href="tecnologia.html" data-name="tecnología">Tecnología</a>
+          <a class="category-card cat-8" href="profesionales.html" data-name="profesionales">Profesionales</a>
+          <a class="category-card cat-9" href="oficios.html" data-name="oficios">Oficios</a>
+          <a class="category-card cat-10" href="automotor.html" data-name="automotor">Automotor</a>
+          <a class="category-card cat-11" href="comercios.html" data-name="comercios">Comercios</a>
+          <a class="category-card cat-12" href="mascotas.html" data-name="mascotas">Mascotas</a>
+          <a class="category-card cat-13" href="transporte-logistica.html" data-name="transporte y logística">Transporte y logística</a>
+          <a class="category-card cat-14" href="deportes-gimnasios.html" data-name="deportes y gimnasios">Deportes y gimnasios</a>
+          <a class="category-card cat-15" href="empresas-servicios.html" data-name="empresas y servicios">Empresas y servicios</a>
+          <a class="category-card cat-16" href="otros-rubros.html" data-name="otros rubros">Otros rubros</a>
+        </div>
+
+        <div class="emergency-bottom">
+          <button class="btn-emergency" id="openEmergency">Emergencias</button>
+        </div>
+
+        <div class="farmacia-banner section-block">
+          <div class="pharmacy-cross-glow"><span>+</span></div>
+
+          <div class="farmacia-overlay">
+            <div class="farmacia-label">Farmacia de turno</div>
+            <div class="farmacia-name">FARMACIA ÁVALO</div>
+            <div class="farmacia-horario">Hasta las 08:00 hs del miércoles 25</div>
+
+            <div class="farmacia-info">
+              <div class="info-line">📍 H. Yrigoyen 26, Rojas</div>
+              <div class="info-line">📞 (02475) 41-4116</div>
+            </div>
+
+            <div class="farmacia-actions">
+              <a class="farmacia-btn btn-call" href="tel:02475414116">Llamar</a>
+              <a class="farmacia-btn btn-wa" href="https://wa.me/542475414116" target="_blank">WhatsApp</a>
+              <a class="farmacia-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=H.%20Yrigoyen%2026%2C%20Rojas%2C%20Buenos%20Aires" target="_blank">Cómo llegar</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="support-card section-block">
+          <h3 class="support-title">Soporte Conecta2</h3>
+          <p class="support-text">¿Tenés dudas o querés hacernos una sugerencia? Escribinos.</p>
+          <a class="support-btn" href="https://wa.me/542474445664?text=Hola%2C%20estoy%20navegando%20en%20Conecta2%20y%20quiero%20hacer%20una%20consulta%20o%20enviar%20una%20sugerencia." target="_blank">Escribinos</a>
+        </div>
+      </section>
+
+      <div class="footer">
+        <div class="footer-logo">
+          <img src="cabapps-logo.png" alt="Cabapp’s">
+        </div>
+        <p>Diseño y desarrollo de aplicaciones</p>
+        <p>
+          <a href="https://wa.me/542474445664?text=Hola%2C%20vi%20la%20app%20Conecta2%20y%20me%20interesa%20consultar%20por%20el%20dise%C3%B1o%20y%20desarrollo%20de%20una%20aplicaci%C3%B3n." target="_blank">
+            2474-445664
+          </a>
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="emergencyModal">
+    <div class="sheet">
+      <div class="sheet-top">
+        <h2>Emergencias</h2>
+        <button id="closeEmergency">✕</button>
+      </div>
+
+      <p class="sheet-note">
+        Números útiles para resolver rápido cuando más importa.
+      </p>
+
+      <div class="emergency-list">
+        <div class="emergency-card">
+          <strong>Policía</strong>
+          <span>Atención inmediata ante situaciones de emergencia.</span>
+          <a class="call-btn" href="tel:101">Llamar 101</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Comisaría</strong>
+          <span>Atención policial local.</span>
+          <a class="call-btn" href="tel:02475463008">Llamar 463008</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Bomberos</strong>
+          <span>Asistencia ante incendios y siniestros.</span>
+          <a class="call-btn" href="tel:100">Llamar 100</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Emergencias de Salud</strong>
+          <span>Atención médica urgente.</span>
+          <a class="call-btn" href="tel:107">Llamar 107</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Hospital Saturnino E. Unzué</strong>
+          <span>Guardia hospitalaria y asistencia médica.</span>
+          <a class="call-btn" href="tel:02475465316">Llamar 465316</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Defensa Civil</strong>
+          <span>Emergencias generales y contingencias.</span>
+          <a class="call-btn" href="tel:103">Llamar 103</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Violencia de género</strong>
+          <span>Asistencia, contención y orientación.</span>
+          <a class="call-btn" href="tel:144">Llamar 144</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Niñez y Adolescencia</strong>
+          <span>Protección de derechos y asistencia.</span>
+          <a class="call-btn" href="tel:102">Llamar 102</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Emergencia eléctrica - Clyfer</strong>
+          <span>Reclamos y urgencias del servicio eléctrico.</span>
+          <a class="call-btn" href="tel:08002221499">Llamar 0800-222-1499</a>
+        </div>
+
+        <div class="emergency-card">
+          <strong>Emergencia de gas - Camuzzi</strong>
+          <span>Fugas o urgencias de gas.</span>
+          <a class="call-btn" href="tel:08106660810">Llamar 0810-666-0810</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const mainApp = document.getElementById('mainApp');
+
+    function mostrarAppSinIntro() {
+      intro.style.display = 'none';
+      mainApp.classList.add('visible');
+    }
+
+    if (sessionStorage.getItem('conecta2_intro_seen') === 'true') {
+      mostrarAppSinIntro();
+    } else {
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          intro.style.opacity = '0';
+          mainApp.classList.add('visible');
+        }, 5200);
+
+        setTimeout(function () {
+          intro.style.display = 'none';
+          sessionStorage.setItem('conecta2_intro_seen', 'true');
+        }, 5700);
+      });
+    }
+
+    const openEmergency = document.getElementById('openEmergency');
+    const closeEmergency = document.getElementById('closeEmergency');
+    const emergencyModal = document.getElementById('emergencyModal');
+
+    openEmergency.addEventListener('click', function () {
+      emergencyModal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeEmergency.addEventListener('click', function () {
+      emergencyModal.classList.remove('show');
+      document.body.style.overflow = '';
+    });
+
+    emergencyModal.addEventListener('click', function (e) {
+      if (e.target === emergencyModal) {
+        emergencyModal.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.category-card');
+
+    searchInput.addEventListener('input', function () {
+      const value = this.value.trim().toLowerCase();
+
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        if (name.includes(value) || value === '') {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
