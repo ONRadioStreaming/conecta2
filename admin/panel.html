@@ -760,12 +760,38 @@
       document.getElementById("sessionInfo").textContent = textoSesion;
     }
 
-    function cargarDemoDashboard() {
-      document.getElementById("statActivas").textContent = "18";
-      document.getElementById("statVencer").textContent = "3";
-      document.getElementById("statManuales").textContent = "2";
-      document.getElementById("statFarmacias").textContent = "6";
+    async function cargarDemoDashboard() {
+  try {
+    const formData = new FormData();
+    formData.append("action", "resumenAdmin");
+
+    const response = await fetch("https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.ok) {
+      document.getElementById("statActivas").textContent = data.activas ?? 0;
+      document.getElementById("statVencer").textContent = data.porVencer ?? 0;
+      document.getElementById("statManuales").textContent = data.vencidas ?? 0;
+      document.getElementById("statFarmacias").textContent = "0";
+    } else {
+      document.getElementById("statActivas").textContent = "--";
+      document.getElementById("statVencer").textContent = "--";
+      document.getElementById("statManuales").textContent = "--";
+      document.getElementById("statFarmacias").textContent = "--";
     }
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("statActivas").textContent = "ERR";
+    document.getElementById("statVencer").textContent = "ERR";
+    document.getElementById("statManuales").textContent = "ERR";
+    document.getElementById("statFarmacias").textContent = "ERR";
+  }
+}
 
     document.getElementById("logoutBtn").addEventListener("click", cerrarSesion);
 
