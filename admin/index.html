@@ -239,20 +239,7 @@
 
     // Solo valida que la sesión guardada no esté corrupta.
     // Ya NO redirige automáticamente al panel.
-    (function revisarSesionExistente() {
-      const sessionData =
-        localStorage.getItem("conecta2_admin_session") ||
-        sessionStorage.getItem("conecta2_admin_session");
-
-      if (!sessionData) return;
-
-      try {
-        JSON.parse(sessionData);
-      } catch (e) {
-        localStorage.removeItem("conecta2_admin_session");
-        sessionStorage.removeItem("conecta2_admin_session");
-      }
-    })();
+   
 
     togglePasswordBtn.addEventListener("click", function () {
       const mostrando = passwordInput.type === "text";
