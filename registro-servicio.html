@@ -321,13 +321,6 @@
       margin-bottom: 12px;
     }
 
-    .day-card-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #173a68;
-      margin-bottom: 10px;
-    }
-
     .alt-grid {
       align-items: start;
     }
@@ -896,8 +889,20 @@
       "Otros rubros": ["Otro"]
     };
 
+    const diasSemana = [
+      { key: 'lunes', label: 'Lunes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
+      { key: 'martes', label: 'Martes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
+      { key: 'miercoles', label: 'Miércoles', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
+      { key: 'jueves', label: 'Jueves', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
+      { key: 'viernes', label: 'Viernes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
+      { key: 'sabado', label: 'Sábado', corridoDesde: '09:00', corridoHasta: '13:00', mananaDesde: '09:00', mananaHasta: '13:00', tardeDesde: '17:00', tardeHasta: '20:00' },
+      { key: 'domingo', label: 'Domingo', corridoDesde: '09:00', corridoHasta: '13:00', mananaDesde: '09:00', mananaHasta: '13:00', tardeDesde: '17:00', tardeHasta: '20:00' }
+    ];
+
     function valor(id) {
-      return document.getElementById(id).value.trim();
+      const el = document.getElementById(id);
+      if (!el) return '';
+      return String(el.value || '').trim();
     }
 
     function limpiarMensajes() {
@@ -940,24 +945,14 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(limpio);
     }
 
-    const diasSemana = [
-      { key: 'lunes', label: 'Lunes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
-      { key: 'martes', label: 'Martes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
-      { key: 'miercoles', label: 'Miércoles', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
-      { key: 'jueves', label: 'Jueves', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
-      { key: 'viernes', label: 'Viernes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
-      { key: 'sabado', label: 'Sábado', corridoDesde: '09:00', corridoHasta: '13:00', mananaDesde: '09:00', mananaHasta: '13:00', tardeDesde: '17:00', tardeHasta: '20:00' },
-      { key: 'domingo', label: 'Domingo', corridoDesde: '09:00', corridoHasta: '13:00', mananaDesde: '09:00', mananaHasta: '13:00', tardeDesde: '17:00', tardeHasta: '20:00' }
-    ];
-
     function generarOpcionesHorarios(valorSeleccionado) {
       let html = '<option value="">Seleccionar</option>';
       for (let h = 0; h < 24; h++) {
         for (let m = 0; m < 60; m += 30) {
           const hh = String(h).padStart(2, '0');
           const mm = String(m).padStart(2, '0');
-          const valor = hh + ':' + mm;
-          html += '<option value="' + valor + '"' + (valor === valorSeleccionado ? ' selected' : '') + '>' + valor + '</option>';
+          const valorHora = hh + ':' + mm;
+          html += '<option value="' + valorHora + '"' + (valorHora === valorSeleccionado ? ' selected' : '') + '>' + valorHora + '</option>';
         }
       }
       return html;
@@ -1297,16 +1292,6 @@
       bloque.classList.toggle('hidden', !check.checked);
     }
 
-    function actualizarModoHorario(check, bloqueCorridoRef, bloqueDobleRef) {
-      if (check.checked) {
-        bloqueCorridoRef.classList.remove('hidden');
-        bloqueDobleRef.classList.add('hidden');
-      } else {
-        bloqueCorridoRef.classList.add('hidden');
-        bloqueDobleRef.classList.remove('hidden');
-      }
-    }
-
     toggleAlternativos.addEventListener('change', function() {
       toggleBloque(toggleAlternativos, bloqueAlternativos);
     });
@@ -1341,6 +1326,7 @@
         if (valor('whatsapp') && !telefonoValido(valor('whatsapp'))) faltantes.push("WhatsApp principal válido");
         if (valor('telefonoAlternativo') && !telefonoValido(valor('telefonoAlternativo'))) faltantes.push("Teléfono principal válido");
       }
+
       if (!valor('factura')) faltantes.push("¿Trabajan con factura?");
       if (obtenerMediosPagoSeleccionados().length === 0) faltantes.push("Al menos un medio de pago");
 
@@ -1348,8 +1334,8 @@
       if (errorHorarios) faltantes.push(errorHorarios);
 
       if (toggleAlternativos.checked) {
-        const alt1 = valor('whatsappAlt1');
-        const alt2 = valor('whatsappAlt2');
+        const alt1 = limpiarTelefono(valor('whatsappAlt1'));
+        const alt2 = limpiarTelefono(valor('whatsappAlt2'));
         const nom1 = valor('nombreWhatsappAlt1');
         const nom2 = valor('nombreWhatsappAlt2');
 
@@ -1386,19 +1372,19 @@
     btnPreview.addEventListener('click', function () {
       if (!validarFormulario()) return;
 
-      const nombreCompleto = valor('nombre') + ' ' + valor('apellido');
+      const nombreCompleto = (valor('nombre') + ' ' + valor('apellido')).trim();
       const rubroFinal = obtenerRubroFinal();
       const descripcion = valor('descripcion');
       const zona = valor('zona');
       const factura = valor('factura');
-      const whatsapp = valor('whatsapp');
-      const telefono = valor('telefonoAlternativo');
+      const whatsapp = limpiarTelefono(valor('whatsapp'));
+      const telefono = limpiarTelefono(valor('telefonoAlternativo'));
       const mediosPago = obtenerMediosPagoSeleccionados();
       const categoria = valor('categoriaPrincipal');
       const matricula = valor('matricula');
       const disponible = estaDisponibleAhora();
 
-      document.getElementById('cardName').textContent = nombreCompleto.trim();
+      document.getElementById('cardName').textContent = nombreCompleto;
       document.getElementById('cardJob').textContent = rubroFinal;
       document.getElementById('cardDesc').textContent = descripcion;
       document.getElementById('cardAvatar').src = previewImg.src || '';
@@ -1460,7 +1446,7 @@
       };
 
       cardBtnCall.onclick = function () {
-        if (telefono) window.location.href = 'tel:' + limpiarTelefono(telefono);
+        if (telefono) window.location.href = 'tel:' + telefono;
       };
 
       cardBtnWhatsapp.style.display = whatsapp ? 'block' : 'none';
@@ -1510,19 +1496,26 @@
 
         const file = archivoFoto;
         const fotoBase64 = file ? await convertirImagenABase64(file) : '';
+        const nombreCompleto = (valor('nombre') + ' ' + valor('apellido')).trim();
 
         const payload = {
+          action: "registrarServicio",
           tipo: "servicio",
           nombre: valor('nombre'),
           apellido: valor('apellido'),
+          nombreServicio: nombreCompleto,
           categoriaPrincipal: valor('categoriaPrincipal'),
           rubroEspecialidad: valor('rubroEspecialidad'),
+          rubroComercial: valor('rubroEspecialidad'),
+          rubroServicio: valor('rubroEspecialidad'),
           rubroFinal: obtenerRubroFinal(),
           zona: valor('zona'),
+          direccion: valor('zona'),
           descripcion: valor('descripcion'),
           email: valor('email'),
           whatsapp: limpiarTelefono(valor('whatsapp')),
           telefonoAlternativo: limpiarTelefono(valor('telefonoAlternativo')),
+          telefono: limpiarTelefono(valor('telefonoAlternativo')),
           whatsappAlt1: limpiarTelefono(valor('whatsappAlt1')),
           nombreWhatsappAlt1: valor('nombreWhatsappAlt1'),
           whatsappAlt2: limpiarTelefono(valor('whatsappAlt2')),
@@ -1561,8 +1554,8 @@
             const datosMembresia = {
               id_registro: result.id_registro || result.id || result.idServicio || '',
               tipo_registro: 'servicio',
-              nombre_negocio: (valor('nombre') + ' ' + valor('apellido')).trim(),
-              titular: (valor('nombre') + ' ' + valor('apellido')).trim(),
+              nombre_negocio: nombreCompleto,
+              titular: nombreCompleto,
               telefono: limpiarTelefono(valor('whatsapp')) || limpiarTelefono(valor('telefonoAlternativo')),
               email: valor('email')
             };
@@ -1577,7 +1570,7 @@
 
           return;
         } else {
-          mostrarError('No se pudo guardar la solicitud.<br><br>Detalle: ' + (result.error || 'Error desconocido'));
+          mostrarError('No se pudo guardar la solicitud.<br><br>Detalle: ' + (result.error || result.message || 'Error desconocido'));
         }
 
       } catch (error) {
