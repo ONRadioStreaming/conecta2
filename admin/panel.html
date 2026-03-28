@@ -11,33 +11,34 @@
 
   <style>
     :root {
-      --bg: #0b0f14;
-      --bg-soft: #111821;
-      --card: #151f2b;
-      --card-2: #1b2735;
-      --line: rgba(255,255,255,0.08);
+      --bg: #0a1018;
+      --bg2: #101826;
+      --card: #121d2b;
+      --card2: #182537;
+      --line: rgba(255,255,255,.08);
       --text: #f4f7fb;
       --muted: #a8b3c2;
-      --green: #00d26a;
-      --green-dark: #00b85d;
+      --green: #16c784;
+      --green-dark: #12a66d;
+      --blue: #4ea8ff;
       --red: #ff5d5d;
       --yellow: #ffca3a;
-      --blue: #4ea8ff;
-      --shadow: 0 18px 40px rgba(0,0,0,0.28);
+      --shadow: 0 18px 40px rgba(0,0,0,.28);
       --radius: 18px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(180deg, #0a0e13 0%, #0d131b 100%);
-      color: var(--text);
-      font-family: Arial, sans-serif;
       min-height: 100%;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(22,199,132,.14), transparent 24%),
+        radial-gradient(circle at 80% 15%, rgba(78,168,255,.14), transparent 22%),
+        linear-gradient(180deg, #09111a 0%, #0d1622 100%);
       scroll-behavior: smooth;
     }
 
@@ -48,29 +49,24 @@
 
     .sidebar {
       width: 280px;
-      background: rgba(10, 15, 21, 0.96);
+      background: rgba(8, 13, 20, .95);
       border-right: 1px solid var(--line);
       padding: 24px 18px;
       position: sticky;
       top: 0;
       height: 100vh;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
 
     .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 26px;
       padding-bottom: 20px;
       border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
     }
 
     .brand h1 {
-      margin: 0;
-      font-size: 28px;
-      line-height: 1;
-      color: #fff;
+      margin: 0 0 6px;
+      font-size: 30px;
     }
 
     .brand p {
@@ -80,40 +76,40 @@
     }
 
     .admin-box {
-      background: linear-gradient(180deg, rgba(0,210,106,0.16), rgba(0,210,106,0.06));
-      border: 1px solid rgba(0,210,106,0.22);
+      background: linear-gradient(180deg, rgba(22,199,132,.18), rgba(22,199,132,.05));
+      border: 1px solid rgba(22,199,132,.2);
       border-radius: 16px;
       padding: 16px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       box-shadow: var(--shadow);
     }
 
-    .admin-box .eyebrow {
+    .eyebrow {
       font-size: 12px;
-      color: rgba(255,255,255,0.78);
-      margin-bottom: 6px;
+      letter-spacing: .7px;
       text-transform: uppercase;
-      letter-spacing: .8px;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 6px;
     }
 
-    .admin-box .name {
+    .admin-name {
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
 
-    .admin-box .user {
+    .admin-user {
       font-size: 14px;
-      color: rgba(255,255,255,0.75);
-      margin-bottom: 12px;
+      color: rgba(255,255,255,.78);
+      margin-bottom: 10px;
       word-break: break-word;
     }
 
-    .session-chip {
+    .chip {
       display: inline-block;
       padding: 8px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,.08);
       font-size: 12px;
       color: #e9fef2;
     }
@@ -122,29 +118,29 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
     .nav a {
       display: block;
       text-decoration: none;
       color: #fff;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,.04);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 14px 14px;
+      padding: 14px;
       font-size: 14px;
       transition: .2s ease;
     }
 
     .nav a:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,.08);
       transform: translateX(3px);
     }
 
     .logout-btn {
       width: 100%;
-      margin-top: 24px;
+      margin-top: 22px;
       background: var(--red);
       color: #fff;
       border: none;
@@ -153,12 +149,6 @@
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
-      transition: .2s ease;
-    }
-
-    .logout-btn:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
     }
 
     .main {
@@ -168,63 +158,63 @@
 
     .topbar {
       display: flex;
-      align-items: center;
+      align-items: start;
       justify-content: space-between;
       gap: 18px;
-      margin-bottom: 24px;
       flex-wrap: wrap;
+      margin-bottom: 24px;
     }
 
     .topbar h2 {
       margin: 0;
-      font-size: 32px;
-      line-height: 1.1;
+      font-size: 34px;
     }
 
     .topbar p {
-      margin: 6px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
       font-size: 15px;
+      line-height: 1.45;
+      max-width: 700px;
     }
 
     .status-box {
-      background: linear-gradient(180deg, rgba(78,168,255,0.14), rgba(78,168,255,0.05));
-      border: 1px solid rgba(78,168,255,0.2);
+      min-width: 280px;
+      background: linear-gradient(180deg, rgba(78,168,255,.14), rgba(78,168,255,.04));
+      border: 1px solid rgba(78,168,255,.22);
       border-radius: 16px;
       padding: 14px 16px;
-      min-width: 280px;
     }
 
     .status-box .label {
       font-size: 12px;
       text-transform: uppercase;
-      color: #c8defa;
-      letter-spacing: .8px;
+      color: #cbe4ff;
+      letter-spacing: .7px;
       margin-bottom: 6px;
     }
 
     .status-box .value {
-      font-size: 15px;
-      color: #fff;
+      font-size: 16px;
       font-weight: bold;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-      margin-bottom: 24px;
+      gap: 16px;
+      margin-bottom: 22px;
     }
 
     .stat-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 18px;
       box-shadow: var(--shadow);
     }
 
-    .stat-card .stat-title {
+    .stat-title {
       color: var(--muted);
       font-size: 13px;
       margin-bottom: 10px;
@@ -232,39 +222,33 @@
       letter-spacing: .7px;
     }
 
-    .stat-card .stat-value {
-      font-size: 32px;
+    .stat-value {
+      font-size: 34px;
       font-weight: bold;
       margin-bottom: 8px;
     }
 
-    .stat-card .stat-desc {
+    .stat-desc {
       font-size: 13px;
-      color: rgba(255,255,255,0.74);
-      line-height: 1.4;
-    }
-
-    .sections-grid {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 18px;
-      margin-bottom: 24px;
+      color: rgba(255,255,255,.72);
+      line-height: 1.45;
     }
 
     .panel-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 20px;
       box-shadow: var(--shadow);
+      margin-bottom: 18px;
     }
 
     .panel-card h3 {
       margin: 0 0 8px;
-      font-size: 20px;
+      font-size: 22px;
     }
 
-    .panel-card .desc {
+    .desc {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.45;
@@ -275,10 +259,11 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+      margin-bottom: 14px;
     }
 
     .action-btn {
-      background: var(--card-2);
+      background: var(--card2);
       border: 1px solid var(--line);
       color: #fff;
       border-radius: 14px;
@@ -287,7 +272,7 @@
       cursor: pointer;
       transition: .2s ease;
       font-size: 14px;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .action-btn strong {
@@ -297,117 +282,23 @@
     }
 
     .action-btn:hover {
-      background: #223142;
+      background: #213247;
       transform: translateY(-2px);
-    }
-
-    .notice-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .notice {
-      border-radius: 14px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .notice.green { border-color: rgba(0,210,106,0.22); }
-    .notice.yellow { border-color: rgba(255,202,58,0.22); }
-    .notice.blue { border-color: rgba(78,168,255,0.22); }
-
-    .notice .title {
-      font-weight: bold;
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
-
-    .notice .text {
-      font-size: 14px;
-      color: rgba(255,255,255,0.82);
-      line-height: 1.45;
-    }
-
-    .bottom-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 560px;
-      background: rgba(255,255,255,0.02);
-    }
-
-    th, td {
-      padding: 14px 12px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      font-size: 14px;
-    }
-
-    th {
-      background: rgba(255,255,255,0.04);
-      color: #fff;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-    }
-
-    td {
-      color: rgba(255,255,255,0.88);
-      vertical-align: middle;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .tag.ok {
-      background: rgba(0,210,106,0.18);
-      color: #b9ffd7;
-    }
-
-    .tag.warn {
-      background: rgba(255,202,58,0.18);
-      color: #ffe5a2;
-    }
-
-    .tag.info {
-      background: rgba(78,168,255,0.18);
-      color: #cae6ff;
     }
 
     .mini-actions {
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-top: 14px;
+      flex-wrap: wrap;
     }
 
     .mini-btn {
       border: none;
       border-radius: 12px;
-      padding: 11px 14px;
+      padding: 12px 14px;
       cursor: pointer;
       font-size: 14px;
       font-weight: bold;
-      transition: .2s ease;
     }
 
     .mini-btn.primary {
@@ -420,20 +311,79 @@
     }
 
     .mini-btn.secondary {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,.08);
       color: #fff;
       border: 1px solid var(--line);
     }
 
-    .mini-btn.secondary:hover {
-      background: rgba(255,255,255,0.12);
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      background: rgba(255,255,255,.02);
+    }
+
+    th, td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    th {
+      background: rgba(255,255,255,.04);
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: .6px;
+    }
+
+    td {
+      color: rgba(255,255,255,.88);
+    }
+
+    .empty-row {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px 12px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .tag.ok {
+      background: rgba(22,199,132,.18);
+      color: #b9ffd7;
+    }
+
+    .tag.warn {
+      background: rgba(255,202,58,.18);
+      color: #ffe4a0;
+    }
+
+    .tag.info {
+      background: rgba(78,168,255,.18);
+      color: #cbe4ff;
     }
 
     .footer-note {
-      margin-top: 26px;
+      margin-top: 24px;
+      text-align: center;
       color: var(--muted);
       font-size: 13px;
-      text-align: center;
     }
 
     input[type="checkbox"] {
@@ -443,20 +393,9 @@
       cursor: pointer;
     }
 
-    .empty-row {
-      text-align: center;
-      color: var(--muted);
-      padding: 20px 12px;
-    }
-
     @media (max-width: 1180px) {
       .stats-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .sections-grid,
-      .bottom-grid {
-        grid-template-columns: 1fr;
       }
     }
 
@@ -474,7 +413,7 @@
       }
 
       .main {
-        padding: 20px;
+        padding: 18px;
       }
     }
 
@@ -485,18 +424,11 @@
       }
 
       .topbar h2 {
-        font-size: 26px;
+        font-size: 28px;
       }
 
       .main {
-        padding: 16px;
-      }
-
-      .panel-card,
-      .stat-card,
-      .admin-box,
-      .status-box {
-        border-radius: 16px;
+        padding: 14px;
       }
     }
   </style>
@@ -511,17 +443,16 @@
 
     <div class="admin-box">
       <div class="eyebrow">Administrador conectado</div>
-      <div class="name" id="adminNombre">Cargando...</div>
-      <div class="user" id="adminUsuario">---</div>
-      <div class="session-chip" id="sessionInfo">Sesión activa</div>
+      <div class="admin-name" id="adminNombre">Cargando...</div>
+      <div class="admin-user" id="adminUsuario">---</div>
+      <div class="chip" id="sessionInfo">Sesión activa</div>
     </div>
 
     <nav class="nav">
       <a href="#resumen">📊 Resumen general</a>
-      <a href="#membresias">💳 Membresías</a>
-      <a href="#manuales">💵 Activaciones manuales</a>
-      <a href="#vencimientos">⏳ Por vencer</a>
-      <a href="#renovaciones">🔁 Renovaciones</a>
+      <a href="#gestion">💳 Gestión principal</a>
+      <a href="#manuales">💵 Pendientes manuales</a>
+      <a href="#vencimientos">⏳ Próximos vencimientos</a>
       <a href="#farmacias">💊 Farmacias y turnos</a>
     </nav>
 
@@ -537,7 +468,7 @@
 
       <div class="status-box">
         <div class="label">Estado del panel</div>
-        <div class="value" id="panelStatus">Online · Conectando datos...</div>
+        <div class="value" id="panelStatus">Online · Inicializando...</div>
       </div>
     </div>
 
@@ -557,145 +488,61 @@
       <div class="stat-card">
         <div class="stat-title">Pendientes manuales</div>
         <div class="stat-value" id="statManuales">--</div>
-        <div class="stat-desc">Pagos por efectivo o transferencia a validar desde el panel.</div>
+        <div class="stat-desc">Pagos por efectivo o transferencia pendientes de validación.</div>
       </div>
 
       <div class="stat-card">
         <div class="stat-title">Farmacias cargadas</div>
         <div class="stat-value" id="statFarmacias">0</div>
-        <div class="stat-desc">Base de farmacias operativas, excluyendo Farmacia Sindical.</div>
+        <div class="stat-desc">Este módulo queda reservado para la siguiente etapa.</div>
       </div>
     </section>
 
-    <section class="sections-grid">
-      <div class="panel-card" id="membresias">
-        <h3>Gestión principal</h3>
-        <div class="desc">
-          Desde acá controlás el resumen real, los pendientes manuales y el refresco del panel.
-        </div>
+    <section class="panel-card" id="gestion">
+      <h3>Gestión principal</h3>
+      <div class="desc">Desde acá controlás el resumen real, los pendientes manuales y el refresco del panel.</div>
 
-        <div class="action-list">
-          <button class="action-btn" id="btnVerMembresias">
-            <strong>Ver membresías</strong>
-            Ir a la sección de membresías y pendientes.
-          </button>
+      <div class="action-list">
+        <button class="action-btn" id="btnIrManuales">
+          <strong>Ver membresías</strong>
+          Ir a la sección de membresías y pendientes.
+        </button>
 
-          <button class="action-btn" id="btnActivarPagoManual">
-            <strong>Activar pago manual</strong>
-            Ir directo al listado de pagos presenciales pendientes.
-          </button>
+        <button class="action-btn" id="btnIrManuales2">
+          <strong>Activar pago manual</strong>
+          Ir directo al listado de pagos presenciales pendientes.
+        </button>
 
-          <button class="action-btn" id="btnVerPorVencer">
-            <strong>Ver por vencer</strong>
-            Ir a la tabla de próximos vencimientos.
-          </button>
+        <button class="action-btn" id="btnIrVencimientos">
+          <strong>Ver por vencer</strong>
+          Ir a la tabla de próximos vencimientos.
+        </button>
 
-          <button class="action-btn" id="btnEnviarRenovacion">
-            <strong>Enviar renovación</strong>
-            Dejar lista la sección para próximos avisos y seguimiento.
-          </button>
+        <button class="action-btn" id="btnIrRenovaciones">
+          <strong>Enviar renovación</strong>
+          Módulo reservado para la siguiente etapa.
+        </button>
 
-          <button class="action-btn" id="btnBuscarPerfil">
-            <strong>Buscar comercio o servicio</strong>
-            Acción reservada para la siguiente etapa del panel.
-          </button>
+        <button class="action-btn" id="btnBuscarPerfil">
+          <strong>Buscar comercio o servicio</strong>
+          Módulo reservado para la siguiente etapa.
+        </button>
 
-          <button class="action-btn" id="btnFarmacias">
-            <strong>Farmacias y turnos</strong>
-            Ir a la sección de farmacias.
-          </button>
-        </div>
-
-        <div class="mini-actions">
-          <button class="mini-btn primary" id="btnCargarDatos">Cargar datos reales</button>
-          <button class="mini-btn secondary" id="btnRefrescar">Refrescar panel</button>
-        </div>
+        <button class="action-btn" id="btnIrFarmacias">
+          <strong>Farmacias y turnos</strong>
+          Ir a la sección de farmacias.
+        </button>
       </div>
 
-      <div class="panel-card">
-        <h3>Estado operativo</h3>
-        <div class="desc">
-          Alertas rápidas para que no se te escape nada importante mientras administrás Conecta2.
-        </div>
-
-        <div class="notice-list">
-          <div class="notice green">
-            <div class="title">Login administrativo funcionando</div>
-            <div class="text">La sesión se validó correctamente y el panel ya tiene control de acceso.</div>
-          </div>
-
-          <div class="notice yellow">
-            <div class="title">Pendientes manuales conectados</div>
-            <div class="text">Los pagos por efectivo y transferencia se cargan desde la hoja de membresías.</div>
-          </div>
-
-          <div class="notice blue">
-            <div class="title">Farmacias de turno</div>
-            <div class="text">La administración de turnos queda preparada como siguiente etapa del panel.</div>
-          </div>
-        </div>
+      <div class="mini-actions">
+        <button class="mini-btn primary" id="btnCargarDatos">Cargar datos reales</button>
+        <button class="mini-btn secondary" id="btnRefrescar">Refrescar panel</button>
       </div>
     </section>
 
-    <section class="bottom-grid">
-      <div class="panel-card" id="vencimientos">
-        <h3>Próximos vencimientos</h3>
-        <div class="desc">Vista rápida de perfiles cercanos a renovar.</div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Nombre</th>
-                <th>Vence</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody id="tablaVencimientos">
-              <tr>
-                <td class="empty-row" colspan="5">Por ahora este bloque queda reservado para la próxima conexión de datos reales.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="panel-card" id="farmacias">
-        <h3>Farmacias de turno</h3>
-        <div class="desc">Espacio listo para manejar la parte visual y operativa de turnos mensuales.</div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Farmacia</th>
-                <th>Teléfono</th>
-                <th>WhatsApp</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody id="tablaFarmacias">
-              <tr>
-                <td class="empty-row" colspan="4">Módulo pendiente de implementación.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="mini-actions">
-          <button class="mini-btn primary" id="btnAdministrarTurnos">Administrar turnos</button>
-          <button class="mini-btn secondary" id="btnEditarFarmacias">Editar farmacias</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel-card" id="manuales" style="margin-top: 18px;">
+    <section class="panel-card" id="manuales">
       <h3>Pendientes manuales</h3>
-      <div class="desc">
-        Acá aparecen los comercios o servicios que eligieron pagar en efectivo o transferencia y todavía no fueron activados.
-      </div>
+      <div class="desc">Acá aparecen los pagos por transferencia o efectivo que todavía no fueron activados.</div>
 
       <div class="table-wrap">
         <table>
@@ -720,20 +567,59 @@
       </div>
     </section>
 
-    <section class="panel-card" id="renovaciones" style="margin-top: 18px;">
-      <h3>Renovaciones</h3>
-      <div class="desc">
-        Bloque reservado para avisos y futuras automatizaciones de renovación.
-      </div>
+    <section class="panel-card" id="vencimientos">
+      <h3>Próximos vencimientos</h3>
+      <div class="desc">Por ahora este bloque queda reservado para la próxima conexión de datos reales.</div>
 
-      <div class="mini-actions">
-        <button class="mini-btn secondary" id="btnPrepararRenovaciones">Preparar módulo de renovaciones</button>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tipo</th>
+              <th>Nombre</th>
+              <th>Vence</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tablaVencimientos">
+            <tr>
+              <td class="empty-row" colspan="5">Módulo pendiente de implementación.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <div class="footer-note">
-      Panel operativo conectado al resumen real y a las activaciones manuales.
-    </div>
+    <section class="panel-card" id="farmacias">
+      <h3>Farmacias y turnos</h3>
+      <div class="desc">Espacio reservado para la administración de farmacias y turnos mensuales.</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Farmacia</th>
+              <th>Teléfono</th>
+              <th>WhatsApp</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="empty-row" colspan="4">Módulo pendiente de implementación.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mini-actions" style="margin-top:14px;">
+        <button class="mini-btn primary" id="btnTurnos">Administrar turnos</button>
+        <button class="mini-btn secondary" id="btnFarmaciasEdit">Editar farmacias</button>
+      </div>
+    </section>
+
+    <div class="footer-note">Panel operativo conectado al resumen real y a las activaciones manuales.</div>
   </main>
 
   <script>
@@ -764,37 +650,32 @@
 
     function protegerPanel() {
       const sesion = obtenerSesion();
-
       if (!sesion || !sesion.token) {
         window.location.href = LOGIN_URL;
         return null;
       }
-
       return sesion;
-    }
-
-    function cargarDatosAdmin(sesion) {
-      document.getElementById("adminNombre").textContent = sesion.nombre || "Administrador";
-      document.getElementById("adminUsuario").textContent = sesion.usuario ? "Usuario: " + sesion.usuario : "Usuario no disponible";
-
-      const textoSesion = sesion.vencimiento
-        ? "Sesión iniciada · Vence: " + new Date(sesion.vencimiento).toLocaleString("es-AR")
-        : "Sesión activa";
-
-      document.getElementById("sessionInfo").textContent = textoSesion;
     }
 
     function setPanelStatus(texto) {
       document.getElementById("panelStatus").textContent = texto;
     }
 
-    async function postActionForm(action, extra = {}) {
+    function cargarDatosAdmin(sesion) {
+      document.getElementById("adminNombre").textContent = sesion.nombre || "Administrador";
+      document.getElementById("adminUsuario").textContent = sesion.usuario ? "Usuario: " + sesion.usuario : "Usuario no disponible";
+      document.getElementById("sessionInfo").textContent = "Sesión activa";
+    }
+
+    async function postAction(action, extra) {
       const formData = new FormData();
       formData.append("action", action);
 
-      Object.entries(extra).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
+      if (extra) {
+        Object.keys(extra).forEach(function(key) {
+          formData.append(key, extra[key]);
+        });
+      }
 
       const response = await fetch(SCRIPT_URL, {
         method: "POST",
@@ -806,19 +687,17 @@
 
     async function cargarResumenAdmin() {
       try {
-        const data = await postActionForm("resumenAdmin");
+        const data = await postAction("resumenAdmin");
 
         if (data.ok) {
-          document.getElementById("statActivas").textContent = data.activas ?? 0;
-          document.getElementById("statVencer").textContent = data.porVencer ?? 0;
-          document.getElementById("statManuales").textContent = data.pendientes ?? 0;
-          document.getElementById("statFarmacias").textContent = "0";
+          document.getElementById("statActivas").textContent = data.activas || 0;
+          document.getElementById("statVencer").textContent = data.porVencer || 0;
+          document.getElementById("statManuales").textContent = data.pendientes || 0;
           setPanelStatus("Online · Datos cargados correctamente");
         } else {
           document.getElementById("statActivas").textContent = "--";
           document.getElementById("statVencer").textContent = "--";
           document.getElementById("statManuales").textContent = "--";
-          document.getElementById("statFarmacias").textContent = "--";
           setPanelStatus("Online · No se pudo cargar el resumen");
         }
       } catch (error) {
@@ -826,8 +705,7 @@
         document.getElementById("statActivas").textContent = "ERR";
         document.getElementById("statVencer").textContent = "ERR";
         document.getElementById("statManuales").textContent = "ERR";
-        document.getElementById("statFarmacias").textContent = "ERR";
-        setPanelStatus("Online · Error de conexión con Apps Script");
+        setPanelStatus("Online · Error de conexión");
       }
     }
 
@@ -835,7 +713,7 @@
       const tbody = document.getElementById("tablaPendientesManuales");
 
       try {
-        const data = await postActionForm("listarPendientesManuales");
+        const data = await postAction("listarPendientesManuales");
 
         if (!data.ok) {
           tbody.innerHTML = '<tr><td class="empty-row" colspan="8">No se pudieron cargar los pendientes.</td></tr>';
@@ -847,22 +725,24 @@
           return;
         }
 
-        tbody.innerHTML = data.pendientes.map(item => `
-          <tr>
-            <td>${item.id_membresia || ""}</td>
-            <td>${item.nombre_negocio || ""}</td>
-            <td>${item.tipo_registro || ""}</td>
-            <td>${item.telefono || ""}</td>
-            <td>${item.plan || ""}</td>
-            <td>${item.medio_pago || ""}</td>
-            <td><input type="checkbox" id="check-pago-${item.fila}"></td>
-            <td>
-              <button class="mini-btn primary" data-fila="${item.fila}" onclick="activarPendienteManual(${item.fila})">
-                Activar
-              </button>
-            </td>
-          </tr>
-        `).join("");
+        let html = "";
+
+        data.pendientes.forEach(function(item) {
+          html += `
+            <tr>
+              <td>${item.id_membresia || ""}</td>
+              <td>${item.nombre_negocio || ""}</td>
+              <td>${item.tipo_registro || ""}</td>
+              <td>${item.telefono || ""}</td>
+              <td>${item.plan || ""}</td>
+              <td>${item.medio_pago || ""}</td>
+              <td><input type="checkbox" id="check-pago-${item.fila}"></td>
+              <td><button class="mini-btn primary" onclick="activarPendienteManual(${item.fila})">Activar</button></td>
+            </tr>
+          `;
+        });
+
+        tbody.innerHTML = html;
       } catch (error) {
         console.error(error);
         tbody.innerHTML = '<tr><td class="empty-row" colspan="8">Error de conexión.</td></tr>';
@@ -870,7 +750,7 @@
     }
 
     async function activarPendienteManual(fila) {
-      const check = document.getElementById(check-pago-${fila});
+      const check = document.getElementById("check-pago-" + fila);
 
       if (!check || !check.checked) {
         alert("Primero tenés que marcar que pagó.");
@@ -881,7 +761,7 @@
       if (!confirmar) return;
 
       try {
-        const data = await postActionForm("activarMembresiaManual", { fila: fila });
+        const data = await postAction("activarMembresiaManual", { fila: fila });
 
         if (data.ok) {
           alert("Membresía activada correctamente.");
@@ -910,20 +790,40 @@
 
     function bindBotones() {
       document.getElementById("logoutBtn").addEventListener("click", cerrarSesion);
-
-      document.getElementById("btnVerMembresias").addEventListener("click", () => irASeccion("manuales"));
-      document.getElementById("btnActivarPagoManual").addEventListener("click", () => irASeccion("manuales"));
-      document.getElementById("btnVerPorVencer").addEventListener("click", () => irASeccion("vencimientos"));
-      document.getElementById("btnEnviarRenovacion").addEventListener("click", () => irASeccion("renovaciones"));
-      document.getElementById("btnBuscarPerfil").addEventListener("click", () => alert("Este buscador queda para la siguiente etapa del panel."));
-      document.getElementById("btnFarmacias").addEventListener("click", () => irASeccion("farmacias"));
-
       document.getElementById("btnCargarDatos").addEventListener("click", refrescarPanelCompleto);
       document.getElementById("btnRefrescar").addEventListener("click", refrescarPanelCompleto);
 
-      document.getElementById("btnAdministrarTurnos").addEventListener("click", () => alert("Módulo de turnos pendiente de implementación."));
-      document.getElementById("btnEditarFarmacias").addEventListener("click", () => alert("Módulo de farmacias pendiente de implementación."));
-      document.getElementById("btnPrepararRenovaciones").addEventListener("click", () => alert("Módulo de renovaciones pendiente de implementación."));
+      document.getElementById("btnIrManuales").addEventListener("click", function() {
+        irASeccion("manuales");
+      });
+
+      document.getElementById("btnIrManuales2").addEventListener("click", function() {
+        irASeccion("manuales");
+      });
+
+      document.getElementById("btnIrVencimientos").addEventListener("click", function() {
+        irASeccion("vencimientos");
+      });
+
+      document.getElementById("btnIrRenovaciones").addEventListener("click", function() {
+        alert("El módulo de renovaciones queda para la siguiente etapa.");
+      });
+
+      document.getElementById("btnBuscarPerfil").addEventListener("click", function() {
+        alert("El buscador queda para la siguiente etapa.");
+      });
+
+      document.getElementById("btnIrFarmacias").addEventListener("click", function() {
+        irASeccion("farmacias");
+      });
+
+      document.getElementById("btnTurnos").addEventListener("click", function() {
+        alert("Módulo de turnos pendiente de implementación.");
+      });
+
+      document.getElementById("btnFarmaciasEdit").addEventListener("click", function() {
+        alert("Módulo de farmacias pendiente de implementación.");
+      });
     }
 
     window.activarPendienteManual = activarPendienteManual;
@@ -938,10 +838,12 @@
 
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
+      window.addEventListener("load", function() {
         navigator.serviceWorker.register("/conecta2/admin/service-worker.js", {
           scope: "/conecta2/admin/"
-        }).catch(error => console.error("Error registrando service worker:", error));
+        }).catch(function(error) {
+          console.error("Error registrando service worker:", error);
+        });
       });
     }
   </script>
