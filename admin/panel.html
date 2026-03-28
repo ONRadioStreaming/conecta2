@@ -1,851 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel Admin - Conecta2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Admin - Conecta2</title>
 
-  <link rel="manifest" href="/conecta2/admin/manifest.json">
-  <meta name="theme-color" content="#0b1220">
-  <link rel="apple-touch-icon" href="/conecta2/admin/icon-192.png">
+<style>
 
-  <style>
-    :root {
-      --bg: #0a1018;
-      --bg2: #101826;
-      --card: #121d2b;
-      --card2: #182537;
-      --line: rgba(255,255,255,.08);
-      --text: #f4f7fb;
-      --muted: #a8b3c2;
-      --green: #16c784;
-      --green-dark: #12a66d;
-      --blue: #4ea8ff;
-      --red: #ff5d5d;
-      --yellow: #ffca3a;
-      --shadow: 0 18px 40px rgba(0,0,0,.28);
-      --radius: 18px;
-    }
+body{
+font-family:Arial;
+margin:0;
+background:#0d1622;
+color:white;
+display:flex;
+min-height:100vh;
+}
 
-    * { box-sizing: border-box; }
+.sidebar{
+width:260px;
+background:#09111a;
+padding:20px;
+border-right:1px solid #222;
+}
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      font-family: Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 20% 20%, rgba(22,199,132,.14), transparent 24%),
-        radial-gradient(circle at 80% 15%, rgba(78,168,255,.14), transparent 22%),
-        linear-gradient(180deg, #09111a 0%, #0d1622 100%);
-      scroll-behavior: smooth;
-    }
+.sidebar h2{
+margin-top:0;
+}
 
-    body {
-      display: flex;
-      min-height: 100vh;
-    }
+.menu button{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:none;
+background:#182537;
+color:white;
+cursor:pointer;
+border-radius:6px;
+}
 
-    .sidebar {
-      width: 280px;
-      background: rgba(8, 13, 20, .95);
-      border-right: 1px solid var(--line);
-      padding: 24px 18px;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      backdrop-filter: blur(10px);
-    }
+.menu button:hover{
+background:#22354d;
+}
 
-    .brand {
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 22px;
-    }
+.main{
+flex:1;
+padding:30px;
+}
 
-    .brand h1 {
-      margin: 0 0 6px;
-      font-size: 30px;
-    }
+.card{
+background:#182537;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
 
-    .brand p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
+table{
+width:100%;
+border-collapse:collapse;
+}
 
-    .admin-box {
-      background: linear-gradient(180deg, rgba(22,199,132,.18), rgba(22,199,132,.05));
-      border: 1px solid rgba(22,199,132,.2);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow);
-    }
+th,td{
+padding:10px;
+border-bottom:1px solid #333;
+text-align:left;
+}
 
-    .eyebrow {
-      font-size: 12px;
-      letter-spacing: .7px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.75);
-      margin-bottom: 6px;
-    }
+button.action{
+background:#16c784;
+border:none;
+padding:8px 10px;
+color:white;
+cursor:pointer;
+border-radius:6px;
+}
 
-    .admin-name {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+button.logout{
+background:#ff5d5d;
+margin-top:20px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
 
-    .admin-user {
-      font-size: 14px;
-      color: rgba(255,255,255,.78);
-      margin-bottom: 10px;
-      word-break: break-word;
-    }
+.hidden{
+display:none;
+}
 
-    .chip {
-      display: inline-block;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      font-size: 12px;
-      color: #e9fef2;
-    }
-
-    .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .nav a {
-      display: block;
-      text-decoration: none;
-      color: #fff;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 14px;
-      transition: .2s ease;
-    }
-
-    .nav a:hover {
-      background: rgba(255,255,255,.08);
-      transform: translateX(3px);
-    }
-
-    .logout-btn {
-      width: 100%;
-      margin-top: 22px;
-      background: var(--red);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .main {
-      flex: 1;
-      padding: 28px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-
-    .topbar h2 {
-      margin: 0;
-      font-size: 34px;
-    }
-
-    .topbar p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.45;
-      max-width: 700px;
-    }
-
-    .status-box {
-      min-width: 280px;
-      background: linear-gradient(180deg, rgba(78,168,255,.14), rgba(78,168,255,.04));
-      border: 1px solid rgba(78,168,255,.22);
-      border-radius: 16px;
-      padding: 14px 16px;
-    }
-
-    .status-box .label {
-      font-size: 12px;
-      text-transform: uppercase;
-      color: #cbe4ff;
-      letter-spacing: .7px;
-      margin-bottom: 6px;
-    }
-
-    .status-box .value {
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-
-    .stat-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-title {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: .7px;
-    }
-
-    .stat-value {
-      font-size: 34px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .stat-desc {
-      font-size: 13px;
-      color: rgba(255,255,255,.72);
-      line-height: 1.45;
-    }
-
-    .panel-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
-      margin-bottom: 18px;
-    }
-
-    .panel-card h3 {
-      margin: 0 0 8px;
-      font-size: 22px;
-    }
-
-    .desc {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-      margin-bottom: 16px;
-    }
-
-    .action-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .action-btn {
-      background: var(--card2);
-      border: 1px solid var(--line);
-      color: #fff;
-      border-radius: 14px;
-      padding: 14px;
-      text-align: left;
-      cursor: pointer;
-      transition: .2s ease;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .action-btn strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 15px;
-    }
-
-    .action-btn:hover {
-      background: #213247;
-      transform: translateY(-2px);
-    }
-
-    .mini-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .mini-btn {
-      border: none;
-      border-radius: 12px;
-      padding: 12px 14px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .mini-btn.primary {
-      background: var(--green);
-      color: #fff;
-    }
-
-    .mini-btn.primary:hover {
-      background: var(--green-dark);
-    }
-
-    .mini-btn.secondary {
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      border: 1px solid var(--line);
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-      background: rgba(255,255,255,.02);
-    }
-
-    th, td {
-      padding: 14px 12px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      font-size: 14px;
-      vertical-align: middle;
-    }
-
-    th {
-      background: rgba(255,255,255,.04);
-      color: #fff;
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: .6px;
-    }
-
-    td {
-      color: rgba(255,255,255,.88);
-    }
-
-    .empty-row {
-      text-align: center;
-      color: var(--muted);
-      padding: 20px 12px;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .tag.ok {
-      background: rgba(22,199,132,.18);
-      color: #b9ffd7;
-    }
-
-    .tag.warn {
-      background: rgba(255,202,58,.18);
-      color: #ffe4a0;
-    }
-
-    .tag.info {
-      background: rgba(78,168,255,.18);
-      color: #cbe4ff;
-    }
-
-    .footer-note {
-      margin-top: 24px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--green);
-      cursor: pointer;
-    }
-
-    @media (max-width: 1180px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 920px) {
-      body {
-        display: block;
-      }
-
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .main {
-        padding: 18px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .stats-grid,
-      .action-list {
-        grid-template-columns: 1fr;
-      }
-
-      .topbar h2 {
-        font-size: 28px;
-      }
-
-      .main {
-        padding: 14px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <aside class="sidebar">
-    <div class="brand">
-      <h1>Conecta2</h1>
-      <p>Panel privado de administración</p>
-    </div>
-
-    <div class="admin-box">
-      <div class="eyebrow">Administrador conectado</div>
-      <div class="admin-name" id="adminNombre">Cargando...</div>
-      <div class="admin-user" id="adminUsuario">---</div>
-      <div class="chip" id="sessionInfo">Sesión activa</div>
-    </div>
-
-    <nav class="nav">
-      <a href="#resumen">📊 Resumen general</a>
-      <a href="#gestion">💳 Gestión principal</a>
-      <a href="#manuales">💵 Pendientes manuales</a>
-      <a href="#vencimientos">⏳ Próximos vencimientos</a>
-      <a href="#farmacias">💊 Farmacias y turnos</a>
-    </nav>
-
-    <button class="logout-btn" id="logoutBtn">Cerrar sesión</button>
-  </aside>
-
-  <main class="main">
-    <div class="topbar" id="resumen">
-      <div>
-        <h2>Panel Admin</h2>
-        <p>Centro de control de Conecta2. Desde acá vas a manejar membresías, activaciones, vencimientos y turnos.</p>
-      </div>
-
-      <div class="status-box">
-        <div class="label">Estado del panel</div>
-        <div class="value" id="panelStatus">Online · Inicializando...</div>
-      </div>
-    </div>
-
-    <section class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-title">Membresías activas</div>
-        <div class="stat-value" id="statActivas">--</div>
-        <div class="stat-desc">Total de perfiles premium activos entre comercios y servicios.</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-title">Por vencer</div>
-        <div class="stat-value" id="statVencer">--</div>
-        <div class="stat-desc">Perfiles próximos a vencer y listos para gestión de renovación.</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-title">Pendientes manuales</div>
-        <div class="stat-value" id="statManuales">--</div>
-        <div class="stat-desc">Pagos por efectivo o transferencia pendientes de validación.</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-title">Farmacias cargadas</div>
-        <div class="stat-value" id="statFarmacias">0</div>
-        <div class="stat-desc">Este módulo queda reservado para la siguiente etapa.</div>
-      </div>
-    </section>
-
-    <section class="panel-card" id="gestion">
-      <h3>Gestión principal</h3>
-      <div class="desc">Desde acá controlás el resumen real, los pendientes manuales y el refresco del panel.</div>
-
-      <div class="action-list">
-        <button class="action-btn" id="btnIrManuales">
-          <strong>Ver membresías</strong>
-          Ir a la sección de membresías y pendientes.
-        </button>
-
-        <button class="action-btn" id="btnIrManuales2">
-          <strong>Activar pago manual</strong>
-          Ir directo al listado de pagos presenciales pendientes.
-        </button>
-
-        <button class="action-btn" id="btnIrVencimientos">
-          <strong>Ver por vencer</strong>
-          Ir a la tabla de próximos vencimientos.
-        </button>
-
-        <button class="action-btn" id="btnIrRenovaciones">
-          <strong>Enviar renovación</strong>
-          Módulo reservado para la siguiente etapa.
-        </button>
-
-        <button class="action-btn" id="btnBuscarPerfil">
-          <strong>Buscar comercio o servicio</strong>
-          Módulo reservado para la siguiente etapa.
-        </button>
-
-        <button class="action-btn" id="btnIrFarmacias">
-          <strong>Farmacias y turnos</strong>
-          Ir a la sección de farmacias.
-        </button>
-      </div>
-
-      <div class="mini-actions">
-        <button class="mini-btn primary" id="btnCargarDatos">Cargar datos reales</button>
-        <button class="mini-btn secondary" id="btnRefrescar">Refrescar panel</button>
-      </div>
-    </section>
-
-    <section class="panel-card" id="manuales">
-      <h3>Pendientes manuales</h3>
-      <div class="desc">Acá aparecen los pagos por transferencia o efectivo que todavía no fueron activados.</div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Negocio</th>
-              <th>Tipo</th>
-              <th>Teléfono</th>
-              <th>Plan</th>
-              <th>Medio</th>
-              <th>Pagó</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="tablaPendientesManuales">
-            <tr>
-              <td class="empty-row" colspan="8">Cargando pendientes...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="panel-card" id="vencimientos">
-      <h3>Próximos vencimientos</h3>
-      <div class="desc">Por ahora este bloque queda reservado para la próxima conexión de datos reales.</div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tipo</th>
-              <th>Nombre</th>
-              <th>Vence</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody id="tablaVencimientos">
-            <tr>
-              <td class="empty-row" colspan="5">Módulo pendiente de implementación.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="panel-card" id="farmacias">
-      <h3>Farmacias y turnos</h3>
-      <div class="desc">Espacio reservado para la administración de farmacias y turnos mensuales.</div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Farmacia</th>
-              <th>Teléfono</th>
-              <th>WhatsApp</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="empty-row" colspan="4">Módulo pendiente de implementación.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mini-actions" style="margin-top:14px;">
-        <button class="mini-btn primary" id="btnTurnos">Administrar turnos</button>
-        <button class="mini-btn secondary" id="btnFarmaciasEdit">Editar farmacias</button>
-      </div>
-    </section>
-
-    <div class="footer-note">Panel operativo conectado al resumen real y a las activaciones manuales.</div>
-  </main>
-
-  <script>
-    const LOGIN_URL = "index.html";
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
-
-    function obtenerSesion() {
-      const local = localStorage.getItem("conecta2_admin_session");
-      const session = sessionStorage.getItem("conecta2_admin_session");
-      const data = local || session;
-
-      if (!data) return null;
-
-      try {
-        return JSON.parse(data);
-      } catch (error) {
-        localStorage.removeItem("conecta2_admin_session");
-        sessionStorage.removeItem("conecta2_admin_session");
-        return null;
-      }
-    }
-
-    function cerrarSesion() {
-      localStorage.removeItem("conecta2_admin_session");
-      sessionStorage.removeItem("conecta2_admin_session");
-      window.location.href = LOGIN_URL;
-    }
-
-    function protegerPanel() {
-      const sesion = obtenerSesion();
-      if (!sesion || !sesion.token) {
-        window.location.href = LOGIN_URL;
-        return null;
-      }
-      return sesion;
-    }
-
-    function setPanelStatus(texto) {
-      document.getElementById("panelStatus").textContent = texto;
-    }
-
-    function cargarDatosAdmin(sesion) {
-      document.getElementById("adminNombre").textContent = sesion.nombre || "Administrador";
-      document.getElementById("adminUsuario").textContent = sesion.usuario ? "Usuario: " + sesion.usuario : "Usuario no disponible";
-      document.getElementById("sessionInfo").textContent = "Sesión activa";
-    }
-
-    async function postAction(action, extra) {
-      const formData = new FormData();
-      formData.append("action", action);
-
-      if (extra) {
-        Object.keys(extra).forEach(function(key) {
-          formData.append(key, extra[key]);
-        });
-      }
-
-      const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        body: formData
-      });
-
-      return await response.json();
-    }
-
-    async function cargarResumenAdmin() {
-      try {
-        const data = await postAction("resumenAdmin");
-
-        if (data.ok) {
-          document.getElementById("statActivas").textContent = data.activas || 0;
-          document.getElementById("statVencer").textContent = data.porVencer || 0;
-          document.getElementById("statManuales").textContent = data.pendientes || 0;
-          setPanelStatus("Online · Datos cargados correctamente");
-        } else {
-          document.getElementById("statActivas").textContent = "--";
-          document.getElementById("statVencer").textContent = "--";
-          document.getElementById("statManuales").textContent = "--";
-          setPanelStatus("Online · No se pudo cargar el resumen");
-        }
-      } catch (error) {
-        console.error(error);
-        document.getElementById("statActivas").textContent = "ERR";
-        document.getElementById("statVencer").textContent = "ERR";
-        document.getElementById("statManuales").textContent = "ERR";
-        setPanelStatus("Online · Error de conexión");
-      }
-    }
-
-    async function cargarPendientesManuales() {
-      const tbody = document.getElementById("tablaPendientesManuales");
-
-      try {
-        const data = await postAction("listarPendientesManuales");
-
-        if (!data.ok) {
-          tbody.innerHTML = '<tr><td class="empty-row" colspan="8">No se pudieron cargar los pendientes.</td></tr>';
-          return;
-        }
-
-        if (!data.pendientes || data.pendientes.length === 0) {
-          tbody.innerHTML = '<tr><td class="empty-row" colspan="8">No hay pendientes manuales.</td></tr>';
-          return;
-        }
-
-        let html = "";
-
-        data.pendientes.forEach(function(item) {
-          html += `
-            <tr>
-              <td>${item.id_membresia || ""}</td>
-              <td>${item.nombre_negocio || ""}</td>
-              <td>${item.tipo_registro || ""}</td>
-              <td>${item.telefono || ""}</td>
-              <td>${item.plan || ""}</td>
-              <td>${item.medio_pago || ""}</td>
-              <td><input type="checkbox" id="check-pago-${item.fila}"></td>
-              <td><button class="mini-btn primary" onclick="activarPendienteManual(${item.fila})">Activar</button></td>
-            </tr>
-          `;
-        });
-
-        tbody.innerHTML = html;
-      } catch (error) {
-        console.error(error);
-        tbody.innerHTML = '<tr><td class="empty-row" colspan="8">Error de conexión.</td></tr>';
-      }
-    }
-
-    async function activarPendienteManual(fila) {
-      const check = document.getElementById("check-pago-" + fila);
-
-      if (!check || !check.checked) {
-        alert("Primero tenés que marcar que pagó.");
-        return;
-      }
-
-      const confirmar = confirm("¿Querés activar esta membresía manual?");
-      if (!confirmar) return;
-
-      try {
-        const data = await postAction("activarMembresiaManual", { fila: fila });
-
-        if (data.ok) {
-          alert("Membresía activada correctamente.");
-          await refrescarPanelCompleto();
-        } else {
-          alert(data.message || "No se pudo activar la membresía.");
-        }
-      } catch (error) {
-        console.error(error);
-        alert("Error de conexión al activar la membresía.");
-      }
-    }
-
-    async function refrescarPanelCompleto() {
-      setPanelStatus("Online · Refrescando datos...");
-      await cargarResumenAdmin();
-      await cargarPendientesManuales();
-    }
-
-    function irASeccion(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-
-    function bindBotones() {
-      document.getElementById("logoutBtn").addEventListener("click", cerrarSesion);
-      document.getElementById("btnCargarDatos").addEventListener("click", refrescarPanelCompleto);
-      document.getElementById("btnRefrescar").addEventListener("click", refrescarPanelCompleto);
-
-      document.getElementById("btnIrManuales").addEventListener("click", function() {
-        irASeccion("manuales");
-      });
-
-      document.getElementById("btnIrManuales2").addEventListener("click", function() {
-        irASeccion("manuales");
-      });
-
-      document.getElementById("btnIrVencimientos").addEventListener("click", function() {
-        irASeccion("vencimientos");
-      });
-
-      document.getElementById("btnIrRenovaciones").addEventListener("click", function() {
-        alert("El módulo de renovaciones queda para la siguiente etapa.");
-      });
-
-      document.getElementById("btnBuscarPerfil").addEventListener("click", function() {
-        alert("El buscador queda para la siguiente etapa.");
-      });
-
-      document.getElementById("btnIrFarmacias").addEventListener("click", function() {
-        irASeccion("farmacias");
-      });
-
-      document.getElementById("btnTurnos").addEventListener("click", function() {
-        alert("Módulo de turnos pendiente de implementación.");
-      });
-
-      document.getElementById("btnFarmaciasEdit").addEventListener("click", function() {
-        alert("Módulo de farmacias pendiente de implementación.");
-      });
-    }
-
-    window.activarPendienteManual = activarPendienteManual;
-
-    const sesion = protegerPanel();
-    if (sesion) {
-      cargarDatosAdmin(sesion);
-      bindBotones();
-      refrescarPanelCompleto();
-    }
-  </script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function() {
-        navigator.serviceWorker.register("/conecta2/admin/service-worker.js", {
-          scope: "/conecta2/admin/"
-        }).catch(function(error) {
-          console.error("Error registrando service worker:", error);
-        });
-      });
-    }
-  </script>
+<div class="sidebar">
+
+<h2>Conecta2</h2>
+
+<div class="menu">
+
+<button onclick="mostrarVista('dashboard')">Dashboard</button>
+
+<button onclick="mostrarVista('pendientes')">Pendientes manuales</button>
+
+<button onclick="mostrarVista('membresias')">Membresías</button>
+
+<button onclick="mostrarVista('comercios')">Comercios</button>
+
+<button onclick="mostrarVista('servicios')">Servicios</button>
+
+</div>
+
+<button class="logout" onclick="logout()">Cerrar sesión</button>
+
+</div>
+
+<div class="main">
+
+<div id="dashboard">
+
+<div class="card">
+<h3>Resumen</h3>
+
+<p>Membresías activas: <b id="statActivas">0</b></p>
+<p>Por vencer: <b id="statVencer">0</b></p>
+<p>Pendientes manuales: <b id="statPendientes">0</b></p>
+
+<button onclick="cargarResumen()">Actualizar</button>
+
+</div>
+
+</div>
+
+<div id="pendientes" class="hidden">
+
+<div class="card">
+
+<h3>Pagos manuales pendientes</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Negocio</th>
+<th>Tipo</th>
+<th>Teléfono</th>
+<th>Plan</th>
+<th>Medio</th>
+<th>Pagó</th>
+<th>Acción</th>
+</tr>
+
+</thead>
+
+<tbody id="tablaPendientes">
+
+<tr>
+<td colspan="8">Cargando...</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec"
+
+function mostrarVista(v){
+
+document.querySelectorAll(".main > div").forEach(d=>d.classList.add("hidden"))
+
+document.getElementById(v).classList.remove("hidden")
+
+}
+
+async function postAction(action,data={}){
+
+const formData=new FormData()
+
+formData.append("action",action)
+
+for(const k in data){
+formData.append(k,data[k])
+}
+
+const r=await fetch(SCRIPT_URL,{
+method:"POST",
+body:formData
+})
+
+return await r.json()
+
+}
+
+async function cargarResumen(){
+
+const r=await postAction("resumenAdmin")
+
+if(!r.ok)return
+
+document.getElementById("statActivas").innerText=r.activas
+document.getElementById("statVencer").innerText=r.porVencer
+document.getElementById("statPendientes").innerText=r.pendientes
+
+}
+
+async function cargarPendientes(){
+
+const r=await postAction("listarPendientesManuales")
+
+const tbody=document.getElementById("tablaPendientes")
+
+if(!r.ok){
+tbody.innerHTML="<tr><td colspan='8'>Error cargando</td></tr>"
+return
+}
+
+if(!r.pendientes || r.pendientes.length==0){
+tbody.innerHTML="<tr><td colspan='8'>No hay pendientes</td></tr>"
+return
+}
+
+let html=""
+
+r.pendientes.forEach(p=>{
+
+html+=`
+<tr>
+
+<td>${p.id_membresia}</td>
+<td>${p.nombre_negocio}</td>
+<td>${p.tipo_registro}</td>
+<td>${p.telefono}</td>
+<td>${p.plan}</td>
+<td>${p.medio_pago}</td>
+
+<td>
+<input type="checkbox" id="check-${p.fila}">
+</td>
+
+<td>
+<button class="action" onclick="activarManual(${p.fila})">Activar</button>
+</td>
+
+</tr>
+`
+
+})
+
+tbody.innerHTML=html
+
+}
+
+async function activarManual(fila){
+
+const check=document.getElementById("check-"+fila)
+
+if(!check.checked){
+alert("Marcá primero que pagó")
+return
+}
+
+const r=await postAction("activarMembresiaManual",{fila:fila})
+
+if(r.ok){
+
+alert("Membresía activada")
+
+cargarPendientes()
+
+cargarResumen()
+
+}else{
+
+alert("Error")
+
+}
+
+}
+
+function logout(){
+
+localStorage.removeItem("conecta2_admin_session")
+
+window.location.href="index.html"
+
+}
+
+cargarResumen()
+
+cargarPendientes()
+
+</script>
+
 </body>
 </html>
