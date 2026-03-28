@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conecta2 Admin</title>
+
+  <link rel="manifest" href="/conecta2/admin/manifest.json">
+  <meta name="theme-color" content="#0b1220">
+  <link rel="apple-touch-icon" href="/conecta2/admin/icon-192.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    :root {
+      --bg-1: #07111f;
+      --bg-2: #0b1b31;
+      --bg-3: #102844;
+      --card: rgba(10, 18, 32, 0.78);
+      --card-line: rgba(255,255,255,0.10);
+      --text: #f5f7fb;
+      --muted: rgba(255,255,255,0.72);
+      --input-bg: rgba(255,255,255,0.96);
+      --input-text: #101828;
+      --accent: #16c784;
+      --accent-dark: #0ea768;
+      --error: #ffb4b4;
+      --ok: #9df2bf;
+      --shadow: 0 18px 50px rgba(0,0,0,0.40);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(22,199,132,0.18), transparent 28%),
+        radial-gradient(circle at 80% 15%, rgba(59,130,246,0.18), transparent 26%),
+        radial-gradient(circle at 50% 85%, rgba(14,165,233,0.12), transparent 28%),
+        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.25));
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      right: -140px;
+      bottom: -180px;
+      background: radial-gradient(circle, rgba(22,199,132,0.12), transparent 65%);
+      pointer-events: none;
+      filter: blur(10px);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: var(--card);
+      border: 1px solid var(--card-line);
+      backdrop-filter: blur(14px);
+      border-radius: 22px;
+      padding: 34px 26px 28px;
+      color: var(--text);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-box::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, #16c784, #1dd3b0, #3b82f6);
+    }
+
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #d9e7ff;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 32px;
+      font-weight: bold;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+
+    .sub {
+      text-align: center;
+      margin-bottom: 28px;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 14px 14px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      font-size: 15px;
+      background: var(--input-bg);
+      color: var(--input-text);
+    }
+
+    .field input:focus {
+      outline: 2px solid var(--accent);
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 52px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .toggle-password:hover {
+      background: rgba(0,0,0,0.06);
+      transform: translateY(-50%);
+    }
+
+    .toggle-password:focus {
+      outline: 2px solid var(--accent);
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.92);
+      user-select: none;
+    }
+
+    .remember input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+
+    .session-note {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+    }
+
+    .actions {
+      margin-top: 22px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s ease;
+      box-shadow: 0 10px 24px rgba(22,199,132,0.22);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .submit-btn:disabled {
+      background: #7fbf94;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .msg {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      min-height: 20px;
+      line-height: 1.4;
+    }
+
+    .msg.error { color: var(--error); }
+    .msg.ok { color: var(--ok); }
+
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .footer strong {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <div class="top-badge">● Acceso privado administrativo</div>
+
+    <div class="logo">Conecta2 Admin</div>
+    <div class="sub">Ingreso al panel de administración de comercios, servicios, membresías y validaciones manuales.</div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario" name="usuario" autocomplete="username" required />
+      </div>
+
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <div class="password-wrap">
+          <input type="password" id="password" name="password" autocomplete="current-password" required />
+          <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" title="Mostrar contraseña">👁️</button>
+        </div>
+      </div>
+
+      <label class="remember">
+        <input type="checkbox" id="recordarme" />
+        Recordar acceso en este dispositivo
+      </label>
+
+      <div class="session-note">
+        Aunque el acceso quede recordado, esta pantalla se seguirá mostrando antes de ingresar.
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="btnLogin" class="submit-btn">Ingresar</button>
+      </div>
+
+      <div id="mensaje" class="msg"></div>
+    </form>
+
+    <div class="footer">Panel privado · <strong>Conecta2</strong></div>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+
+    const loginForm = document.getElementById("loginForm");
+    const btnLogin = document.getElementById("btnLogin");
+    const mensaje = document.getElementById("mensaje");
+    const usuarioInput = document.getElementById("usuario");
+    const passwordInput = document.getElementById("password");
+    const recordarmeInput = document.getElementById("recordarme");
+    const togglePasswordBtn = document.getElementById("togglePassword");
+
+    const CLAVE_RECORDAR = "conecta2_admin_recordar";
+    const CLAVE_USUARIO = "conecta2_admin_usuario";
+    const CLAVE_PASSWORD = "conecta2_admin_password";
+
+    function irAlPanel() {
+      window.location.href = "panel.html";
+    }
+
+    function cargarCredencialesRecordadas() {
+      const recordar = localStorage.getItem(CLAVE_RECORDAR) === "true";
+      const usuarioGuardado = localStorage.getItem(CLAVE_USUARIO) || "";
+      const passwordGuardada = localStorage.getItem(CLAVE_PASSWORD) || "";
+
+      recordarmeInput.checked = recordar;
+
+      if (recordar) {
+        usuarioInput.value = usuarioGuardado;
+        passwordInput.value = passwordGuardada;
+      }
+    }
+
+    function guardarCredencialesRecordadas() {
+      if (recordarmeInput.checked) {
+        localStorage.setItem(CLAVE_RECORDAR, "true");
+        localStorage.setItem(CLAVE_USUARIO, usuarioInput.value.trim());
+        localStorage.setItem(CLAVE_PASSWORD, passwordInput.value);
+      } else {
+        localStorage.removeItem(CLAVE_RECORDAR);
+        localStorage.removeItem(CLAVE_USUARIO);
+        localStorage.removeItem(CLAVE_PASSWORD);
+      }
+    }
+
+    function mostrarMensaje(texto, tipo) {
+      mensaje.textContent = texto;
+      mensaje.className = "msg " + tipo;
+    }
+
+    cargarCredencialesRecordadas();
+
+    recordarmeInput.addEventListener("change", function () {
+      guardarCredencialesRecordadas();
+    });
+
+    usuarioInput.addEventListener("input", function () {
+      if (recordarmeInput.checked) guardarCredencialesRecordadas();
+    });
+
+    passwordInput.addEventListener("input", function () {
+      if (recordarmeInput.checked) guardarCredencialesRecordadas();
+    });
+
+    togglePasswordBtn.addEventListener("click", function () {
+      const mostrando = passwordInput.type === "text";
+
+      if (mostrando) {
+        passwordInput.type = "password";
+        togglePasswordBtn.textContent = "👁️";
+        togglePasswordBtn.setAttribute("aria-label", "Mostrar contraseña");
+        togglePasswordBtn.setAttribute("title", "Mostrar contraseña");
+      } else {
+        passwordInput.type = "text";
+        togglePasswordBtn.textContent = "🙈";
+        togglePasswordBtn.setAttribute("aria-label", "Ocultar contraseña");
+        togglePasswordBtn.setAttribute("title", "Ocultar contraseña");
+      }
+    });
+
+    loginForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const usuario = usuarioInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!usuario || !password) {
+        mostrarMensaje("Completá usuario y contraseña.", "error");
+        return;
+      }
+
+      btnLogin.disabled = true;
+      btnLogin.textContent = "Ingresando...";
+      mostrarMensaje("Validando acceso...", "ok");
+
+      try {
+        const formData = new FormData();
+        formData.append("action", "adminLogin");
+        formData.append("usuario", usuario);
+        formData.append("password", password);
+
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.ok) {
+          const session = {
+            token: data.token,
+            nombre: data.nombre || "",
+            usuario: data.usuario || usuario,
+            vencimiento: data.vencimiento || ""
+          };
+
+          localStorage.removeItem("conecta2_admin_session");
+          sessionStorage.removeItem("conecta2_admin_session");
+
+          if (recordarmeInput.checked) {
+            localStorage.setItem("conecta2_admin_session", JSON.stringify(session));
+          } else {
+            sessionStorage.setItem("conecta2_admin_session", JSON.stringify(session));
+          }
+
+          guardarCredencialesRecordadas();
+
+          mostrarMensaje("Acceso correcto. Redirigiendo...", "ok");
+
+          setTimeout(() => {
+            irAlPanel();
+          }, 700);
+        } else {
+          mostrarMensaje(data.message || "Usuario o contraseña incorrectos.", "error");
+        }
+
+      } catch (error) {
+        console.error(error);
+        mostrarMensaje("No se pudo conectar con el servidor.", "error");
+      } finally {
+        btnLogin.disabled = false;
+        btnLogin.textContent = "Ingresar";
+      }
+    });
+  </script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/conecta2/admin/service-worker.js", {
+          scope: "/conecta2/admin/"
+        }).catch(error => console.error("Error registrando service worker:", error));
+      });
+    }
+  </script>
+</body>
+</html>
