@@ -600,9 +600,11 @@
       const response = await fetch(SCRIPT_URL, {
         method: "POST",
         body: formData
+        redirect:"follow"
       });
 
-      return await response.json();
+      const text = await response.text();
+return JSON.parse(text);
     }
 
     function inicializarMesesAnios() {
