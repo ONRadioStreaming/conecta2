@@ -825,7 +825,7 @@ return JSON.parse(text);
           const id = String(f.id_farmacia || "");
           const nombre = String(f.nombre || "");
           const selected = id === seleccionado ? "selected" : "";
-          opciones += <option value="${id}" ${selected}>${nombre}</option>;
+          opciones += `<option value="${id}" ${selected}>${nombre}</option>`;
         });
 
         html += `
