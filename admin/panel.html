@@ -653,7 +653,7 @@
         params.append(k, extra[k]);
       });
 
-      const response = await fetch(${SCRIPT_URL}?${params.toString()}, {
+      const response = await fetch(SCRIPT_URL + "?" + params.toString(), {
         method: "GET",
         redirect: "follow"
       });
