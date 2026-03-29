@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conecta2 - Panel administrador</title>
+  <title>Conecta2 Admin</title>
   <style>
     :root{
       --bg:#07111b;
@@ -16,6 +16,7 @@
       --green:#16c784;
       --green2:#10a86d;
       --red:#ff5d5d;
+      --yellow:#ffca3a;
       --blue:#4ea8ff;
       --radius:18px;
       --shadow:0 12px 28px rgba(0,0,0,.25);
@@ -30,6 +31,7 @@
       font-family:Arial,sans-serif;
       background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
       color:var(--text);
+      scroll-behavior:smooth;
     }
 
     .app{
@@ -108,29 +110,6 @@
       line-height:1.35;
     }
 
-    .status{
-      margin-bottom:16px;
-      background:rgba(78,168,255,.10);
-      border:1px solid rgba(78,168,255,.22);
-      border-radius:16px;
-      padding:12px 14px;
-      color:#d7ebff;
-      font-size:14px;
-      line-height:1.4;
-    }
-
-    .status.ok{
-      background:rgba(22,199,132,.10);
-      border-color:rgba(22,199,132,.22);
-      color:#d6ffea;
-    }
-
-    .status.error{
-      background:rgba(255,93,93,.10);
-      border-color:rgba(255,93,93,.22);
-      color:#ffd6d6;
-    }
-
     .view{
       display:none;
     }
@@ -156,6 +135,28 @@
       color:var(--muted);
       font-size:14px;
       line-height:1.45;
+    }
+
+    .status{
+      margin-bottom:16px;
+      background:rgba(78,168,255,.10);
+      border:1px solid rgba(78,168,255,.22);
+      border-radius:16px;
+      padding:12px 14px;
+      color:#d7ebff;
+      font-size:14px;
+    }
+
+    .status.error{
+      background:rgba(255,93,93,.10);
+      border-color:rgba(255,93,93,.22);
+      color:#ffd6d6;
+    }
+
+    .status.ok{
+      background:rgba(22,199,132,.10);
+      border-color:rgba(22,199,132,.22);
+      color:#d6ffea;
     }
 
     .stats{
@@ -269,13 +270,6 @@
       padding:20px;
     }
 
-    .pending-check{
-      width:18px;
-      height:18px;
-      accent-color:var(--green);
-      cursor:pointer;
-    }
-
     .farm-list{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -303,6 +297,13 @@
       color:#d8ecff;
       font-size:12px;
       margin-top:8px;
+    }
+
+    .pending-check{
+      width:18px;
+      height:18px;
+      accent-color:var(--green);
+      cursor:pointer;
     }
 
     .module-placeholder{
@@ -343,38 +344,38 @@
         <div class="brand">Conecta2</div>
         <div class="sub">Panel administrador</div>
       </div>
-      <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+      <button class="logout-btn" id="logoutBtn">Cerrar sesión</button>
     </div>
 
-    <div id="globalStatus" class="status">Panel cargado.</div>
+    <div id="globalStatus" class="status">Panel listo.</div>
 
     <div class="menu">
-      <button id="btn-menu-resumen" class="menu-btn active" onclick="showView('resumen')">
+      <button class="menu-btn active" data-view="resumen">
         <span class="title">Resumen</span>
         <span class="desc">Estado general del sistema.</span>
       </button>
 
-      <button id="btn-menu-pendientes" class="menu-btn" onclick="showView('pendientes')">
+      <button class="menu-btn" data-view="pendientes">
         <span class="title">Pendientes manuales</span>
         <span class="desc">Pagos en efectivo o transferencia.</span>
       </button>
 
-      <button id="btn-menu-membresias" class="menu-btn" onclick="showView('membresias')">
+      <button class="menu-btn" data-view="membresias">
         <span class="title">Membresías</span>
         <span class="desc">Módulo siguiente.</span>
       </button>
 
-      <button id="btn-menu-comercios" class="menu-btn" onclick="showView('comercios')">
+      <button class="menu-btn" data-view="comercios">
         <span class="title">Comercios</span>
         <span class="desc">Módulo siguiente.</span>
       </button>
 
-      <button id="btn-menu-servicios" class="menu-btn" onclick="showView('servicios')">
+      <button class="menu-btn" data-view="servicios">
         <span class="title">Servicios</span>
         <span class="desc">Módulo siguiente.</span>
       </button>
 
-      <button id="btn-menu-farmacias" class="menu-btn" onclick="showView('farmacias')">
+      <button class="menu-btn" data-view="farmacias">
         <span class="title">Farmacias</span>
         <span class="desc">Turnos y listado de farmacias.</span>
       </button>
@@ -383,8 +384,9 @@
     <section id="view-resumen" class="view active">
       <div class="card">
         <h2>Resumen general</h2>
+
         <div class="toolbar">
-          <button class="btn secondary" onclick="loadResumen()">Actualizar resumen</button>
+          <button class="btn secondary" id="btnActualizarResumen">Actualizar resumen</button>
         </div>
 
         <div class="stats">
@@ -407,6 +409,21 @@
             <div class="label">Vencidas</div>
             <div class="value" id="statVencidas">0</div>
           </div>
+
+          <div class="stat">
+            <div class="label">Instalaciones app</div>
+            <div class="value" id="statInstalaciones">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="label">Activos hoy</div>
+            <div class="value" id="statActivosHoy">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="label">Últimos 30 días</div>
+            <div class="value" id="statActivos30Dias">0</div>
+          </div>
         </div>
       </div>
     </section>
@@ -414,8 +431,9 @@
     <section id="view-pendientes" class="view">
       <div class="card">
         <h2>Pendientes manuales</h2>
+
         <div class="toolbar">
-          <button class="btn secondary" onclick="loadPendientes()">Actualizar pendientes</button>
+          <button class="btn secondary" id="btnActualizarPendientes">Actualizar pendientes</button>
         </div>
 
         <div class="table-wrap">
@@ -443,27 +461,28 @@
     <section id="view-membresias" class="view">
       <div class="card">
         <h2>Membresías</h2>
-        <div class="module-placeholder">Este módulo lo armamos en la siguiente etapa.</div>
+        <div class="module-placeholder">Este módulo lo armamos en la siguiente etapa, limpio y sin parches.</div>
       </div>
     </section>
 
     <section id="view-comercios" class="view">
       <div class="card">
         <h2>Comercios</h2>
-        <div class="module-placeholder">Este módulo lo armamos en la siguiente etapa.</div>
+        <div class="module-placeholder">Este módulo lo armamos en la siguiente etapa, limpio y sin parches.</div>
       </div>
     </section>
 
     <section id="view-servicios" class="view">
       <div class="card">
         <h2>Servicios</h2>
-        <div class="module-placeholder">Este módulo lo armamos en la siguiente etapa.</div>
+        <div class="module-placeholder">Este módulo lo armamos en la siguiente etapa, limpio y sin parches.</div>
       </div>
     </section>
 
     <section id="view-farmacias" class="view">
       <div class="card">
         <h2>Farmacias</h2>
+
         <div class="note" style="margin-bottom:14px;">
           El turno que ve la app respeta la lógica nocturna: antes de las 08:00 toma el día anterior.
         </div>
@@ -479,8 +498,8 @@
             <select id="farmAnio"></select>
           </div>
 
-          <button class="btn secondary" onclick="loadTurnosFarmacias()">Cargar calendario</button>
-          <button class="btn primary" onclick="saveTurnosFarmacias()">Guardar turnos</button>
+          <button class="btn secondary" id="btnCargarTurnos">Cargar calendario</button>
+          <button class="btn primary" id="btnGuardarTurnos">Guardar turnos</button>
         </div>
 
         <h3>Farmacias activas</h3>
@@ -507,18 +526,16 @@
   </div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDsrRM_Efka8Iij/exec";
 
     let farmaciasCache = [];
     let turnosFarmaciasActuales = [];
 
-    function setStatus(texto, tipo) {
+    function setStatus(texto, tipo = "") {
       const box = document.getElementById("globalStatus");
       box.textContent = texto;
       box.className = "status";
-      if (tipo) {
-        box.classList.add(tipo);
-      }
+      if (tipo) box.classList.add(tipo);
     }
 
     function logout() {
@@ -528,58 +545,57 @@
     }
 
     function showView(view) {
-  const views = document.querySelectorAll(".view");
-  const buttons = document.querySelectorAll(".menu-btn");
+      const views = document.querySelectorAll(".view");
+      const buttons = document.querySelectorAll(".menu-btn");
 
-  for (let i = 0; i < views.length; i++) {
-    views[i].classList.remove("active");
-  }
+      for (let i = 0; i < views.length; i++) {
+        views[i].classList.remove("active");
+      }
 
-  for (let j = 0; j < buttons.length; j++) {
-    buttons[j].classList.remove("active");
-  }
+      for (let j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove("active");
+      }
 
-  const targetView = document.getElementById("view-" + view);
-  const targetBtn = document.getElementById("btn-menu-" + view);
+      const targetView = document.getElementById("view-" + view);
+      const targetBtn = document.querySelector('.menu-btn[data-view="' + view + '"]');
 
-  if (targetView) {
-    targetView.classList.add("active");
-  }
+      if (targetView) {
+        targetView.classList.add("active");
+      }
 
-  if (targetBtn) {
-    targetBtn.classList.add("active");
-  }
+      if (targetBtn) {
+        targetBtn.classList.add("active");
+      }
 
-  if (view === "resumen") {
-    loadResumen();
-  }
+      if (view === "resumen") {
+        loadResumen();
+      }
 
-  if (view === "pendientes") {
-    loadPendientes();
-  }
+      if (view === "pendientes") {
+        loadPendientes();
+      }
 
-  if (view === "farmacias") {
-    loadFarmacias();
-  }
+      if (view === "farmacias") {
+        loadFarmacias();
+      }
 
-  setTimeout(function () {
-    if (targetView) {
-      targetView.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+      setTimeout(function () {
+        if (targetView) {
+          targetView.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      }, 120);
     }
-  }, 120);
-}
 
-    async function postFormAction(action, extra) {
+    async function postFormAction(action, extra = {}) {
       const formData = new FormData();
       formData.append("action", action);
 
-      const payload = extra || {};
-      for (const key in payload) {
-        formData.append(key, payload[key]);
-      }
+      Object.keys(extra).forEach(k => {
+        formData.append(k, extra[k]);
+      });
 
       const response = await fetch(SCRIPT_URL, {
         method: "POST",
@@ -589,7 +605,7 @@
       return await response.json();
     }
 
-    function initMesesAnios() {
+    function inicializarMesesAnios() {
       const meses = [
         "Enero","Febrero","Marzo","Abril","Mayo","Junio",
         "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
@@ -601,12 +617,12 @@
       mes.innerHTML = "";
       anio.innerHTML = "";
 
-      for (let i = 0; i < meses.length; i++) {
+      meses.forEach((m, i) => {
         const op = document.createElement("option");
         op.value = i + 1;
-        op.textContent = meses[i];
+        op.textContent = m;
         mes.appendChild(op);
-      }
+      });
 
       const hoy = new Date();
       const anioActual = hoy.getFullYear();
@@ -619,16 +635,16 @@
       }
 
       mes.value = hoy.getMonth() + 1;
-      anio.value = anioActual;
+      anio.value = hoy.getFullYear();
     }
 
     async function loadResumen() {
       try {
         setStatus("Cargando resumen...");
-        const r = await postFormAction("resumenAdmin", {});
+        const r = await postFormAction("resumenAdmin");
 
         if (!r.ok) {
-          setStatus(r.message || r.error || "No se pudo cargar el resumen.", "error");
+          setStatus(r.message || "No se pudo cargar el resumen.", "error");
           return;
         }
 
@@ -636,6 +652,9 @@
         document.getElementById("statVencer").textContent = r.porVencer || 0;
         document.getElementById("statPendientes").textContent = r.pendientes || 0;
         document.getElementById("statVencidas").textContent = r.vencidas || 0;
+        document.getElementById("statInstalaciones").textContent = r.instalaciones || 0;
+        document.getElementById("statActivosHoy").textContent = r.activosHoy || 0;
+        document.getElementById("statActivos30Dias").textContent = r.activos30Dias || 0;
 
         setStatus("Resumen cargado correctamente.", "ok");
       } catch (e) {
@@ -650,7 +669,7 @@
 
       try {
         setStatus("Cargando pendientes manuales...");
-        const r = await postFormAction("listarPendientesManuales", {});
+        const r = await postFormAction("listarPendientesManuales");
 
         if (!r.ok) {
           tbody.innerHTML = '<tr><td colspan="8" class="empty">No se pudieron cargar los pendientes.</td></tr>';
@@ -667,9 +686,7 @@
         }
 
         let html = "";
-
-        for (let i = 0; i < pendientes.length; i++) {
-          const item = pendientes[i];
+        pendientes.forEach(item => {
           const fila = String(item.fila || "");
           const id = String(item.id_membresia || "");
           const nombre = String(item.nombre_negocio || "");
@@ -678,18 +695,19 @@
           const plan = String(item.plan || "");
           const medio = String(item.medio_pago || "");
 
-          html += ''
-            + '<tr>'
-            +   '<td>' + id + '</td>'
-            +   '<td>' + nombre + '</td>'
-            +   '<td>' + tipo + '</td>'
-            +   '<td>' + telefono + '</td>'
-            +   '<td>' + plan + '</td>'
-            +   '<td>' + medio + '</td>'
-            +   '<td><input class="pending-check" type="checkbox" id="check-' + fila + '"></td>'
-            +   '<td><button class="btn primary" onclick="activarMembresia(\'' + fila + '\', \'' + id + '\')">Activar</button></td>'
-            + '</tr>';
-        }
+          html += `
+            <tr>
+              <td>${id}</td>
+              <td>${nombre}</td>
+              <td>${tipo}</td>
+              <td>${telefono}</td>
+              <td>${plan}</td>
+              <td>${medio}</td>
+              <td><input class="pending-check" type="checkbox" id="check-${fila}"></td>
+              <td><button class="btn primary btn-activar" data-fila="${fila}" data-id="${id}">Activar</button></td>
+            </tr>
+          `;
+        });
 
         tbody.innerHTML = html;
         setStatus("Pendientes cargados correctamente.", "ok");
@@ -713,16 +731,9 @@
 
       try {
         setStatus("Intentando activar membresía manual...");
-
-        let r = await postFormAction("activarMembresiaManual", {
+        const r = await postFormAction("activarMembresiaManual", {
           id_membresia: idMembresia
         });
-
-        if (!r.ok && (r.message === "Acción no válida." || r.error === "Acción no válida.")) {
-          r = await postFormAction("validarPagoManual", {
-            id_membresia: idMembresia
-          });
-        }
 
         if (r.ok) {
           alert("Membresía activada correctamente.");
@@ -740,25 +751,25 @@
       }
     }
 
-    async function activarMembresia(fila, idMembresia) {
-      return activarManual(fila, idMembresia);
-    }
-
     async function loadFarmacias() {
       try {
         setStatus("Cargando farmacias...");
-        const r = await postFormAction("listarFarmacias", {});
 
-        if (!r.ok) {
-          document.getElementById("farmaciasListado").innerHTML = '<div class="empty">No se pudieron cargar las farmacias.</div>';
-          document.getElementById("tablaTurnosFarmacias").innerHTML = '<tr><td colspan="2" class="empty">No se pudo cargar el calendario.</td></tr>';
-          setStatus(r.message || r.error || "No se pudieron cargar las farmacias.", "error");
-          return;
+        if (!farmaciasCache.length) {
+          const r = await postFormAction("listarFarmacias");
+
+          if (!r.ok) {
+            document.getElementById("farmaciasListado").innerHTML = '<div class="empty">No se pudieron cargar las farmacias.</div>';
+            setStatus(r.message || r.error || "No se pudieron cargar las farmacias.", "error");
+            return;
+          }
+
+          farmaciasCache = Array.isArray(r.farmacias) ? r.farmacias : [];
         }
 
-        farmaciasCache = Array.isArray(r.farmacias) ? r.farmacias : [];
         renderFarmacias();
         await loadTurnosFarmacias();
+        setStatus("Farmacias cargadas correctamente.", "ok");
       } catch (e) {
         console.error(e);
         setStatus("Error de conexión cargando farmacias.", "error");
@@ -774,24 +785,17 @@
       }
 
       let html = "";
-
-      for (let i = 0; i < farmaciasCache.length; i++) {
-        const f = farmaciasCache[i];
-        const nombre = String(f.nombre || "");
-        const direccion = String(f.direccion || "");
-        const telefono = String(f.telefono || "-");
-        const whatsapp = String(f.whatsapp || "-");
-        const id = String(f.id_farmacia || "");
-
-        html += ''
-          + '<div class="farm-item">'
-          +   '<strong>' + nombre + '</strong>'
-          +   '<div>' + direccion + '</div>'
-          +   '<div style="margin-top:6px;">Tel: ' + telefono + '</div>'
-          +   '<div>WhatsApp: ' + whatsapp + '</div>'
-          +   '<div class="tag">' + id + '</div>'
-          + '</div>';
-      }
+      farmaciasCache.forEach(f => {
+        html += `
+          <div class="farm-item">
+            <strong>${String(f.nombre || "")}</strong>
+            <div>${String(f.direccion || "")}</div>
+            <div style="margin-top:6px;">Tel: ${String(f.telefono || "-")}</div>
+            <div>WhatsApp: ${String(f.whatsapp || "-")}</div>
+            <div class="tag">${String(f.id_farmacia || "")}</div>
+          </div>
+        `;
+      });
 
       cont.innerHTML = html;
     }
@@ -810,35 +814,31 @@
       }
 
       let html = "";
-
       for (let dia = 1; dia <= totalDias; dia++) {
-        let seleccionado = "";
-
-        for (let t = 0; t < turnosFarmaciasActuales.length; t++) {
-          if (Number(turnosFarmaciasActuales[t].dia) === dia) {
-            seleccionado = String(turnosFarmaciasActuales[t].id_farmacia || "");
-            break;
-          }
-        }
+        const asignado = turnosFarmaciasActuales.find(t => Number(t.dia) === dia);
+        const seleccionado = asignado ? String(asignado.id_farmacia || "") : "";
 
         let opciones = '<option value="">Seleccionar farmacia</option>';
+        farmaciasCache.forEach(f => {
+          const id = String(f.id_farmacia || "");
+          const nombre = String(f.nombre || "");
+          const selected = id === seleccionado ? "selected" : "";
+          opciones += <option value="${id}" ${selected}>${nombre}</option>;
+        });
 
-        for (let f = 0; f < farmaciasCache.length; f++) {
-          const id = String(farmaciasCache[f].id_farmacia || "");
-          const nombre = String(farmaciasCache[f].nombre || "");
-          const selected = id === seleccionado ? ' selected' : '';
-          opciones += '<option value="' + id + '"' + selected + '>' + nombre + '</option>';
-        }
-
-        html += ''
-          + '<tr>'
-          +   '<td>' + dia + '</td>'
-          +   '<td><select data-dia="' + dia + '">' + opciones + '</select></td>'
-          + '</tr>';
+        html += `
+          <tr>
+            <td>${dia}</td>
+            <td>
+              <select data-dia="${dia}">
+                ${opciones}
+              </select>
+            </td>
+          </tr>
+        `;
       }
 
       tbody.innerHTML = html;
-      setStatus("Farmacias cargadas correctamente.", "ok");
     }
 
     async function loadTurnosFarmacias() {
@@ -846,11 +846,7 @@
       const mes = Number(document.getElementById("farmMes").value);
 
       try {
-        let r = await postFormAction("obtenerTurnosFarmacias", { anio: anio, mes: mes });
-
-        if (!r.ok) {
-          r = await postFormAction("listarTurnos", { anio: anio, mes: mes });
-        }
+        const r = await postFormAction("obtenerTurnosFarmacias", { anio, mes });
 
         if (!r.ok) {
           document.getElementById("tablaTurnosFarmacias").innerHTML =
@@ -869,29 +865,27 @@
       }
     }
 
-    async function saveTurnosFarmacias() {
+    async function guardarTurnosFarmacias() {
       const anio = Number(document.getElementById("farmAnio").value);
       const mes = Number(document.getElementById("farmMes").value);
       const selects = document.querySelectorAll("#tablaTurnosFarmacias select");
 
       const turnos = [];
-
-      for (let i = 0; i < selects.length; i++) {
-        const dia = Number(selects[i].getAttribute("data-dia"));
-        const id_farmacia = String(selects[i].value || "").trim();
-
+      selects.forEach(sel => {
+        const dia = Number(sel.getAttribute("data-dia"));
+        const id_farmacia = String(sel.value || "").trim();
         if (dia && id_farmacia) {
-          turnos.push({ dia: dia, id_farmacia: id_farmacia });
+          turnos.push({ dia, id_farmacia });
         }
-      }
+      });
 
       const confirmar = confirm("¿Querés guardar los turnos del mes seleccionado?");
       if (!confirmar) return;
 
       try {
         const r = await postFormAction("guardarTurnosFarmacias", {
-          anio: anio,
-          mes: mes,
+          anio,
+          mes,
           turnos: JSON.stringify(turnos)
         });
 
@@ -910,10 +904,30 @@
       }
     }
 
-    window.onload = function() {
-      initMesesAnios();
-      loadResumen();
-    };
+    function bindEventos() {
+      document.getElementById("logoutBtn").addEventListener("click", logout);
+      document.getElementById("btnActualizarResumen").addEventListener("click", loadResumen);
+      document.getElementById("btnActualizarPendientes").addEventListener("click", loadPendientes);
+      document.getElementById("btnCargarTurnos").addEventListener("click", loadTurnosFarmacias);
+      document.getElementById("btnGuardarTurnos").addEventListener("click", guardarTurnosFarmacias);
+
+      document.querySelectorAll(".menu-btn").forEach(btn => {
+        btn.addEventListener("click", () => showView(btn.dataset.view));
+      });
+
+      document.addEventListener("click", function(ev) {
+        const btn = ev.target.closest(".btn-activar");
+        if (!btn) return;
+
+        const fila = btn.getAttribute("data-fila");
+        const id = btn.getAttribute("data-id");
+        activarManual(fila, id);
+      });
+    }
+
+    inicializarMesesAnios();
+    bindEventos();
+    loadResumen();
   </script>
 </body>
 </html>
