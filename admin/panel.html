@@ -566,6 +566,25 @@
     <section id="view-servicios" class="view">
       <div class="card">
         <h2>Servicios</h2>
+        <table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nombre</th>
+<th>Categoría</th>
+<th>Teléfono</th>
+<th>Email</th>
+<th>Estado</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody id="tablaServicios">
+<tr>
+<td colspan="7" class="empty">Cargando...</td>
+</tr>
+</tbody>
+</table>
         <div class="module-placeholder">Este módulo lo armamos en la siguiente etapa.</div>
       </div>
     </section>
@@ -656,6 +675,7 @@
       if (view === "pendientes") loadPendientes();
       if (view === "membresias") loadMembresias();
       if (view === "comercios") loadComercios();
+      if (view === "servicios") loadServicios();
       if (view === "farmacias") loadFarmacias();
 
       setTimeout(function () {
@@ -790,6 +810,119 @@ async function toggleEstadoComercio(id, estadoActual) {
 
   }
 
+}
+    async function loadServicios() {
+  const tbody = document.getElementById("tablaServicios");
+  if (!tbody) return;
+
+  tbody.innerHTML = '<tr><td colspan="7" class="empty">Cargando...</td></tr>';
+
+  try {
+    setStatus("Cargando servicios...");
+    const r = await postFormAction("listarServiciosAdmin", {});
+
+    if (!r.ok) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty">No se pudieron cargar los servicios.</td></tr>';
+      setStatus(r.message || r.error || "No se pudieron cargar los servicios.", "error");
+      return;
+    }
+
+    const items = Array.isArray(r.servicios) ? r.servicios : [];
+
+    if (!items.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty">No hay servicios cargados.</td></tr>';
+      setStatus("No hay servicios cargados.", "ok");
+      return;
+    }
+
+    let html = "";
+
+    for (let i = 0; i < items.length; i++) {
+      const s = items[i];
+      const id = String(s.id || "-");
+      const nombre = String(s.nombre || "-");
+      const categoria = String(s.categoria || "-");
+      const telefono = String(s.telefono || "-");
+      const email = String(s.email || "-");
+      const estado = String(s.estado || "-");
+
+      html += ""
+        + "<tr>"
+        + "<td>" + id + "</td>"
+        + "<td>" + nombre + "</td>"
+        + "<td>" + categoria + "</td>"
+        + "<td>" + telefono + "</td>"
+        + "<td>" + email + "</td>"
+        + "<td>" + estado + "</td>"
+        + "<td>"
+        + "<button class=\"btn secondary\" onclick=\"verServicio('" + id + "')\">Ver</button> "
+        + "<button class=\"btn primary\" onclick=\"toggleEstadoServicio('" + id + "', '" + estado + "')\">Estado</button>"
+        + "</td>"
+        + "</tr>";
+    }
+
+    tbody.innerHTML = html;
+    setStatus("Servicios cargados correctamente.", "ok");
+
+  } catch (e) {
+    console.error(e);
+    tbody.innerHTML = '<tr><td colspan="7" class="empty">Error cargando servicios.</td></tr>';
+    setStatus("Error de conexión cargando servicios.", "error");
+  }
+}
+
+async function verServicio(id) {
+  try {
+    const r = await postFormAction("verServicioAdmin", { id: id });
+
+    if (!r.ok) {
+      alert(r.error || r.message || "No se pudo cargar el servicio.");
+      return;
+    }
+
+    const s = r.servicio || {};
+
+    alert(
+      "ID: " + (s.id || "-") + "\n" +
+      "Servicio: " + (s.nombre || "-") + "\n" +
+      "Categoría: " + (s.categoria || "-") + "\n" +
+      "Teléfono: " + (s.telefono || "-") + "\n" +
+      "Email: " + (s.email || "-") + "\n" +
+      "Estado: " + (s.estado || "-")
+    );
+
+  } catch (e) {
+    console.error(e);
+    alert("Error de conexión cargando servicio.");
+  }
+}
+
+async function toggleEstadoServicio(id, estadoActual) {
+  const nuevoEstado =
+    String(estadoActual).toLowerCase() === "activo"
+      ? "inactivo"
+      : "activo";
+
+  if (!confirm("¿Cambiar estado a '" + nuevoEstado + "'?")) return;
+
+  try {
+    const r = await postFormAction("cambiarEstadoServicioAdmin", {
+      id: id,
+      estado: nuevoEstado
+    });
+
+    if (!r.ok) {
+      alert(r.error || r.message || "No se pudo cambiar el estado.");
+      return;
+    }
+
+    alert("Estado actualizado.");
+    await loadServicios();
+
+  } catch (e) {
+    console.error(e);
+    alert("Error de conexión cambiando estado.");
+  }
 }
     async function postFormAction(action, extra = {}) {
       const params = new URLSearchParams();
