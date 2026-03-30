@@ -726,6 +726,71 @@
     setStatus("Error de conexión cargando comercios.", "error");
   }
 }
+async function verComercio(id) {
+
+  try {
+
+    const r = await postFormAction("verComercioAdmin", { id: id });
+
+    if (!r.ok) {
+      alert(r.error || r.message || "No se pudo cargar el comercio.");
+      return;
+    }
+
+    const c = r.comercio || {};
+
+    alert(
+      "ID: " + (c.id || "-") + "\n" +
+      "Comercio: " + (c.nombre || "-") + "\n" +
+      "Categoría: " + (c.categoria || "-") + "\n" +
+      "Teléfono: " + (c.telefono || "-") + "\n" +
+      "Email: " + (c.email || "-") + "\n" +
+      "Estado: " + (c.estado || "-")
+    );
+
+  } catch (e) {
+
+    console.error(e);
+    alert("Error cargando comercio.");
+
+  }
+
+}
+
+
+async function toggleEstadoComercio(id, estadoActual) {
+
+  const nuevoEstado =
+    String(estadoActual).toLowerCase() === "activo"
+      ? "inactivo"
+      : "activo";
+
+  if (!confirm("¿Cambiar estado a '" + nuevoEstado + "'?")) return;
+
+  try {
+
+    const r = await postFormAction("cambiarEstadoComercioAdmin", {
+      id: id,
+      estado: nuevoEstado
+    });
+
+    if (!r.ok) {
+      alert(r.error || r.message || "No se pudo cambiar el estado.");
+      return;
+    }
+
+    alert("Estado actualizado.");
+
+    loadComercios();
+
+  } catch (e) {
+
+    console.error(e);
+    alert("Error cambiando estado.");
+
+  }
+
+}
     async function postFormAction(action, extra = {}) {
       const params = new URLSearchParams();
       params.append("action", action);
