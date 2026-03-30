@@ -655,6 +655,7 @@
       if (view === "resumen") loadResumen();
       if (view === "pendientes") loadPendientes();
       if (view === "membresias") loadMembresias();
+      if (view === "comercios") loadComercios();
       if (view === "farmacias") loadFarmacias();
 
       setTimeout(function () {
@@ -666,7 +667,65 @@
         }
       }, 120);
     }
+    async function loadComercios() {
+  const tbody = document.getElementById("tablaComercios");
+  if (!tbody) return;
 
+  tbody.innerHTML = '<tr><td colspan="7" class="empty">Cargando...</td></tr>';
+
+  try {
+    setStatus("Cargando comercios...");
+    const r = await postFormAction("listarComerciosAdmin", {});
+
+    if (!r.ok) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty">No se pudieron cargar los comercios.</td></tr>';
+      setStatus(r.message || r.error || "No se pudieron cargar los comercios.", "error");
+      return;
+    }
+
+    const items = Array.isArray(r.comercios) ? r.comercios : [];
+
+    if (!items.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty">No hay comercios cargados.</td></tr>';
+      setStatus("No hay comercios cargados.", "ok");
+      return;
+    }
+
+    let html = "";
+
+    for (let i = 0; i < items.length; i++) {
+      const c = items[i];
+      const id = String(c.id || "-");
+      const nombre = String(c.nombre || "-");
+      const categoria = String(c.categoria || "-");
+      const telefono = String(c.telefono || "-");
+      const email = String(c.email || "-");
+      const estado = String(c.estado || "-");
+
+      html += ''
+        + '<tr>'
+        +   '<td>' + id + '</td>'
+        +   '<td>' + nombre + '</td>'
+        +   '<td>' + categoria + '</td>'
+        +   '<td>' + telefono + '</td>'
+        +   '<td>' + email + '</td>'
+        +   '<td>' + estado + '</td>'
+        +   '<td>'
+        +     '<button class="btn secondary" onclick="verComercio(\'' + id + '\')">Ver</button> '
+        +     '<button class="btn primary" onclick="toggleEstadoComercio(\'' + id + '\', \'' + estado + '\')">Estado</button>'
+        +   '</td>'
+        + '</tr>';
+    }
+
+    tbody.innerHTML = html;
+    setStatus("Comercios cargados correctamente.", "ok");
+
+  } catch (e) {
+    console.error(e);
+    tbody.innerHTML = '<tr><td colspan="7" class="empty">Error cargando comercios.</td></tr>';
+    setStatus("Error de conexión cargando comercios.", "error");
+  }
+}
     async function postFormAction(action, extra = {}) {
       const params = new URLSearchParams();
       params.append("action", action);
