@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categoría | Conecta2</title>
+  <meta name="theme-color" content="#07142b" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Manrope', Arial, sans-serif;
+      background: #07142b;
+      color: #fff;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(29, 211, 209, 0.14), transparent 28%),
+        linear-gradient(180deg, #041126 0%, #071b3a 38%, #0c6f8d 100%);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .top-wrap {
+      padding: 16px;
+    }
+
+    .hero-box {
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      backdrop-filter: blur(4px);
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .back-btn {
+      border: 0;
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 1.28rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      margin: 6px 0 0 0;
+      color: rgba(255,255,255,0.86);
+      font-size: .94rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .content {
+      background: #eef4f7;
+      color: #11253d;
+      border-radius: 32px 32px 0 0;
+      padding: 22px 16px 30px;
+      min-height: 70vh;
+    }
+
+    .filters-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+    }
+
+    .filters-title {
+      margin: 0 0 12px 0;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #12304d;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: .86rem;
+      font-weight: 800;
+      color: #42596f;
+    }
+
+    .field select {
+      width: 100%;
+      border: 1px solid #d7e3eb;
+      outline: none;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-size: .96rem;
+      font-weight: 700;
+      font-family: inherit;
+      background: #f9fcff;
+      color: #16324d;
+    }
+
+    .results-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .results-head h2 {
+      margin: 0;
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: #10243d;
+      letter-spacing: -0.02em;
+    }
+
+    .count-badge {
+      background: #dff3fb;
+      color: #0b6e92;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .8rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .cards {
+      display: grid;
+      gap: 14px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+
+    .card-top {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .card-photo {
+      width: 84px;
+      height: 84px;
+      border-radius: 18px;
+      object-fit: cover;
+      display: block;
+      background: #dfe8ef;
+    }
+
+    .card-name {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.12;
+      font-weight: 800;
+      color: #12304d;
+      letter-spacing: -0.02em;
+    }
+
+    .card-rubro {
+      margin: 4px 0 0 0;
+      font-size: .9rem;
+      color: #587083;
+      font-weight: 700;
+    }
+
+    .card-owner {
+      margin: 6px 0 0 0;
+      font-size: .86rem;
+      color: #6b7f91;
+      font-weight: 700;
+    }
+
+    .status-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: .88rem;
+      font-weight: 800;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+
+    .dot-open {
+      background: #1fbf5b;
+    }
+
+    .dot-closed {
+      background: #df3d3d;
+    }
+
+    .status-open {
+      color: #178746;
+    }
+
+    .status-closed {
+      color: #b52d2d;
+    }
+
+    .schedule-text {
+      margin: 8px 0 0 0;
+      color: #4f6779;
+      font-size: .87rem;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    .card-desc {
+      margin: 12px 0 0 0;
+      color: #50697b;
+      font-size: .88rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn-wa,
+    .btn-profile {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 12px;
+      font-size: .92rem;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+    }
+
+    .btn-wa {
+      background: linear-gradient(135deg, #19ad4a, #108a39);
+      color: #fff;
+    }
+
+    .btn-profile {
+      background: linear-gradient(135deg, #e9f0f6, #d8e4ee);
+      color: #16324d;
+    }
+
+    .empty-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 24px 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .empty-box h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.04rem;
+      font-weight: 800;
+      color: #12304d;
+    }
+
+    .empty-box p {
+      margin: 0;
+      color: #627789;
+      font-size: .92rem;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    @media (max-width: 420px) {
+      .card-top {
+        grid-template-columns: 76px 1fr;
+      }
+
+      .card-photo {
+        width: 76px;
+        height: 76px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="top-wrap">
+      <div class="hero-box">
+        <div class="top-bar">
+          <a class="back-btn" href="index.html">←</a>
+          <div>
+            <h1 class="hero-title" id="categoryTitle">Categoría</h1>
+            <p class="hero-subtitle" id="categorySubtitle">Explorá opciones disponibles en esta categoría.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="content">
+      <div class="filters-card">
+        <h2 class="filters-title">Filtrar resultados</h2>
+
+        <div class="field">
+          <label for="subFilter">Subcategoría</label>
+          <select id="subFilter">
+            <option value="todos">Todos</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="statusFilter">Disponibilidad</label>
+          <select id="statusFilter">
+            <option value="todos">Todos</option>
+            <option value="abiertos">Solo disponibles / abiertos</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results-head">
+        <h2>Resultados</h2>
+        <div class="count-badge" id="countBadge">0 resultados</div>
+      </div>
+
+      <div class="cards" id="cardsContainer"></div>
+    </section>
+  </div>
+
+  <script>
+    const categoriaConfig = {
+      "servicios-hogar": {
+        titulo: "Servicios para el hogar",
+        subtitulo: "Encontrá personas y servicios para resolver necesidades del día a día.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Plomería", "Electricidad", "Gas", "Limpieza", "Jardinería"]
+      },
+      "construccion": {
+        titulo: "Construcción",
+        subtitulo: "Profesionales y oficios vinculados a obras, reformas y mejoras.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Albañilería", "Arquitectura", "Corralón", "Pinturería", "Maestro mayor de obras"]
+      },
+      "gastronomia": {
+        titulo: "Gastronomía",
+        subtitulo: "Comercios y propuestas gastronómicas para cada momento.",
+        tipoEstado: "abierto",
+        subcategorias: ["Todos", "Restaurantes", "Pizzerías", "Rotiserías", "Heladerías", "Cafeterías"]
+      },
+      "salud": {
+        titulo: "Salud",
+        subtitulo: "Profesionales y centros vinculados al cuidado y bienestar de la salud.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Médicos", "Odontólogos", "Psicólogos", "Pediatras", "Kinesiología"]
+      },
+      "estetica-bienestar": {
+        titulo: "Estética y bienestar",
+        subtitulo: "Servicios vinculados al cuidado personal y bienestar.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Peluquería", "Cosmetología", "Masajes", "Uñas", "Spa"]
+      },
+      "educacion": {
+        titulo: "Educación",
+        subtitulo: "Espacios y profesionales dedicados al aprendizaje y formación.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Apoyo escolar", "Idiomas", "Música", "Capacitaciones"]
+      },
+      "tecnologia": {
+        titulo: "Tecnología",
+        subtitulo: "Soluciones, servicios y comercios vinculados a tecnología.",
+        tipoEstado: "abierto",
+        subcategorias: ["Todos", "Celulares", "Computación", "Service técnico", "Internet"]
+      },
+      "profesionales": {
+        titulo: "Profesionales",
+        subtitulo: "Asesoramiento y servicios profesionales de distintas áreas.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Abogados", "Contadores", "Escribanos", "Asesores"]
+      },
+      "oficios": {
+        titulo: "Oficios",
+        subtitulo: "Personas que trabajan por oficio y atención personalizada.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Herrería", "Carpintería", "Tapicería", "Soldadura"]
+      },
+      "automotor": {
+        titulo: "Automotor",
+        subtitulo: "Servicios y comercios vinculados al mundo automotor.",
+        tipoEstado: "abierto",
+        subcategorias: ["Todos", "Mecánica", "Gomerías", "Lubricentro", "Repuestos", "Lavaderos"]
+      },
+      "comercios": {
+        titulo: "Comercios",
+        subtitulo: "Locales, negocios y propuestas comerciales de distintos rubros.",
+        tipoEstado: "abierto",
+        subcategorias: ["Todos", "Indumentaria", "Regalería", "Kioscos", "Ferreterías", "Librerías"]
+      },
+      "mascotas": {
+        titulo: "Mascotas",
+        subtitulo: "Todo lo vinculado al cuidado, atención y bienestar animal.",
+        tipoEstado: "abierto",
+        subcategorias: ["Todos", "Veterinarias", "Peluquería canina", "Pet shop", "Adiestramiento"]
+      },
+      "transporte-logistica": {
+        titulo: "Transporte y logística",
+        subtitulo: "Soluciones para traslados, envíos y logística.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Fletes", "Cadetería", "Mensajería", "Mudanzas"]
+      },
+      "deportes-gimnasios": {
+        titulo: "Deportes y gimnasios",
+        subtitulo: "Espacios y profesionales para actividad física y entrenamiento.",
+        tipoEstado: "abierto",
+        subcategorias: ["Todos", "Gimnasios", "Personal trainer", "Yoga", "Fútbol", "Crossfit"]
+      },
+      "empresas-servicios": {
+        titulo: "Empresas y servicios",
+        subtitulo: "Soluciones empresariales y servicios especializados.",
+        tipoEstado: "abierto",
+        subcategorias: ["Todos", "Seguridad", "Limpieza", "Administración", "Consultoría"]
+      },
+      "otros-rubros": {
+        titulo: "Otros rubros",
+        subtitulo: "Opciones adicionales que no encajan en las categorías principales.",
+        tipoEstado: "disponible",
+        subcategorias: ["Todos", "Varios"]
+      }
+    };
+
+    const demoData = {
+      "salud": [
+        {
+          nombre: "Dr. Pablo Ríos",
+          rubro: "Médico clínico",
+          responsable: "Atención personalizada",
+          estado: "abierto",
+          horarioTexto: "Lunes a viernes de 8:00 a 18:00",
+          descripcion: "Consultas clínicas, controles generales y seguimiento de pacientes.",
+          foto: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500&q=80",
+          whatsapp: "https://wa.me/542474445664?text=Hola%2C%20vi%20tu%20perfil%20en%20Conecta2%20y%20quiero%20hacer%20una%20consulta.",
+          perfil: "#",
+          subcategoria: "Médicos"
+        },
+        {
+          nombre: "Odonto Smile",
+          rubro: "Odontología",
+          responsable: "Turnos y urgencias",
+          estado: "cerrado",
+          horarioTexto: "Lunes a viernes de 9:00 a 17:00",
+          descripcion: "Odontología general, estética dental y controles preventivos.",
+          foto: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=500&q=80",
+          whatsapp: "https://wa.me/542474445664?text=Hola%2C%20vi%20tu%20perfil%20en%20Conecta2%20y%20quiero%20consultar%20por%20turnos.",
+          perfil: "#",
+          subcategoria: "Odontólogos"
+        }
+      ],
+      "gastronomia": [
+        {
+          nombre: "Pizza Rojas",
+          rubro: "Pizzería",
+          responsable: "Pedidos y delivery",
+          estado: "abierto",
+          horarioTexto: "Todos los días de 20:00 a 00:00",
+          descripcion: "Pizzas, empanadas y promos para compartir en familia.",
+          foto: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+          whatsapp: "https://wa.me/542474445664?text=Hola%2C%20quiero%20hacer%20un%20pedido.",
+          perfil: "#",
+          subcategoria: "Pizzerías"
+        }
+      ],
+      "construccion": [
+        {
+          nombre: "Caballini Construcciones",
+          rubro: "Albañilería y reformas",
+          responsable: "Presupuestos y obras",
+          estado: "abierto",
+          horarioTexto: "Lunes a sábado de 7:00 a 18:00",
+          descripcion: "Obras nuevas, ampliaciones, remodelaciones y trabajos a medida.",
+          foto: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=500&q=80",
+          whatsapp: "https://wa.me/542474445664?text=Hola%2C%20quiero%20consultar%20por%20una%20obra.",
+          perfil: "#",
+          subcategoria: "Albañilería"
+        }
+      ]
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const categoria = params.get("cat") || "salud";
+
+    const config = categoriaConfig[categoria] || {
+      titulo: "Categoría",
+      subtitulo: "Explorá opciones disponibles.",
+      tipoEstado: "disponible",
+      subcategorias: ["Todos"]
+    };
+
+    const categoryTitle = document.getElementById("categoryTitle");
+    const categorySubtitle = document.getElementById("categorySubtitle");
+    const subFilter = document.getElementById("subFilter");
+    const statusFilter = document.getElementById("statusFilter");
+    const cardsContainer = document.getElementById("cardsContainer");
+    const countBadge = document.getElementById("countBadge");
+
+    categoryTitle.textContent = config.titulo;
+    categorySubtitle.textContent = config.subtitulo;
+
+    subFilter.innerHTML = "";
+    config.subcategorias.forEach(sub => {
+      const option = document.createElement("option");
+      option.value = sub.toLowerCase();
+      option.textContent = sub;
+      subFilter.appendChild(option);
+    });
+
+    function getEstadoTexto(item) {
+      if (config.tipoEstado === "abierto") {
+        return item.estado === "abierto" ? "Abierto ahora" : "Cerrado ahora";
+      }
+      return item.estado === "abierto" ? "Disponible ahora" : "No disponible ahora";
+    }
+
+    function getEstadoClass(item) {
+      return item.estado === "abierto"
+        ? { dot: "dot-open", text: "status-open" }
+        : { dot: "dot-closed", text: "status-closed" };
+    }
+
+    function renderCards() {
+      const data = demoData[categoria] || [];
+      const subValue = subFilter.value;
+      const statusValue = statusFilter.value;
+
+      const filtrados = data.filter(item => {
+        const pasaSub = subValue === "todos" || (item.subcategoria || "").toLowerCase() === subValue;
+        const pasaEstado = statusValue === "todos" || item.estado === "abierto";
+        return pasaSub && pasaEstado;
+      });
+
+      countBadge.textContent = ${filtrados.length} resultado${filtrados.length === 1 ? "" : "s"};
+
+      if (!filtrados.length) {
+        cardsContainer.innerHTML = `
+          <div class="empty-box">
+            <h3>No hay resultados para mostrar</h3>
+            <p>Esta categoría todavía no tiene perfiles cargados o no coinciden con el filtro seleccionado.</p>
+          </div>
+        `;
+        return;
+      }
+
+      cardsContainer.innerHTML = filtrados.map(item => {
+        const estadoTexto = getEstadoTexto(item);
+        const estadoClass = getEstadoClass(item);
+
+        return `
+          <article class="card">
+            <div class="card-top">
+              <img class="card-photo" src="${item.foto}" alt="${item.nombre}">
+              <div>
+                <h3 class="card-name">${item.nombre}</h3>
+                <p class="card-rubro">${item.rubro}</p>
+                <p class="card-owner">${item.responsable || ""}</p>
+
+                <div class="status-row ${estadoClass.text}">
+                  <span class="status-dot ${estadoClass.dot}"></span>
+                  <span>${estadoTexto}</span>
+                </div>
+
+                <p class="schedule-text">${item.horarioTexto}</p>
+              </div>
+            </div>
+
+            <p class="card-desc">${item.descripcion}</p>
+
+            <div class="card-actions">
+              <a class="btn-wa" href="${item.whatsapp}" target="_blank">WhatsApp</a>
+              <a class="btn-profile" href="${item.perfil}">Ver perfil</a>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    subFilter.addEventListener("change", renderCards);
+    statusFilter.addEventListener("change", renderCards);
+
+    renderCards();
+  </script>
+</body>
+</html>
