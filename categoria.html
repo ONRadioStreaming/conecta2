@@ -574,65 +574,106 @@
         : { dot: "dot-closed", text: "status-closed" };
     }
 
-    function renderCards() {
-      const data = demoData[categoria] || [];
-      const subValue = subFilter.value;
-      const statusValue = statusFilter.value;
+    async function renderCards() {
+  const subValue = subFilter.value;
+  const statusValue = statusFilter.value;
 
-      const filtrados = data.filter(item => {
-        const pasaSub = subValue === "todos" || (item.subcategoria || "").toLowerCase() === subValue;
-        const pasaEstado = statusValue === "todos" || item.estado === "abierto";
-        return pasaSub && pasaEstado;
-      });
+  cardsContainer.innerHTML = <div class="loading">Cargando resultados...</div>;
+  countBadge.textContent = "Cargando...";
 
-      countBadge.textContent = ${filtrados.length} resultado${filtrados.length === 1 ? "" : "s"};
+  try {
+    const response = await fetch(${API_URL_BASE}?action=listarCategoria&cat=${encodeURIComponent(categoria)});
 
-      if (!filtrados.length) {
-        cardsContainer.innerHTML = `
-          <div class="empty-box">
-            <h3>No hay resultados para mostrar</h3>
-            <p>Esta categoría todavía no tiene perfiles cargados o no coinciden con el filtro seleccionado.</p>
+    if (!response.ok) {
+      throw new Error(Error HTTP ${response.status});
+    }
+
+    const data = await response.json();
+
+    const filtrados = data.filter(item => {
+      const subcatItem = (item.rubro_final || item.subcategoria || item.rubro || "").toString().trim().toLowerCase();
+      const estadoItem = (item.estado || "").toString().trim().toLowerCase();
+
+      const pasaSub =
+        subValue === "todos" ||
+        subcatItem === subValue.toLowerCase();
+
+      const pasaEstado =
+        statusValue === "todos" ||
+        estadoItem === statusValue.toLowerCase();
+
+      return pasaSub && pasaEstado;
+    });
+
+    countBadge.textContent = ${filtrados.length} resultado${filtrados.length === 1 ? "" : "s"};
+
+    if (!filtrados.length) {
+      cardsContainer.innerHTML = `
+        <div class="empty-state">
+          No hay resultados disponibles para los filtros seleccionados.
+        </div>
+      `;
+      return;
+    }
+
+    cardsContainer.innerHTML = filtrados.map(item => {
+      const nombre = item.nombre_comercio || item.nombre || "Sin nombre";
+      const descripcion = item.descripcion || item.detalle || "Sin descripción disponible";
+      const direccion = item.direccion || item.domicilio || "Dirección no informada";
+      const telefono = item.telefono || item.celular || "";
+      const whatsapp = item.whatsapp || item.celular || item.telefono || "";
+      const imagen = item.foto || item.imagen || item.logo || "";
+      const estado = (item.estado || "activo").toLowerCase();
+
+      const estadoClass = estadoStyles[estado]?.dot || "dot-open";
+      const estadoTextClass = estadoStyles[estado]?.text || "status-open";
+
+      return `
+        <article class="card">
+          <div class="card-image-wrap">
+            ${
+              imagen
+                ? <img src="${imagen}" alt="${nombre}" class="card-image" onerror="this.style.display='none'">
+                : ""
+            }
           </div>
-        `;
-        return;
-      }
 
-      cardsContainer.innerHTML = filtrados.map(item => {
-        const estadoTexto = getEstadoTexto(item);
-        const estadoClass = getEstadoClass(item);
-
-        return `
-          <article class="card">
+          <div class="card-body">
             <div class="card-top">
-              <img class="card-photo" src="${item.foto}" alt="${item.nombre}">
-              <div>
-                <h3 class="card-name">${item.nombre}</h3>
-                <p class="card-rubro">${item.rubro}</p>
-                <p class="card-owner">${item.responsable || ""}</p>
-
-                <div class="status-row ${estadoClass.text}">
-                  <span class="status-dot ${estadoClass.dot}"></span>
-                  <span>${estadoTexto}</span>
-                </div>
-
-                <p class="schedule-text">${item.horarioTexto}</p>
+              <h3 class="card-title">${nombre}</h3>
+              <div class="card-status ${estadoTextClass}">
+                <span class="status-dot ${estadoClass}"></span>
+                ${estado}
               </div>
             </div>
 
-            <p class="card-desc">${item.descripcion}</p>
+            <p class="card-description">${descripcion}</p>
+            <p class="card-address">${direccion}</p>
 
             <div class="card-actions">
-              <a class="btn-wa" href="${item.whatsapp}" target="_blank">WhatsApp</a>
-              <a class="btn-profile" href="${item.perfil}">Ver perfil</a>
+              ${telefono ? <a href="tel:${telefono}" class="btn-action">Llamar</a> : ""}
+              ${whatsapp ? <a href="https://wa.me/${limpiarNumero(whatsapp)}" target="_blank" class="btn-action whatsapp">WhatsApp</a> : ""}
             </div>
-          </article>
-        `;
-      }).join("");
-    }
+          </div>
+        </article>
+      `;
+    }).join("");
 
+  } catch (error) {
+    console.error("Error al cargar datos desde la API:", error);
+
+    countBadge.textContent = "Error";
+    cardsContainer.innerHTML = `
+      <div class="empty-state">
+        Ocurrió un error al cargar los resultados.
+      </div>
+    `;
+  }
+}
     subFilter.addEventListener("change", renderCards);
     statusFilter.addEventListener("change", renderCards);
 
+    const API_URL_BASE = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
     renderCards();
   </script>
 </body>
