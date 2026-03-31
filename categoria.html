@@ -603,7 +603,7 @@
       return pasaSub && pasaEstado;
     });
 
-    countBadge.textContent = ${filtrados.length} resultado${filtrados.length === 1 ? "" : "s"};
+    countBadge.textContent = filtrados.length + " resultado" + (filtrados.length === 1 ? "" : "s");
 
     if (!filtrados.length) {
       cardsContainer.innerHTML = `
