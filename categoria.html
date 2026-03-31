@@ -578,11 +578,10 @@
   const subValue = subFilter.value;
   const statusValue = statusFilter.value;
 
-  cardsContainer.innerHTML = `<div class="loading">Cargando resultados...</div>`;
-  countBadge.textContent = "Cargando...";
+    countBadge.textContent = "Cargando...";
 
   try {
-    const response = await fetch(${API_URL_BASE}?action=listarCategoria&cat=${categoria})
+    const response = await fetch(`${API_URL_BASE}?action=listarCategoria&cat=${categoria}`);
 
     if (!response.ok) {
       throw new Error(Error HTTP ${response.status});
