@@ -581,13 +581,13 @@
     countBadge.textContent = "Cargando...";
 
   try {
-    const response = await fetch(`${API_URL_BASE}?action=listarCategoria&cat=${categoria}`);
+  const response = await fetch(API_URL_BASE + "?action=listarCategoria&cat=" + categoria);
 
-    if (!response.ok) {
-      throw new Error(Error HTTP ${response.status});
-    }
+  if (!response.ok) {
+    throw new Error("Error HTTP " + response.status);
+  }
 
-    const data = await response.json();
+  const data = await response.json();
 
     const filtrados = data.filter(item => {
       const subcatItem = (item.rubro || "").toString().trim().toLowerCase();
