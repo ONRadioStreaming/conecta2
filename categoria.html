@@ -582,7 +582,7 @@
   countBadge.textContent = "Cargando...";
 
   try {
-    const response = await fetch(${API_URL_BASE}?action=listarCategoria&cat=${encodeURIComponent(categoria)});
+    const response = await fetch(${API_URL_BASE}?action=listarCategoria&cat=${categoria})
 
     if (!response.ok) {
       throw new Error(Error HTTP ${response.status});
@@ -591,8 +591,7 @@
     const data = await response.json();
 
     const filtrados = data.filter(item => {
-      const subcatItem = (item.rubro_final || item.subcategoria || item.rubro || "").toString().trim().toLowerCase();
-      const estadoItem = (item.estado || "").toString().trim().toLowerCase();
+      const subcatItem = (item.rubro || "").toString().trim().toLowerCase();
 
       const pasaSub =
         subValue === "todos" ||
@@ -617,7 +616,7 @@
     }
 
     cardsContainer.innerHTML = filtrados.map(item => {
-      const nombre = item.nombre_comercio || item.nombre || "Sin nombre";
+      const nombre = item.nombre || "Sin nombre";
       const descripcion = item.descripcion || item.detalle || "Sin descripción disponible";
       const direccion = item.direccion || item.domicilio || "Dirección no informada";
       const telefono = item.telefono || item.celular || "";
