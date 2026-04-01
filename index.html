@@ -847,8 +847,41 @@ function registrarInstalacionApp() {
   }).catch(() => {});
 
 }
+function cargarFarmaciaHoy(){
 
-registrarInstalacionApp();
+  const url = SCRIPT_URL + "?action=farmaciaHoy";
+
+  fetch(url)
+    .then(r => r.json())
+    .then(data => {
+
+      if(!data.ok) return;
+
+      const f = data.farmacia;
+
+      document.getElementById("farmaciaNombre").textContent = f.nombre;
+      document.getElementById("farmaciaDireccion").textContent = f.direccion;
+
+      if(f.telefono_llamada){
+        document.getElementById("btnFarmaciaLlamar").href = "tel:" + f.telefono_llamada;
+      }
+
+      if(f.whatsapp){
+        document.getElementById("btnFarmaciaWhatsapp").href =
+          "https://wa.me/" + f.whatsapp.replace(/\D/g,'');
+      }
+
+      if(f.maps){
+        document.getElementById("btnFarmaciaMapa").href = f.maps;
+      }
+
+    })
+    .catch(err => console.log("Error farmacia", err));
+}
+
+window.addEventListener("load", cargarFarmaciaHoy);
+    
+registrarInstalacionApp();    
 </script>
 </body>
 </html>
