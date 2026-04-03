@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ofrecé tus servicios - Conecta2</title>
+  <title>Registro profesional de salud - Conecta2</title>
   <meta name="theme-color" content="#07142b" />
 
   <style>
@@ -22,7 +22,10 @@
       color: #fff;
     }
 
-    body { min-height: 100vh; }
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
     a {
       text-decoration: none;
@@ -34,6 +37,7 @@
       max-width: 480px;
       margin: 0 auto;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     .header {
@@ -74,6 +78,7 @@
       border-radius: 32px 32px 0 0;
       padding: 20px 16px 30px;
       min-height: calc(100vh - 92px);
+      overflow-x: hidden;
     }
 
     .title {
@@ -138,9 +143,13 @@
       border-radius: 24px;
       padding: 16px;
       box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      overflow: hidden;
     }
 
-    .field-group { margin-bottom: 14px; }
+    .field-group {
+      margin-bottom: 14px;
+      min-width: 0;
+    }
 
     label {
       display: block;
@@ -148,16 +157,18 @@
       color: #16304d;
       font-size: 0.92rem;
       font-weight: 800;
-      line-height: 1.25;
+      line-height: 1.35;
+      word-break: break-word;
     }
 
     .no-wrap-label {
-      white-space: nowrap;
+      white-space: normal;
       font-size: 0.88rem;
     }
 
     input, textarea, select {
       width: 100%;
+      max-width: 100%;
       border: 1px solid #d4e0ea;
       outline: none;
       background: #f8fbfd;
@@ -167,6 +178,7 @@
       font-size: 0.96rem;
       font-family: inherit;
       font-weight: 700;
+      min-width: 0;
     }
 
     textarea {
@@ -183,6 +195,12 @@
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .grid-1 {
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 12px;
     }
 
@@ -319,6 +337,7 @@
       border-radius: 18px;
       padding: 14px;
       margin-bottom: 12px;
+      overflow: hidden;
     }
 
     .alt-grid {
@@ -329,10 +348,11 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      min-width: 0;
     }
 
     .alt-grid .field-group label {
-      min-height: 34px;
+      min-height: auto;
       display: flex;
       align-items: flex-end;
     }
@@ -397,12 +417,12 @@
 
     .hidden { display: none !important; }
 
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 8px;
-    }
+   .actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
 
     .btn-submit,
     .btn-preview {
@@ -441,6 +461,7 @@
       padding: 16px;
       box-shadow: 0 8px 18px rgba(0,0,0,0.06);
       border: 1px solid #e4edf4;
+      overflow: hidden;
     }
 
     .preview-card.show { display: block; }
@@ -466,7 +487,7 @@
       flex-shrink: 0;
     }
 
-    .card-info { flex: 1; }
+    .card-info { flex: 1; min-width: 0; }
 
     .card-name {
       font-size: 1rem;
@@ -474,6 +495,7 @@
       color: #173a68;
       line-height: 1.2;
       margin-bottom: 4px;
+      word-break: break-word;
     }
 
     .card-job {
@@ -481,6 +503,7 @@
       font-weight: 800;
       color: #6a7380;
       margin-bottom: 8px;
+      word-break: break-word;
     }
 
     .card-status {
@@ -493,6 +516,7 @@
       padding: 8px 12px;
       border-radius: 999px;
       background: #f4f8fb;
+      flex-wrap: wrap;
     }
 
     .card-status.available { color: #17763f; }
@@ -516,6 +540,7 @@
       font-size: .98rem;
       line-height: 1.55;
       font-weight: 600;
+      word-break: break-word;
     }
 
     .card-block {
@@ -524,6 +549,7 @@
       border-radius: 16px;
       padding: 12px 14px;
       margin-bottom: 12px;
+      overflow: hidden;
     }
 
     .card-block-title {
@@ -542,8 +568,8 @@
     }
 
     .card-chip {
-      background: #eaf0f6;
-      color: #204979;
+      background: #f0e8ff;
+      color: #5a31b6;
       border-radius: 999px;
       padding: 9px 12px;
       font-size: .87rem;
@@ -558,11 +584,12 @@
       font-size: 0.92rem;
       font-weight: 700;
       line-height: 1.4;
+      word-break: break-word;
     }
 
     .card-buttons {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 12px;
       margin-top: 14px;
       margin-bottom: 12px;
@@ -597,6 +624,24 @@
       display: grid;
       gap: 10px;
     }
+
+    @media (max-width: 640px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .checkbox-group {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .card-top {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
@@ -604,27 +649,27 @@
     <div class="header">
       <div class="header-row">
         <a href="index.html" class="back-btn">←</a>
-        <div class="header-title">Registro de servicios</div>
+        <div class="header-title">Registro profesional de salud</div>
       </div>
     </div>
 
     <div class="content">
-      <h1 class="title">Ofrecé tus servicios</h1>
+      <h1 class="title">Registrate como profesional de salud</h1>
       <p class="subtitle">
         Completá tu perfil para sumarte a Conecta2. La foto y los datos principales son obligatorios para brindar confianza y facilitar el contacto.
       </p>
 
       <div class="notice">
-        Importante: elegí primero la categoría principal. Después seleccioná el rubro o especialidad. Si no aparece en la lista, usá la opción "Otro" y especificá cuál. La disponibilidad se calcula según los días y horarios reales que cargues.
+        Importante: elegí primero la categoría principal. Después seleccioná el rubro o especialidad. Si no aparece en la lista, usá la opción "Otro" y especificá cuál.
       </div>
 
       <div id="errorBox" class="error-box"></div>
       <div id="successBox" class="success-box"></div>
 
       <div class="form-card">
-        <form id="servicioForm">
+        <form id="saludForm">
           <div class="field-group">
-            <label>Foto personal *</label>
+            <label>Foto profesional *</label>
 
             <div class="photo-actions">
               <label class="photo-btn" for="fotoCamara">Tomar una foto</label>
@@ -656,33 +701,26 @@
             </div>
           </div>
 
-          <div class="grid-2">
-            <div class="field-group">
-              <label for="categoriaPrincipal">Categoría principal *</label>
-              <select id="categoriaPrincipal" required>
-                <option value="">Seleccionar</option>
-                <option>Servicios para el hogar</option>
-                <option>Construcción</option>
-                <option>Gastronomía</option>
-                <option>Salud</option>
-                <option>Estética y bienestar</option>
-                <option>Educación</option>
-                <option>Tecnología</option>
-                <option>Profesionales</option>
-                <option>Oficios</option>
-                <option>Automotor</option>
-                <option>Mascotas</option>
-                <option>Transporte y logística</option>
-                <option>Deportes y gimnasios</option>
-                <option>Empresas y servicios</option>
-                <option>Otros rubros</option>
-              </select>
-            </div>
+          <div class="field-group">
+            <label for="zona">Domicilio consultorio *</label>
+            <input type="text" id="zona" placeholder="Ej: Av. Moreno 245, Rojas" required>
+          </div>
 
-            <div class="field-group">
-              <label for="zona">Zona de trabajo *</label>
-              <input type="text" id="zona" placeholder="Ej: Rojas y alrededores" required>
-            </div>
+
+          <div class="field-group">
+            <label for="categoriaPrincipal">Categoría principal *</label>
+            <select id="categoriaPrincipal" required>
+  <option value="">Seleccionar</option>
+  <option>Medicina general y especialidades</option>
+  <option>Odontología</option>
+  <option>Salud mental</option>
+  <option>Rehabilitación y terapias</option>
+  <option>Nutrición y bienestar</option>
+  <option>Enfermería y acompañamiento</option>
+  <option>Diagnóstico y estudios</option>
+  <option>Veterinaria</option>
+  <option>Otros rubros</option>
+</select>
           </div>
 
           <div class="field-group">
@@ -694,17 +732,18 @@
 
           <div class="field-group hidden" id="otroRubroGroup">
             <label for="otroRubro">Especificá cuál *</label>
-            <input type="text" id="otroRubro" placeholder="Ej: Colocación de membranas">
+            <input type="text" id="otroRubro" placeholder="Ej: Peritajes judiciales">
           </div>
 
+          
           <div class="field-group">
             <label for="descripcion">Descripción *</label>
-            <textarea id="descripcion" placeholder="Explicá qué hacés, qué tipo de trabajos realizás y qué debería saber el cliente." required></textarea>
+            <textarea id="descripcion" placeholder="Explicá qué hacés, qué tipo de atención o servicio brindás y qué debería saber el cliente." required></textarea>
           </div>
 
           <div class="field-group">
-            <label for="matricula">Matrícula / dato profesional</label>
-            <input type="text" id="matricula" placeholder="Ej: Matrícula, especialidad o dato importante">
+            <label for="matricula">Matrícula profesional</label>
+            <input type="text" id="matricula" placeholder="Ej: Matrícula profesional, especialidad o dato importante">
           </div>
 
           <div class="section-divider">Contacto</div>
@@ -714,16 +753,16 @@
           </div>
 
           <div class="grid-2">
-            <div class="field-group">
-              <label for="whatsapp">WhatsApp</label>
-              <input type="tel" id="whatsapp" placeholder="WhatsApp principal">
-            </div>
+  <div class="field-group">
+    <label for="whatsapp">WhatsApp</label>
+    <input type="tel" id="whatsapp" placeholder="WhatsApp principal">
+  </div>
 
-            <div class="field-group">
-              <label for="telefonoAlternativo">Teléfono</label>
-              <input type="tel" id="telefonoAlternativo" placeholder="Teléfono para llamadas">
-            </div>
-          </div>
+  <div class="field-group">
+    <label for="telefonoAlternativo">Teléfono</label>
+    <input type="tel" id="telefonoAlternativo" placeholder="Teléfono para llamadas">
+  </div>
+</div>
 
           <div class="field-group">
             <label for="email">Correo electrónico *</label>
@@ -745,7 +784,7 @@
 
               <div class="field-group">
                 <label for="nombreWhatsappAlt1">Nombre / referencia 1</label>
-                <input type="text" id="nombreWhatsappAlt1" placeholder="Ej: Guillermo - Ventas">
+                <input type="text" id="nombreWhatsappAlt1" placeholder="Ej: Secretaría - Consultas">
               </div>
             </div>
 
@@ -757,7 +796,7 @@
 
               <div class="field-group">
                 <label for="nombreWhatsappAlt2">Nombre / referencia 2</label>
-                <input type="text" id="nombreWhatsappAlt2" placeholder="Ej: Carlos - Administración">
+                <input type="text" id="nombreWhatsappAlt2" placeholder="Ej: Administración">
               </div>
             </div>
           </div>
@@ -767,23 +806,14 @@
           <div id="dayScheduleContainer"></div>
 
           <div class="field-group">
-            <label>¿Qué medios de pago aceptás para cobrar tus productos o servicios? *</label>
-            <div class="help">Marcá cómo pueden abonarte los clientes cuando te contratan.</div>
+            <label>¿Qué medios de pago aceptás? *</label>
+            <div class="help">Marcá cómo pueden abonarte por tu atención o servicio profesional.</div>
             <div class="checkbox-group">
               <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Efectivo"> Efectivo</label>
               <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Transferencia"> Transferencia</label>
-              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Débito"> Débito</label>
-              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Tarjeta de crédito"> Tarjeta de crédito</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Obra social"> Obra social</label>
+              <label class="checkbox-item"><input type="checkbox" name="mediosPago" value="Prepaga"> Prepaga</label>
             </div>
-          </div>
-
-          <div class="field-group">
-            <label for="factura">¿Trabajan con factura? *</label>
-            <select id="factura" required>
-              <option value="">Seleccionar</option>
-              <option value="si">Sí</option>
-              <option value="no">No</option>
-            </select>
           </div>
 
           <div class="actions">
@@ -805,7 +835,7 @@
           </div>
         </div>
 
-        <div id="cardDesc" class="card-desc">Descripción del servicio</div>
+        <div id="cardDesc" class="card-desc">Descripción profesional</div>
 
         <div class="card-block">
           <div class="card-block-title">Categoría</div>
@@ -813,7 +843,7 @@
         </div>
 
         <div class="card-block">
-          <div class="card-block-title">Zona de trabajo</div>
+          <div class="card-block-title">Domicilio consultorio</div>
           <div class="card-lines" id="cardZonaBlock"></div>
         </div>
 
@@ -825,11 +855,6 @@
         <div class="card-block">
           <div class="card-block-title">Medios de pago</div>
           <div class="card-list" id="cardPagosBlock"></div>
-        </div>
-
-        <div class="card-block">
-          <div class="card-block-title">Facturación</div>
-          <div class="card-lines" id="cardFacturaBlock"></div>
         </div>
 
         <div class="card-block hidden" id="cardMatriculaWrap">
@@ -850,7 +875,7 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
 
-    const form = document.getElementById('servicioForm');
+    const form = document.getElementById('saludForm');
     const fotoCamara = document.getElementById('fotoCamara');
     const fotoGaleria = document.getElementById('fotoGaleria');
     const previewImg = document.getElementById('previewImg');
@@ -872,22 +897,68 @@
     let archivoFoto = null;
 
     const rubrosPorCategoria = {
-      "Servicios para el hogar": ["Electricidad","Plomería","Cerrajería","Jardinería","Limpieza","Mantenimiento general","Climatización","Tapicería","Otro"],
-      "Construcción": ["Albañilería","Pintura","Durlock","Colocación de membranas","Gasista","Techista","Otro"],
-      "Gastronomía": ["Chef","Catering","Pastelería","Panadería artesanal","Otro"],
-      "Salud": ["Médico","Enfermería","Kinesiología","Odontología","Psicología","Veterinaria","Otro"],
-      "Estética y bienestar": ["Peluquería","Manicuría","Masajes","Entrenamiento personal","Cosmetología","Otro"],
-      "Educación": ["Profesor particular","Apoyo escolar","Capacitación","Idiomas","Otro"],
-      "Tecnología": ["Diseño gráfico","Programación","Reparación PC","Redes","Sublimación","Otro"],
-      "Profesionales": ["Abogacía","Contaduría","Arquitectura","Ingeniería","Consultoría","Otro"],
-      "Oficios": ["Herrería","Carpintería","Tornería","Soldadura","Mecánica ligera","Otro"],
-      "Automotor": ["Mecánica","Gomería","Lavado vehicular","Polarizado","Electricidad automotor","Otro"],
-      "Mascotas": ["Paseador","Peluquería canina","Adiestramiento","Veterinaria","Otro"],
-      "Transporte y logística": ["Fletes","Mudanzas","Cadetería","Traslados","Otro"],
-      "Deportes y gimnasios": ["Profesor","Entrenador","Preparación física","Otro"],
-      "Empresas y servicios": ["Asistencia administrativa","Ventas","Gestión","Soporte técnico","Otro"],
-      "Otros rubros": ["Otro"]
-    };
+  "Medicina general y especialidades": [
+    "Cardiología",
+    "Dermatología",
+    "Ginecología",
+    "Médico/a clínico/a ",
+    "Neurología",
+    "Pediatría",
+    "Psiquiatría",
+    "Traumatología",
+    "Otro"
+  ],
+
+  "Odontología": [
+    "Odontología general",
+    "Odontopediatría",
+    "Ortodoncia",
+    "Otro"
+  ],
+
+  "Salud mental": [
+    "Acompañamiento terapéutico",
+    "Psicología",
+    "Psicopedagogía clínica",
+    "Psiquiatría",
+    "Otro"
+  ],
+
+  "Rehabilitación y terapias": [
+    "Fisioterapia",
+    "Fonoaudiología",
+    "Kinesiología",
+    "Terapia ocupacional",
+    "Otro"
+  ],
+
+  "Nutrición y bienestar": [
+    "Nutrición",
+    "Otro"
+  ],
+
+  "Enfermería y acompañamiento": [
+    "Acompañante terapéutico",
+    "Enfermería",
+    "Obstetricia",
+    "Otro"
+  ],
+
+  "Diagnóstico y estudios": [
+    "Diagnóstico por imágenes",
+    "Laboratorio / bioquímica",
+    "Otro"
+  ],
+
+  "Veterinaria": [
+    "Veterinario/a",
+    "Otro"
+  ],
+
+  "Otros rubros": [
+    "Otro"
+  ]
+};
 
     const diasSemana = [
       { key: 'lunes', label: 'Lunes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
@@ -1306,14 +1377,14 @@
       limpiarMensajes();
       const faltantes = [];
 
-      if (!archivoFoto) faltantes.push("Foto personal");
+      if (!archivoFoto) faltantes.push("Foto profesional");
       if (!valor('nombre')) faltantes.push("Nombre");
       if (!valor('apellido')) faltantes.push("Apellido");
       if (!valor('categoriaPrincipal')) faltantes.push("Categoría principal");
       if (!valor('rubroEspecialidad')) faltantes.push("Rubro / especialidad");
       if (valor('rubroEspecialidad') === 'Otro' && !valor('otroRubro')) faltantes.push("Especificá cuál");
       if (!valor('descripcion')) faltantes.push("Descripción");
-      if (!valor('zona')) faltantes.push("Zona de trabajo");
+      if (!valor('zona')) faltantes.push("Domicilio consultorio");
       if (!valor('email')) faltantes.push("Correo electrónico");
       if (valor('email') && !emailValido(valor('email'))) faltantes.push("Correo electrónico válido");
 
@@ -1327,7 +1398,6 @@
         if (valor('telefonoAlternativo') && !telefonoValido(valor('telefonoAlternativo'))) faltantes.push("Teléfono principal válido");
       }
 
-      if (!valor('factura')) faltantes.push("¿Trabajan con factura?");
       if (obtenerMediosPagoSeleccionados().length === 0) faltantes.push("Al menos un medio de pago");
 
       const errorHorarios = validarHorariosPorDia();
@@ -1375,8 +1445,7 @@
       const nombreCompleto = (valor('nombre') + ' ' + valor('apellido')).trim();
       const rubroFinal = obtenerRubroFinal();
       const descripcion = valor('descripcion');
-      const zona = valor('zona');
-      const factura = valor('factura');
+      const domicilio = valor('zona');
       const whatsapp = limpiarTelefono(valor('whatsapp'));
       const telefono = limpiarTelefono(valor('telefonoAlternativo'));
       const mediosPago = obtenerMediosPagoSeleccionados();
@@ -1403,7 +1472,7 @@
       const zonaBlock = document.getElementById('cardZonaBlock');
       zonaBlock.innerHTML = '';
       const zonaLinea = document.createElement('div');
-      zonaLinea.textContent = zona;
+      zonaLinea.textContent = domicilio;
       zonaBlock.appendChild(zonaLinea);
 
       const horariosBlock = document.getElementById('cardHorariosBlock');
@@ -1422,12 +1491,6 @@
         chip.textContent = item;
         pagosBlock.appendChild(chip);
       });
-
-      const facturaBlock = document.getElementById('cardFacturaBlock');
-      facturaBlock.innerHTML = '';
-      const facturaLinea = document.createElement('div');
-      facturaLinea.textContent = factura === 'si' ? 'Trabajan con factura' : 'No trabajan con factura';
-      facturaBlock.appendChild(facturaLinea);
 
       const cardMatriculaWrap = document.getElementById('cardMatriculaWrap');
       const cardMatriculaBlock = document.getElementById('cardMatriculaBlock');
@@ -1449,7 +1512,7 @@
         if (telefono) window.location.href = 'tel:' + telefono;
       };
 
-      cardBtnWhatsapp.style.display = whatsapp ? 'block' : 'none';
+      cardBtnWhatsapp.style.display = whatsapp ? 'block' : 'block';
       cardBtnCall.style.display = telefono ? 'block' : 'none';
 
       const altButtons = document.getElementById('altButtons');
@@ -1499,15 +1562,14 @@
         const nombreCompleto = (valor('nombre') + ' ' + valor('apellido')).trim();
 
         const payload = {
-          action: "registrarServicio",
-          tipo: "servicio",
+          action: "registrarSalud",
+          tipo: "salud",
           nombre: valor('nombre'),
           apellido: valor('apellido'),
           nombreServicio: nombreCompleto,
+          nombreProfesional: nombreCompleto,
           categoriaPrincipal: valor('categoriaPrincipal'),
           rubroEspecialidad: valor('rubroEspecialidad'),
-          rubroComercial: valor('rubroEspecialidad'),
-          rubroServicio: valor('rubroEspecialidad'),
           rubroFinal: obtenerRubroFinal(),
           zona: valor('zona'),
           direccion: valor('zona'),
@@ -1529,7 +1591,6 @@
           horariosPorDia: obtenerHorariosPorDia(),
           horario: obtenerDiasResumen().join(' | '),
           mediosPago: obtenerMediosPagoSeleccionados().join(', '),
-          factura: valor('factura'),
           matricula: valor('matricula'),
           fotoBase64: fotoBase64
         };
@@ -1553,7 +1614,7 @@
           setTimeout(() => {
             const datosMembresia = {
               id_registro: result.id_registro || result.id || result.idServicio || '',
-              tipo_registro: 'servicio',
+              tipo_registro: 'salud',
               nombre_negocio: nombreCompleto,
               titular: nombreCompleto,
               telefono: limpiarTelefono(valor('whatsapp')) || limpiarTelefono(valor('telefonoAlternativo')),
