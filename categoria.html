@@ -284,201 +284,246 @@
   </div>
 
   <script>
-    const API_URL_BASE = "const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+  const API_URL_BASE = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
 
-    const categoriaConfig = {
-      "oficios": {
-        titulo: "Oficios",
-        subtitulo: "Explorá opciones disponibles en esta categoría."
-      },
-      "salud": {
-        titulo: "Salud",
-        subtitulo: "Profesionales y servicios de salud disponibles."
-      },
-      "empresas-servicios": {
-        titulo: "Empresas y servicios",
-        subtitulo: "Soluciones empresariales y servicios disponibles."
-      },
-      "transporte-logistica": {
-        titulo: "Transporte y logística",
-        subtitulo: "Opciones disponibles para traslados, envíos y logística."
-      },
-      "deportes-gimnasios": {
-        titulo: "Deportes y gimnasios",
-        subtitulo: "Espacios y servicios para actividad física."
-      }
-    };
-
-    const params = new URLSearchParams(window.location.search);
-    const categoria = params.get("cat") || "oficios";
-
-    const config = categoriaConfig[categoria] || {
-      titulo: "Categoría",
+  const categoriaConfig = {
+    "oficios": {
+      titulo: "Oficios",
       subtitulo: "Explorá opciones disponibles en esta categoría."
-    };
+    },
+    "salud": {
+      titulo: "Salud",
+      subtitulo: "Profesionales y servicios de salud disponibles."
+    },
+    "empresas-servicios": {
+      titulo: "Empresas y servicios",
+      subtitulo: "Soluciones empresariales y servicios disponibles."
+    },
+    "transporte-logistica": {
+      titulo: "Transporte y logística",
+      subtitulo: "Opciones disponibles para traslados, envíos y logística."
+    },
+    "deportes-gimnasios": {
+      titulo: "Deportes y gimnasios",
+      subtitulo: "Espacios y servicios para actividad física."
+    },
+    "gastronomia": {
+      titulo: "Gastronomía",
+      subtitulo: "Opciones gastronómicas disponibles."
+    },
+    "tecnologia": {
+      titulo: "Tecnología",
+      subtitulo: "Servicios y comercios tecnológicos."
+    },
+    "comercios": {
+      titulo: "Comercios",
+      subtitulo: "Comercios disponibles en esta categoría."
+    },
+    "mascotas": {
+      titulo: "Mascotas",
+      subtitulo: "Servicios y comercios para mascotas."
+    },
+    "automotor": {
+      titulo: "Automotor",
+      subtitulo: "Servicios y comercios del rubro automotor."
+    },
+    "educacion": {
+      titulo: "Educación",
+      subtitulo: "Opciones educativas disponibles."
+    },
+    "profesionales": {
+      titulo: "Profesionales",
+      subtitulo: "Profesionales disponibles en esta categoría."
+    },
+    "construccion": {
+      titulo: "Construcción",
+      subtitulo: "Servicios y comercios vinculados a construcción."
+    },
+    "servicios-hogar": {
+      titulo: "Servicios para el hogar",
+      subtitulo: "Opciones disponibles para tu casa."
+    },
+    "estetica-bienestar": {
+      titulo: "Estética y bienestar",
+      subtitulo: "Opciones de estética y bienestar disponibles."
+    },
+    "otros-rubros": {
+      titulo: "Otros rubros",
+      subtitulo: "Más opciones disponibles en esta categoría."
+    }
+  };
 
-    const categoryTitle = document.getElementById("categoryTitle");
-    const categorySubtitle = document.getElementById("categorySubtitle");
-    const subFilter = document.getElementById("subFilter");
-    const statusFilter = document.getElementById("statusFilter");
-    const cardsContainer = document.getElementById("cardsContainer");
-    const countBadge = document.getElementById("countBadge");
+  const params = new URLSearchParams(window.location.search);
+  const categoria = params.get("cat") || "oficios";
 
-    let datosOriginales = [];
+  const config = categoriaConfig[categoria] || {
+    titulo: "Categoría",
+    subtitulo: "Explorá opciones disponibles en esta categoría."
+  };
 
-    categoryTitle.textContent = config.titulo;
-    categorySubtitle.textContent = config.subtitulo;
+  const categoryTitle = document.getElementById("categoryTitle");
+  const categorySubtitle = document.getElementById("categorySubtitle");
+  const subFilter = document.getElementById("subFilter");
+  const statusFilter = document.getElementById("statusFilter");
+  const cardsContainer = document.getElementById("cardsContainer");
+  const countBadge = document.getElementById("countBadge");
 
-    function limpiarNumero(numero) {
-      return String(numero || "").replace(/\D/g, "");
+  let datosOriginales = [];
+
+  categoryTitle.textContent = config.titulo;
+  categorySubtitle.textContent = config.subtitulo;
+
+  function limpiarNumero(numero) {
+    return String(numero || "").replace(/\D/g, "");
+  }
+
+  function capitalizar(texto) {
+    if (!texto) return "";
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+  }
+
+  function renderSubcategorias(data) {
+    const rubros = [];
+    const usados = {};
+
+    for (let i = 0; i < data.length; i++) {
+      const rubro = String(data[i].rubro || data[i].subcategoria || "").trim();
+      const clave = rubro.toLowerCase();
+
+      if (rubro && !usados[clave]) {
+        usados[clave] = true;
+        rubros.push(rubro);
+      }
     }
 
-    function capitalizar(texto) {
-      if (!texto) return "";
-      return texto.charAt(0).toUpperCase() + texto.slice(1);
+    rubros.sort(function(a, b) {
+      return a.localeCompare(b);
+    });
+
+    let html = '<option value="todos">Todos</option>';
+
+    for (let i = 0; i < rubros.length; i++) {
+      html += '<option value="' + rubros[i].toLowerCase() + '">' + rubros[i] + '</option>';
     }
 
-    function renderSubcategorias(data) {
-      const rubros = [];
-      const usados = {};
+    subFilter.innerHTML = html;
+  }
 
-      for (let i = 0; i < data.length; i++) {
-        const rubro = String(data[i].rubro || "").trim();
-        const clave = rubro.toLowerCase();
+  function renderCards() {
+    const subValue = subFilter.value;
+    const statusValue = statusFilter.value;
 
-        if (rubro && !usados[clave]) {
-          usados[clave] = true;
-          rubros.push(rubro);
-        }
-      }
+    const filtrados = datosOriginales.filter(function(item) {
+      const subcatItem = String(item.rubro || item.subcategoria || "").trim().toLowerCase();
+      const estadoItem = String(item.estado || "activo").trim().toLowerCase();
 
-      rubros.sort(function(a, b) {
-        return a.localeCompare(b);
-      });
+      const pasaSub = (subValue === "todos" || subcatItem === subValue);
+      const pasaEstado = (statusValue === "todos" || estadoItem === statusValue);
 
-      let html = '<option value="todos">Todos</option>';
+      return pasaSub && pasaEstado;
+    });
 
-      for (let i = 0; i < rubros.length; i++) {
-        html += '<option value="' + rubros[i].toLowerCase() + '">' + rubros[i] + '</option>';
-      }
-
-      subFilter.innerHTML = html;
+    countBadge.textContent = filtrados.length + " resultados";
+    if (filtrados.length === 1) {
+      countBadge.textContent = "1 resultado";
     }
 
-    function renderCards() {
-      const subValue = subFilter.value;
-      const statusValue = statusFilter.value;
-
-      const filtrados = datosOriginales.filter(function(item) {
-        const subcatItem = String(item.rubro || "").trim().toLowerCase();
-        const estadoItem = String(item.estado || "activo").trim().toLowerCase();
-
-        const pasaSub = (subValue === "todos" || subcatItem === subValue);
-        const pasaEstado = (statusValue === "todos" || estadoItem === statusValue);
-
-        return pasaSub && pasaEstado;
-      });
-
-      countBadge.textContent = filtrados.length + " resultados";
-      if (filtrados.length === 1) {
-        countBadge.textContent = "1 resultado";
-      }
-
-      if (!filtrados.length) {
-        cardsContainer.innerHTML = '<div class="empty-state">No hay resultados disponibles para los filtros seleccionados.</div>';
-        return;
-      }
-
-      let html = "";
-
-      for (let i = 0; i < filtrados.length; i++) {
-        const item = filtrados[i];
-        const nombre = item.nombre || "Sin nombre";
-        const descripcion = item.descripcion || item.detalle || "Sin descripción disponible";
-        const direccion = item.direccion || item.domicilio || "Dirección no informada";
-        const telefono = item.telefono || item.celular || "";
-        const whatsapp = item.whatsapp || item.celular || item.telefono || "";
-        const imagen = item.foto || item.imagen || item.logo || "";
-        const estado = String(item.estado || "activo").toLowerCase();
-
-        let imagenHtml = "";
-        if (imagen) {
-          imagenHtml = '<img src="' + imagen + '" alt="' + nombre + '" class="card-image">';
-        }
-
-        let estadoTexto = capitalizar(estado);
-        let estadoClase = 'card-status';
-
-        html += ''
-          + '<article class="card">'
-          +   '<div class="card-image-wrap">' + imagenHtml + '</div>'
-          +   '<div class="card-body">'
-          +     '<div class="card-top">'
-          +       '<h3 class="card-title">' + nombre + '</h3>'
-          +       '<div class="' + estadoClase + '">' + estadoTexto + '</div>'
-          +     '</div>'
-          +     '<p class="card-desc">' + descripcion + '</p>'
-          +     '<p class="card-address">' + direccion + '</p>'
-          +     '<div class="card-actions">';
-
-        if (telefono) {
-          html += '<a class="btn-action" href="tel:' + telefono + '">Llamar</a>';
-        }
-
-        if (whatsapp) {
-          html += '<a class="btn-action btn-whatsapp" target="_blank" href="https://wa.me/' + limpiarNumero(whatsapp) + '">WhatsApp</a>';
-        }
-
-        html += ''
-          +     '</div>'
-          +   '</div>'
-          + '</article>';
-      }
-
-      cardsContainer.innerHTML = html;
+    if (!filtrados.length) {
+      cardsContainer.innerHTML = '<div class="empty-state">No hay resultados disponibles para los filtros seleccionados.</div>';
+      return;
     }
 
-    async function cargarDatos() {
-      cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
-      countBadge.textContent = "Cargando...";
+    let html = "";
 
-      try {
-        const url = API_URL_BASE + '?action=listarCategoria&cat=' + categoria;
-        const response = await fetch(url);
+    for (let i = 0; i < filtrados.length; i++) {
+      const item = filtrados[i];
+      const nombre = item.nombre || "Sin nombre";
+      const descripcion = item.descripcion || item.detalle || "Sin descripción disponible";
+      const direccion = item.direccion || item.domicilio || "Dirección no informada";
+      const telefono = item.telefono || item.celular || "";
+      const whatsapp = item.whatsapp || item.celular || item.telefono || "";
+      const imagen = item.foto || item.imagen || item.logo || "";
+      const estado = String(item.estado || "activo").toLowerCase();
 
-        if (!response.ok) {
-          throw new Error("Error HTTP " + response.status);
-        }
+      let imagenHtml = "";
+      if (imagen) {
+        imagenHtml = '<img src="' + imagen + '" alt="' + nombre + '" class="card-image">';
+      }
 
-       const data = await response.json();
-console.log("Respuesta listarCategoria:", data);
+      html += ''
+        + '<article class="card">'
+        +   '<div class="card-image-wrap">' + imagenHtml + '</div>'
+        +   '<div class="card-body">'
+        +     '<div class="card-top">'
+        +       '<h3 class="card-title">' + nombre + '</h3>'
+        +       '<div class="card-status">' + capitalizar(estado) + '</div>'
+        +     '</div>'
+        +     '<p class="card-desc">' + descripcion + '</p>'
+        +     '<p class="card-address">' + direccion + '</p>'
+        +     '<div class="card-actions">';
 
-if (Array.isArray(data)) {
-  datosOriginales = data;
-} else if (data && Array.isArray(data.items)) {
-  datosOriginales = data.items;
-} else if (data && Array.isArray(data.resultados)) {
-  datosOriginales = data.resultados;
-} else if (data && Array.isArray(data.data)) {
-  datosOriginales = data.data;
-} else {
-  throw new Error("La API no devolvió un array válido.");
-}
+      if (telefono) {
+        html += '<a class="btn-action" href="tel:' + limpiarNumero(telefono) + '">Llamar</a>';
+      }
 
+      if (whatsapp) {
+        html += '<a class="btn-action btn-whatsapp" target="_blank" href="https://wa.me/' + limpiarNumero(whatsapp) + '">WhatsApp</a>';
+      }
+
+      html += ''
+        +     '</div>'
+        +   '</div>'
+        + '</article>';
+    }
+
+    cardsContainer.innerHTML = html;
+  }
+
+  async function cargarDatos() {
+    cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
+    countBadge.textContent = "Cargando...";
+
+    try {
+      const url = API_URL_BASE + '?action=listarCategoria&cat=' + encodeURIComponent(categoria);
+      console.log("Consultando URL:", url);
+
+      const response = await fetch(url);
+      console.log("Response status:", response.status);
+
+      if (!response.ok) {
+        throw new Error("Error HTTP " + response.status);
+      }
+
+      const data = await response.json();
+      console.log("Respuesta listarCategoria:", data);
+
+      if (Array.isArray(data)) {
         datosOriginales = data;
-        renderSubcategorias(datosOriginales);
-        renderCards();
-      } catch (error) {
-        console.error("Error al cargar resultados:", error);
-        countBadge.textContent = "Error";
-        cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
+      } else if (data && Array.isArray(data.items)) {
+        datosOriginales = data.items;
+      } else if (data && Array.isArray(data.resultados)) {
+        datosOriginales = data.resultados;
+      } else if (data && Array.isArray(data.data)) {
+        datosOriginales = data.data;
+      } else {
+        datosOriginales = [];
       }
+
+      renderSubcategorias(datosOriginales);
+      renderCards();
+
+    } catch (error) {
+      console.error("Error al cargar resultados:", error);
+      countBadge.textContent = "Error";
+      cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
     }
+  }
 
-    subFilter.addEventListener("change", renderCards);
-    statusFilter.addEventListener("change", renderCards);
+  subFilter.addEventListener("change", renderCards);
+  statusFilter.addEventListener("change", renderCards);
 
-    cargarDatos();
+  cargarDatos();
+</script>
   </script>
 </body>
 </html>
