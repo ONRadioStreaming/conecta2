@@ -934,41 +934,56 @@
       cardsContainer.innerHTML = html;
     }
 
-    async function cargarDatos() {
-      cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
-      countBadge.textContent = "Cargando...";
+    function cargarDatos() {
+  cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
+  countBadge.textContent = "Cargando...";
 
-      try {
-        const url = API_URL_BASE + '?action=listarCategoria&cat=' + encodeURIComponent(categoria);
-        const response = await fetch(url);
+  const callbackName = "conecta2Callback_" + Date.now();
 
-        if (!response.ok) {
-          throw new Error("Error HTTP " + response.status);
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          datosOriginales = data;
-        } else if (data && Array.isArray(data.items)) {
-          datosOriginales = data.items;
-        } else if (data && Array.isArray(data.resultados)) {
-          datosOriginales = data.resultados;
-        } else if (data && Array.isArray(data.data)) {
-          datosOriginales = data.data;
-        } else {
-          datosOriginales = [];
-        }
-
-        renderSubcategorias(datosOriginales);
-        renderCards();
-
-      } catch (error) {
-        console.error("Error al cargar resultados:", error);
-        countBadge.textContent = "Error";
-        cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
+  window[callbackName] = function(data) {
+    try {
+      if (Array.isArray(data)) {
+        datosOriginales = data;
+      } else if (data && Array.isArray(data.items)) {
+        datosOriginales = data.items;
+      } else if (data && Array.isArray(data.resultados)) {
+        datosOriginales = data.resultados;
+      } else if (data && Array.isArray(data.data)) {
+        datosOriginales = data.data;
+      } else {
+        datosOriginales = [];
       }
+
+      renderSubcategorias(datosOriginales);
+      renderCards();
+    } catch (error) {
+      console.error("Error procesando resultados:", error);
+      countBadge.textContent = "Error";
+      cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al procesar los resultados.</div>';
+    } finally {
+      try { delete window[callbackName]; } catch (e) {}
+      const script = document.getElementById(callbackName);
+      if (script) script.remove();
     }
+  };
+
+  const script = document.createElement("script");
+  script.id = callbackName;
+  script.src = API_URL_BASE
+    + '?action=listarCategoria'
+    + '&cat=' + encodeURIComponent(categoria)
+    + '&callback=' + encodeURIComponent(callbackName);
+
+  script.onerror = function() {
+    try { delete window[callbackName]; } catch (e) {}
+    script.remove();
+    console.error("Error al cargar resultados por JSONP");
+    countBadge.textContent = "Error";
+    cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
+  };
+
+  document.body.appendChild(script);
+}
 
     Array.from(statusFilterRow.querySelectorAll(".chip")).forEach(function(btn) {
       btn.addEventListener("click", function() {
