@@ -1,34 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Categoría | Conecta2</title>
+  <meta name="theme-color" content="#07142b" />
+
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
+
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body {
+    html, body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #07111f 0%, #0b1a2f 35%, #f3f6fb 35%, #f3f6fb 100%);
+      padding: 0;
+      font-family: 'Manrope', Arial, sans-serif;
+      background: #07142b;
       color: #0f172a;
     }
 
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(29, 211, 209, 0.14), transparent 28%),
+        linear-gradient(180deg, #041126 0%, #071b3a 34%, #eef4f7 34%, #eef4f7 100%);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     .page {
-      max-width: 900px;
+      width: 100%;
+      max-width: 480px;
       margin: 0 auto;
-      padding: 20px 16px 40px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero-wrap {
+      padding: 16px;
     }
 
     .hero {
-      background: rgba(9, 18, 37, 0.92);
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 28px;
       color: #fff;
-      padding: 24px 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      padding: 18px 16px 20px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .back-btn {
@@ -38,82 +70,147 @@
       width: 42px;
       height: 42px;
       border-radius: 14px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.10);
       color: #fff;
-      text-decoration: none;
       font-size: 20px;
-      margin-bottom: 16px;
+      font-weight: 800;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+      flex-shrink: 0;
     }
 
     .hero h1 {
-      margin: 0 0 10px;
-      font-size: 36px;
-      line-height: 1.1;
+      margin: 0 0 8px 0;
+      font-size: 1.9rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      font-weight: 800;
     }
 
     .hero p {
       margin: 0;
-      font-size: 18px;
-      line-height: 1.4;
+      font-size: 0.98rem;
+      line-height: 1.5;
       color: rgba(255,255,255,0.88);
+      font-weight: 600;
+    }
+
+    .content {
+      background: #eef4f7;
+      border-radius: 32px 32px 0 0;
+      padding: 22px 16px 30px;
+      min-height: calc(100vh - 180px);
     }
 
     .panel {
-      background: #ffffff;
-      border-radius: 28px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    }
-
-    .panel h2 {
-      margin: 0 0 18px;
-      font-size: 18px;
-      color: #183b72;
-    }
-
-    .filters {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      color: #64748b;
-      font-weight: 700;
-    }
-
-    .field select {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid #dbe3ef;
       background: #fff;
-      font-size: 16px;
-      outline: none;
+      border-radius: 26px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e8eef7;
+      margin-bottom: 18px;
     }
 
-    .results-header {
+    .search-box {
+      background: #f7faff;
+      border: 1px solid #e2ebf5;
+      border-radius: 18px;
+      padding: 13px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .search-box span {
+      font-size: 1.1rem;
+      color: #0b5f86;
+      flex-shrink: 0;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: #1b3555;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+    }
+
+    .search-box input::placeholder {
+      color: #6b7d8f;
+      font-weight: 600;
+    }
+
+    .filter-block {
+      margin-bottom: 14px;
+    }
+
+    .filter-label {
+      display: block;
+      margin: 0 0 10px;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 800;
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .chip-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 16px;
+      white-space: nowrap;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 800;
+      background: #f2f6fb;
+      color: #21406c;
+      box-shadow: inset 0 0 0 1px #d9e4ef;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      background: linear-gradient(135deg, #2756e7, #1f7cd8);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .chip.green.active {
+      background: linear-gradient(135deg, #23ca57, #14ad43);
+    }
+
+    .results-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 18px;
+      margin: 0 2px 16px;
     }
 
-    .results-header h3 {
+    .results-top h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 1.02rem;
       color: #183b72;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
     .count-badge {
       color: #2eaadc;
-      font-weight: 700;
-      font-size: 16px;
+      font-weight: 800;
+      font-size: 0.96rem;
     }
 
     .cards {
@@ -122,100 +219,199 @@
     }
 
     .card {
-      border: 1px solid #e8eef7;
-      border-radius: 22px;
-      overflow: hidden;
       background: #fff;
-      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+      border: 1px solid #e8eef7;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
     }
 
-    .card-image-wrap {
-      width: 100%;
-      height: 210px;
-      background: #eef4fb;
+    .card-head {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .card-photo {
+      width: 82px;
+      height: 82px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #edf3fb, #dbe7f3);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+      flex-shrink: 0;
     }
 
-    .card-image {
+    .card-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .card-body {
-      padding: 18px;
+    .card-photo-fallback {
+      font-size: 1.8rem;
+      color: #6c7f95;
     }
 
-    .card-top {
+    .card-main {
+      min-width: 0;
+    }
+
+    .card-title-row {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 6px;
     }
 
     .card-title {
       margin: 0;
-      font-size: 22px;
-      line-height: 1.2;
-      color: #0f172a;
+      font-size: 1.35rem;
+      line-height: 1.12;
+      color: #183b72;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      word-break: break-word;
     }
 
-    .card-status {
+    .status-pill {
+      flex-shrink: 0;
       white-space: nowrap;
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 0.78rem;
+      font-weight: 800;
       border-radius: 999px;
-      padding: 8px 12px;
+      padding: 8px 11px;
       background: #eef7ee;
       color: #1f7a1f;
     }
 
-    .card-desc,
-    .card-address {
-      margin: 0 0 10px;
-      color: #475569;
-      line-height: 1.5;
-      font-size: 15px;
+    .status-pill.inactivo {
+      background: #fff3f3;
+      color: #b91c1c;
+    }
+
+    .card-rubro {
+      margin: 0 0 8px;
+      color: #6b7a90;
+      font-size: 0.96rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .state-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #14a44d;
+      line-height: 1.35;
+    }
+
+    .state-line.closed {
+      color: #b45309;
+    }
+
+    .state-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .card-desc {
+      margin: 0 0 12px;
+      color: #4c5f74;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .info-list {
+      background: #f8fbff;
+      border: 1px solid #e4edf8;
+      border-radius: 18px;
+      padding: 13px 14px;
+      margin-bottom: 14px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #27415f;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .info-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-icon {
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .info-text {
+      word-break: break-word;
     }
 
     .card-actions {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 14px;
     }
 
     .btn-action {
-      display: inline-block;
-      text-decoration: none;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 14px;
-      font-weight: 700;
-      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      border-radius: 15px;
+      padding: 13px 14px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+      border: 0;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #23ca57, #14ad43);
       color: #fff;
     }
 
-    .btn-whatsapp {
-      background: #25d366;
-      color: #fff;
+    .btn-secondary {
+      background: #f5f8fc;
+      color: #21406c;
+      box-shadow: inset 0 0 0 1px #dfe8f3;
     }
 
     .empty-state,
     .loading-state,
     .error-state {
-      border-radius: 18px;
-      padding: 20px;
+      border-radius: 20px;
+      padding: 22px 18px;
       text-align: center;
-      font-size: 15px;
+      font-size: 0.94rem;
       background: #f8fbff;
       border: 1px solid #e4edf8;
       color: #475569;
+      font-weight: 700;
     }
 
     .error-state {
@@ -224,56 +420,57 @@
       border-color: #fecaca;
     }
 
-    @media (max-width: 700px) {
-      .hero h1 {
-        font-size: 30px;
-      }
-
-      .filters {
-        grid-template-columns: 1fr;
-      }
-
-      .card-image-wrap {
-        height: 180px;
-      }
-
-      .card-top {
+    @media (max-width: 420px) {
+      .card-title-row {
         flex-direction: column;
+      }
+
+      .status-pill {
+        align-self: flex-start;
+      }
+
+      .card-actions {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <div class="hero">
-      <a href="index.html" class="back-btn">←</a>
-      <h1 id="categoryTitle">Categoría</h1>
-      <p id="categorySubtitle">Explorá opciones disponibles en esta categoría.</p>
+    <div class="hero-wrap">
+      <div class="hero">
+        <div class="hero-top">
+          <a href="index.html" class="back-btn">←</a>
+        </div>
+        <h1 id="categoryTitle">Categoría</h1>
+        <p id="categorySubtitle">Explorá opciones disponibles en esta categoría.</p>
+      </div>
     </div>
 
-    <div class="panel">
-      <h2>Filtrar resultados</h2>
-
-      <div class="filters">
-        <div class="field">
-          <label for="subFilter">Subcategoría</label>
-          <select id="subFilter">
-            <option value="todos">Todos</option>
-          </select>
+    <div class="content">
+      <div class="panel">
+        <div class="search-box">
+          <span>🔎</span>
+          <input type="text" id="searchInput" placeholder="Buscar por nombre, rubro o dirección...">
         </div>
 
-        <div class="field">
-          <label for="statusFilter">Disponibilidad</label>
-          <select id="statusFilter">
-            <option value="todos">Todos</option>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-          </select>
+        <div class="filter-block">
+          <span class="filter-label">Subcategoría</span>
+          <div class="chip-row" id="subFilterRow"></div>
+        </div>
+
+        <div class="filter-block" style="margin-bottom: 0;">
+          <span class="filter-label">Disponibilidad</span>
+          <div class="chip-row" id="statusFilterRow">
+            <button class="chip green active" data-status="todos">Todos</button>
+            <button class="chip green" data-status="activo">Disponibles</button>
+            <button class="chip green" data-status="inactivo">No disponibles</button>
+          </div>
         </div>
       </div>
 
-      <div class="results-header">
-        <h3>Resultados</h3>
+      <div class="results-top">
+        <h2>Resultados</h2>
         <div class="count-badge" id="countBadge">0 resultados</div>
       </div>
 
@@ -284,246 +481,509 @@
   </div>
 
   <script>
-  const API_URL_BASE = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+    const API_URL_BASE = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
 
-  const categoriaConfig = {
-    "oficios": {
-      titulo: "Oficios",
+    const categoriaConfig = {
+      "oficios": {
+        titulo: "Oficios",
+        subtitulo: "Explorá oficios y especialistas disponibles."
+      },
+      "salud": {
+        titulo: "Salud",
+        subtitulo: "Profesionales y servicios de salud disponibles."
+      },
+      "empresas-servicios": {
+        titulo: "Empresas y servicios",
+        subtitulo: "Soluciones empresariales y servicios disponibles."
+      },
+      "transporte-logistica": {
+        titulo: "Transporte y logística",
+        subtitulo: "Opciones disponibles para traslados, envíos y logística."
+      },
+      "deportes-gimnasios": {
+        titulo: "Deportes y gimnasios",
+        subtitulo: "Espacios y servicios para actividad física."
+      },
+      "gastronomia": {
+        titulo: "Gastronomía",
+        subtitulo: "Opciones gastronómicas disponibles."
+      },
+      "tecnologia": {
+        titulo: "Tecnología",
+        subtitulo: "Servicios y comercios tecnológicos."
+      },
+      "comercios": {
+        titulo: "Comercios",
+        subtitulo: "Comercios disponibles en esta categoría."
+      },
+      "mascotas": {
+        titulo: "Mascotas",
+        subtitulo: "Servicios y comercios para mascotas."
+      },
+      "automotor": {
+        titulo: "Automotor",
+        subtitulo: "Servicios y comercios del rubro automotor."
+      },
+      "educacion": {
+        titulo: "Educación",
+        subtitulo: "Opciones educativas disponibles."
+      },
+      "profesionales": {
+        titulo: "Profesionales",
+        subtitulo: "Profesionales disponibles en esta categoría."
+      },
+      "construccion": {
+        titulo: "Construcción",
+        subtitulo: "Servicios y comercios vinculados a construcción."
+      },
+      "servicios-hogar": {
+        titulo: "Servicios para el hogar",
+        subtitulo: "Opciones disponibles para tu casa."
+      },
+      "estetica-bienestar": {
+        titulo: "Estética y bienestar",
+        subtitulo: "Opciones de estética y bienestar disponibles."
+      },
+      "otros-rubros": {
+        titulo: "Otros rubros",
+        subtitulo: "Más opciones disponibles en esta categoría."
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const categoria = params.get("cat") || "oficios";
+
+    const config = categoriaConfig[categoria] || {
+      titulo: "Categoría",
       subtitulo: "Explorá opciones disponibles en esta categoría."
-    },
-    "salud": {
-      titulo: "Salud",
-      subtitulo: "Profesionales y servicios de salud disponibles."
-    },
-    "empresas-servicios": {
-      titulo: "Empresas y servicios",
-      subtitulo: "Soluciones empresariales y servicios disponibles."
-    },
-    "transporte-logistica": {
-      titulo: "Transporte y logística",
-      subtitulo: "Opciones disponibles para traslados, envíos y logística."
-    },
-    "deportes-gimnasios": {
-      titulo: "Deportes y gimnasios",
-      subtitulo: "Espacios y servicios para actividad física."
-    },
-    "gastronomia": {
-      titulo: "Gastronomía",
-      subtitulo: "Opciones gastronómicas disponibles."
-    },
-    "tecnologia": {
-      titulo: "Tecnología",
-      subtitulo: "Servicios y comercios tecnológicos."
-    },
-    "comercios": {
-      titulo: "Comercios",
-      subtitulo: "Comercios disponibles en esta categoría."
-    },
-    "mascotas": {
-      titulo: "Mascotas",
-      subtitulo: "Servicios y comercios para mascotas."
-    },
-    "automotor": {
-      titulo: "Automotor",
-      subtitulo: "Servicios y comercios del rubro automotor."
-    },
-    "educacion": {
-      titulo: "Educación",
-      subtitulo: "Opciones educativas disponibles."
-    },
-    "profesionales": {
-      titulo: "Profesionales",
-      subtitulo: "Profesionales disponibles en esta categoría."
-    },
-    "construccion": {
-      titulo: "Construcción",
-      subtitulo: "Servicios y comercios vinculados a construcción."
-    },
-    "servicios-hogar": {
-      titulo: "Servicios para el hogar",
-      subtitulo: "Opciones disponibles para tu casa."
-    },
-    "estetica-bienestar": {
-      titulo: "Estética y bienestar",
-      subtitulo: "Opciones de estética y bienestar disponibles."
-    },
-    "otros-rubros": {
-      titulo: "Otros rubros",
-      subtitulo: "Más opciones disponibles en esta categoría."
+    };
+
+    const categoryTitle = document.getElementById("categoryTitle");
+    const categorySubtitle = document.getElementById("categorySubtitle");
+    const searchInput = document.getElementById("searchInput");
+    const subFilterRow = document.getElementById("subFilterRow");
+    const statusFilterRow = document.getElementById("statusFilterRow");
+    const cardsContainer = document.getElementById("cardsContainer");
+    const countBadge = document.getElementById("countBadge");
+
+    let datosOriginales = [];
+    let filtroSubcategoria = "todos";
+    let filtroEstado = "todos";
+    let filtroTexto = "";
+
+    categoryTitle.textContent = config.titulo;
+    categorySubtitle.textContent = config.subtitulo;
+
+    function limpiarNumero(numero) {
+      return String(numero || "").replace(/\D/g, "");
     }
-  };
 
-  const params = new URLSearchParams(window.location.search);
-  const categoria = params.get("cat") || "oficios";
+    function capitalizar(texto) {
+      if (!texto) return "";
+      return texto.charAt(0).toUpperCase() + texto.slice(1);
+    }
 
-  const config = categoriaConfig[categoria] || {
-    titulo: "Categoría",
-    subtitulo: "Explorá opciones disponibles en esta categoría."
-  };
+    function capitalizarPalabras(texto) {
+      return String(texto || "")
+        .toLowerCase()
+        .split(" ")
+        .filter(Boolean)
+        .map(function(p) {
+          return p.charAt(0).toUpperCase() + p.slice(1);
+        })
+        .join(" ");
+    }
 
-  const categoryTitle = document.getElementById("categoryTitle");
-  const categorySubtitle = document.getElementById("categorySubtitle");
-  const subFilter = document.getElementById("subFilter");
-  const statusFilter = document.getElementById("statusFilter");
-  const cardsContainer = document.getElementById("cardsContainer");
-  const countBadge = document.getElementById("countBadge");
+    function escaparHtml(texto) {
+      return String(texto || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
-  let datosOriginales = [];
+    function descripcionValida(texto) {
+      const limpio = String(texto || "").trim();
+      if (!limpio) return false;
+      if (limpio.length < 10) return false;
+      return true;
+    }
 
-  categoryTitle.textContent = config.titulo;
-  categorySubtitle.textContent = config.subtitulo;
+    function resolverImagen(imagen) {
+      const valor = String(imagen || "").trim();
+      if (!valor) return "";
 
-  function limpiarNumero(numero) {
-    return String(numero || "").replace(/\D/g, "");
-  }
+      if (valor.startsWith("data:image")) {
+        return valor;
+      }
 
-  function capitalizar(texto) {
-    if (!texto) return "";
-    return texto.charAt(0).toUpperCase() + texto.slice(1);
-  }
+      if (valor.startsWith("http://") || valor.startsWith("https://")) {
+        return valor;
+      }
 
-  function renderSubcategorias(data) {
-    const rubros = [];
-    const usados = {};
+      if (valor.length > 100) {
+        return "data:image/jpeg;base64," + valor;
+      }
 
-    for (let i = 0; i < data.length; i++) {
-      const rubro = String(data[i].rubro || data[i].subcategoria || "").trim();
-      const clave = rubro.toLowerCase();
+      return "";
+    }
 
-      if (rubro && !usados[clave]) {
-        usados[clave] = true;
-        rubros.push(rubro);
+    function obtenerHorariosObjeto(horariosRaw) {
+      if (!horariosRaw) return null;
+      if (typeof horariosRaw === "object") return horariosRaw;
+
+      try {
+        return JSON.parse(horariosRaw);
+      } catch (e) {
+        return null;
       }
     }
 
-    rubros.sort(function(a, b) {
-      return a.localeCompare(b);
+    function rangoDiasTexto(dias) {
+      const orden = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+      const abreviado = {
+        lunes: "Lun",
+        martes: "Mar",
+        miercoles: "Mié",
+        jueves: "Jue",
+        viernes: "Vie",
+        sabado: "Sáb",
+        domingo: "Dom"
+      };
+
+      const indices = dias
+        .map(function(d){ return orden.indexOf(d); })
+        .filter(function(i){ return i >= 0; })
+        .sort(function(a,b){ return a-b; });
+
+      if (!indices.length) return "";
+
+      const grupos = [];
+      let inicio = indices[0];
+      let anterior = indices[0];
+
+      for (let i = 1; i < indices.length; i++) {
+        if (indices[i] === anterior + 1) {
+          anterior = indices[i];
+        } else {
+          grupos.push([inicio, anterior]);
+          inicio = indices[i];
+          anterior = indices[i];
+        }
+      }
+      grupos.push([inicio, anterior]);
+
+      return grupos.map(function(g) {
+        if (g[0] === g[1]) return abreviado[orden[g[0]]];
+        return abreviado[orden[g[0]]] + " a " + abreviado[orden[g[1]]];
+      }).join(", ");
+    }
+
+    function obtenerHorarioTexto(item) {
+      const obj = obtenerHorariosObjeto(item.horarios || item.horario || "");
+      if (!obj) {
+        const plano = String(item.horarios || item.horario || "").trim();
+        return plano || "Horario no informado";
+      }
+
+      const orden = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+      const grupos = {};
+
+      orden.forEach(function(dia) {
+        const valor = String(obj[dia] || "").trim();
+        if (!valor) return;
+        if (!grupos[valor]) grupos[valor] = [];
+        grupos[valor].push(dia);
+      });
+
+      const claves = Object.keys(grupos);
+      if (!claves.length) return "Horario no informado";
+
+      if (claves.length === 1) {
+        const valor = claves[0];
+        const diasTexto = rangoDiasTexto(grupos[valor]) || "Todos los días";
+        return diasTexto + " · " + valor;
+      }
+
+      return claves.map(function(valor) {
+        return rangoDiasTexto(grupos[valor]) + " · " + valor;
+      }).join(" | ");
+    }
+
+    function horarioHoyDetalle(item) {
+      const vacacionesActivo = String(item.vacaciones_activo || "").toLowerCase();
+      const vacacionesDesde = String(item.vacaciones_desde || "").trim();
+      const vacacionesHasta = String(item.vacaciones_hasta || "").trim();
+
+      if (vacacionesActivo === "si" || vacacionesActivo === "true" || vacacionesActivo === "activo") {
+        return {
+          texto: vacacionesDesde && vacacionesHasta
+            ? "Cerrado por vacaciones (" + vacacionesDesde + " al " + vacacionesHasta + ")"
+            : "Cerrado por vacaciones",
+          clase: "closed"
+        };
+      }
+
+      const obj = obtenerHorariosObjeto(item.horarios || item.horario || "");
+      const estadoBase = String(item.estado || "activo").toLowerCase();
+
+      if (estadoBase !== "activo") {
+        return { texto: "No disponible ahora", clase: "closed" };
+      }
+
+      if (!obj) {
+        return { texto: "Disponible ahora", clase: "" };
+      }
+
+      const dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+      const ahora = new Date();
+      const diaActual = dias[ahora.getDay()];
+      const detalle = String(obj[diaActual] || "").trim();
+
+      if (!detalle) {
+        return { texto: "Consultar disponibilidad", clase: "" };
+      }
+
+      const detalleLower = detalle.toLowerCase();
+
+      if (detalleLower.includes("cerrado")) {
+        return { texto: "Cerrado ahora", clase: "closed" };
+      }
+
+      if (detalleLower.includes("24 horas")) {
+        return { texto: "Abierto ahora", clase: "" };
+      }
+
+      const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+      const regex = /(\d{1,2}:\d{2})\s*(?:a|-)\s*(\d{1,2}:\d{2})/gi;
+      let match;
+      let encontrado = false;
+      let abierto = false;
+
+      while ((match = regex.exec(detalleLower)) !== null) {
+        encontrado = true;
+        const desde = match[1].split(":");
+        const hasta = match[2].split(":");
+
+        const minDesde = (parseInt(desde[0], 10) * 60) + parseInt(desde[1], 10);
+        const minHasta = (parseInt(hasta[0], 10) * 60) + parseInt(hasta[1], 10);
+
+        if (horaActual >= minDesde && horaActual <= minHasta) {
+          abierto = true;
+          break;
+        }
+      }
+
+      if (encontrado) {
+        return abierto
+          ? { texto: "Abierto ahora", clase: "" }
+          : { texto: "Cerrado ahora", clase: "closed" };
+      }
+
+      return { texto: "Disponible ahora", clase: "" };
+    }
+
+    function renderSubcategorias(data) {
+      const rubros = [];
+      const usados = {};
+
+      data.forEach(function(item) {
+        const rubro = String(item.rubro || item.subcategoria || "").trim();
+        const clave = rubro.toLowerCase();
+
+        if (rubro && !usados[clave]) {
+          usados[clave] = true;
+          rubros.push(rubro);
+        }
+      });
+
+      rubros.sort(function(a, b) {
+        return a.localeCompare(b);
+      });
+
+      let html = '<button class="chip active" data-sub="todos">Todos</button>';
+
+      rubros.forEach(function(rubro) {
+        html += '<button class="chip" data-sub="' + escaparHtml(rubro.toLowerCase()) + '">' + escaparHtml(rubro) + '</button>';
+      });
+
+      subFilterRow.innerHTML = html;
+
+      Array.from(subFilterRow.querySelectorAll(".chip")).forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          filtroSubcategoria = btn.getAttribute("data-sub");
+          actualizarChips(subFilterRow, ".chip", "data-sub", filtroSubcategoria);
+          renderCards();
+        });
+      });
+    }
+
+    function actualizarChips(container, selector, attr, valorActivo) {
+      Array.from(container.querySelectorAll(selector)).forEach(function(btn) {
+        if (btn.getAttribute(attr) === valorActivo) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+    }
+
+    function obtenerDatosFiltrados() {
+      return datosOriginales.filter(function(item) {
+        const subcatItem = String(item.rubro || item.subcategoria || "").trim().toLowerCase();
+        const estadoItem = String(item.estado || "activo").trim().toLowerCase();
+
+        const textoBusqueda = (
+          String(item.nombre || "") + " " +
+          String(item.rubro || "") + " " +
+          String(item.descripcion || "") + " " +
+          String(item.direccion || "")
+        ).toLowerCase();
+
+        const pasaSub = (filtroSubcategoria === "todos" || subcatItem === filtroSubcategoria);
+        const pasaEstado = (filtroEstado === "todos" || estadoItem === filtroEstado);
+        const pasaTexto = (!filtroTexto || textoBusqueda.includes(filtroTexto));
+
+        return pasaSub && pasaEstado && pasaTexto;
+      });
+    }
+
+    function renderCards() {
+      const filtrados = obtenerDatosFiltrados();
+
+      countBadge.textContent = filtrados.length === 1 ? "1 resultado" : (filtrados.length + " resultados");
+
+      if (!filtrados.length) {
+        cardsContainer.innerHTML = '<div class="empty-state">No hay resultados disponibles para los filtros seleccionados.</div>';
+        return;
+      }
+
+      let html = "";
+
+      filtrados.forEach(function(item) {
+        const id = String(item.id || "").trim();
+        const nombre = String(item.nombre || "Sin nombre").trim();
+        const rubro = String(item.rubro || "Sin rubro").trim();
+        const descripcion = String(item.descripcion || item.detalle || "").trim();
+        const direccion = String(item.direccion || item.domicilio || "Dirección no informada").trim();
+        const telefono = String(item.telefono || item.celular || "").trim();
+        const whatsapp = String(item.whatsapp || "").trim();
+        const imagen = resolverImagen(item.foto || item.imagen || item.logo || "");
+        const estadoBase = String(item.estado || "activo").toLowerCase();
+        const estadoPill = estadoBase === "activo" ? "Activo" : "Inactivo";
+        const estadoPillClass = estadoBase === "activo" ? "status-pill" : "status-pill inactivo";
+        const estadoActual = horarioHoyDetalle(item);
+        const horarioTexto = obtenerHorarioTexto(item);
+
+        let fotoHtml = '<div class="card-photo-fallback">🏪</div>';
+        if (imagen) {
+          fotoHtml = '<img src="' + imagen + '" alt="' + escaparHtml(nombre) + '" onerror="this.closest(\'.card-photo\').innerHTML=\'<div class=&quot;card-photo-fallback&quot;>🏪</div>\'">';
+        }
+
+        let descripcionHtml = '';
+        if (descripcionValida(descripcion)) {
+          descripcionHtml = '<p class="card-desc">' + escaparHtml(descripcion) + '</p>';
+        }
+
+        let botonPrincipal = '';
+        if (whatsapp) {
+          botonPrincipal = '<a class="btn-action btn-primary" target="_blank" rel="noopener" href="https://wa.me/' + limpiarNumero(whatsapp) + '">WhatsApp</a>';
+        } else if (telefono) {
+          botonPrincipal = '<a class="btn-action btn-primary" href="tel:' + limpiarNumero(telefono) + '">Llamar</a>';
+        } else {
+          botonPrincipal = '<button class="btn-action btn-primary" type="button" disabled style="opacity:.55;cursor:not-allowed;">Sin contacto</button>';
+        }
+
+        const botonPerfil = '<a class="btn-action btn-secondary" href="perfil.html?id=' + encodeURIComponent(id) + '&cat=' + encodeURIComponent(categoria) + '">Ver perfil</a>';
+
+        html += ''
+          + '<article class="card">'
+          +   '<div class="card-head">'
+          +     '<div class="card-photo">' + fotoHtml + '</div>'
+          +     '<div class="card-main">'
+          +       '<div class="card-title-row">'
+          +         '<h3 class="card-title">' + escaparHtml(nombre) + '</h3>'
+          +         '<div class="' + estadoPillClass + '">' + estadoPill + '</div>'
+          +       '</div>'
+          +       '<p class="card-rubro">' + escaparHtml(capitalizarPalabras(rubro)) + '</p>'
+          +       '<div class="state-line ' + estadoActual.clase + '">'
+          +         '<span class="state-dot"></span>'
+          +         '<span>' + escaparHtml(estadoActual.texto) + '</span>'
+          +       '</div>'
+          +     '</div>'
+          +   '</div>'
+          +   descripcionHtml
+          +   '<div class="info-list">'
+          +     '<div class="info-item">'
+          +       '<span class="info-icon">🕒</span>'
+          +       '<span class="info-text">' + escaparHtml(horarioTexto) + '</span>'
+          +     '</div>'
+          +     '<div class="info-item">'
+          +       '<span class="info-icon">📍</span>'
+          +       '<span class="info-text">' + escaparHtml(direccion) + '</span>'
+          +     '</div>'
+          +   '</div>'
+          +   '<div class="card-actions">'
+          +     botonPrincipal
+          +     botonPerfil
+          +   '</div>'
+          + '</article>';
+      });
+
+      cardsContainer.innerHTML = html;
+    }
+
+    async function cargarDatos() {
+      cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
+      countBadge.textContent = "Cargando...";
+
+      try {
+        const url = API_URL_BASE + '?action=listarCategoria&cat=' + encodeURIComponent(categoria);
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Error HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          datosOriginales = data;
+        } else if (data && Array.isArray(data.items)) {
+          datosOriginales = data.items;
+        } else if (data && Array.isArray(data.resultados)) {
+          datosOriginales = data.resultados;
+        } else if (data && Array.isArray(data.data)) {
+          datosOriginales = data.data;
+        } else {
+          datosOriginales = [];
+        }
+
+        renderSubcategorias(datosOriginales);
+        renderCards();
+
+      } catch (error) {
+        console.error("Error al cargar resultados:", error);
+        countBadge.textContent = "Error";
+        cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
+      }
+    }
+
+    Array.from(statusFilterRow.querySelectorAll(".chip")).forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        filtroEstado = btn.getAttribute("data-status");
+        actualizarChips(statusFilterRow, ".chip", "data-status", filtroEstado);
+        renderCards();
+      });
     });
 
-    let html = '<option value="todos">Todos</option>';
-
-    for (let i = 0; i < rubros.length; i++) {
-      html += '<option value="' + rubros[i].toLowerCase() + '">' + rubros[i] + '</option>';
-    }
-
-    subFilter.innerHTML = html;
-  }
-
-  function renderCards() {
-    const subValue = subFilter.value;
-    const statusValue = statusFilter.value;
-
-    const filtrados = datosOriginales.filter(function(item) {
-      const subcatItem = String(item.rubro || item.subcategoria || "").trim().toLowerCase();
-      const estadoItem = String(item.estado || "activo").trim().toLowerCase();
-
-      const pasaSub = (subValue === "todos" || subcatItem === subValue);
-      const pasaEstado = (statusValue === "todos" || estadoItem === statusValue);
-
-      return pasaSub && pasaEstado;
-    });
-
-    countBadge.textContent = filtrados.length + " resultados";
-    if (filtrados.length === 1) {
-      countBadge.textContent = "1 resultado";
-    }
-
-    if (!filtrados.length) {
-      cardsContainer.innerHTML = '<div class="empty-state">No hay resultados disponibles para los filtros seleccionados.</div>';
-      return;
-    }
-
-    let html = "";
-
-    for (let i = 0; i < filtrados.length; i++) {
-      const item = filtrados[i];
-      const nombre = item.nombre || "Sin nombre";
-      const descripcion = item.descripcion || item.detalle || "Sin descripción disponible";
-      const direccion = item.direccion || item.domicilio || "Dirección no informada";
-      const telefono = item.telefono || item.celular || "";
-      const whatsapp = item.whatsapp || item.celular || item.telefono || "";
-      const imagen = item.foto || item.imagen || item.logo || "";
-      const estado = String(item.estado || "activo").toLowerCase();
-
-      let imagenHtml = "";
-      if (imagen) {
-        imagenHtml = '<img src="' + imagen + '" alt="' + nombre + '" class="card-image">';
-      }
-
-      html += ''
-        + '<article class="card">'
-        +   '<div class="card-image-wrap">' + imagenHtml + '</div>'
-        +   '<div class="card-body">'
-        +     '<div class="card-top">'
-        +       '<h3 class="card-title">' + nombre + '</h3>'
-        +       '<div class="card-status">' + capitalizar(estado) + '</div>'
-        +     '</div>'
-        +     '<p class="card-desc">' + descripcion + '</p>'
-        +     '<p class="card-address">' + direccion + '</p>'
-        +     '<div class="card-actions">';
-
-      if (telefono) {
-        html += '<a class="btn-action" href="tel:' + limpiarNumero(telefono) + '">Llamar</a>';
-      }
-
-      if (whatsapp) {
-        html += '<a class="btn-action btn-whatsapp" target="_blank" href="https://wa.me/' + limpiarNumero(whatsapp) + '">WhatsApp</a>';
-      }
-
-      html += ''
-        +     '</div>'
-        +   '</div>'
-        + '</article>';
-    }
-
-    cardsContainer.innerHTML = html;
-  }
-
-  async function cargarDatos() {
-    cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
-    countBadge.textContent = "Cargando...";
-
-    try {
-      const url = API_URL_BASE + '?action=listarCategoria&cat=' + encodeURIComponent(categoria);
-      console.log("Consultando URL:", url);
-
-      const response = await fetch(url);
-      console.log("Response status:", response.status);
-
-      if (!response.ok) {
-        throw new Error("Error HTTP " + response.status);
-      }
-
-      const data = await response.json();
-      console.log("Respuesta listarCategoria:", data);
-
-      if (Array.isArray(data)) {
-        datosOriginales = data;
-      } else if (data && Array.isArray(data.items)) {
-        datosOriginales = data.items;
-      } else if (data && Array.isArray(data.resultados)) {
-        datosOriginales = data.resultados;
-      } else if (data && Array.isArray(data.data)) {
-        datosOriginales = data.data;
-      } else {
-        datosOriginales = [];
-      }
-
-      renderSubcategorias(datosOriginales);
+    searchInput.addEventListener("input", function() {
+      filtroTexto = String(this.value || "").trim().toLowerCase();
       renderCards();
+    });
 
-    } catch (error) {
-      console.error("Error al cargar resultados:", error);
-      countBadge.textContent = "Error";
-      cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
-    }
-  }
-
-  subFilter.addEventListener("change", renderCards);
-  statusFilter.addEventListener("change", renderCards);
-
-  cargarDatos();
-</script>
+    cargarDatos();
   </script>
 </body>
 </html>
