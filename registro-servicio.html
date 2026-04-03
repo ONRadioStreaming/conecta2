@@ -615,7 +615,7 @@
       </p>
 
       <div class="notice">
-        Importante: elegí primero la categoría principal. Después seleccioná el rubro o especialidad. Si no aparece en la lista, usá la opción "Otro" y especificá cuál. La disponibilidad se calcula según los días y horarios reales que cargues.
+        Importante: elegí primero la categoría principal. Después seleccioná el rubro o especialidad. Si no aparece en la lista, usá la opción "Otro" y especificá cuál.
       </div>
 
       <div id="errorBox" class="error-box"></div>
@@ -658,25 +658,22 @@
 
           <div class="grid-2">
             <div class="field-group">
-              <label for="categoriaPrincipal">Categoría principal *</label>
               <select id="categoriaPrincipal" required>
-                <option value="">Seleccionar</option>
-                <option>Servicios para el hogar</option>
-                <option>Construcción</option>
-                <option>Gastronomía</option>
-                <option>Salud</option>
-                <option>Estética y bienestar</option>
-                <option>Educación</option>
-                <option>Tecnología</option>
-                <option>Profesionales</option>
-                <option>Oficios</option>
-                <option>Automotor</option>
-                <option>Mascotas</option>
-                <option>Transporte y logística</option>
-                <option>Deportes y gimnasios</option>
-                <option>Empresas y servicios</option>
-                <option>Otros rubros</option>
-              </select>
+  <option value="">Seleccionar</option>
+  <option>Automotor</option>
+  <option>Construcción</option>
+  <option>Deportes y gimnasios</option>
+  <option>Educación</option>
+  <option>Empresas y servicios</option>
+  <option>Estética y bienestar</option>
+  <option>Gastronomía</option>
+  <option>Mascotas</option>
+  <option>Oficios</option>
+  <option>Otros rubros</option>
+  <option>Servicios para el hogar</option>
+  <option>Tecnología</option>
+  <option>Transporte y logística</option>
+</select>
             </div>
 
             <div class="field-group">
@@ -872,22 +869,133 @@
     let archivoFoto = null;
 
     const rubrosPorCategoria = {
-      "Servicios para el hogar": ["Electricidad","Plomería","Cerrajería","Jardinería","Limpieza","Mantenimiento general","Climatización","Tapicería","Otro"],
-      "Construcción": ["Albañilería","Pintura","Durlock","Colocación de membranas","Gasista","Techista","Otro"],
-      "Gastronomía": ["Chef","Catering","Pastelería","Panadería artesanal","Otro"],
-      "Salud": ["Médico","Enfermería","Kinesiología","Odontología","Psicología","Veterinaria","Otro"],
-      "Estética y bienestar": ["Peluquería","Manicuría","Masajes","Entrenamiento personal","Cosmetología","Otro"],
-      "Educación": ["Profesor particular","Apoyo escolar","Capacitación","Idiomas","Otro"],
-      "Tecnología": ["Diseño gráfico","Programación","Reparación PC","Redes","Sublimación","Otro"],
-      "Profesionales": ["Abogacía","Contaduría","Arquitectura","Ingeniería","Consultoría","Otro"],
-      "Oficios": ["Herrería","Carpintería","Tornería","Soldadura","Mecánica ligera","Otro"],
-      "Automotor": ["Mecánica","Gomería","Lavado vehicular","Polarizado","Electricidad automotor","Otro"],
-      "Mascotas": ["Paseador","Peluquería canina","Adiestramiento","Veterinaria","Otro"],
-      "Transporte y logística": ["Fletes","Mudanzas","Cadetería","Traslados","Otro"],
-      "Deportes y gimnasios": ["Profesor","Entrenador","Preparación física","Otro"],
-      "Empresas y servicios": ["Asistencia administrativa","Ventas","Gestión","Soporte técnico","Otro"],
-      "Otros rubros": ["Otro"]
-    };
+  "Servicios para el hogar": [
+    "Aire acondicionado",
+    "Cerrajería",
+    "Climatización",
+    "Electricidad",
+    "Gasista",
+    "Jardinería",
+    "Limpieza",
+    "Mantenimiento general",
+    "Pintura",
+    "Plomería",
+    "Tapicería",
+    "Otro"
+  ],
+
+  "Construcción": [
+    "Albañilería",
+    "Colocación de membranas",
+    "Durlock",
+    "Electricidad",
+    "Gasista",
+    "Pintura",
+    "Plomería",
+    "Techista",
+    "Otro"
+  ],
+
+  "Gastronomía": [
+    "Catering",
+    "Chef",
+    "Panadería artesanal",
+    "Pastelería",
+    "Pizzería",
+    "Restaurante",
+    "Rotisería",
+    "Otro"
+  ],
+
+  "Estética y bienestar": [
+    "Cosmetología",
+    "Entrenamiento personal",
+    "Manicuría",
+    "Masajes",
+    "Peluquería a domicilio",
+    "Otro"
+  ],
+
+  "Educación": [
+    "Apoyo escolar",
+    "Capacitación",
+    "Idiomas",
+    "Profesor particular",
+    "Otro"
+  ],
+
+  "Tecnología": [
+    "Diseño gráfico",
+    "Programación",
+    "Redes",
+    "Reparación de PC",
+    "Soporte técnico",
+    "Sublimación",
+    "Otro"
+  ],
+
+  "Oficios": [
+    "Carpintería",
+    "Cerrajería",
+    "Electricidad",
+    "Gasista",
+    "Herrería",
+    "Jardinería",
+    "Pintura",
+    "Plomería",
+    "Soldadura",
+    "Tornería",
+    "Otro"
+  ],
+
+  "Automotor": [
+    "Electricidad automotor",
+    "Gomería",
+    "Lavado vehicular",
+    "Mecánica",
+    "Mecánica ligera",
+    "Polarizado",
+    "Ploteo vehicular",
+    "Otro"
+  ],
+
+  "Mascotas": [
+    "Adiestramiento",
+    "Cuidado de mascotas",
+    "Paseador",
+    "Peluquería canina",
+    "Otro"
+  ],
+
+  "Transporte y logística": [
+    "Cadetería",
+    "Comisiones",
+    "Fletes",
+    "Mudanzas",
+    "Mandados",
+    "Traslados",
+    "Otro"
+  ],
+
+  "Deportes y gimnasios": [
+    "Entrenador",
+    "Preparador físico",
+    "Profesor",
+    "Otro"
+  ],
+
+  "Empresas y servicios": [
+    "Asistencia administrativa",
+    "Gestión",
+    "Soporte técnico",
+    "Ventas",
+    "Otro"
+  ],
+
+  "Otros rubros": [
+    "Otro"
+  ]
+};
 
     const diasSemana = [
       { key: 'lunes', label: 'Lunes', corridoDesde: '08:00', corridoHasta: '18:00', mananaDesde: '08:00', mananaHasta: '12:00', tardeDesde: '16:00', tardeHasta: '20:00' },
