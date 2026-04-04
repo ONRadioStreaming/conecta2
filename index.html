@@ -1302,7 +1302,29 @@ function detenerCicloTour() {
     cycleTimer = null;
   }
 }
+function aplicarHighlight(selector) {
 
+  limpiarHighlightTour();
+
+  if (!selector) return;
+
+  const el = document.querySelector(selector);
+  if (!el) return;
+
+  tourTargetActual = el;
+
+  const rectInicial = el.getBoundingClientRect();
+  const cardHeight = tourCard.offsetHeight || 260;
+  const margenSuperior = 90;
+  const margenInferior = cardHeight + 36;
+
+  const necesitaScroll =
+    rectInicial.top < margenSuperior ||
+    rectInicial.bottom > (window.innerHeight - margenInferior);
+
+  if (necesitaScroll) {
+
+    let destinoY = window.scrollY + rectInicial.top - 110;
 if (selector === "#openEmergency") {
   padX = 6;
   padY = 6;
