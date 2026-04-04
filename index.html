@@ -174,46 +174,46 @@
     }
 
     .btn-main {
-  background: linear-gradient(145deg, #24c6dc, #514a9d);
-  color: #fff;
-}
+      background: linear-gradient(145deg, #24c6dc, #514a9d);
+      color: #fff;
+    }
 
-.btn-secondary {
-  background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
-  color: #fff;
-}
+    .btn-secondary {
+      background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
+      color: #fff;
+    }
 
-.btn-profesional{
-  width:100%;
-  border:0;
-  border-radius:18px;
-  padding:16px 18px;
-  font-size:1.02rem;
-  font-weight:800;
-  letter-spacing:-0.02em;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 8px 18px rgba(0,0,0,0.16);
-  background:linear-gradient(145deg,#8e2de2,#4a00e0);
-  color:#fff;
-}
+    .btn-profesional {
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+      background: linear-gradient(145deg,#8e2de2,#4a00e0);
+      color: #fff;
+    }
 
-.btn-salud{
-  width:100%;
-  border:0;
-  border-radius:18px;
-  padding:16px 18px;
-  font-size:1.02rem;
-  font-weight:800;
-  letter-spacing:-0.02em;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 8px 18px rgba(0,0,0,0.16);
-  background:linear-gradient(135deg,#1fd1c2,#0aa2b5);
-  color:#fff;
-}
+    .btn-salud {
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+      background: linear-gradient(135deg,#1fd1c2,#0aa2b5);
+      color: #fff;
+    }
 
     .content {
       background: #eef4f7;
@@ -264,8 +264,8 @@
         inset 0 3px 6px rgba(0,0,0,0.18);
     }
 
-    .cat-3{background: linear-gradient(145deg, #ff9f1c, #ff6f3d);}
-    .cat-4{background:linear-gradient(135deg,#1fd1c2,#0aa2b5);}
+    .cat-3 { background: linear-gradient(145deg, #ff9f1c, #ff6f3d); }
+    .cat-4 { background: linear-gradient(135deg,#1fd1c2,#0aa2b5); }
     .cat-11 { background: linear-gradient(145deg, #24c6dc, #514a9d); }
     .cat-15 { background: linear-gradient(145deg, #8e2de2, #4a00e0); }
 
@@ -473,6 +473,27 @@
       color: #ffffff;
     }
 
+    .guide-btn-wrap {
+      margin-top: 16px;
+    }
+
+    .btn-guide {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
+      color: #fff;
+      border-radius: 20px;
+      padding: 16px 14px;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+      border: 0;
+      cursor: pointer;
+    }
+
     .support-card {
       margin-top: 16px;
       background: linear-gradient(135deg, #ffffff, #f4f8fb);
@@ -644,6 +665,105 @@
       font-size: .96rem;
     }
 
+    /* TOUR */
+    .tour-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 11, 24, 0.74);
+      z-index: 15000;
+      display: none;
+    }
+
+    .tour-backdrop.show {
+      display: block;
+    }
+
+    .tour-highlight {
+      position: relative;
+      z-index: 15002 !important;
+      box-shadow:
+        0 0 0 4px rgba(255,255,255,0.96),
+        0 0 0 10px rgba(255,159,28,0.36),
+        0 18px 32px rgba(0,0,0,0.34) !important;
+      border-radius: 22px !important;
+      transition: box-shadow .2s ease;
+    }
+
+    .tour-card {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 18px;
+      z-index: 15003;
+      background: #ffffff;
+      color: #12263f;
+      border-radius: 24px;
+      padding: 18px 16px 16px;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.26);
+      display: none;
+      max-width: 448px;
+      margin: 0 auto;
+    }
+
+    .tour-card.show {
+      display: block;
+    }
+
+    .tour-step {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: #ff7e1c;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .tour-title {
+      font-size: 1.14rem;
+      font-weight: 900;
+      color: #10243d;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .tour-text {
+      font-size: 0.96rem;
+      line-height: 1.55;
+      color: #4d6278;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .tour-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .tour-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 0.96rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .tour-btn-secondary {
+      background: #edf3f8;
+      color: #17314c;
+    }
+
+    .tour-btn-primary {
+      background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
+      color: #fff;
+    }
+
+    .tour-btn-full {
+      grid-column: 1 / -1;
+    }
+
     @media (max-width: 640px) {
       .farmacia-banner {
         min-height: auto;
@@ -716,11 +836,11 @@
           </div>
 
           <div class="action-stack">
-          <a class="btn-main" href="registro-comercio.html">Registrá tu comercio</a>
-          <a class="btn-secondary" href="registro-servicio.html">Ofrecé tus servicios</a>
-          <a class="btn-profesional" href="registro-profesional.html">Registrate como profesional</a>
-          <a class="btn-salud" href="registro-salud.html">Registrate como profesional de salud</a>
-          </div
+            <a class="btn-main" id="btnRegistroComercio" href="registro-comercio.html">Registrá tu comercio</a>
+            <a class="btn-secondary" id="btnRegistroServicio" href="registro-servicio.html">Ofrecé tus servicios</a>
+            <a class="btn-profesional" id="btnRegistroProfesional" href="registro-profesional.html">Registrate como profesional</a>
+            <a class="btn-salud" id="btnRegistroSalud" href="registro-salud.html">Registrate como profesional de salud</a>
+          </div>
         </div>
       </div>
 
@@ -728,28 +848,28 @@
         <h2 class="section-title">Categorías</h2>
 
         <div class="grid" id="categoryGrid">
-          <a class="category-card cat-11" href="categoria.html?cat=comercios" data-name="comercios">
+          <a class="category-card cat-11" id="cardComercios" href="categoria.html?cat=comercios" data-name="comercios">
             <div>
               <span class="card-title">Comercios</span>
               <span class="card-subtitle">Locales y negocios físicos</span>
             </div>
           </a>
 
-          <a class="category-card cat-3" href="categoria.html?cat=servicios" data-name="servicios">
+          <a class="category-card cat-3" id="cardServicios" href="categoria.html?cat=servicios" data-name="servicios">
             <div>
               <span class="card-title">Servicios</span>
               <span class="card-subtitle">Personas que realizan trabajos o tareas</span>
             </div>
           </a>
 
-          <a class="category-card cat-15" href="categoria.html?cat=profesionales" data-name="profesionales">
+          <a class="category-card cat-15" id="cardProfesionales" href="categoria.html?cat=profesionales" data-name="profesionales">
             <div>
               <span class="card-title">Profesionales</span>
               <span class="card-subtitle">Profesiones universitarias o técnicas</span>
             </div>
           </a>
 
-          <a class="category-card cat-4" href="categoria.html?cat=salud" data-name="salud">
+          <a class="category-card cat-4" id="cardSalud" href="categoria.html?cat=salud" data-name="salud">
             <div>
               <span class="card-title">Salud</span>
               <span class="card-subtitle">Profesionales de la salud</span>
@@ -803,6 +923,10 @@
               </a>
             </div>
           </div>
+        </div>
+
+        <div class="guide-btn-wrap">
+          <button class="btn-guide" id="openAppGuide">🧭 Ver guía de la app</button>
         </div>
 
         <div class="support-card section-block">
@@ -901,6 +1025,18 @@
     </div>
   </div>
 
+  <div class="tour-backdrop" id="tourBackdrop"></div>
+
+  <div class="tour-card" id="tourCard">
+    <div class="tour-step" id="tourStepLabel">Paso 1 de 1</div>
+    <div class="tour-title" id="tourTitle">Título</div>
+    <div class="tour-text" id="tourText">Texto</div>
+    <div class="tour-actions">
+      <button class="tour-btn tour-btn-secondary" id="tourSkipBtn">Salir</button>
+      <button class="tour-btn tour-btn-primary" id="tourNextBtn">Siguiente</button>
+    </div>
+  </div>
+
   <script>
     const intro = document.getElementById('intro');
     const mainApp = document.getElementById('mainApp');
@@ -910,8 +1046,20 @@
       mainApp.classList.add('visible');
     }
 
+    function intentarMostrarTourInicial() {
+      const yaVioTour = localStorage.getItem('conecta2_tour_visto') === 'true';
+      if (!yaVioTour) {
+        setTimeout(function() {
+          iniciarTour();
+        }, 700);
+      }
+    }
+
     if (sessionStorage.getItem('conecta2_intro_seen') === 'true') {
       mostrarAppSinIntro();
+      window.addEventListener('load', function () {
+        setTimeout(intentarMostrarTourInicial, 300);
+      });
     } else {
       window.addEventListener('load', function () {
         setTimeout(function () {
@@ -922,6 +1070,7 @@
         setTimeout(function () {
           intro.style.display = 'none';
           sessionStorage.setItem('conecta2_intro_seen', 'true');
+          intentarMostrarTourInicial();
         }, 5700);
       });
     }
@@ -1046,6 +1195,147 @@
         })
         .catch(err => console.log("Error farmacia", err));
     }
+
+    /* TOUR GUIADO */
+    const tourBackdrop = document.getElementById('tourBackdrop');
+    const tourCard = document.getElementById('tourCard');
+    const tourStepLabel = document.getElementById('tourStepLabel');
+    const tourTitle = document.getElementById('tourTitle');
+    const tourText = document.getElementById('tourText');
+    const tourSkipBtn = document.getElementById('tourSkipBtn');
+    const tourNextBtn = document.getElementById('tourNextBtn');
+    const openAppGuide = document.getElementById('openAppGuide');
+
+    let tourIndex = 0;
+    let tourTargetActual = null;
+
+    const tourSteps = [
+      {
+        target: null,
+        title: "Bienvenido a Conecta2",
+        text: "Conecta2 te permite encontrar comercios, servicios y profesionales de tu ciudad de forma simple y rápida."
+      },
+      {
+        target: "#cardComercios",
+        title: "Comercios",
+        text: "Acá podés encontrar locales y negocios físicos con información de contacto, horarios y ubicación."
+      },
+      {
+        target: "#cardServicios",
+        title: "Servicios",
+        text: "En esta sección vas a encontrar personas que realizan trabajos, tareas y oficios para ayudarte."
+      },
+      {
+        target: "#cardProfesionales",
+        title: "Profesionales",
+        text: "Aquí aparecen profesionales universitarios o técnicos para que puedas contactarlos fácilmente."
+      },
+      {
+        target: "#cardSalud",
+        title: "Salud",
+        text: "En Salud vas a encontrar profesionales de distintas especialidades para atención y consultas."
+      },
+      {
+        target: "#farmaciaTurnoCard",
+        title: "Farmacia de turno",
+        text: "Acá podés consultar rápidamente qué farmacia está de turno y acceder a llamar, enviar WhatsApp o ver cómo llegar."
+      },
+      {
+        target: "#btnRegistroComercio",
+        title: "También podés publicar tu perfil",
+        text: "Si tenés un comercio, brindás servicios o trabajás como profesional, también podés registrarte para aparecer en la app."
+      },
+      {
+        target: null,
+        title: "¿Cuánto cuesta publicar en Conecta2?",
+        text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero con una bonificación de $10.000 pagás $54.000."
+      },
+      {
+        target: null,
+        title: "¿Cómo se paga?",
+        text: "Pago online: remoto. Transferencia y efectivo: solo presencial. Tu perfil aparece en la app una vez que la membresía queda activada en el sistema."
+      },
+      {
+        target: null,
+        title: "Listo, ya sabés cómo funciona",
+        text: "Podés usar la app para buscar lo que necesitás o registrarte para que nuevos clientes te encuentren en Conecta2."
+      }
+    ];
+
+    function limpiarHighlightTour() {
+      if (tourTargetActual) {
+        tourTargetActual.classList.remove('tour-highlight');
+        tourTargetActual = null;
+      }
+    }
+
+    function mostrarPasoTour(index) {
+      const step = tourSteps[index];
+      if (!step) return;
+
+      limpiarHighlightTour();
+
+      tourStepLabel.textContent = "Paso " + (index + 1) + " de " + tourSteps.length;
+      tourTitle.textContent = step.title;
+      tourText.textContent = step.text;
+
+      if (index === tourSteps.length - 1) {
+        tourNextBtn.textContent = "Empezar a usar la app";
+      } else {
+        tourNextBtn.textContent = "Siguiente";
+      }
+
+      if (step.target) {
+        const el = document.querySelector(step.target);
+        if (el) {
+          tourTargetActual = el;
+          el.classList.add('tour-highlight');
+          setTimeout(function() {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 80);
+        }
+      }
+
+      tourBackdrop.classList.add('show');
+      tourCard.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function iniciarTour(forzado = false) {
+      if (!forzado) {
+        localStorage.setItem('conecta2_tour_visto', 'true');
+      }
+      tourIndex = 0;
+      mostrarPasoTour(tourIndex);
+    }
+
+    function cerrarTour() {
+      limpiarHighlightTour();
+      tourBackdrop.classList.remove('show');
+      tourCard.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    tourNextBtn.addEventListener('click', function() {
+      if (tourIndex >= tourSteps.length - 1) {
+        cerrarTour();
+        return;
+      }
+      tourIndex += 1;
+      mostrarPasoTour(tourIndex);
+    });
+
+    tourSkipBtn.addEventListener('click', function() {
+      cerrarTour();
+    });
+
+    tourBackdrop.addEventListener('click', function() {
+      cerrarTour();
+    });
+
+    openAppGuide.addEventListener('click', function() {
+      iniciarTour(true);
+    });
 
     window.addEventListener("load", function () {
       cargarFarmaciaHoy();
