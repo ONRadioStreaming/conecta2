@@ -991,17 +991,13 @@
     </div>
   </div>
 
-  <div class="tour-backdrop" id="tourBackdrop"></div>
+ <div class="tour-backdrop" id="tourBackdrop"></div>
 
-  <div class="tour-card" id="tourCard">
-    <div class="tour-step" id="tourStepLabel">Paso 1 de 1</div>
-    <div class="tour-title" id="tourTitle">Título</div>
-    <div class="tour-text" id="tourText">Texto</div>
-    <div class="tour-actions">
-      <button class="tour-btn tour-btn-secondary" id="tourSkipBtn">Salir</button>
-      <button class="tour-btn tour-btn-primary" id="tourNextBtn">Siguiente</button>
-    </div>
-  </div>
+<div class="tour-card" id="tourCard">
+  <button class="tour-close" id="tourCloseBtn">✕</button>
+  <div class="tour-title" id="tourTitle">Título</div>
+  <div class="tour-text" id="tourText">Texto</div>
+</div>
 
   <script>
     const intro = document.getElementById('intro');
@@ -1162,146 +1158,151 @@
         .catch(err => console.log("Error farmacia", err));
     }
 
-    /* TOUR GUIADO */
-    const tourBackdrop = document.getElementById('tourBackdrop');
-    const tourCard = document.getElementById('tourCard');
-    const tourStepLabel = document.getElementById('tourStepLabel');
-    const tourTitle = document.getElementById('tourTitle');
-    const tourText = document.getElementById('tourText');
-    const tourSkipBtn = document.getElementById('tourSkipBtn');
-    const tourNextBtn = document.getElementById('tourNextBtn');
-    const openAppGuide = document.getElementById('openAppGuide');
+   /* TOUR GUIADO */
+const tourBackdrop = document.getElementById('tourBackdrop');
+const tourCard = document.getElementById('tourCard');
+const tourTitle = document.getElementById('tourTitle');
+const tourText = document.getElementById('tourText');
+const tourCloseBtn = document.getElementById('tourCloseBtn');
+const openAppGuide = document.getElementById('openAppGuide');
 
-    let tourIndex = 0;
-    let tourTargetActual = null;
+let tourIndex = 0;
+let tourTargetActual = null;
+let tourTimer = null;
 
-    const tourSteps = [
-      {
-        target: null,
-        title: "Bienvenido a Conecta2",
-        text: "Conecta2 te permite encontrar comercios, servicios y profesionales de tu ciudad de forma simple y rápida."
-      },
-      {
-        target: "#cardComercios",
-        title: "Comercios",
-        text: "Acá podés encontrar locales y negocios físicos con información de contacto, horarios y ubicación."
-      },
-      {
-        target: "#cardServicios",
-        title: "Servicios",
-        text: "En esta sección vas a encontrar personas que realizan trabajos, tareas y oficios para ayudarte."
-      },
-      {
-        target: "#cardProfesionales",
-        title: "Profesionales",
-        text: "Aquí aparecen profesionales universitarios o técnicos para que puedas contactarlos fácilmente."
-      },
-      {
-        target: "#cardSalud",
-        title: "Salud",
-        text: "En Salud vas a encontrar profesionales de distintas especialidades para atención y consultas."
-      },
-      {
-        target: "#farmaciaTurnoCard",
-        title: "Farmacia de turno",
-        text: "Acá podés consultar rápidamente qué farmacia está de turno y acceder a llamar, enviar WhatsApp o ver cómo llegar."
-      },
-      {
-        target: "#btnRegistroComercio",
-        title: "También podés publicar tu perfil",
-        text: "Si tenés un comercio, brindás servicios o trabajás como profesional, también podés registrarte para aparecer en la app."
-      },
-      {
-        target: null,
-        title: "¿Cuánto cuesta publicar en Conecta2?",
-        text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero con una bonificación de $10.000 pagás $54.000."
-      },
-      {
-        target: null,
-        title: "¿Cómo se paga?",
-        text: "Pago online: remoto. Transferencia y efectivo: solo presencial. Tu perfil aparece en la app una vez que la membresía queda activada en el sistema."
-      },
-      {
-        target: null,
-        title: "Listo, ya sabés cómo funciona",
-        text: "Podés usar la app para buscar lo que necesitás o registrarte para que nuevos clientes te encuentren en Conecta2."
-      }
-    ];
+const tourSteps = [
+  {
+    target: "#categoryGrid",
+    title: "Categorías",
+    text: "Acá encontrás todo lo que buscás dentro de Conecta2 según tu necesidad."
+  },
+  {
+    target: "#cardComercios",
+    title: "Comercios",
+    text: "Ingresá acá para encontrar locales y negocios físicos con contacto, horarios y ubicación."
+  },
+  {
+    target: "#cardServicios",
+    title: "Servicios",
+    text: "En esta sección vas a encontrar personas que realizan trabajos, tareas y oficios."
+  },
+  {
+    target: "#cardProfesionales",
+    title: "Profesionales",
+    text: "Acá aparecen profesionales universitarios o técnicos para que puedas contactarlos fácilmente."
+  },
+  {
+    target: "#cardSalud",
+    title: "Salud",
+    text: "En Salud podés encontrar profesionales y especialistas para lo que necesites."
+  },
+  {
+    target: "#openEmergency",
+    title: "Emergencias",
+    text: "Ante una urgencia, acá accedés rápido a números como policía, bomberos y emergencias de salud."
+  },
+  {
+    target: "#farmaciaTurnoCard",
+    title: "Farmacia de turno",
+    text: "En este módulo ves qué farmacia está de turno, hasta qué hora y cómo comunicarte o llegar."
+  },
+  {
+    target: ".support-card",
+    title: "Soporte Conecta2",
+    text: "Si querés dejarnos una sugerencia, una mejora o tenés alguna duda, podés escribirnos desde acá."
+  },
+  {
+    target: "#btnRegistroComercio",
+    title: "¿Tenés un comercio?",
+    text: "Si querés aparecer en la app, tocá acá y registrá tu comercio de forma simple."
+  },
+  {
+    target: "#btnRegistroServicio",
+    title: "¿Ofrecés servicios?",
+    text: "También podés registrarte como servicio, profesional o profesional de salud para aparecer en Conecta2."
+  },
+  {
+    target: ".action-stack",
+    title: "Membresía Conecta2",
+    text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero con bonificación de $10.000 pagás $54.000."
+  },
+  {
+    target: ".action-stack",
+    title: "¿Cómo se paga?",
+    text: "Pago online: remoto. Transferencia y efectivo: solo presencial. Una vez activada la membresía, tu perfil aparece en la app."
+  }
+];
 
-    function limpiarHighlightTour() {
-      if (tourTargetActual) {
-        tourTargetActual.classList.remove('tour-highlight');
-        tourTargetActual = null;
-      }
+function limpiarHighlightTour() {
+  if (tourTargetActual) {
+    tourTargetActual.classList.remove('tour-highlight');
+    tourTargetActual = null;
+  }
+}
+
+function limpiarTimerTour() {
+  if (tourTimer) {
+    clearTimeout(tourTimer);
+    tourTimer = null;
+  }
+}
+
+function cerrarTour() {
+  limpiarTimerTour();
+  limpiarHighlightTour();
+  tourBackdrop.classList.remove('show');
+  tourCard.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function mostrarPasoTour(index) {
+  const step = tourSteps[index];
+  if (!step) {
+    cerrarTour();
+    return;
+  }
+
+  limpiarHighlightTour();
+
+  tourTitle.textContent = step.title;
+  tourText.textContent = step.text;
+
+  if (step.target) {
+    const el = document.querySelector(step.target);
+    if (el) {
+      tourTargetActual = el;
+      el.classList.add('tour-highlight');
+      setTimeout(function () {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 80);
     }
+  }
 
-    function mostrarPasoTour(index) {
-      const step = tourSteps[index];
-      if (!step) return;
+  tourBackdrop.classList.add('show');
+  tourCard.classList.add('show');
+  document.body.style.overflow = 'hidden';
 
-      limpiarHighlightTour();
+  limpiarTimerTour();
+  tourTimer = setTimeout(function () {
+    tourIndex += 1;
+    mostrarPasoTour(tourIndex);
+  }, 1400);
+}
 
-      tourStepLabel.textContent = "Paso " + (index + 1) + " de " + tourSteps.length;
-      tourTitle.textContent = step.title;
-      tourText.textContent = step.text;
+function iniciarTour(forzado = false) {
+  if (!forzado) {
+    localStorage.setItem('conecta2_tour_visto', 'true');
+  }
+  tourIndex = 0;
+  mostrarPasoTour(tourIndex);
+}
 
-      if (index === tourSteps.length - 1) {
-        tourNextBtn.textContent = "Empezar a usar la app";
-      } else {
-        tourNextBtn.textContent = "Siguiente";
-      }
+tourBackdrop.addEventListener('click', cerrarTour);
+tourCloseBtn.addEventListener('click', cerrarTour);
 
-      if (step.target) {
-        const el = document.querySelector(step.target);
-        if (el) {
-          tourTargetActual = el;
-          el.classList.add('tour-highlight');
-          setTimeout(function() {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 80);
-        }
-      }
-
-      tourBackdrop.classList.add('show');
-      tourCard.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function iniciarTour(forzado = false) {
-      if (!forzado) {
-        localStorage.setItem('conecta2_tour_visto', 'true');
-      }
-      tourIndex = 0;
-      mostrarPasoTour(tourIndex);
-    }
-
-    function cerrarTour() {
-      limpiarHighlightTour();
-      tourBackdrop.classList.remove('show');
-      tourCard.classList.remove('show');
-      document.body.style.overflow = '';
-    }
-
-    tourNextBtn.addEventListener('click', function() {
-      if (tourIndex >= tourSteps.length - 1) {
-        cerrarTour();
-        return;
-      }
-      tourIndex += 1;
-      mostrarPasoTour(tourIndex);
-    });
-
-    tourSkipBtn.addEventListener('click', function() {
-      cerrarTour();
-    });
-
-    tourBackdrop.addEventListener('click', function() {
-      cerrarTour();
-    });
-
-    openAppGuide.addEventListener('click', function() {
-      iniciarTour(true);
-    });
+openAppGuide.addEventListener('click', function() {
+  iniciarTour(true);
+});
 
     window.addEventListener("load", function () {
       cargarFarmaciaHoy();
