@@ -955,13 +955,25 @@
       }
 
      datosOriginales = datosOriginales.filter(function(item) {
-  const catItem = String(item.categoria_principal || "")
-    .toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "-")
-    .trim();
+  const tipoItem = String(item.tipo || "").toLowerCase().trim();
 
-  return catItem === categoria;
+  if (categoria === "comercios") {
+    return tipoItem === "comercio";
+  }
+
+  if (categoria === "oficios") {
+    return tipoItem === "servicio";
+  }
+
+  if (categoria === "profesionales") {
+    return tipoItem === "profesional";
+  }
+
+  if (categoria === "salud") {
+    return tipoItem === "salud";
+  }
+
+  return false;
 });
 
 renderSubcategorias(datosOriginales);
