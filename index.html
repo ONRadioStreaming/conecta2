@@ -1303,7 +1303,6 @@ function detenerCicloTour() {
   }
 }
 function aplicarHighlight(selector) {
-
   limpiarHighlightTour();
 
   if (!selector) return;
@@ -1323,52 +1322,82 @@ function aplicarHighlight(selector) {
     rectInicial.bottom > (window.innerHeight - margenInferior);
 
   if (necesitaScroll) {
-
     let destinoY = window.scrollY + rectInicial.top - 110;
-if (selector === "#openEmergency") {
-  padX = 6;
-  padY = 6;
-  radius = 20;
-}
 
-if (selector === "#openAppGuide") {
-  padX = 2;
-  padY = 2;
-  radius = 18;
-}
+    if (selector === "#farmaciaTurnoCard .farmacia-overlay") {
+      destinoY = window.scrollY + rectInicial.top - 40;
+    }
 
-if (selector === ".support-card") {
-  padX = 6;
-  padY = 6;
-  radius = 24;
-}
+    if (selector === "#openAppGuide") {
+      destinoY = window.scrollY + rectInicial.top - 80;
+    }
 
-if (selector === "#farmaciaTurnoCard .farmacia-overlay") {
-  padX = 4;
-  padY = 4;
-  radius = 26;
-}
+    window.scrollTo({
+      top: Math.max(0, destinoY),
+      behavior: "smooth"
+    });
+  }
 
-if (
-  selector === "#btnRegistroComercio" ||
-  selector === "#btnRegistroServicio" ||
-  selector === "#btnRegistroProfesional" ||
-  selector === "#btnRegistroSalud"
-) {
-  padX = 4;
-  padY = 4;
-  radius = 22;
-}
+  setTimeout(function () {
+    const rect = el.getBoundingClientRect();
 
-if (
-  selector === "#cardComercios" ||
-  selector === "#cardServicios" ||
-  selector === "#cardProfesionales" ||
-  selector === "#cardSalud"
-) {
-  padX = 4;
-  padY = 4;
-  radius = 24;
+    let padX = 8;
+    let padY = 8;
+    let radius = 28;
+
+    if (selector === "#openEmergency") {
+      padX = 6;
+      padY = 6;
+      radius = 20;
+    }
+
+    if (selector === "#openAppGuide") {
+      padX = 2;
+      padY = 2;
+      radius = 18;
+    }
+
+    if (selector === ".support-card") {
+      padX = 6;
+      padY = 6;
+      radius = 24;
+    }
+
+    if (selector === "#farmaciaTurnoCard .farmacia-overlay") {
+      padX = 4;
+      padY = 4;
+      radius = 26;
+    }
+
+    if (
+      selector === "#btnRegistroComercio" ||
+      selector === "#btnRegistroServicio" ||
+      selector === "#btnRegistroProfesional" ||
+      selector === "#btnRegistroSalud"
+    ) {
+      padX = 4;
+      padY = 4;
+      radius = 22;
+    }
+
+    if (
+      selector === "#cardComercios" ||
+      selector === "#cardServicios" ||
+      selector === "#cardProfesionales" ||
+      selector === "#cardSalud"
+    ) {
+      padX = 4;
+      padY = 4;
+      radius = 24;
+    }
+
+    tourHole.style.top = (rect.top - padY) + "px";
+    tourHole.style.left = (rect.left - padX) + "px";
+    tourHole.style.width = (rect.width + padX * 2) + "px";
+    tourHole.style.height = (rect.height + padY * 2) + "px";
+    tourHole.style.borderRadius = radius + "px";
+    tourHole.classList.add("show");
+  }, necesitaScroll ? 420 : 120);
 }
 function iniciarCiclo(targets) {
   detenerCicloTour();
