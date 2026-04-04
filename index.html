@@ -1312,25 +1312,35 @@ function aplicarHighlight(selector) {
 
   tourTargetActual = el;
 
+  const cardHeight = tourCard.offsetHeight || 260;
+  const margenSuperior = 90;
+  const margenInferior = cardHeight + 36;
+
+  const rectInicial = el.getBoundingClientRect();
+  const necesitaScroll =
+    rectInicial.top < margenSuperior ||
+    rectInicial.bottom > (window.innerHeight - margenInferior);
+
+  if (necesitaScroll) {
+    const destinoY = window.scrollY + rectInicial.top - 110;
+
+    window.scrollTo({
+      top: Math.max(0, destinoY),
+      behavior: 'smooth'
+    });
+  }
+
   setTimeout(function () {
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const rect = el.getBoundingClientRect();
+    const pad = 8;
 
-    setTimeout(function () {
-      const rect = el.getBoundingClientRect();
-const pad = 8;
-
-const scrollY = window.scrollY || window.pageYOffset;
-const scrollX = window.scrollX || window.pageXOffset;
-
-tourHole.style.top = (rect.top + scrollY - pad) + 'px';
-tourHole.style.left = (rect.left + scrollX - pad) + 'px';
-tourHole.style.width = (rect.width + pad * 2) + 'px';
-tourHole.style.height = (rect.height + pad * 2) + 'px';
-      tourHole.classList.add('show');
-    }, 220);
-  }, 80);
+    tourHole.style.top = (rect.top - pad) + 'px';
+    tourHole.style.left = (rect.left - pad) + 'px';
+    tourHole.style.width = (rect.width + pad * 2) + 'px';
+    tourHole.style.height = (rect.height + pad * 2) + 'px';
+    tourHole.classList.add('show');
+  }, necesitaScroll ? 420 : 120);
 }
-
 function iniciarCiclo(targets) {
   detenerCicloTour();
 
