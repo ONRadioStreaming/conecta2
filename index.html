@@ -669,12 +669,31 @@
 .tour-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(4, 11, 24, 0.76);
+  background: rgba(4, 11, 24, 0.78);
   z-index: 15000;
   display: none;
+  pointer-events: auto;
 }
 
 .tour-backdrop.show {
+  display: block;
+}
+
+.tour-hole {
+  position: fixed;
+  z-index: 15001;
+  border-radius: 24px;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 9999px rgba(4, 11, 24, 0.78),
+    0 0 0 4px rgba(255,255,255,0.98),
+    0 0 0 10px rgba(255,159,28,0.34),
+    0 0 28px rgba(255,159,28,0.72),
+    0 14px 30px rgba(0,0,0,0.42);
+  display: none;
+}
+
+.tour-hole.show {
   display: block;
 }
 
@@ -1030,6 +1049,7 @@
   </div>
 
 <div class="tour-backdrop" id="tourBackdrop"></div>
+<div class="tour-hole" id="tourHole"></div>
 
 <div class="tour-card" id="tourCard">
   <button class="tour-close" id="tourCloseBtn">✕</button>
@@ -1202,6 +1222,7 @@
 
    /* TOUR GUIADO */
 const tourBackdrop = document.getElementById('tourBackdrop');
+const tourHole = document.getElementById('tourHole');
 const tourCard = document.getElementById('tourCard');
 const tourTitle = document.getElementById('tourTitle');
 const tourText = document.getElementById('tourText');
@@ -1265,6 +1286,12 @@ function limpiarHighlightTour() {
     tourTargetActual.classList.remove('tour-highlight');
     tourTargetActual = null;
   }
+
+  tourHole.classList.remove('show');
+  tourHole.style.top = '';
+  tourHole.style.left = '';
+  tourHole.style.width = '';
+  tourHole.style.height = '';
 }
 
 function detenerCicloTour() {
@@ -1283,10 +1310,20 @@ function aplicarHighlight(selector) {
   if (!el) return;
 
   tourTargetActual = el;
-  el.classList.add('tour-highlight');
 
   setTimeout(function () {
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    setTimeout(function () {
+      const rect = el.getBoundingClientRect();
+      const pad = 8;
+
+      tourHole.style.top = (rect.top - pad) + 'px';
+      tourHole.style.left = (rect.left - pad) + 'px';
+      tourHole.style.width = (rect.width + pad * 2) + 'px';
+      tourHole.style.height = (rect.height + pad * 2) + 'px';
+      tourHole.classList.add('show');
+    }, 220);
   }, 80);
 }
 
@@ -1339,6 +1376,7 @@ function cerrarTour() {
   limpiarHighlightTour();
   tourBackdrop.classList.remove('show');
   tourCard.classList.remove('show');
+  tourHole.classList.remove('show');
   document.body.style.overflow = '';
 }
 
