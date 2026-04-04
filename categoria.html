@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -942,6 +943,12 @@
 
   window[callbackName] = function(data) {
     try {
+     console.log("CATEGORIA URL:", categoria);
+     console.log("DATA RECIBIDA:", data);
+     console.log("TIPO PRIMER ITEM:", data && data[0] ? 
+data[0].tipo : "sin item");
+     console.log("NOMBRE PRIMER ITEM:", data && data[0] ? 
+data[0].nombre : "sin item");
       if (Array.isArray(data)) {
         datosOriginales = data;
       } else if (data && Array.isArray(data.items)) {
