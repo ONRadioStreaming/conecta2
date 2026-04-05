@@ -1216,7 +1216,7 @@ async function submitOnlinePaymentDirect() {
 
     function buildModalSubtitle(methodKey, plan) {
   if (methodKey === 'mercado_pago') {
-    return Elegiste pago online para activar ${plan.name.toLowerCase()}. Al continuar, se va a registrar la solicitud y después vas a ir al enlace de pago.;
+    return 'Elegiste pago online para activar ' + plan.name.toLowerCase() + '. Al continuar, se va a registrar la solicitud y después vas a ir al enlace de pago.';
   }
 
   if (methodKey === 'transferencia') {
