@@ -1000,14 +1000,16 @@ renderCards();
     }
   };
 
-  const script = document.createElement("script");
-  script.id = callbackName;
-  script.src = API_URL_BASE
-  + '?action=listarCategoria'
-  + '&cat=' + encodeURIComponent(categoria)
-  + '&callback=' + encodeURIComponent(callbackName);
+  const categoriaConsulta = categoria === 'servicios' ? 'oficios' : categoria;
 
-  script.onerror = function() {
+const script = document.createElement('script');
+script.id = callbackName;
+script.src = API_URL_BASE
+  + '?action=listarCategoria'
+  + '&cat=' + encodeURIComponent(categoriaConsulta)
+  + '&callback=' + encodeURIComponent(callbackName);
+  
+script.onerror = function() {
     try { delete window[callbackName]; } catch (e) {}
     script.remove();
     console.error("Error al cargar resultados por JSONP");
