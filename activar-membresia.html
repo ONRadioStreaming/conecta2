@@ -974,7 +974,7 @@ async function submitOnlinePaymentDirect() {
     persistLastMembership(payload);
 
     const paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
-    if (!paymentUrl || !/^https?:\\/\\//i.test(paymentUrl)) {
+    if (!paymentUrl || !/^https?:\/\//i.test(paymentUrl)) {
       throw new Error('El servidor no devolvió un enlace de pago válido.');
     }
 
