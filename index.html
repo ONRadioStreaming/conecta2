@@ -1241,7 +1241,7 @@ let cycleIndex = 0;
 const tourSteps = [
   {
     title: "Categorías",
-    text: "Entrá en la categoría que más necesites para resolver lo que buscás dentro de Conecta2.",
+    text: "Entrá en la categoría que más necesites para resolver lo que buscás dentro de la App.",
     mode: "cycle",
     targets: ["#cardComercios", "#cardServicios", "#cardProfesionales", "#cardSalud"]
   },
@@ -1250,14 +1250,14 @@ const tourSteps = [
     text: "Ante una urgencia, acá accedés rápido a números importantes como policía, bomberos y emergencias de salud.",
     target: "#openEmergency"
   },
-  {
+ {
   title: "Farmacia de turno",
   text: "En este módulo podés ver qué farmacia está de turno, hasta qué hora, comunicarte o ver cómo llegar.",
-  target: "#farmaciaTurnoCard .farmacia-overlay"
+  target: "#farmaciaTurnoCard .farmacia-info"
 },
   {
     title: "Soporte Conecta2",
-    text: "Si querés dejarnos una sugerencia, una mejora o tenés alguna duda, podés escribirnos desde este módulo.",
+    text: "Si querés dejarnos una sugerencia, una mejora o tenés alguna duda, podés escribirnos desde este módulo en cualquier momento.",
     target: ".support-card"
   },
   {
@@ -1268,19 +1268,19 @@ const tourSteps = [
   },
   {
     title: "Membresía Conecta2",
-    text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero con bonificación de $10.000 pagás $54.000.",
+    text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero ahora con bonificación de $10.000 pagás $54.000.",
     target: ".action-stack"
   },
   {
     title: "¿Cómo se paga?",
-    text: "Pago online: remoto. Transferencia y efectivo: solo presencial. Una vez activada la membresía, tu perfil aparece dentro de la app.",
+    text: "Pago online: remoto desde la misma App. Transferencia y efectivo: solo presencial, nos avisas y pasamos a visitarte. Una vez activada la membresía, tu perfil aparece dentro de la app.",
     target: ".action-stack"
   },
   {
-    title: "Volvé a ver esta guía cuando quieras",
-    text: "Si querés volver a recorrer la app o te quedó alguna duda, tocá el botón naranja “Ver guía de la app” y podés verla nuevamente.",
-    target: "#openAppGuide"
-  }
+  title: "Volvé a ver esta guía cuando quieras",
+  text: "Si querés volver a recorrer la app o te quedó alguna duda, tocá el botón naranja “Ver guía de la app” y podés verla nuevamente.",
+  target: "#openAppGuide"
+}
 ];
 
 function limpiarHighlightTour() {
@@ -1352,8 +1352,8 @@ function aplicarHighlight(selector) {
     }
 
     if (selector === "#openAppGuide") {
-      padX = 2;
-      padY = 2;
+      padX = 0;
+      padY = 0;
       radius = 18;
     }
 
