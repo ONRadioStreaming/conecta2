@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Conecta2</title>
   <meta name="theme-color" content="#07142b" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
@@ -665,222 +668,205 @@
       font-size: .96rem;
     }
 
-   /* TOUR */
-.tour-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(4, 11, 24, 0.64);
-  z-index: 15000;
-  display: none;
-  pointer-events: auto;
-}
+    /* TOUR */
+    .tour-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 11, 24, 0.64);
+      z-index: 15000;
+      display: none;
+      pointer-events: auto;
+    }
 
-.tour-backdrop.show {
-  display: block;
-}
+    .tour-backdrop.show {
+      display: block;
+    }
 
-.tour-hole {
-  transition: all 0.25s ease;
-  position: fixed;
-  z-index: 15001;
-  border-radius: 28px;
-  pointer-events: none;
-  box-shadow:
-  0 0 0 9999px rgba(4, 11, 24, 0.64),
-  0 0 0 3px rgba(255,255,255,0.96),
-  0 0 0 7px rgba(255,159,28,0.32),
-  0 0 26px rgba(255,190,80,0.78),
-  0 0 48px rgba(255,190,80,0.42),
-  0 10px 24px rgba(0,0,0,0.24);
-  display: none;
-}
+    .tour-hole {
+      transition: all 0.18s ease;
+      position: fixed;
+      z-index: 15001;
+      border-radius: 28px;
+      pointer-events: none;
+      box-shadow:
+        0 0 0 9999px rgba(4, 11, 24, 0.64),
+        0 0 0 3px rgba(255,255,255,0.96),
+        0 0 0 7px rgba(255,159,28,0.32),
+        0 0 26px rgba(255,190,80,0.78),
+        0 0 48px rgba(255,190,80,0.42),
+        0 10px 24px rgba(0,0,0,0.24);
+      display: none;
+    }
 
-.tour-hole.show {
-  display: block;
-}
+    .tour-hole.show {
+      display: block;
+    }
 
-.tour-highlight {
-  position: relative !important;
-  z-index: 15002 !important;
-  box-shadow:
-    0 0 0 4px rgba(255,255,255,0.98),
-    0 0 0 10px rgba(255,159,28,0.34),
-    0 0 24px rgba(255,159,28,0.7),
-    0 12px 30px rgba(0,0,0,0.42) !important;
-  border-radius: 22px !important;
-  transition: box-shadow .22s ease;
-}
+    .tour-card {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 18px;
+      z-index: 15003;
+      background: #ffffff;
+      color: #12263f;
+      border-radius: 24px;
+      padding: 18px 16px 16px;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.28);
+      display: none;
+      max-width: 448px;
+      margin: 0 auto;
+      text-align: left;
+    }
 
-.tour-card {
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 18px;
-  z-index: 15003;
-  background: #ffffff;
-  color: #12263f;
-  border-radius: 24px;
-  padding: 18px 16px 16px;
-  box-shadow: 0 18px 36px rgba(0,0,0,0.28);
-  display: none;
-  max-width: 448px;
-  margin: 0 auto;
-  text-align: left;
-}
+    .tour-card.show {
+      display: block;
+    }
 
-.tour-card.show {
-  display: block;
-}
+    .tour-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 12px;
+      background: #edf3f8;
+      color: #17314c;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
 
-.tour-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 38px;
-  height: 38px;
-  border: 0;
-  border-radius: 12px;
-  background: #edf3f8;
-  color: #17314c;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
-}
+    .tour-title {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: #10243d;
+      margin: 4px 48px 10px 0;
+      line-height: 1.2;
+    }
 
-.tour-title {
-  font-size: 1.12rem;
-  font-weight: 900;
-  color: #10243d;
-  margin: 4px 48px 10px 0;
-  line-height: 1.2;
-}
+    .tour-text {
+      font-size: 0.96rem;
+      line-height: 1.58;
+      color: #4d6278;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
 
-.tour-text {
-  font-size: 0.96rem;
-  line-height: 1.58;
-  color: #4d6278;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
+    .tour-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
 
-.tour-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
+    .tour-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 0.96rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
 
-.tour-btn {
-  border: 0;
-  border-radius: 16px;
-  padding: 14px 12px;
-  font-family: inherit;
-  font-size: 0.96rem;
-  font-weight: 900;
-  cursor: pointer;
-}
+    .tour-btn-secondary {
+      background: #edf3f8;
+      color: #17314c;
+    }
 
-.tour-btn-secondary {
-  background: #edf3f8;
-  color: #17314c;
-}
+    .tour-btn-primary {
+      background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
+      color: #fff;
+    }
 
-.tour-btn-primary {
-  background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
-  color: #fff;
-}
+    /* INSTALADOR */
+    .install-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 11, 24, 0.78);
+      z-index: 16000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
 
-/* INSTALADOR */
-.install-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(4, 11, 24, 0.72);
-  z-index: 16000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
+    .install-modal.show {
+      display: flex;
+    }
 
-.install-modal.show {
-  display: flex;
-}
+    .install-box {
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
+      color: #12263f;
+      border-radius: 28px;
+      padding: 24px 18px 18px;
+      box-shadow: 0 22px 42px rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,255,255,0.7);
+      text-align: center;
+    }
 
-.install-box {
-  width: 100%;
-  max-width: 420px;
-  background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
-  color: #12263f;
-  border-radius: 28px;
-  padding: 24px 18px 18px;
-  box-shadow: 0 22px 42px rgba(0,0,0,0.28);
-  border: 1px solid rgba(255,255,255,0.7);
-  text-align: center;
-}
+    .install-icon {
+      font-size: 2.7rem;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
 
-.install-icon {
-  font-size: 2.7rem;
-  line-height: 1;
-  margin-bottom: 10px;
-}
+    .install-title {
+      margin: 0 0 10px 0;
+      font-size: 1.22rem;
+      font-weight: 900;
+      color: #10243d;
+      letter-spacing: -0.02em;
+    }
 
-.install-title {
-  margin: 0 0 10px 0;
-  font-size: 1.22rem;
-  font-weight: 900;
-  color: #10243d;
-  letter-spacing: -0.02em;
-}
+    .install-text {
+      margin: 0 0 14px 0;
+      font-size: 0.97rem;
+      line-height: 1.55;
+      color: #4d6278;
+      font-weight: 700;
+    }
 
-.install-text {
-  margin: 0 0 14px 0;
-  font-size: 0.97rem;
-  line-height: 1.55;
-  color: #4d6278;
-  font-weight: 700;
-}
+    .install-note {
+      margin: 0 0 16px 0;
+      background: #ffffff;
+      border: 1px solid #dce8f1;
+      border-radius: 18px;
+      padding: 12px 13px;
+      color: #456075;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      font-weight: 700;
+      text-align: left;
+    }
 
-.install-note {
-  margin: 0 0 16px 0;
-  background: #ffffff;
-  border: 1px solid #dce8f1;
-  border-radius: 18px;
-  padding: 12px 13px;
-  color: #456075;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  font-weight: 700;
-  text-align: left;
-}
+    .install-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
 
-.install-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
+    .install-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
 
-.install-btn {
-  border: 0;
-  border-radius: 16px;
-  padding: 14px 12px;
-  font-family: inherit;
-  font-size: 0.96rem;
-  font-weight: 900;
-  cursor: pointer;
-}
+    .install-btn-primary {
+      background: linear-gradient(145deg, #24c6dc, #514a9d);
+      color: #fff;
+    }
 
-.install-btn-secondary {
-  background: #dfeaf1;
-  color: #17314c;
-}
-
-.install-btn-primary {
-  background: linear-gradient(145deg, #24c6dc, #514a9d);
-  color: #fff;
-}
-
-.install-hidden {
-  display: none !important;
-}
+    .install-hidden {
+      display: none !important;
+    }
 
     @media (max-width: 640px) {
       .farmacia-banner {
@@ -1143,39 +1129,46 @@
     </div>
   </div>
 
-<div class="tour-backdrop" id="tourBackdrop"></div>
-<div class="tour-hole" id="tourHole"></div>
+  <div class="tour-backdrop" id="tourBackdrop"></div>
+  <div class="tour-hole" id="tourHole"></div>
 
-<div class="tour-card" id="tourCard">
-  <button class="tour-close" id="tourCloseBtn">✕</button>
-  <div class="tour-title" id="tourTitle">Título</div>
-  <div class="tour-text" id="tourText">Texto</div>
-  <div class="tour-actions">
-    <button class="tour-btn tour-btn-secondary" id="tourSkipBtn">Cerrar</button>
-    <button class="tour-btn tour-btn-primary" id="tourNextBtn">Siguiente</button>
-  </div>
-</div>
-
-<div class="install-modal" id="installModal">
-  <div class="install-box">
-    <div class="install-icon">📲</div>
-    <h3 class="install-title">Instalá Conecta2</h3>
-    <p class="install-text">
-      Agregá la app a tu pantalla principal para entrar más rápido, como si fuera una app nativa.
-    </p>
-
-    <div class="install-note install-hidden" id="iosInstallNote">
-      En iPhone o iPad, tocá el botón de compartir de Safari y después elegí <strong>“Agregar a pantalla de inicio”</strong>.
-    </div>
-
-    <div class="install-actions">
-      <button class="install-btn install-btn-secondary" id="installLaterBtn">Ahora no</button>
-      <button class="install-btn install-btn-primary" id="installConfirmBtn">Instalar</button>
+  <div class="tour-card" id="tourCard">
+    <button class="tour-close" id="tourCloseBtn">✕</button>
+    <div class="tour-title" id="tourTitle">Título</div>
+    <div class="tour-text" id="tourText">Texto</div>
+    <div class="tour-actions">
+      <button class="tour-btn tour-btn-secondary" id="tourSkipBtn">Cerrar</button>
+      <button class="tour-btn tour-btn-primary" id="tourNextBtn">Siguiente</button>
     </div>
   </div>
-</div>
+
+  <div class="install-modal" id="installModal">
+    <div class="install-box">
+      <div class="install-icon">📲</div>
+      <h3 class="install-title">Instalá Conecta2</h3>
+      <p class="install-text">
+        Agregá la app a tu pantalla principal para entrar más rápido, como si fuera una app nativa.
+      </p>
+
+      <div class="install-note install-hidden" id="iosInstallNote">
+        En iPhone o iPad, tocá el botón de compartir de Safari y después elegí <strong>“Agregar a pantalla de inicio”</strong>.
+      </div>
+
+      <div class="install-actions">
+        <button class="install-btn install-btn-primary" id="installConfirmBtn">Instalar</button>
+      </div>
+    </div>
+  </div>
 
   <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./service-worker.js').catch(function(err) {
+          console.log('Error registrando service worker:', err);
+        });
+      });
+    }
+
     const intro = document.getElementById('intro');
     const mainApp = document.getElementById('mainApp');
 
@@ -1193,7 +1186,7 @@
       } else {
         setTimeout(function() {
           intentarMostrarInstaladorDespuesDelTour();
-        }, 500);
+        }, 450);
       }
     }
 
@@ -1265,8 +1258,8 @@
 
     function obtenerTextoCorteFarmacia(hastaHora) {
       const ahora = new Date();
-
       const fechaBase = new Date(ahora);
+
       if (ahora.getHours() < 8) {
         fechaBase.setDate(fechaBase.getDate() - 1);
       }
@@ -1338,358 +1331,307 @@
         .catch(err => console.log("Error farmacia", err));
     }
 
-   /* TOUR GUIADO */
-const tourBackdrop = document.getElementById('tourBackdrop');
-const tourHole = document.getElementById('tourHole');
-const tourCard = document.getElementById('tourCard');
-const tourTitle = document.getElementById('tourTitle');
-const tourText = document.getElementById('tourText');
-const tourCloseBtn = document.getElementById('tourCloseBtn');
-const tourSkipBtn = document.getElementById('tourSkipBtn');
-const tourNextBtn = document.getElementById('tourNextBtn');
-const openAppGuide = document.getElementById('openAppGuide');
+    const tourBackdrop = document.getElementById('tourBackdrop');
+    const tourHole = document.getElementById('tourHole');
+    const tourCard = document.getElementById('tourCard');
+    const tourTitle = document.getElementById('tourTitle');
+    const tourText = document.getElementById('tourText');
+    const tourCloseBtn = document.getElementById('tourCloseBtn');
+    const tourSkipBtn = document.getElementById('tourSkipBtn');
+    const tourNextBtn = document.getElementById('tourNextBtn');
+    const openAppGuide = document.getElementById('openAppGuide');
 
-let tourIndex = 0;
-let tourTargetActual = null;
-let cycleTimer = null;
-let cycleIndex = 0;
+    let tourIndex = 0;
+    let cycleTimer = null;
+    let cycleIndex = 0;
 
-const tourSteps = [
-  {
-    title: "Categorías",
-    text: "Entrá en la categoría que más necesites para resolver lo que buscás dentro de la App.",
-    mode: "cycle",
-    targets: ["#cardComercios", "#cardServicios", "#cardProfesionales", "#cardSalud"]
-  },
-  {
-    title: "Emergencias",
-    text: "Ante una urgencia, acá accedés rápido a números importantes como policía, bomberos y emergencias de salud.",
-    target: "#openEmergency"
-  },
- {
-  title: "Farmacia de turno",
-  text: "En este módulo podés ver qué farmacia está de turno, hasta qué hora, comunicarte o ver cómo llegar.",
-  target: "#farmaciaTurnoCard"
-},
-  {
-    title: "Soporte Conecta2",
-    text: "Si querés dejarnos una sugerencia, una mejora o tenés alguna duda, podés escribirnos desde este módulo en cualquier momento.",
-    target: ".support-card"
-  },
-  {
-    title: "Sumate a Conecta2",
-    text: "Si tenés un comercio, ofrecés servicios o sos profesional, elegí la opción que corresponda para registrarte en la app.",
-    mode: "cycle",
-    targets: ["#btnRegistroComercio", "#btnRegistroServicio", "#btnRegistroProfesional", "#btnRegistroSalud"]
-  },
-  {
-    title: "Membresía Conecta2",
-    text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero ahora con bonificación de $10.000 pagás $54.000.",
-    target: ".action-stack"
-  },
-  {
-    title: "¿Cómo se paga?",
-    text: "Pago online: remoto desde la misma App. Transferencia y efectivo: solo presencial, nos avisas y pasamos a visitarte. Una vez activada la membresía, tu perfil aparece dentro de la app.",
-    target: ".action-stack"
-  },
-  {
-  title: "Volvé a ver esta guía cuando quieras",
-  text: "Si querés volver a recorrer la app o te quedó alguna duda, tocá el botón naranja “Ver guía de la app” y podés verla nuevamente.",
-  target: "#openAppGuide"
-}
-];
+    const tourSteps = [
+      {
+        title: "Categorías",
+        text: "Entrá en la categoría que más necesites para resolver lo que buscás dentro de la app.",
+        mode: "cycle",
+        targets: ["#cardComercios", "#cardServicios", "#cardProfesionales", "#cardSalud"]
+      },
+      {
+        title: "Emergencias",
+        text: "Ante una urgencia, acá accedés rápido a números importantes como policía, bomberos y emergencias de salud.",
+        target: "#openEmergency"
+      },
+      {
+        title: "Farmacia de turno",
+        text: "En este módulo podés ver qué farmacia está de turno, hasta qué hora, comunicarte o ver cómo llegar.",
+        target: "#farmaciaTurnoCard"
+      },
+      {
+        title: "Soporte Conecta2",
+        text: "Si querés dejarnos una sugerencia, una mejora o tenés alguna duda, podés escribirnos desde este módulo en cualquier momento.",
+        target: ".support-card"
+      },
+      {
+        title: "Sumate a Conecta2",
+        text: "Si tenés un comercio, ofrecés servicios o sos profesional, elegí la opción que corresponda para registrarte en la app.",
+        mode: "cycle",
+        targets: ["#btnRegistroComercio", "#btnRegistroServicio", "#btnRegistroProfesional", "#btnRegistroSalud"]
+      },
+      {
+        title: "Membresía Conecta2",
+        text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero ahora con bonificación de $10.000 pagás $54.000.",
+        target: ".action-stack"
+      },
+      {
+        title: "¿Cómo se paga?",
+        text: "Pago online: remoto desde la misma app. Transferencia y efectivo: solo presencial, nos avisás y pasamos a visitarte. Una vez activada la membresía, tu perfil aparece dentro de la app.",
+        target: ".action-stack"
+      }
+    ];
 
-function limpiarHighlightTour() {
-  if (tourTargetActual) {
-    tourTargetActual.classList.remove('tour-highlight');
-    tourTargetActual = null;
-  }
+    function limpiarHighlightTour() {
+      if (cycleTimer) {
+        clearInterval(cycleTimer);
+        cycleTimer = null;
+      }
 
-  tourHole.classList.remove('show');
-  tourHole.style.top = '';
-  tourHole.style.left = '';
-  tourHole.style.width = '';
-  tourHole.style.height = '';
-}
-
-function detenerCicloTour() {
-  if (cycleTimer) {
-    clearInterval(cycleTimer);
-    cycleTimer = null;
-  }
-}
-function aplicarHighlight(selector) {
-  limpiarHighlightTour();
-
-  if (!selector) return;
-
-  const el = document.querySelector(selector);
-  if (!el) return;
-
-  tourTargetActual = el;
-
-  const rectInicial = el.getBoundingClientRect();
-  const cardHeight = tourCard.offsetHeight || 260;
-  const margenSuperior = 90;
-  const margenInferior = cardHeight + 36;
-
-  const necesitaScroll =
-    rectInicial.top < margenSuperior ||
-    rectInicial.bottom > (window.innerHeight - margenInferior);
-
-  if (necesitaScroll) {
-    let destinoY = window.scrollY + rectInicial.top - 110;
-
-    if (selector === "#farmaciaTurnoCard .farmacia-overlay") {
-      destinoY = window.scrollY + rectInicial.top - 40;
+      tourHole.classList.remove('show');
+      tourHole.style.top = '';
+      tourHole.style.left = '';
+      tourHole.style.width = '';
+      tourHole.style.height = '';
+      tourHole.style.borderRadius = '';
     }
 
-    if (selector === "#openAppGuide") {
-      destinoY = window.scrollY + rectInicial.top - 80;
+    function aplicarHighlight(selector) {
+      limpiarHighlightTour();
+
+      const el = document.querySelector(selector);
+      if (!el) return;
+
+      const cardHeight = tourCard.offsetHeight || 280;
+      const margenSuperior = 80;
+      const margenInferior = cardHeight + 34;
+      const rectInicial = el.getBoundingClientRect();
+
+      const necesitaScroll =
+        rectInicial.top < margenSuperior ||
+        rectInicial.bottom > (window.innerHeight - margenInferior);
+
+      if (necesitaScroll) {
+        let destinoY = window.scrollY + rectInicial.top - 90;
+
+        if (selector === "#farmaciaTurnoCard") {
+          destinoY = window.scrollY + rectInicial.top - 18;
+        }
+
+        window.scrollTo({
+          top: Math.max(0, destinoY),
+          behavior: "smooth"
+        });
+      }
+
+      setTimeout(function () {
+        const rect = el.getBoundingClientRect();
+
+        let padX = 6;
+        let padY = 6;
+        let radius = 24;
+
+        if (selector === "#openEmergency") {
+          padX = 4;
+          padY = 4;
+          radius = 20;
+        }
+
+        if (selector === ".support-card") {
+          padX = 6;
+          padY = 6;
+          radius = 24;
+        }
+
+        if (
+          selector === "#btnRegistroComercio" ||
+          selector === "#btnRegistroServicio" ||
+          selector === "#btnRegistroProfesional" ||
+          selector === "#btnRegistroSalud"
+        ) {
+          padX = 4;
+          padY = 4;
+          radius = 22;
+        }
+
+        if (
+          selector === "#cardComercios" ||
+          selector === "#cardServicios" ||
+          selector === "#cardProfesionales" ||
+          selector === "#cardSalud"
+        ) {
+          padX = 4;
+          padY = 4;
+          radius = 24;
+        }
+
+        if (selector === "#farmaciaTurnoCard") {
+          const esMobile = window.innerWidth <= 640;
+          padX = esMobile ? 8 : 6;
+          padY = esMobile ? 8 : 6;
+          radius = 30;
+        }
+
+        tourHole.style.top = (rect.top - padY) + "px";
+        tourHole.style.left = (rect.left - padX) + "px";
+        tourHole.style.width = (rect.width + padX * 2) + "px";
+        tourHole.style.height = (rect.height + padY * 2) + "px";
+        tourHole.style.borderRadius = radius + "px";
+        tourHole.classList.add("show");
+      }, necesitaScroll ? 420 : 120);
     }
 
-    window.scrollTo({
-      top: Math.max(0, destinoY),
-      behavior: "smooth"
+    function iniciarCiclo(targets) {
+      if (!targets || !targets.length) return;
+
+      cycleIndex = 0;
+      aplicarHighlight(targets[cycleIndex]);
+
+      cycleTimer = setInterval(function () {
+        cycleIndex = (cycleIndex + 1) % targets.length;
+        aplicarHighlight(targets[cycleIndex]);
+      }, 1200);
+    }
+
+    function mostrarPasoTour(index) {
+      const step = tourSteps[index];
+      if (!step) {
+        cerrarTour(true);
+        return;
+      }
+
+      limpiarHighlightTour();
+
+      tourTitle.textContent = step.title;
+      tourText.textContent = step.text;
+      tourNextBtn.textContent = index === tourSteps.length - 1 ? "Finalizar" : "Siguiente";
+
+      if (step.mode === "cycle" && Array.isArray(step.targets)) {
+        iniciarCiclo(step.targets);
+      } else if (step.target) {
+        aplicarHighlight(step.target);
+      }
+
+      tourBackdrop.classList.add('show');
+      tourCard.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarTour(mostrarInstalador = true) {
+      limpiarHighlightTour();
+      tourBackdrop.classList.remove('show');
+      tourCard.classList.remove('show');
+      document.body.style.overflow = '';
+
+      if (mostrarInstalador) {
+        setTimeout(function() {
+          intentarMostrarInstaladorDespuesDelTour();
+        }, 320);
+      }
+    }
+
+    function iniciarTour(forzado = false) {
+      if (!forzado) {
+        localStorage.setItem('conecta2_tour_visto', 'true');
+      }
+      tourIndex = 0;
+      mostrarPasoTour(tourIndex);
+    }
+
+    tourNextBtn.addEventListener('click', function() {
+      tourIndex += 1;
+      if (tourIndex >= tourSteps.length) {
+        cerrarTour(true);
+        return;
+      }
+      mostrarPasoTour(tourIndex);
     });
-  }
 
-  setTimeout(function () {
-    const rect = el.getBoundingClientRect();
+    tourSkipBtn.addEventListener('click', function() {
+      cerrarTour(true);
+    });
 
-    let padX = 8;
-    let padY = 8;
-    let radius = 28;
+    tourCloseBtn.addEventListener('click', function() {
+      cerrarTour(true);
+    });
 
-    if (selector === "#openEmergency") {
-      padX = 6;
-      padY = 6;
-      radius = 20;
+    tourBackdrop.addEventListener('click', function() {
+      cerrarTour(true);
+    });
+
+    openAppGuide.addEventListener('click', function() {
+      iniciarTour(true);
+    });
+
+    const installModal = document.getElementById('installModal');
+    const installConfirmBtn = document.getElementById('installConfirmBtn');
+    const iosInstallNote = document.getElementById('iosInstallNote');
+
+    let deferredPrompt = null;
+
+    function esStandalone() {
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     }
 
-    if (selector === "#openAppGuide") {
-      padX = 0;
-      padY = 0;
-      radius = 18;
+    function esIOS() {
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
     }
 
-    if (selector === ".support-card") {
-      padX = 6;
-      padY = 6;
-      radius = 24;
+    function mostrarInstalador() {
+      if (esStandalone()) return;
+
+      if (esIOS()) {
+        iosInstallNote.classList.remove('install-hidden');
+      } else {
+        iosInstallNote.classList.add('install-hidden');
+      }
+
+      installModal.classList.add('show');
+      document.body.style.overflow = 'hidden';
     }
 
-    if (selector === "#farmaciaTurnoCard .farmacia-overlay") {
-      padX = 4;
-      padY = 4;
-      radius = 22;
+    function cerrarInstalador() {
+      installModal.classList.remove('show');
+      document.body.style.overflow = '';
     }
 
-    if (
-      selector === "#btnRegistroComercio" ||
-      selector === "#btnRegistroServicio" ||
-      selector === "#btnRegistroProfesional" ||
-      selector === "#btnRegistroSalud"
-    ) {
-      padX = 4;
-      padY = 4;
-      radius = 22;
+    function intentarMostrarInstaladorDespuesDelTour() {
+      if (esStandalone()) return;
+      mostrarInstalador();
     }
 
-    if (
-      selector === "#cardComercios" ||
-      selector === "#cardServicios" ||
-      selector === "#cardProfesionales" ||
-      selector === "#cardSalud"
-    ) {
-      padX = 4;
-      padY = 4;
-      radius = 24;
-    }
+    installConfirmBtn.addEventListener('click', async function() {
+      if (esIOS()) {
+        return;
+      }
 
-    tourHole.style.top = (rect.top - padY) + "px";
-    tourHole.style.left = (rect.left - padX) + "px";
-    tourHole.style.width = (rect.width + padX * 2) + "px";
-    tourHole.style.height = (rect.height + padY * 2) + "px";
-    tourHole.style.borderRadius = radius + "px";
-    tourHole.classList.add("show");
-  }, necesitaScroll ? 420 : 120);
-}
-function iniciarCiclo(targets) {
-  detenerCicloTour();
+      if (!deferredPrompt) {
+        return;
+      }
 
-  if (!targets || !targets.length) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    });
 
-  cycleIndex = 0;
-  aplicarHighlight(targets[cycleIndex]);
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
 
-  cycleTimer = setInterval(function () {
-    cycleIndex = (cycleIndex + 1) % targets.length;
-    aplicarHighlight(targets[cycleIndex]);
-  }, 1200);
-}
+    window.addEventListener('appinstalled', function() {
+      deferredPrompt = null;
+      cerrarInstalador();
+    });
 
-function mostrarPasoTour(index) {
-  const step = tourSteps[index];
-  if (!step) {
-    cerrarTour();
-    return;
-  }
-
-  detenerCicloTour();
-  limpiarHighlightTour();
-
-  tourTitle.textContent = step.title;
-  tourText.textContent = step.text;
-
-  if (index === tourSteps.length - 1) {
-    tourNextBtn.textContent = "Finalizar";
-  } else {
-    tourNextBtn.textContent = "Siguiente";
-  }
-
-  if (step.mode === "cycle" && Array.isArray(step.targets)) {
-    iniciarCiclo(step.targets);
-  } else if (step.target) {
-    aplicarHighlight(step.target);
-  }
-
-  tourBackdrop.classList.add('show');
-  tourCard.classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-
-function cerrarTour(mostrarInstalador = true) {
-  detenerCicloTour();
-  limpiarHighlightTour();
-  tourBackdrop.classList.remove('show');
-  tourCard.classList.remove('show');
-  tourHole.classList.remove('show');
-  document.body.style.overflow = '';
-
-  if (mostrarInstalador) {
-    setTimeout(function() {
-      intentarMostrarInstaladorDespuesDelTour();
-    }, 350);
-  }
-}
-
-function iniciarTour(forzado = false) {
-  if (!forzado) {
-    localStorage.setItem('conecta2_tour_visto', 'true');
-  }
-  tourIndex = 0;
-  mostrarPasoTour(tourIndex);
-}
-
-tourNextBtn.addEventListener('click', function() {
-  tourIndex += 1;
-  if (tourIndex >= tourSteps.length) {
-    cerrarTour(true);
-    return;
-  }
-  mostrarPasoTour(tourIndex);
-});
-
-tourSkipBtn.addEventListener('click', function() {
-  cerrarTour(true);
-});
-
-tourCloseBtn.addEventListener('click', function() {
-  cerrarTour(true);
-});
-
-tourBackdrop.addEventListener('click', function() {
-  cerrarTour(true);
-});
-
-openAppGuide.addEventListener('click', function() {
-  iniciarTour(true);
-});
-
-/* INSTALADOR DESPUÉS DEL TOUR */
-const INSTALL_DISMISSED_KEY = 'conecta2_install_dismissed';
-const installModal = document.getElementById('installModal');
-const installLaterBtn = document.getElementById('installLaterBtn');
-const installConfirmBtn = document.getElementById('installConfirmBtn');
-const iosInstallNote = document.getElementById('iosInstallNote');
-
-let deferredPrompt = null;
-
-function esStandalone() {
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-}
-
-function esIOS() {
-  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-}
-
-function mostrarInstalador() {
-  if (esStandalone()) return;
-  if (localStorage.getItem(INSTALL_DISMISSED_KEY) === 'true') return;
-
-  if (esIOS()) {
-    iosInstallNote.classList.remove('install-hidden');
-    installConfirmBtn.classList.add('install-hidden');
-  } else {
-    iosInstallNote.classList.add('install-hidden');
-    installConfirmBtn.classList.remove('install-hidden');
-  }
-
-  if (!esIOS() && !deferredPrompt) return;
-
-  installModal.classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-
-function cerrarInstalador(recordar = false) {
-  installModal.classList.remove('show');
-  document.body.style.overflow = '';
-
-  if (recordar) {
-    localStorage.setItem(INSTALL_DISMISSED_KEY, 'true');
-  }
-}
-
-function intentarMostrarInstaladorDespuesDelTour() {
-  if (esStandalone()) return;
-  if (localStorage.getItem(INSTALL_DISMISSED_KEY) === 'true') return;
-  mostrarInstalador();
-}
-
-installLaterBtn.addEventListener('click', function() {
-  cerrarInstalador(true);
-});
-
-installModal.addEventListener('click', function(e) {
-  if (e.target === installModal) {
-    cerrarInstalador(true);
-  }
-});
-
-installConfirmBtn.addEventListener('click', async function() {
-  if (!deferredPrompt) return;
-
-  deferredPrompt.prompt();
-  const result = await deferredPrompt.userChoice;
-
-  if (result.outcome !== 'accepted') {
-    localStorage.setItem(INSTALL_DISMISSED_KEY, 'true');
-  }
-
-  deferredPrompt = null;
-  cerrarInstalador(false);
-});
-
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  deferredPrompt = e;
-});
-
-window.addEventListener('appinstalled', function() {
-  deferredPrompt = null;
-  cerrarInstalador(false);
-});
+    window.addEventListener('resize', function() {
+      if (tourCard.classList.contains('show')) {
+        mostrarPasoTour(tourIndex);
+      }
+    });
 
     window.addEventListener("load", function () {
       cargarFarmaciaHoy();
