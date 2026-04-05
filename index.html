@@ -789,6 +789,99 @@
   color: #fff;
 }
 
+/* INSTALADOR */
+.install-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 11, 24, 0.72);
+  z-index: 16000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.install-modal.show {
+  display: flex;
+}
+
+.install-box {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
+  color: #12263f;
+  border-radius: 28px;
+  padding: 24px 18px 18px;
+  box-shadow: 0 22px 42px rgba(0,0,0,0.28);
+  border: 1px solid rgba(255,255,255,0.7);
+  text-align: center;
+}
+
+.install-icon {
+  font-size: 2.7rem;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.install-title {
+  margin: 0 0 10px 0;
+  font-size: 1.22rem;
+  font-weight: 900;
+  color: #10243d;
+  letter-spacing: -0.02em;
+}
+
+.install-text {
+  margin: 0 0 14px 0;
+  font-size: 0.97rem;
+  line-height: 1.55;
+  color: #4d6278;
+  font-weight: 700;
+}
+
+.install-note {
+  margin: 0 0 16px 0;
+  background: #ffffff;
+  border: 1px solid #dce8f1;
+  border-radius: 18px;
+  padding: 12px 13px;
+  color: #456075;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  font-weight: 700;
+  text-align: left;
+}
+
+.install-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.install-btn {
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 12px;
+  font-family: inherit;
+  font-size: 0.96rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.install-btn-secondary {
+  background: #dfeaf1;
+  color: #17314c;
+}
+
+.install-btn-primary {
+  background: linear-gradient(145deg, #24c6dc, #514a9d);
+  color: #fff;
+}
+
+.install-hidden {
+  display: none !important;
+}
+
     @media (max-width: 640px) {
       .farmacia-banner {
         min-height: auto;
@@ -1063,6 +1156,25 @@
   </div>
 </div>
 
+<div class="install-modal" id="installModal">
+  <div class="install-box">
+    <div class="install-icon">📲</div>
+    <h3 class="install-title">Instalá Conecta2</h3>
+    <p class="install-text">
+      Agregá la app a tu pantalla principal para entrar más rápido, como si fuera una app nativa.
+    </p>
+
+    <div class="install-note install-hidden" id="iosInstallNote">
+      En iPhone o iPad, tocá el botón de compartir de Safari y después elegí <strong>“Agregar a pantalla de inicio”</strong>.
+    </div>
+
+    <div class="install-actions">
+      <button class="install-btn install-btn-secondary" id="installLaterBtn">Ahora no</button>
+      <button class="install-btn install-btn-primary" id="installConfirmBtn">Instalar</button>
+    </div>
+  </div>
+</div>
+
   <script>
     const intro = document.getElementById('intro');
     const mainApp = document.getElementById('mainApp');
@@ -1078,6 +1190,10 @@
         setTimeout(function() {
           iniciarTour();
         }, 700);
+      } else {
+        setTimeout(function() {
+          intentarMostrarInstaladorDespuesDelTour();
+        }, 500);
       }
     }
 
@@ -1443,13 +1559,19 @@ function mostrarPasoTour(index) {
   document.body.style.overflow = 'hidden';
 }
 
-function cerrarTour() {
+function cerrarTour(mostrarInstalador = true) {
   detenerCicloTour();
   limpiarHighlightTour();
   tourBackdrop.classList.remove('show');
   tourCard.classList.remove('show');
   tourHole.classList.remove('show');
   document.body.style.overflow = '';
+
+  if (mostrarInstalador) {
+    setTimeout(function() {
+      intentarMostrarInstaladorDespuesDelTour();
+    }, 350);
+  }
 }
 
 function iniciarTour(forzado = false) {
@@ -1463,26 +1585,110 @@ function iniciarTour(forzado = false) {
 tourNextBtn.addEventListener('click', function() {
   tourIndex += 1;
   if (tourIndex >= tourSteps.length) {
-    cerrarTour();
+    cerrarTour(true);
     return;
   }
   mostrarPasoTour(tourIndex);
 });
 
 tourSkipBtn.addEventListener('click', function() {
-  cerrarTour();
+  cerrarTour(true);
 });
 
 tourCloseBtn.addEventListener('click', function() {
-  cerrarTour();
+  cerrarTour(true);
 });
 
 tourBackdrop.addEventListener('click', function() {
-  cerrarTour();
+  cerrarTour(true);
 });
 
 openAppGuide.addEventListener('click', function() {
   iniciarTour(true);
+});
+
+/* INSTALADOR DESPUÉS DEL TOUR */
+const INSTALL_DISMISSED_KEY = 'conecta2_install_dismissed';
+const installModal = document.getElementById('installModal');
+const installLaterBtn = document.getElementById('installLaterBtn');
+const installConfirmBtn = document.getElementById('installConfirmBtn');
+const iosInstallNote = document.getElementById('iosInstallNote');
+
+let deferredPrompt = null;
+
+function esStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function esIOS() {
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+}
+
+function mostrarInstalador() {
+  if (esStandalone()) return;
+  if (localStorage.getItem(INSTALL_DISMISSED_KEY) === 'true') return;
+
+  if (esIOS()) {
+    iosInstallNote.classList.remove('install-hidden');
+    installConfirmBtn.classList.add('install-hidden');
+  } else {
+    iosInstallNote.classList.add('install-hidden');
+    installConfirmBtn.classList.remove('install-hidden');
+  }
+
+  if (!esIOS() && !deferredPrompt) return;
+
+  installModal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarInstalador(recordar = false) {
+  installModal.classList.remove('show');
+  document.body.style.overflow = '';
+
+  if (recordar) {
+    localStorage.setItem(INSTALL_DISMISSED_KEY, 'true');
+  }
+}
+
+function intentarMostrarInstaladorDespuesDelTour() {
+  if (esStandalone()) return;
+  if (localStorage.getItem(INSTALL_DISMISSED_KEY) === 'true') return;
+  mostrarInstalador();
+}
+
+installLaterBtn.addEventListener('click', function() {
+  cerrarInstalador(true);
+});
+
+installModal.addEventListener('click', function(e) {
+  if (e.target === installModal) {
+    cerrarInstalador(true);
+  }
+});
+
+installConfirmBtn.addEventListener('click', async function() {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+  const result = await deferredPrompt.userChoice;
+
+  if (result.outcome !== 'accepted') {
+    localStorage.setItem(INSTALL_DISMISSED_KEY, 'true');
+  }
+
+  deferredPrompt = null;
+  cerrarInstalador(false);
+});
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+window.addEventListener('appinstalled', function() {
+  deferredPrompt = null;
+  cerrarInstalador(false);
 });
 
     window.addEventListener("load", function () {
