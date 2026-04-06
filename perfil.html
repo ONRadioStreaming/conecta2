@@ -657,13 +657,28 @@
     }
 
     function obtenerNombre(item) {
-      const nombreNegocio = String(item.nombre_negocio || item.nombrenegocio || "").trim();
-      const nombreServicio = String(item.nombre_servicio || item.nombreservicio || "").trim();
-      const nombreProfesional = String(item.nombreprofesional || "").trim();
-      const nombre = String(item.nombre || "").trim();
-      const apellido = String(item.apellido || "").trim();
 
-      return nombreNegocio || nombreServicio || nombreProfesional || (nombre + " " + apellido).trim() || "Perfil";
+  const nombreComercio = String(item.nombre_comercio || "").trim();
+
+  const nombreServicio = String(
+    item.nombre_servicio ||
+    item.nombreservicio ||
+    ""
+  ).trim();
+
+  const nombreProfesional = String(
+    item.nombreprofesional ||
+    item.nombre_profesional ||
+    ""
+  ).trim();
+
+  const nombre = String(item.nombre || "").trim();
+  const apellido = String(item.apellido || "").trim();
+
+  const nombrePersona = (nombre + " " + apellido).trim();
+
+  return nombreComercio || nombreServicio || nombreProfesional || nombrePersona || "Perfil";
+}
     }
 
     function obtenerRubro(item) {
