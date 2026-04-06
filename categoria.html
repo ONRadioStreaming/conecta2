@@ -15,7 +15,8 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       font-family: 'Manrope', Arial, sans-serif;
@@ -48,12 +49,12 @@
     }
 
     .hero {
-      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 28px;
       color: #fff;
       padding: 18px 16px 20px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
       backdrop-filter: blur(4px);
     }
 
@@ -71,11 +72,11 @@
       width: 42px;
       height: 42px;
       border-radius: 14px;
-      background: rgba(255,255,255,0.10);
+      background: rgba(255, 255, 255, 0.10);
       color: #fff;
       font-size: 20px;
       font-weight: 800;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
       flex-shrink: 0;
     }
 
@@ -91,7 +92,7 @@
       margin: 0;
       font-size: 0.98rem;
       line-height: 1.5;
-      color: rgba(255,255,255,0.88);
+      color: rgba(255, 255, 255, 0.88);
       font-weight: 600;
     }
 
@@ -244,7 +245,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
       flex-shrink: 0;
     }
 
@@ -386,7 +387,7 @@
       font-size: 0.98rem;
       font-weight: 800;
       text-align: center;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
       border: 0;
       font-family: inherit;
     }
@@ -436,6 +437,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="page">
     <div class="hero-wrap">
@@ -443,7 +445,7 @@
         <div class="hero-top">
           <a href="index.html" class="back-btn">←</a>
         </div>
-        <h1 id="categoryTitle">Categoria</h1>
+        <h1 id="categoryTitle">Categoría</h1>
         <p id="categorySubtitle">Explorá opciones disponibles en esta categoría.</p>
       </div>
     </div>
@@ -490,8 +492,8 @@
         subtitulo: "Explorá oficios y especialistas disponibles."
       },
       "servicios": {
-         titulo: "Servicios",
-         subtitulo: "Explorá servicios disponibles en esta categoría."
+        titulo: "Servicios",
+        subtitulo: "Explorá servicios disponibles en esta categoría."
       },
       "salud": {
         titulo: "Salud",
@@ -583,17 +585,12 @@
       return String(numero || "").replace(/\D/g, "");
     }
 
-    function capitalizar(texto) {
-      if (!texto) return "";
-      return texto.charAt(0).toUpperCase() + texto.slice(1);
-    }
-
     function capitalizarPalabras(texto) {
       return String(texto || "")
         .toLowerCase()
         .split(" ")
         .filter(Boolean)
-        .map(function(p) {
+        .map(function (p) {
           return p.charAt(0).toUpperCase() + p.slice(1);
         })
         .join(" ");
@@ -610,26 +607,16 @@
 
     function descripcionValida(texto) {
       const limpio = String(texto || "").trim();
-      if (!limpio) return false;
-      if (limpio.length < 10) return false;
-      return true;
+      return !!(limpio && limpio.length >= 10);
     }
 
     function resolverImagen(imagen) {
       const valor = String(imagen || "").trim();
+
       if (!valor) return "";
-
-      if (valor.startsWith("data:image")) {
-        return valor;
-      }
-
-      if (valor.startsWith("http://") || valor.startsWith("https://")) {
-        return valor;
-      }
-
-      if (valor.length > 100) {
-        return "data:image/jpeg;base64," + valor;
-      }
+      if (valor.startsWith("data:image")) return valor;
+      if (valor.startsWith("http://") || valor.startsWith("https://")) return valor;
+      if (valor.length > 100) return "data:image/jpeg;base64," + valor;
 
       return "";
     }
@@ -646,7 +633,7 @@
     }
 
     function rangoDiasTexto(dias) {
-      const orden = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+      const orden = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
       const abreviado = {
         lunes: "Lun",
         martes: "Mar",
@@ -658,9 +645,9 @@
       };
 
       const indices = dias
-        .map(function(d){ return orden.indexOf(d); })
-        .filter(function(i){ return i >= 0; })
-        .sort(function(a,b){ return a-b; });
+        .map(function (d) { return orden.indexOf(d); })
+        .filter(function (i) { return i >= 0; })
+        .sort(function (a, b) { return a - b; });
 
       if (!indices.length) return "";
 
@@ -677,9 +664,10 @@
           anterior = indices[i];
         }
       }
+
       grupos.push([inicio, anterior]);
 
-      return grupos.map(function(g) {
+      return grupos.map(function (g) {
         if (g[0] === g[1]) return abreviado[orden[g[0]]];
         return abreviado[orden[g[0]]] + " a " + abreviado[orden[g[1]]];
       }).join(", ");
@@ -687,15 +675,16 @@
 
     function obtenerHorarioTexto(item) {
       const obj = obtenerHorariosObjeto(item.horarios || item.horario || "");
+
       if (!obj) {
         const plano = String(item.horarios || item.horario || "").trim();
         return plano || "Horario no informado";
       }
 
-      const orden = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+      const orden = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
       const grupos = {};
 
-      orden.forEach(function(dia) {
+      orden.forEach(function (dia) {
         const valor = String(obj[dia] || "").trim();
         if (!valor) return;
         if (!grupos[valor]) grupos[valor] = [];
@@ -711,7 +700,7 @@
         return diasTexto + " · " + valor;
       }
 
-      return claves.map(function(valor) {
+      return claves.map(function (valor) {
         return rangoDiasTexto(grupos[valor]) + " · " + valor;
       }).join(" | ");
     }
@@ -768,6 +757,7 @@
 
       while ((match = regex.exec(detalleLower)) !== null) {
         encontrado = true;
+
         const desde = match[1].split(":");
         const hasta = match[2].split(":");
 
@@ -789,11 +779,21 @@
       return { texto: "Disponible ahora", clase: "" };
     }
 
+    function actualizarChips(container, selector, attr, valorActivo) {
+      Array.from(container.querySelectorAll(selector)).forEach(function (btn) {
+        if (btn.getAttribute(attr) === valorActivo) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+    }
+
     function renderSubcategorias(data) {
       const rubros = [];
       const usados = {};
 
-      data.forEach(function(item) {
+      data.forEach(function (item) {
         const rubro = String(item.rubro || item.subcategoria || "").trim();
         const clave = rubro.toLowerCase();
 
@@ -803,20 +803,20 @@
         }
       });
 
-      rubros.sort(function(a, b) {
+      rubros.sort(function (a, b) {
         return a.localeCompare(b);
       });
 
       let html = '<button class="chip active" data-sub="todos">Todos</button>';
 
-      rubros.forEach(function(rubro) {
+      rubros.forEach(function (rubro) {
         html += '<button class="chip" data-sub="' + escaparHtml(rubro.toLowerCase()) + '">' + escaparHtml(rubro) + '</button>';
       });
 
       subFilterRow.innerHTML = html;
 
-      Array.from(subFilterRow.querySelectorAll(".chip")).forEach(function(btn) {
-        btn.addEventListener("click", function() {
+      Array.from(subFilterRow.querySelectorAll(".chip")).forEach(function (btn) {
+        btn.addEventListener("click", function () {
           filtroSubcategoria = btn.getAttribute("data-sub");
           actualizarChips(subFilterRow, ".chip", "data-sub", filtroSubcategoria);
           renderCards();
@@ -824,45 +824,33 @@
       });
     }
 
-    function actualizarChips(container, selector, attr, valorActivo) {
-      Array.from(container.querySelectorAll(selector)).forEach(function(btn) {
-        if (btn.getAttribute(attr) === valorActivo) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
+    function obtenerDatosFiltrados() {
+      return datosOriginales.filter(function (item) {
+        const subcatItem = String(item.rubro || item.subcategoria || "").trim().toLowerCase();
+        const estadoItem = String(item.estado || "activo").trim().toLowerCase();
+
+        const textoBusqueda = (
+          String(item.nombre || "") + " " +
+          String(item.rubro || "") + " " +
+          String(item.descripcion || item.detalle || "") + " " +
+          String(item.direccion || item.domicilio || "")
+        ).toLowerCase();
+
+        const pasaSub = (filtroSubcategoria === "todos" || subcatItem === filtroSubcategoria);
+        const pasaEstado = (filtroEstado === "todos" || estadoItem === filtroEstado);
+        const pasaTexto = (!filtroTexto || textoBusqueda.includes(filtroTexto));
+
+        return pasaSub && pasaEstado && pasaTexto;
       });
     }
 
-    function obtenerDatosFiltrados() {
-  return datosOriginales.filter(function(item) {
-    const subcatItem = String(item.rubro || item.subcategoria || "").trim().toLowerCase();
-
-    const estadoBase = String(item.estado || "activo").trim().toLowerCase();
-    const estadoItem = (estadoBase === "activo") ? "disponibles" : "no-disponibles";
-
-    const textoBusqueda = (
-      String(item.nombre || "") + " " +
-      String(item.rubro || "") + " " +
-      String(item.descripcion || "") + " " +
-      String(item.direccion || "")
-    ).toLowerCase();
-
-    const pasaSub = (filtroSubcategoria === "todos" || subcatItem === filtroSubcategoria);
-    const pasaEstado = (filtroEstado === "todos" || estadoItem === filtroEstado);
-    const pasaTexto = (!filtroTexto || textoBusqueda.includes(filtroTexto));
-
-    return pasaSub && pasaEstado && pasaTexto;
-  });
-}
-
     function renderCards() {
       const filtrados = obtenerDatosFiltrados();
-      
+
       console.log("DATOS ORIGINALES TOTAL:", datosOriginales.length);
       console.log("FILTRADOS TOTAL:", filtrados.length);
       console.log("PRIMER FILTRADO:", filtrados[0] || "sin item");
-      
+
       countBadge.textContent = filtrados.length === 1 ? "1 resultado" : (filtrados.length + " resultados");
 
       if (!filtrados.length) {
@@ -872,15 +860,15 @@
 
       let html = "";
 
-      filtrados.forEach(function(item) {
-        const id = String(item.id || "").trim();
-        const nombre = String(item.nombre || "Sin nombre").trim();
-        const rubro = String(item.rubro || "Sin rubro").trim();
+      filtrados.forEach(function (item) {
+        const id = String(item.id || item.id_registro || "").trim();
+        const nombre = String(item.nombre || item.nombre_negocio || "Sin nombre").trim();
+        const rubro = String(item.rubro || item.subcategoria || "Sin rubro").trim();
         const descripcion = String(item.descripcion || item.detalle || "").trim();
-        const direccion = String(item.direccion || item.domicilio || "Dirección no informada").trim();
+        const direccion = String(item.direccion || item.domicilio || item.zona || "Dirección no informada").trim();
         const telefono = String(item.telefono || item.celular || "").trim();
-        const whatsapp = String(item.whatsapp || "").trim();
-        const imagen = resolverImagen(item.foto || item.imagen || item.logo || "");
+        const whatsapp = String(item.whatsapp || telefono || "").trim();
+        const imagen = resolverImagen(item.foto || item.imagen || item.logo || item.foto_base64 || "");
         const estadoBase = String(item.estado || "activo").toLowerCase();
         const estadoPill = estadoBase === "activo" ? "Activo" : "Inactivo";
         const estadoPillClass = estadoBase === "activo" ? "status-pill" : "status-pill inactivo";
@@ -889,15 +877,15 @@
 
         let fotoHtml = '<div class="card-photo-fallback">🏪</div>';
         if (imagen) {
-          fotoHtml = '<img src="' + imagen + '" alt="' + escaparHtml(nombre) + '" onerror="this.closest(\'.card-photo\').innerHTML=\'<div class=&quot;card-photo-fallback&quot;>🏪</div>\'">';
+          fotoHtml = '<img src="' + imagen + '" alt="' + escaparHtml(nombre) + '" onerror="this.closest(\\'.card-photo\\').innerHTML=\\'<div class=&quot;card-photo-fallback&quot;>🏪</div>\\'">';
         }
 
-        let descripcionHtml = '';
+        let descripcionHtml = "";
         if (descripcionValida(descripcion)) {
           descripcionHtml = '<p class="card-desc">' + escaparHtml(descripcion) + '</p>';
         }
 
-        let botonPrincipal = '';
+        let botonPrincipal = "";
         if (whatsapp) {
           botonPrincipal = '<a class="btn-action btn-primary" target="_blank" rel="noopener" href="https://wa.me/' + limpiarNumero(whatsapp) + '">WhatsApp</a>';
         } else if (telefono) {
@@ -910,35 +898,35 @@
 
         html += ''
           + '<article class="card">'
-          +   '<div class="card-head">'
-          +     '<div class="card-photo">' + fotoHtml + '</div>'
-          +     '<div class="card-main">'
-          +       '<div class="card-title-row">'
-          +         '<h3 class="card-title">' + escaparHtml(nombre) + '</h3>'
-          +         '<div class="' + estadoPillClass + '">' + estadoPill + '</div>'
-          +       '</div>'
-          +       '<p class="card-rubro">' + escaparHtml(capitalizarPalabras(rubro)) + '</p>'
-          +       '<div class="state-line ' + estadoActual.clase + '">'
-          +         '<span class="state-dot"></span>'
-          +         '<span>' + escaparHtml(estadoActual.texto) + '</span>'
-          +       '</div>'
-          +     '</div>'
-          +   '</div>'
-          +   descripcionHtml
-          +   '<div class="info-list">'
-          +     '<div class="info-item">'
-          +       '<span class="info-icon">🕒</span>'
-          +       '<span class="info-text">' + escaparHtml(horarioTexto) + '</span>'
-          +     '</div>'
-          +     '<div class="info-item">'
-          +       '<span class="info-icon">📍</span>'
-          +       '<span class="info-text">' + escaparHtml(direccion) + '</span>'
-          +     '</div>'
-          +   '</div>'
-          +   '<div class="card-actions">'
-          +     botonPrincipal
-          +     botonPerfil
-          +   '</div>'
+          + '<div class="card-head">'
+          + '<div class="card-photo">' + fotoHtml + '</div>'
+          + '<div class="card-main">'
+          + '<div class="card-title-row">'
+          + '<h3 class="card-title">' + escaparHtml(nombre) + '</h3>'
+          + '<div class="' + estadoPillClass + '">' + estadoPill + '</div>'
+          + '</div>'
+          + '<p class="card-rubro">' + escaparHtml(capitalizarPalabras(rubro)) + '</p>'
+          + '<div class="state-line ' + estadoActual.clase + '">'
+          + '<span class="state-dot"></span>'
+          + '<span>' + escaparHtml(estadoActual.texto) + '</span>'
+          + '</div>'
+          + '</div>'
+          + '</div>'
+          + descripcionHtml
+          + '<div class="info-list">'
+          + '<div class="info-item">'
+          + '<span class="info-icon">🕒</span>'
+          + '<span class="info-text">' + escaparHtml(horarioTexto) + '</span>'
+          + '</div>'
+          + '<div class="info-item">'
+          + '<span class="info-icon">📍</span>'
+          + '<span class="info-text">' + escaparHtml(direccion) + '</span>'
+          + '</div>'
+          + '</div>'
+          + '<div class="card-actions">'
+          + botonPrincipal
+          + botonPerfil
+          + '</div>'
           + '</article>';
       });
 
@@ -946,99 +934,86 @@
     }
 
     function cargarDatos() {
-  cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
-  countBadge.textContent = "Cargando...";
+      cardsContainer.innerHTML = '<div class="loading-state">Cargando resultados...</div>';
+      countBadge.textContent = "Cargando...";
 
-  const callbackName = "conecta2Callback_" + Date.now();
+      const callbackName = "conecta2Callback_" + Date.now();
+      const categoriaConsulta = categoria === "servicios" ? "oficios" : categoria;
 
-  window[callbackName] = function(data) {
-    try {
-     console.log("CATEGORIA URL:", categoria);
-     console.log("CATEGORIA CONSULTA:", categoriaConsulta);
-     console.log("DATA RECIBIDA:", data);
-     console.log("TIPO PRIMER ITEM:", data && data[0] ? 
-data[0].tipo : "sin item");
-     console.log("NOMBRE PRIMER ITEM:", data && data[0] ? 
-data[0].nombre : "sin item");
+      window[callbackName] = function (data) {
+        try {
+          console.log("CATEGORIA URL:", categoria);
+          console.log("CATEGORIA CONSULTA:", categoriaConsulta);
+          console.log("DATA RECIBIDA:", data);
+          console.log("TIPO PRIMER ITEM:", data && data[0] ? data[0].tipo : "sin item");
+          console.log("NOMBRE PRIMER ITEM:", data && data[0] ? data[0].nombre : "sin item");
 
-datosOriginales = Array.isArray(data) ? data : [];
-      
-      if (Array.isArray(data)) {
-        datosOriginales = data;
-      } else if (data && Array.isArray(data.items)) {
-        datosOriginales = data.items;
-      } else if (data && Array.isArray(data.resultados)) {
-        datosOriginales = data.resultados;
-      } else if (data && Array.isArray(data.data)) {
-        datosOriginales = data.data;
-      } else {
-        datosOriginales = [];
-      }
+          datosOriginales = Array.isArray(data)
+            ? data
+            : (data && Array.isArray(data.data) ? data.data : []);
 
-     datosOriginales = datosOriginales.filter(function(item) {
-  const tipoItem = String(item.tipo || "").toLowerCase().trim();
+          datosOriginales = datosOriginales.filter(function (item) {
+            const tipoItem = String(item.tipo || "").toLowerCase().trim();
 
-  if (categoria === "comercios") {
-    return tipoItem === "comercio";
-  }
+            if (categoria === "comercios") {
+              return tipoItem === "comercio";
+            }
 
-  if (categoria === "oficios") {
-    return tipoItem === "servicio";
-  }
+            if (categoria === "servicios" || categoria === "oficios") {
+              return tipoItem === "servicio";
+            }
 
-  if (categoria === "profesionales") {
-    return tipoItem === "profesional";
-  }
+            if (categoria === "profesionales") {
+              return tipoItem === "profesional";
+            }
 
-  if (categoria === "salud") {
-    return tipoItem === "salud";
-  }
+            if (categoria === "salud") {
+              return tipoItem === "salud" || tipoItem === "profesional";
+            }
 
-  return false;
-});
+            return true;
+          });
 
-renderSubcategorias(datosOriginales);
-renderCards();
-    } catch (error) {
-      console.error("Error procesando resultados:", error);
-      countBadge.textContent = "Error";
-      cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al procesar los resultados.</div>';
-    } finally {
-      try { delete window[callbackName]; } catch (e) {}
-      const script = document.getElementById(callbackName);
-      if (script) script.remove();
+          renderSubcategorias(datosOriginales);
+          renderCards();
+        } catch (error) {
+          console.error("Error procesando resultados:", error);
+          countBadge.textContent = "Error";
+          cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al procesar los resultados.</div>';
+        } finally {
+          try { delete window[callbackName]; } catch (e) { }
+          const script = document.getElementById(callbackName);
+          if (script) script.remove();
+        }
+      };
+
+      const script = document.createElement("script");
+      script.id = callbackName;
+      script.src = API_URL_BASE
+        + "?action=listarCategoria"
+        + "&cat=" + encodeURIComponent(categoriaConsulta)
+        + "&callback=" + encodeURIComponent(callbackName);
+
+      script.onerror = function () {
+        try { delete window[callbackName]; } catch (e) { }
+        script.remove();
+        console.error("Error al cargar resultados por JSONP");
+        countBadge.textContent = "Error";
+        cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
+      };
+
+      document.body.appendChild(script);
     }
-  };
 
-  const categoriaConsulta = categoria === 'servicios' ? 'oficios' : categoria;
-
-const script = document.createElement('script');
-script.id = callbackName;
-script.src = API_URL_BASE
-  + '?action=listarCategoria'
-  + '&cat=' + encodeURIComponent(categoriaConsulta)
-  + '&callback=' + encodeURIComponent(callbackName);
-  
-script.onerror = function() {
-    try { delete window[callbackName]; } catch (e) {}
-    script.remove();
-    console.error("Error al cargar resultados por JSONP");
-    countBadge.textContent = "Error";
-    cardsContainer.innerHTML = '<div class="error-state">Ocurrió un error al cargar los resultados.</div>';
-  };
-
-  document.body.appendChild(script);
-}
-
-    Array.from(statusFilterRow.querySelectorAll(".chip")).forEach(function(btn) {
-      btn.addEventListener("click", function() {
+    Array.from(statusFilterRow.querySelectorAll(".chip")).forEach(function (btn) {
+      btn.addEventListener("click", function () {
         filtroEstado = btn.getAttribute("data-status");
         actualizarChips(statusFilterRow, ".chip", "data-status", filtroEstado);
         renderCards();
       });
     });
 
-    searchInput.addEventListener("input", function() {
+    searchInput.addEventListener("input", function () {
       filtroTexto = String(this.value || "").trim().toLowerCase();
       renderCards();
     });
@@ -1046,4 +1021,5 @@ script.onerror = function() {
     cargarDatos();
   </script>
 </body>
+
 </html>
