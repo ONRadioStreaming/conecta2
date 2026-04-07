@@ -14,6 +14,8 @@
       --accent: #2563eb;
       --accent-2: #06b6d4;
       --ok: #16a34a;
+      --warn: #ca8a04;
+      --error: #dc2626;
       --shadow: 0 20px 45px rgba(0,0,0,.28);
       --radius: 22px;
     }
@@ -48,9 +50,9 @@
     .confetti {
       position: absolute;
       top: -12vh;
-      width: 10px;
-      height: 18px;
-      opacity: .9;
+      width: 12px;
+      height: 20px;
+      opacity: .95;
       border-radius: 3px;
       animation: fall linear forwards;
       will-change: transform, opacity;
@@ -61,10 +63,10 @@
         transform: translate3d(0, 0, 0) rotate(0deg);
         opacity: 0;
       }
-      10% { opacity: 1; }
+      8% { opacity: 1; }
       100% {
-        transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin));
-        opacity: .95;
+        transform: translate3d(var(--drift), 115vh, 0) rotate(var(--spin));
+        opacity: .98;
       }
     }
 
@@ -264,10 +266,6 @@
       background: #e2e8f0;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
     @media (max-width: 600px) {
       .card { padding: 28px 18px 22px; }
       .summary, .access-box { padding: 14px; }
@@ -348,132 +346,294 @@
   </main>
 
   <script>
-    (function () {
+    (async function () {
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrhWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec';
       const params = new URLSearchParams(window.location.search);
+      const STORAGE_KEY = 'conecta2_ultimo_resumen_membresia';
 
-      function text(id, value) {
+      function firstOf() {
+        for (let i = 0; i < arguments.length; i++) {
+          const value = arguments[i];
+          if (value !== null && value !== undefined && String(value).trim() !== '') {
+            return String(value).trim();
+          }
+        }
+        return '';
+      }
+
+      function safeParse(json) {
+        try {
+          return JSON.parse(json);
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function getSaved() {
+        try {
+          return safeParse(localStorage.getItem(STORAGE_KEY) || '{}');
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function saveData(data) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data || {}));
+        } catch (e) {}
+      }
+
+      function text(id, value, fallback) {
         const el = document.getElementById(id);
-        if (el) el.textContent = value && String(value).trim() ? String(value).trim() : '-';
+        if (!el) return;
+        const finalValue = firstOf(value, fallback || '-');
+        el.textContent = finalValue;
       }
 
       function normalizarPlan(plan) {
-        if (!plan) return '-';
-        if (plan === '4_meses') return 'Plan cuatrimestral';
-        if (plan === 'anual_promo') return 'Plan anual promo';
-        if (plan === 'trimestral') return 'Plan trimestral';
-        return plan.replaceAll('_', ' ');
+        const p = String(plan || '').trim().toLowerCase();
+        if (!p) return '-';
+        if (p === '4_meses') return 'Plan cuatrimestral';
+        if (p === 'anual_promo') return 'Plan anual promo';
+        if (p === 'trimestral') return 'Plan trimestral';
+        return String(plan).replaceAll('_', ' ');
       }
 
       function normalizarImporte(valor) {
-        const n = Number(valor || 0);
+        const limpio = String(valor || '').replace(/[^\d.,-]/g, '').replace(/\./g, '').replace(',', '.');
+        const n = Number(limpio);
         if (!n) return '-';
         return '$' + n.toLocaleString('es-AR');
       }
 
-      const nombreNegocio = params.get('nombre_negocio') || params.get('nombre') || '';
-      const titular = params.get('titular') || '';
-      const plan = params.get('plan') || '';
-      const importe = params.get('importe') || '';
-      const idMembresia = params.get('id_membresia') || '';
-      const idRegistro = params.get('id_registro') || '';
-      let usuario = params.get('usuario') || '';
-      let password = params.get('password') || '';
-      const resultado = (params.get('resultado') || params.get('mp_result') || 'approved').toLowerCase();
-
-      text('nombreNegocio', nombreNegocio);
-      text('titular', titular);
-      text('plan', normalizarPlan(plan));
-      text('importe', normalizarImporte(importe));
-      text('idMembresia', idMembresia || 'Se generó automáticamente');
-      text('idRegistro', idRegistro || 'Se generó automáticamente');
-      cargarCredenciales(idRegistro);
-  if (!idRegistro) {
-    text('usuarioAcceso', 'Se envió por correo');
-    text('passwordAcceso', 'Se envió por correo');
-    return;
-  }
-
-  const callbackName = 'credencialesCallback_' + Date.now();
-
-window[callbackName] = function(respuesta) {
-
-  if (respuesta && respuesta.ok) {
-    text('usuarioAcceso', respuesta.usuario || 'Se envió por correo');
-    text('passwordAcceso', respuesta.password || 'Se envió por correo');
-  } else {
-    text('usuarioAcceso', 'Se envió por correo');
-    text('passwordAcceso', 'Se envió por correo');
-  }
-
-};
-
-/* ACA VA EL SCRIPT */
-const script = document.createElement('script');
-script.src = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec" +
-"?action=obtenerCredencialesMiembroAPI" +
-"&id_registro=" + encodeURIComponent(idRegistro) +
-"&callback=" + callbackName;
-
-document.body.appendChild(script);
-    } finally {
-      try { delete window[callbackName]; } catch (e) {}
-            if (script) script.remove();
-    }
-  };
-
-  const script = document.createElement('script');
-  script.id = callbackName;
-  script.src =
-    'https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec'
-    + '?action=obtenerCredencialesMiembro'
-    + '&id_registro=' + encodeURIComponent(idRegistro)
-    + '&callback=' + encodeURIComponent(callbackName);
-
-  script.onerror = function() {
-    text('usuarioAcceso', 'Se envió por correo');
-    text('passwordAcceso', 'Se envió por correo');
-    try { delete window[callbackName]; } catch (e) {}
-    script.remove();
-  };
-
-  document.body.appendChild(script);
-}
-
-      const statusPill = document.getElementById('statusPill');
-      if (resultado === 'pending') {
-        statusPill.textContent = 'Tu pago quedó pendiente. Vamos a reflejarlo cuando se confirme.';
-        statusPill.style.background = 'rgba(234,179,8,.14)';
-        statusPill.style.color = '#854d0e';
-      } else if (resultado === 'failure') {
-        statusPill.textContent = 'No pudimos confirmar el pago. Revisalo e intentá nuevamente.';
-        statusPill.style.background = 'rgba(239,68,68,.14)';
-        statusPill.style.color = '#991b1b';
+      function nombreDesdePerfil(item) {
+        if (!item) return '';
+        if (item.nombre_comercio) return String(item.nombre_comercio).trim();
+        const nombre = String(item.nombre || '').trim();
+        const apellido = String(item.apellido || '').trim();
+        return [nombre, apellido].filter(Boolean).join(' ').trim();
       }
+
+      function titularDesdePerfil(item) {
+        if (!item) return '';
+        if (item.titular) return String(item.titular).trim();
+        const nombre = String(item.nombre || '').trim();
+        const apellido = String(item.apellido || '').trim();
+        const nombreCompleto = [nombre, apellido].filter(Boolean).join(' ').trim();
+        if (nombreCompleto) return nombreCompleto;
+        if (item.nombre_comercio) return String(item.nombre_comercio).trim();
+        return '';
+      }
+
+      function setEstado(resultado) {
+        const statusPill = document.getElementById('statusPill');
+        if (!statusPill) return;
+
+        const r = String(resultado || '').trim().toLowerCase();
+
+        if (r === 'pending' || r === 'in_process') {
+          statusPill.textContent = 'Tu pago quedó pendiente. Vamos a reflejarlo cuando se confirme.';
+          statusPill.style.background = 'rgba(234,179,8,.14)';
+          statusPill.style.color = '#854d0e';
+          return;
+        }
+
+        if (r === 'failure' || r === 'rejected' || r === 'cancelled') {
+          statusPill.textContent = 'No pudimos confirmar el pago. Revisalo e intentá nuevamente.';
+          statusPill.style.background = 'rgba(239,68,68,.14)';
+          statusPill.style.color = '#991b1b';
+          return;
+        }
+
+        statusPill.textContent = 'Tu perfil se verá reflejado en la app en breve.';
+        statusPill.style.background = 'rgba(22,163,74,.12)';
+        statusPill.style.color = '#166534';
+      }
+
+      function jsonp(url) {
+        return new Promise(function(resolve) {
+          const callbackName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+          const script = document.createElement('script');
+
+          window[callbackName] = function(data) {
+            cleanup();
+            resolve(data || null);
+          };
+
+          function cleanup() {
+            try { delete window[callbackName]; } catch (e) {}
+            if (script.parentNode) script.parentNode.removeChild(script);
+          }
+
+          script.onerror = function() {
+            cleanup();
+            resolve(null);
+          };
+
+          script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + encodeURIComponent(callbackName);
+          document.body.appendChild(script);
+        });
+      }
+
+      async function cargarCredenciales(idRegistro) {
+        if (!idRegistro) {
+          return null;
+        }
+
+        const url = SCRIPT_URL
+          + '?action=obtenerCredencialesMiembroAPI'
+          + '&id_registro=' + encodeURIComponent(idRegistro);
+
+        return await jsonp(url);
+      }
+
+      async function cargarPerfil(idRegistro) {
+        if (!idRegistro) {
+          return null;
+        }
+
+        const url = SCRIPT_URL
+          + '?action=obtenerPerfil'
+          + '&id=' + encodeURIComponent(idRegistro);
+
+        return await jsonp(url);
+      }
+
+      function renderResumen(resumen) {
+        text('nombreNegocio', resumen.nombreNegocio, '-');
+        text('titular', resumen.titular, '-');
+        text('plan', normalizarPlan(resumen.plan), '-');
+        text('importe', normalizarImporte(resumen.importe), '-');
+        text('idMembresia', resumen.idMembresia, 'Se generó automáticamente');
+        text('idRegistro', resumen.idRegistro, 'Se generó automáticamente');
+      }
+
+      function renderCredenciales(usuario, password) {
+        text('usuarioAcceso', usuario, 'Se envió por correo');
+        text('passwordAcceso', password, 'Se envió por correo');
+      }
+
+      function generarConfetti() {
+        const colors = ['#22c55e', '#38bdf8', '#f59e0b', '#f43f5e', '#a855f7', '#06b6d4'];
+        const wrap = document.getElementById('confetti');
+        if (!wrap) return;
+
+        wrap.innerHTML = '';
+
+        const total = 70;
+
+        for (let i = 0; i < total; i++) {
+          const piece = document.createElement('span');
+          piece.className = 'confetti';
+          piece.style.left = Math.random() * 100 + 'vw';
+          piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.animationDuration = (4 + Math.random() * 4) + 's';
+          piece.style.animationDelay = (Math.random() * 1.4) + 's';
+          piece.style.setProperty('--drift', ((Math.random() * 260) - 130) + 'px');
+          piece.style.setProperty('--spin', ((Math.random() * 1080) - 540) + 'deg');
+
+          if (Math.random() > 0.5) {
+            piece.style.width = '8px';
+            piece.style.height = '14px';
+          }
+
+          wrap.appendChild(piece);
+        }
+      }
+
+      const saved = getSaved();
+
+      const resumen = {
+        nombreNegocio: firstOf(
+          params.get('nombre_negocio'),
+          params.get('nombreNegocio'),
+          params.get('nombre'),
+          saved.nombreNegocio
+        ),
+        titular: firstOf(
+          params.get('titular'),
+          params.get('nombre_titular'),
+          params.get('titular_nombre'),
+          saved.titular
+        ),
+        plan: firstOf(
+          params.get('plan'),
+          params.get('tipo_plan'),
+          params.get('plan_tipo'),
+          saved.plan
+        ),
+        importe: firstOf(
+          params.get('importe'),
+          params.get('monto'),
+          params.get('amount'),
+          params.get('transaction_amount'),
+          saved.importe
+        ),
+        idMembresia: firstOf(
+          params.get('id_membresia'),
+          params.get('idMembresia'),
+          saved.idMembresia
+        ),
+        idRegistro: firstOf(
+          params.get('id_registro'),
+          params.get('idRegistro'),
+          params.get('external_reference'),
+          saved.idRegistro
+        ),
+        usuario: firstOf(
+          params.get('usuario'),
+          saved.usuario
+        ),
+        password: firstOf(
+          params.get('password'),
+          saved.password
+        ),
+        resultado: firstOf(
+          params.get('resultado'),
+          params.get('mp_result'),
+          params.get('collection_status'),
+          params.get('status'),
+          saved.resultado,
+          'approved'
+        )
+      };
+
+      saveData(resumen);
+      renderResumen(resumen);
+      renderCredenciales(resumen.usuario, resumen.password);
+      setEstado(resumen.resultado);
 
       const btnPanel = document.getElementById('btnPanel');
-      if (idRegistro) {
-        btnPanel.href = 'panel-miembro.html?id_registro=' + encodeURIComponent(idRegistro);
+      if (btnPanel && resumen.idRegistro) {
+        btnPanel.href = 'panel-miembro.html?id_registro=' + encodeURIComponent(resumen.idRegistro);
       }
 
-      const colors = ['#22c55e', '#38bdf8', '#f59e0b', '#f43f5e', '#a855f7', '#06b6d4'];
-      const wrap = document.getElementById('confetti');
-      const total = 52;
+      generarConfetti();
 
-      for (let i = 0; i < total; i++) {
-        const piece = document.createElement('span');
-        piece.className = 'confetti';
-        piece.style.left = Math.random() * 100 + 'vw';
-        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDuration = (4 + Math.random() * 4) + 's';
-        piece.style.animationDelay = (Math.random() * 1.6) + 's';
-        piece.style.setProperty('--drift', ((Math.random() * 220) - 110) + 'px');
-        piece.style.setProperty('--spin', ((Math.random() * 1080) - 540) + 'deg');
-        if (Math.random() > 0.55) {
-          piece.style.width = '8px';
-          piece.style.height = '14px';
+      const [credenciales, perfil] = await Promise.all([
+        cargarCredenciales(resumen.idRegistro),
+        cargarPerfil(resumen.idRegistro)
+      ]);
+
+      if (credenciales && credenciales.ok) {
+        resumen.usuario = firstOf(credenciales.usuario, resumen.usuario);
+        resumen.password = firstOf(credenciales.password, resumen.password);
+        renderCredenciales(resumen.usuario, resumen.password);
+      }
+
+      if (perfil && perfil.ok && perfil.item) {
+        if (!resumen.nombreNegocio) {
+          resumen.nombreNegocio = nombreDesdePerfil(perfil.item);
         }
-        wrap.appendChild(piece);
+
+        if (!resumen.titular) {
+          resumen.titular = titularDesdePerfil(perfil.item);
+        }
+
+        renderResumen(resumen);
       }
+
+      saveData(resumen);
     })();
   </script>
 </body>
