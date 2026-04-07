@@ -376,8 +376,8 @@
       const importe = params.get('importe') || '';
       const idMembresia = params.get('id_membresia') || '';
       const idRegistro = params.get('id_registro') || '';
-      const usuario = params.get('usuario') || '';
-      const password = params.get('password') || '';
+      let usuario = params.get('usuario') || '';
+      let password = params.get('password') || '';
       const resultado = (params.get('resultado') || params.get('mp_result') || 'approved').toLowerCase();
 
       text('nombreNegocio', nombreNegocio);
