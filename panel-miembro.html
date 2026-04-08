@@ -976,6 +976,7 @@
 }
 
          async function guardarPanel() {
+             try {
           limpiarMsg();
           setEstado('Guardando cambios...', 'warn');
           btnGuardar.disabled = true;
