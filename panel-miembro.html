@@ -880,17 +880,28 @@
         renewNote.textContent = 'El botón de renovación se activa automáticamente cuando faltan 5 días o menos para el vencimiento.';
       }
 
+       function jsonp(url, callback) {
+  const script = document.createElement("script");
+  const callbackName = "jsonp_cb_" + Math.floor(Math.random()*1000000);
+
+  window[callbackName] = function(data) {
+    delete window[callbackName];
+    document.body.removeChild(script);
+    callback(data);
+  };
+
+  script.src = url + "&callback=" + callbackName;
+  document.body.appendChild(script);
+}
+
       async function cargarPerfil() {
         try {
           setEstado('Cargando perfil...', 'warn');
           limpiarMsg();
 
-          const res = await fetch(
-            SCRIPT_URL + '?action=obtenerPerfil&id=' + encodeURIComponent(idRegistro),
-            { method: 'GET' }
-          );
-
-          const data = await res.json();
+          jsonp(
+  SCRIPT_URL + '?action=obtenerPerfil&id=' + encodeURIComponent(idRegistro),
+  function(data) {
 
           if (!data || !data.ok || !data.item) {
             setEstado('No se pudo cargar', 'danger');
@@ -949,27 +960,21 @@
           setPreview('previewImg4', img4Base64);
 
           btnVerPerfil.href = 'perfil.html?id=' + encodeURIComponent(idRegistro);
-        } catch (error) {
-          setEstado('Error al cargar', 'danger');
-          setMsg('Ocurrió un error al cargar el panel del miembro.', 'error');
-        }
+       }
+  );
+}
+
+      function cargarCredenciales() {
+  jsonp(
+    SCRIPT_URL + '?action=obtenerCredencialesMiembroAPI&id_registro=' + encodeURIComponent(idRegistro),
+    function(data) {
+      if (data && data.ok) {
+        setText('usuarioAcceso', data.usuario || '-', '-');
+        setText('passwordAcceso', data.password || '-', '-');
       }
-
-      async function cargarCredenciales() {
-        try {
-          const res = await fetch(
-            SCRIPT_URL + '?action=obtenerCredencialesMiembroAPI&id_registro=' + encodeURIComponent(idRegistro),
-            { method: 'GET' }
-          );
-
-          const data = await res.json();
-
-          if (data && data.ok) {
-            setText('usuarioAcceso', data.usuario || '-', '-');
-            setText('passwordAcceso', data.password || '-', '-');
-          }
-        } catch (error) {}
-      }
+    }
+  );
+}
 
       async function guardarPanel() {
         try {
