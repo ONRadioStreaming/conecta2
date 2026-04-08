@@ -976,8 +976,7 @@
   );
 }
 
-      async function guardarPanel() {
-        try {
+      function guardarPanel() {
           limpiarMsg();
           setEstado('Guardando cambios...', 'warn');
           btnGuardar.disabled = true;
@@ -1048,8 +1047,8 @@
       const savedMembership = getSavedMembership();
       actualizarBloqueMembresia(savedMembership);
 
-      await cargarPerfil();
-      await cargarCredenciales();
+      cargarPerfil();
+      cargarCredenciales();
     })();
   </script>
 </body>
