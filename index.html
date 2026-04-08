@@ -159,7 +159,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .btn-main, .btn-secondary, .btn-emergency {
@@ -174,6 +174,7 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+      cursor: pointer;
     }
 
     .btn-main {
@@ -200,6 +201,7 @@
       box-shadow: 0 8px 18px rgba(0,0,0,0.16);
       background: linear-gradient(145deg,#8e2de2,#4a00e0);
       color: #fff;
+      cursor: pointer;
     }
 
     .btn-salud {
@@ -216,6 +218,85 @@
       box-shadow: 0 8px 18px rgba(0,0,0,0.16);
       background: linear-gradient(135deg,#1fd1c2,#0aa2b5);
       color: #fff;
+      cursor: pointer;
+    }
+
+    .premium-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+    }
+
+    .premium-head {
+      margin-bottom: 12px;
+    }
+
+    .premium-head strong {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .premium-head span {
+      display: block;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.86);
+      font-weight: 700;
+    }
+
+    .premium-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .premium-actions.single {
+      grid-template-columns: 1fr;
+    }
+
+    .premium-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      padding: 15px 16px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+      cursor: pointer;
+    }
+
+    .premium-btn-login {
+      background: linear-gradient(145deg, #10b981, #0f766e);
+      color: #fff;
+    }
+
+    .premium-btn-panel {
+      background: linear-gradient(145deg, #22c55e, #16a34a);
+      color: #fff;
+    }
+
+    .premium-btn-logout {
+      background: linear-gradient(145deg, #334155, #0f172a);
+      color: #fff;
+    }
+
+    .premium-session {
+      font-size: 0.86rem;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.92);
+      background: rgba(0,0,0,0.14);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 700;
     }
 
     .content {
@@ -668,7 +749,6 @@
       font-size: .96rem;
     }
 
-    /* TOUR */
     .tour-backdrop {
       position: fixed;
       inset: 0;
@@ -780,8 +860,8 @@
       color: #fff;
     }
 
-    /* INSTALADOR */
-    .install-modal {
+    .install-modal,
+    .login-modal {
       position: fixed;
       inset: 0;
       background: rgba(4, 11, 24, 0.78);
@@ -792,11 +872,13 @@
       padding: 18px;
     }
 
-    .install-modal.show {
+    .install-modal.show,
+    .login-modal.show {
       display: flex;
     }
 
-    .install-box {
+    .install-box,
+    .login-box {
       width: 100%;
       max-width: 420px;
       background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
@@ -808,13 +890,15 @@
       text-align: center;
     }
 
-    .install-icon {
+    .install-icon,
+    .login-icon {
       font-size: 2.7rem;
       line-height: 1;
       margin-bottom: 10px;
     }
 
-    .install-title {
+    .install-title,
+    .login-title {
       margin: 0 0 10px 0;
       font-size: 1.22rem;
       font-weight: 900;
@@ -822,7 +906,8 @@
       letter-spacing: -0.02em;
     }
 
-    .install-text {
+    .install-text,
+    .login-text {
       margin: 0 0 14px 0;
       font-size: 0.97rem;
       line-height: 1.55;
@@ -865,6 +950,119 @@
     }
 
     .install-hidden {
+      display: none !important;
+    }
+
+    .login-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 12px;
+      background: #edf3f8;
+      color: #17314c;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .login-box {
+      position: relative;
+      text-align: left;
+    }
+
+    .login-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .login-field label {
+      display: block;
+      font-size: .86rem;
+      font-weight: 800;
+      color: #3f5368;
+      margin-bottom: 6px;
+    }
+
+    .login-field input[type="text"],
+    .login-field input[type="password"] {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 14px 14px;
+      font-size: 1rem;
+      color: #10243d;
+      background: #fff;
+      font-family: inherit;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .toggle-pass {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: #edf3f8;
+      color: #17314c;
+      font-weight: 900;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .remember-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #3f5368;
+      font-size: .92rem;
+      font-weight: 800;
+    }
+
+    .remember-row input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    .login-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .login-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .login-btn-primary {
+      background: linear-gradient(145deg, #10b981, #0f766e);
+      color: #fff;
+    }
+
+    .login-msg {
+      min-height: 18px;
+      font-size: .9rem;
+      font-weight: 800;
+      line-height: 1.4;
+      color: #b91c1c;
+      text-align: center;
+    }
+
+    .hidden {
       display: none !important;
     }
 
@@ -916,6 +1114,10 @@
         min-height: 54px;
         border-radius: 14px;
       }
+
+      .premium-actions {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -944,6 +1146,25 @@
             <a class="btn-secondary" id="btnRegistroServicio" href="registro-servicio.html">Ofrecé tus servicios</a>
             <a class="btn-profesional" id="btnRegistroProfesional" href="registro-profesional.html">Registrate como profesional</a>
             <a class="btn-salud" id="btnRegistroSalud" href="registro-salud.html">Registrate como profesional de salud</a>
+          </div>
+
+          <div class="premium-card" id="premiumAccessCard">
+            <div class="premium-head">
+              <strong>Acceso premium</strong>
+              <span>
+                Si ya tenés membresía, iniciá sesión para entrar a tu panel privado, administrar tu perfil y renovar cuando lo necesites.
+              </span>
+            </div>
+
+            <div class="premium-actions" id="premiumActions">
+              <button class="premium-btn premium-btn-login" id="btnPremiumLogin" type="button">Iniciar sesión</button>
+              <a class="premium-btn premium-btn-panel hidden" id="btnPremiumPanel" href="panel-miembro.html">Mi panel</a>
+              <button class="premium-btn premium-btn-logout hidden" id="btnPremiumLogout" type="button">Cerrar sesión</button>
+            </div>
+
+            <div class="premium-session" id="premiumSessionInfo">
+              No iniciaste sesión como miembro premium.
+            </div>
           </div>
         </div>
       </div>
@@ -982,7 +1203,7 @@
         </div>
 
         <div class="emergency-bottom">
-          <button class="btn-emergency" id="openEmergency">Emergencias</button>
+          <button class="btn-emergency" id="openEmergency" type="button">Emergencias</button>
         </div>
 
         <div class="farmacia-banner" id="farmaciaTurnoCard">
@@ -1030,7 +1251,7 @@
         </div>
 
         <div class="guide-btn-wrap">
-          <button class="btn-guide" id="openAppGuide">🧭 Ver guía de la app</button>
+          <button class="btn-guide" id="openAppGuide" type="button">🧭 Ver guía de la app</button>
         </div>
 
         <div class="support-card section-block">
@@ -1058,7 +1279,7 @@
     <div class="sheet">
       <div class="sheet-top">
         <h2>Emergencias</h2>
-        <button id="closeEmergency">✕</button>
+        <button id="closeEmergency" type="button">✕</button>
       </div>
 
       <p class="sheet-note">
@@ -1078,7 +1299,7 @@
           <a class="call-btn" href="tel:2475463008">Llamar 463008</a>
         </div>
 
-       <div class="emergency-card">
+        <div class="emergency-card">
           <strong>Comisaría de la Mujer</strong>
           <span>Atención policial mujer.</span>
           <a class="call-btn" href="tel:2474665579">Llamar 2474665579</a>
@@ -1145,12 +1366,12 @@
   <div class="tour-hole" id="tourHole"></div>
 
   <div class="tour-card" id="tourCard">
-    <button class="tour-close" id="tourCloseBtn">✕</button>
+    <button class="tour-close" id="tourCloseBtn" type="button">✕</button>
     <div class="tour-title" id="tourTitle">Título</div>
     <div class="tour-text" id="tourText">Texto</div>
     <div class="tour-actions">
-      <button class="tour-btn tour-btn-secondary" id="tourSkipBtn">Cerrar</button>
-      <button class="tour-btn tour-btn-primary" id="tourNextBtn">Siguiente</button>
+      <button class="tour-btn tour-btn-secondary" id="tourSkipBtn" type="button">Cerrar</button>
+      <button class="tour-btn tour-btn-primary" id="tourNextBtn" type="button">Siguiente</button>
     </div>
   </div>
 
@@ -1159,7 +1380,7 @@
       <div class="install-icon">📲</div>
       <h3 class="install-title">Instalá Conecta2</h3>
       <p class="install-text">
-        La App de la ciudad de Rojas para encontrar comercios, servicios y profesionales que necesites en segundos
+        La app de la ciudad de Rojas para encontrar comercios, servicios y profesionales que necesites en segundos.
       </p>
 
       <div class="install-note install-hidden" id="iosInstallNote">
@@ -1167,12 +1388,56 @@
       </div>
 
       <div class="install-actions">
-        <button class="install-btn install-btn-primary" id="installConfirmBtn">Instalar</button>
+        <button class="install-btn install-btn-primary" id="installConfirmBtn" type="button">Instalar</button>
       </div>
     </div>
   </div>
 
+  <div class="login-modal" id="loginModal">
+    <div class="login-box">
+      <button class="login-close" id="loginCloseBtn" type="button">✕</button>
+      <div class="login-icon">🔐</div>
+      <h3 class="login-title">Iniciar sesión premium</h3>
+      <p class="login-text">
+        Ingresá con tu usuario y contraseña para entrar a tu panel privado y administrar tu membresía premium.
+      </p>
+
+      <form class="login-form" id="loginPremiumForm" autocomplete="on">
+        <div class="login-field">
+          <label for="loginUsuario">Usuario</label>
+          <input type="text" id="loginUsuario" name="username" autocomplete="username" placeholder="Tu usuario premium" required>
+        </div>
+
+        <div class="login-field">
+          <label for="loginPassword">Contraseña</label>
+          <div class="password-wrap">
+            <input type="password" id="loginPassword" name="current-password" autocomplete="current-password" placeholder="Tu contraseña premium" required>
+            <button type="button" class="toggle-pass" id="togglePassBtn">👁</button>
+          </div>
+        </div>
+
+        <label class="remember-row">
+          <input type="checkbox" id="rememberPremium">
+          <span>Recordarme en este dispositivo</span>
+        </label>
+
+        <div class="login-actions">
+          <button class="login-btn login-btn-primary" id="btnLoginSubmit" type="submit">Ingresar</button>
+        </div>
+
+        <div class="login-msg" id="loginMsg"></div>
+      </form>
+    </div>
+  </div>
+
   <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6PYziwFrhWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+
+    const LS_PREMIUM_SESSION = "conecta2_premium_session";
+    const LS_PREMIUM_REMEMBER = "conecta2_premium_remember";
+    const LS_PREMIUM_USER = "conecta2_premium_user";
+    const LS_PREMIUM_PASS = "conecta2_premium_pass";
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('./service-worker.js').catch(function(err) {
@@ -1243,7 +1508,38 @@
       }
     });
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+    function jsonp(url, callback, onError) {
+      const script = document.createElement('script');
+      const callbackName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+      let finished = false;
+
+      window[callbackName] = function(data) {
+        if (finished) return;
+        finished = true;
+        try { delete window[callbackName]; } catch (e) {}
+        if (script.parentNode) script.parentNode.removeChild(script);
+        callback(data || null);
+      };
+
+      script.onerror = function() {
+        if (finished) return;
+        finished = true;
+        try { delete window[callbackName]; } catch (e) {}
+        if (script.parentNode) script.parentNode.removeChild(script);
+        if (onError) onError();
+      };
+
+      script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + encodeURIComponent(callbackName);
+      document.body.appendChild(script);
+
+      setTimeout(function() {
+        if (finished) return;
+        finished = true;
+        try { delete window[callbackName]; } catch (e) {}
+        if (script.parentNode) script.parentNode.removeChild(script);
+        if (onError) onError();
+      }, 10000);
+    }
 
     function registrarInstalacionApp() {
       let deviceId = localStorage.getItem("conecta2_device_id");
@@ -1375,6 +1671,11 @@
         target: "#farmaciaTurnoCard"
       },
       {
+        title: "Acceso premium",
+        text: "Si ya tenés membresía premium, tocá en Iniciar sesión, ingresá con tu usuario y contraseña, usá el ojito para verla si hace falta y marcá Recordarme si querés dejarla guardada en tu dispositivo.",
+        target: "#premiumAccessCard"
+      },
+      {
         title: "Soporte Conecta2",
         text: "Si querés dejarnos una sugerencia, una mejora o tenés alguna duda, podés escribirnos desde este módulo en cualquier momento.",
         target: ".support-card"
@@ -1392,7 +1693,7 @@
       },
       {
         title: "¿Cómo se paga?",
-        text: "Pago online: remoto desde la misma app. Transferencia y efectivo: solo presencial, nos avisás y pasamos a visitarte. Una vez activada la membresía, tu perfil aparece dentro de la app.",
+        text: "Pago online: remoto desde la misma app. Transferencia y efectivo: solo presencial. Una vez activada la membresía, podés entrar a tu panel y administrar tu perfil.",
         target: ".action-stack"
       }
     ];
@@ -1452,7 +1753,7 @@
           radius = 20;
         }
 
-        if (selector === ".support-card") {
+        if (selector === ".support-card" || selector === "#premiumAccessCard") {
           padX = 6;
           padY = 6;
           radius = 24;
@@ -1644,6 +1945,181 @@
         mostrarPasoTour(tourIndex);
       }
     });
+
+    const loginModal = document.getElementById('loginModal');
+    const loginCloseBtn = document.getElementById('loginCloseBtn');
+    const btnPremiumLogin = document.getElementById('btnPremiumLogin');
+    const btnPremiumPanel = document.getElementById('btnPremiumPanel');
+    const btnPremiumLogout = document.getElementById('btnPremiumLogout');
+    const premiumSessionInfo = document.getElementById('premiumSessionInfo');
+    const premiumActions = document.getElementById('premiumActions');
+
+    const loginPremiumForm = document.getElementById('loginPremiumForm');
+    const loginUsuario = document.getElementById('loginUsuario');
+    const loginPassword = document.getElementById('loginPassword');
+    const rememberPremium = document.getElementById('rememberPremium');
+    const togglePassBtn = document.getElementById('togglePassBtn');
+    const loginMsg = document.getElementById('loginMsg');
+    const btnLoginSubmit = document.getElementById('btnLoginSubmit');
+
+    function getPremiumSession() {
+      try {
+        return JSON.parse(localStorage.getItem(LS_PREMIUM_SESSION) || 'null');
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setPremiumSession(data) {
+      localStorage.setItem(LS_PREMIUM_SESSION, JSON.stringify(data));
+    }
+
+    function clearPremiumSession() {
+      localStorage.removeItem(LS_PREMIUM_SESSION);
+    }
+
+    function getRememberFlag() {
+      return localStorage.getItem(LS_PREMIUM_REMEMBER) === 'true';
+    }
+
+    function saveRememberedCredentials(usuario, password) {
+      localStorage.setItem(LS_PREMIUM_REMEMBER, 'true');
+      localStorage.setItem(LS_PREMIUM_USER, usuario || '');
+      localStorage.setItem(LS_PREMIUM_PASS, password || '');
+    }
+
+    function clearRememberedCredentials() {
+      localStorage.removeItem(LS_PREMIUM_REMEMBER);
+      localStorage.removeItem(LS_PREMIUM_USER);
+      localStorage.removeItem(LS_PREMIUM_PASS);
+    }
+
+    function fillRememberedCredentials() {
+      const remember = getRememberFlag();
+      rememberPremium.checked = remember;
+      loginUsuario.value = remember ? (localStorage.getItem(LS_PREMIUM_USER) || '') : '';
+      loginPassword.value = remember ? (localStorage.getItem(LS_PREMIUM_PASS) || '') : '';
+    }
+
+    function openLoginModal() {
+      fillRememberedCredentials();
+      loginMsg.textContent = '';
+      loginModal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() {
+        if (loginUsuario.value) {
+          loginPassword.focus();
+        } else {
+          loginUsuario.focus();
+        }
+      }, 80);
+    }
+
+    function closeLoginModal() {
+      loginModal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function applyPremiumUI() {
+      const session = getPremiumSession();
+
+      if (session && session.id_registro) {
+        btnPremiumLogin.classList.add('hidden');
+        btnPremiumPanel.classList.remove('hidden');
+        btnPremiumLogout.classList.remove('hidden');
+        premiumActions.classList.remove('single');
+
+        btnPremiumPanel.href = 'panel-miembro.html?id_registro=' + encodeURIComponent(session.id_registro);
+        premiumSessionInfo.textContent = 'Sesión activa como: ' + (session.usuario || 'miembro premium') + '.';
+        return;
+      }
+
+      btnPremiumLogin.classList.remove('hidden');
+      btnPremiumPanel.classList.add('hidden');
+      btnPremiumLogout.classList.add('hidden');
+      premiumActions.classList.add('single');
+      premiumSessionInfo.textContent = 'No iniciaste sesión como miembro premium.';
+    }
+
+    function loginPremium(usuario, password) {
+      return new Promise(function(resolve) {
+        const url = SCRIPT_URL
+          + '?action=loginMiembroPremium'
+          + '&usuario=' + encodeURIComponent(usuario)
+          + '&password=' + encodeURIComponent(password);
+
+        jsonp(url, function(data) {
+          resolve(data || null);
+        }, function() {
+          resolve(null);
+        });
+      });
+    }
+
+    btnPremiumLogin.addEventListener('click', openLoginModal);
+    loginCloseBtn.addEventListener('click', closeLoginModal);
+    loginModal.addEventListener('click', function(e) {
+      if (e.target === loginModal) {
+        closeLoginModal();
+      }
+    });
+
+    togglePassBtn.addEventListener('click', function() {
+      const isPassword = loginPassword.getAttribute('type') === 'password';
+      loginPassword.setAttribute('type', isPassword ? 'text' : 'password');
+      togglePassBtn.textContent = isPassword ? '🙈' : '👁';
+    });
+
+    btnPremiumLogout.addEventListener('click', function() {
+      clearPremiumSession();
+      applyPremiumUI();
+    });
+
+    loginPremiumForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const usuario = String(loginUsuario.value || '').trim();
+      const password = String(loginPassword.value || '').trim();
+
+      if (!usuario || !password) {
+        loginMsg.textContent = 'Completá usuario y contraseña.';
+        return;
+      }
+
+      loginMsg.textContent = '';
+      btnLoginSubmit.disabled = true;
+      btnLoginSubmit.textContent = 'Ingresando...';
+
+      const res = await loginPremium(usuario, password);
+
+      if (!res || !res.ok) {
+        loginMsg.textContent = (res && res.error) ? res.error : 'No se pudo iniciar sesión. Revisá tus datos.';
+        btnLoginSubmit.disabled = false;
+        btnLoginSubmit.textContent = 'Ingresar';
+        return;
+      }
+
+      if (rememberPremium.checked) {
+        saveRememberedCredentials(usuario, password);
+      } else {
+        clearRememberedCredentials();
+      }
+
+      setPremiumSession({
+        usuario: res.usuario || usuario,
+        id_registro: res.id_registro || '',
+        tipo: res.tipo || '',
+        estado: res.estado || 'activo'
+      });
+
+      applyPremiumUI();
+      btnLoginSubmit.disabled = false;
+      btnLoginSubmit.textContent = 'Ingresar';
+      closeLoginModal();
+    });
+
+    fillRememberedCredentials();
+    applyPremiumUI();
 
     window.addEventListener("load", function () {
       cargarFarmaciaHoy();
