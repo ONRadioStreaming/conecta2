@@ -2106,11 +2106,11 @@
       }
 
       setPremiumSession({
-        usuario: res.usuario || usuario,
-        id_registro: res.id_registro || '',
-        tipo: res.tipo || '',
-        estado: res.estado || 'activo'
-      });
+  usuario: usuario,
+  id_registro: res.miembro.id || '',
+  tipo: res.miembro.tipo || '',
+  estado: 'activo'
+});
 
       applyPremiumUI();
       btnLoginSubmit.disabled = false;
