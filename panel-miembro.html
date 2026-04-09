@@ -15,8 +15,11 @@
       --accent:#2563eb;
       --accent2:#06b6d4;
       --ok:#16a34a;
+      --ok-soft:rgba(22,163,74,.10);
       --warn:#ca8a04;
+      --warn-soft:rgba(202,138,4,.10);
       --danger:#dc2626;
+      --danger-soft:rgba(220,38,38,.10);
       --shadow:0 20px 45px rgba(0,0,0,.28);
       --radius:22px;
     }
@@ -51,26 +54,29 @@
     .topbar{
       display:flex;
       flex-direction:column;
-      gap:14px;
+      gap:18px;
       margin-bottom:22px;
     }
 
     h1{
       margin:0 0 8px;
       font-size:clamp(1.9rem,4vw,2.6rem);
+      line-height:1.08;
     }
 
     .sub{
       margin:0;
       color:var(--muted);
       line-height:1.5;
-      max-width:760px;
+      max-width:780px;
+      font-size:1.04rem;
     }
 
     .top-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      width:100%;
     }
 
     .btn{
@@ -78,15 +84,16 @@
       border:none;
       text-decoration:none;
       cursor:pointer;
-      border-radius:14px;
-      padding:13px 18px;
-      font-size:.98rem;
-      font-weight:700;
+      border-radius:16px;
+      padding:14px 18px;
+      font-size:1rem;
+      font-weight:800;
       transition:.15s ease;
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:8px;
+      min-height:54px;
     }
 
     .btn:hover{ transform:translateY(-1px); }
@@ -103,9 +110,13 @@
     }
 
     .btn-renew{
+      width:100%;
       color:#fff;
       background:var(--danger);
       box-shadow:0 12px 24px rgba(220,38,38,.22);
+      margin-top:18px;
+      min-height:58px;
+      font-size:1.02rem;
     }
 
     .btn-renew[disabled],
@@ -122,21 +133,29 @@
     .hero{
       background:#f8fafc;
       border:1px solid var(--line);
-      border-radius:18px;
+      border-radius:22px;
       padding:18px;
       margin-bottom:18px;
+    }
+
+    .hero-top{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:14px;
     }
 
     .pill{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding:9px 14px;
+      padding:10px 16px;
       border-radius:999px;
-      font-weight:700;
-      font-size:.92rem;
+      font-weight:800;
+      font-size:.95rem;
       width:max-content;
-      margin-bottom:10px;
     }
 
     .pill.ok{
@@ -156,67 +175,55 @@
 
     .hero-title{
       margin:0 0 6px;
-      font-size:1.55rem;
-      line-height:1.15;
+      font-size:1.95rem;
+      line-height:1.1;
     }
 
     .hero-desc{
       margin:0;
       color:var(--muted);
       line-height:1.5;
+      font-size:1.02rem;
     }
 
-    .membership-inline{
-      margin:18px 0 16px;
-      padding:16px;
-      border-radius:16px;
+    .membership-card{
+      margin:20px 0 18px;
+      padding:24px 20px 18px;
+      border-radius:22px;
       border:1px solid var(--line);
       background:#fff;
+      text-align:center;
+      box-shadow:0 10px 24px rgba(15,23,42,.05);
     }
 
-    .membership-inline-head{
-      display:flex;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+    .membership-title{
+      font-size:1.35rem;
+      font-weight:900;
+      margin:0 0 8px;
+      color:#0f172a;
     }
 
-    .membership-inline small{
-      display:block;
-      color:#64748b;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      font-size:.75rem;
-      margin-bottom:4px;
+    .membership-days{
+      font-size:2rem;
+      font-weight:900;
+      margin:0;
+      line-height:1.05;
     }
 
-    .membership-label{
-      font-size:.94rem;
-      font-weight:700;
-      color:#334155;
-      margin-bottom:6px;
-    }
-
-    .days-value{
-      font-size:1.25rem;
-      font-weight:800;
-    }
-
-    .days-value.ok{ color:#166534; }
-    .days-value.warn{ color:#854d0e; }
-    .days-value.danger{ color:#b91c1c; }
+    .membership-days.ok{ color:#166534; }
+    .membership-days.warn{ color:#854d0e; }
+    .membership-days.danger{ color:#b91c1c; }
 
     .renew-note{
       color:#64748b;
-      font-size:.9rem;
-      line-height:1.4;
-      margin-top:10px;
+      font-size:.95rem;
+      line-height:1.45;
+      margin-top:12px;
     }
 
     .mini-grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:repeat(2, minmax(0,1fr));
       gap:12px;
       margin-top:16px;
     }
@@ -224,9 +231,9 @@
     .mini-item{
       background:#fff;
       border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-      min-height:84px;
+      border-radius:18px;
+      padding:16px;
+      min-height:94px;
     }
 
     .mini-item small{
@@ -235,14 +242,46 @@
       letter-spacing:.04em;
       font-size:.73rem;
       color:#64748b;
-      margin-bottom:6px;
+      margin-bottom:8px;
     }
 
     .mini-item strong{
       display:block;
-      font-size:1rem;
+      font-size:1.02rem;
       line-height:1.35;
       word-break:break-word;
+    }
+
+    .status-value{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:900;
+    }
+
+    .status-value.ok{ color:#15803d; }
+    .status-value.danger{ color:#dc2626; }
+
+    .status-icon{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      font-size:.92rem;
+      font-weight:900;
+      flex:0 0 24px;
+    }
+
+    .status-value.ok .status-icon{
+      background:rgba(22,163,74,.12);
+      color:#15803d;
+    }
+
+    .status-value.danger .status-icon{
+      background:rgba(220,38,38,.12);
+      color:#dc2626;
     }
 
     .grid{
@@ -251,19 +290,28 @@
       gap:18px;
     }
 
+    .col-4{ grid-column:span 4; }
     .col-6{ grid-column:span 6; }
+    .col-8{ grid-column:span 8; }
     .col-12{ grid-column:span 12; }
 
     .box{
       background:#f8fafc;
       border:1px solid var(--line);
-      border-radius:18px;
+      border-radius:20px;
       padding:18px;
     }
 
     .box h2{
+      margin:0 0 8px;
+      font-size:1.1rem;
+    }
+
+    .box-sub{
       margin:0 0 16px;
-      font-size:1.06rem;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:.94rem;
     }
 
     .field{
@@ -277,10 +325,10 @@
       margin-bottom:6px;
       font-size:.88rem;
       color:#475569;
-      font-weight:700;
+      font-weight:800;
     }
 
-    input, textarea{
+    input, textarea, select{
       width:100%;
       border:1px solid #cbd5e1;
       border-radius:14px;
@@ -296,7 +344,7 @@
       resize:vertical;
     }
 
-    input[readonly]{
+    input[readonly], textarea[readonly]{
       background:#f1f5f9;
       color:#334155;
     }
@@ -304,6 +352,12 @@
     .row{
       display:grid;
       grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .row-3{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
       gap:12px;
     }
 
@@ -317,10 +371,13 @@
       background:#fff;
     }
 
-    .toggle-wrap input{
+    .toggle-wrap input,
+    .choice input,
+    .payment-item input{
       width:20px;
       height:20px;
       margin:0;
+      flex:0 0 20px;
     }
 
     .hidden{
@@ -396,14 +453,133 @@
       line-height:1.45;
     }
 
-    @media (max-width: 980px){
-      .col-6,.col-12{ grid-column:span 12; }
+    .info-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
     }
 
-    @media (max-width: 700px){
+    .summary-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      min-height:96px;
+      white-space:pre-line;
+      line-height:1.5;
+      color:#334155;
+    }
+
+    .day-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      margin-bottom:14px;
+    }
+
+    .day-card:last-child{
+      margin-bottom:0;
+    }
+
+    .day-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .day-title{
+      margin:0;
+      font-size:1.02rem;
+      font-weight:900;
+      text-transform:capitalize;
+    }
+
+    .day-state{
+      font-size:.9rem;
+      font-weight:800;
+      color:#64748b;
+    }
+
+    .choice-group{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .choice{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#f8fafc;
+      padding:12px;
+      font-weight:700;
+    }
+
+    .time-grid-2,
+    .time-grid-4{
+      display:grid;
+      gap:12px;
+    }
+
+    .time-grid-2{
+      grid-template-columns:1fr 1fr;
+    }
+
+    .time-grid-4{
+      grid-template-columns:1fr 1fr;
+    }
+
+    .payment-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .payment-item{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:13px 14px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      font-weight:700;
+    }
+
+    .factura-box{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:13px 14px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      font-weight:800;
+      width:max-content;
+      min-width:220px;
+    }
+
+    @media (max-width: 980px){
+      .col-4,.col-6,.col-8,.col-12{ grid-column:span 12; }
+      .payment-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 760px){
       .row,
+      .row-3,
       .mini-grid,
-      .preview-grid{
+      .preview-grid,
+      .choice-group,
+      .time-grid-2,
+      .time-grid-4,
+      .payment-grid{
         grid-template-columns:1fr;
       }
     }
@@ -411,15 +587,35 @@
     @media (max-width: 600px){
       body{ padding:14px; }
       .card{ padding:18px; }
-      .top-actions,
       .actions{
         flex-direction:column;
       }
       .btn{
         width:100%;
       }
-      .membership-inline-head{
-        align-items:flex-start;
+      .top-actions .btn{
+        width:100%;
+        min-height:56px;
+      }
+      .top-actions{
+        grid-template-columns:1fr 1fr;
+      }
+      .hero-title{
+        font-size:1.6rem;
+      }
+      .membership-days{
+        font-size:1.8rem;
+      }
+    }
+
+    @media (max-width: 420px){
+      .top-actions{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+      }
+      .top-actions .btn{
+        padding:12px 10px;
+        font-size:.94rem;
       }
     }
   </style>
@@ -431,7 +627,7 @@
         <div>
           <h1>Panel de miembro</h1>
           <p class="sub">
-            Desde acá podés administrar tu perfil, cambiar tus datos, actualizar imágenes y controlar tu membresía.
+            Desde acá podés administrar tu perfil, actualizar tus datos, tus horarios, tus medios de pago, tus imágenes y controlar tu membresía.
           </p>
         </div>
 
@@ -442,42 +638,42 @@
       </div>
 
       <div class="hero">
-        <div class="pill ok" id="estadoBox">Cargando perfil...</div>
-        <div class="membership-label">Perfil cargado</div>
+        <div class="hero-top">
+          <div class="pill ok" id="estadoBox">Cargando perfil...</div>
+        </div>
 
-        <div class="membership-inline">
-          <div class="membership-inline-head">
-            <div>
-              <small>Membresía activa</small>
-              <div class="days-value ok" id="diasRestantes">-</div>
-            </div>
+        <h2 class="hero-title" id="heroNombre">Cargando panel...</h2>
+        <p class="hero-desc" id="heroDescripcion">Desde acá podés administrar tu perfil.</p>
 
-            <button class="btn btn-renew disabled" id="btnRenovar" type="button" disabled>
-              Renovar membresía
-            </button>
-          </div>
+        <div class="membership-card">
+          <h3 class="membership-title">Membresía activa</h3>
+          <p class="membership-days ok" id="diasRestantes">-</p>
+
+          <button class="btn btn-renew disabled" id="btnRenovar" type="button" disabled>
+            Renovar membresía
+          </button>
 
           <div class="renew-note" id="renewNote">
             Este botón se activa cuando faltan 5 días o menos para el vencimiento.
           </div>
         </div>
 
-        <h2 class="hero-title" id="heroNombre">Cargando panel...</h2>
-        <p class="hero-desc" id="heroDescripcion">Desde acá podés administrar tu perfil.</p>
-
         <div class="mini-grid">
           <div class="mini-item">
             <small>ID de registro</small>
             <strong id="idRegistro">-</strong>
           </div>
+
           <div class="mini-item">
             <small>Estado del perfil</small>
             <strong id="estadoPerfil">-</strong>
           </div>
+
           <div class="mini-item">
             <small>Usuario</small>
             <strong id="usuarioAcceso">-</strong>
           </div>
+
           <div class="mini-item">
             <small>Contraseña</small>
             <strong id="passwordAcceso">-</strong>
@@ -486,13 +682,19 @@
       </div>
 
       <div class="grid">
-        <div class="col-12">
+        <div class="col-8">
           <div class="box">
             <h2>Datos principales del negocio</h2>
+            <p class="box-sub">El nombre del negocio y el perfil no se editan desde acá. El resto sí lo podés actualizar cuando quieras.</p>
 
             <div class="field">
               <label for="nombrePerfil">Nombre del negocio / perfil</label>
               <input type="text" id="nombrePerfil" readonly />
+            </div>
+
+            <div class="field">
+              <label for="perfilRubro">Perfil / rubro</label>
+              <input type="text" id="perfilRubro" readonly />
             </div>
 
             <div class="field">
@@ -511,26 +713,437 @@
               </div>
             </div>
 
-            <div class="field">
-              <label for="email">Correo electrónico</label>
-              <input type="email" id="email" placeholder="correo@ejemplo.com" />
-            </div>
-
             <div class="row">
+              <div class="field">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" placeholder="correo@ejemplo.com" />
+              </div>
               <div class="field">
                 <label for="direccion">Dirección / Zona</label>
                 <input type="text" id="direccion" placeholder="Ej: Av. 25 de Mayo 1090 o Barrio..." />
               </div>
-              <div class="field">
-                <label for="horario">Horario visible</label>
-                <input type="text" id="horario" placeholder="Ej: Lun a Vie de 8 a 12 y de 16 a 20 hs" />
-              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="box">
+            <h2>Resumen visible</h2>
+            <p class="box-sub">Esto ayuda a ver rápido cómo quedará la info principal del negocio.</p>
+
+            <div class="field">
+              <label>Resumen de horarios</label>
+              <div class="summary-box" id="resumenHorarios">Sin horarios cargados.</div>
             </div>
 
             <div class="field">
-              <label for="mediosPago">Medios de pago</label>
-              <input type="text" id="mediosPago" placeholder="Ej: Efectivo, transferencia, Mercado Pago" />
+              <label>Medios de pago seleccionados</label>
+              <div class="summary-box" id="resumenPagos">Sin medios de pago cargados.</div>
             </div>
+
+            <div class="field">
+              <label>Factura</label>
+              <div class="summary-box" id="resumenFactura">No informado.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="box">
+            <h2>Horarios de atención</h2>
+            <p class="box-sub">Podés marcar abierto siempre, cerrado por día, horario corrido o horario cortado.</p>
+
+            <div class="field">
+              <div class="toggle-wrap">
+                <input type="checkbox" id="abiertoSiempre" />
+                <span>Abierto siempre / 24 horas</span>
+              </div>
+            </div>
+
+            <div id="horariosPorDiaWrap">
+              <div class="day-card" data-day="lunes">
+                <div class="day-header">
+                  <h3 class="day-title">Lunes</h3>
+                  <div class="day-state" id="state-lunes">Configurá el horario del día</div>
+                </div>
+
+                <div class="field">
+                  <div class="toggle-wrap">
+                    <input type="checkbox" id="lunes_cerrado" />
+                    <span>Cerrado</span>
+                  </div>
+                </div>
+
+                <div class="choice-group" id="modes-lunes">
+                  <label class="choice"><input type="radio" name="lunes_modo" value="corrido" checked /> Horario corrido</label>
+                  <label class="choice"><input type="radio" name="lunes_modo" value="cortado" /> Horario cortado</label>
+                  <label class="choice"><input type="radio" name="lunes_modo" value="24hs" /> 24 horas</label>
+                </div>
+
+                <div class="time-grid-2" id="corrido-lunes">
+                  <div class="field">
+                    <label for="lunes_desde">Desde</label>
+                    <input type="time" id="lunes_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="lunes_hasta">Hasta</label>
+                    <input type="time" id="lunes_hasta" />
+                  </div>
+                </div>
+
+                <div class="time-grid-4 hidden" id="cortado-lunes">
+                  <div class="field">
+                    <label for="lunes_manana_desde">Mañana desde</label>
+                    <input type="time" id="lunes_manana_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="lunes_manana_hasta">Mañana hasta</label>
+                    <input type="time" id="lunes_manana_hasta" />
+                  </div>
+                  <div class="field">
+                    <label for="lunes_tarde_desde">Tarde desde</label>
+                    <input type="time" id="lunes_tarde_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="lunes_tarde_hasta">Tarde hasta</label>
+                    <input type="time" id="lunes_tarde_hasta" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-card" data-day="martes">
+                <div class="day-header">
+                  <h3 class="day-title">Martes</h3>
+                  <div class="day-state" id="state-martes">Configurá el horario del día</div>
+                </div>
+
+                <div class="field">
+                  <div class="toggle-wrap">
+                    <input type="checkbox" id="martes_cerrado" />
+                    <span>Cerrado</span>
+                  </div>
+                </div>
+
+                <div class="choice-group" id="modes-martes">
+                  <label class="choice"><input type="radio" name="martes_modo" value="corrido" checked /> Horario corrido</label>
+                  <label class="choice"><input type="radio" name="martes_modo" value="cortado" /> Horario cortado</label>
+                  <label class="choice"><input type="radio" name="martes_modo" value="24hs" /> 24 horas</label>
+                </div>
+
+                <div class="time-grid-2" id="corrido-martes">
+                  <div class="field">
+                    <label for="martes_desde">Desde</label>
+                    <input type="time" id="martes_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="martes_hasta">Hasta</label>
+                    <input type="time" id="martes_hasta" />
+                  </div>
+                </div>
+
+                <div class="time-grid-4 hidden" id="cortado-martes">
+                  <div class="field">
+                    <label for="martes_manana_desde">Mañana desde</label>
+                    <input type="time" id="martes_manana_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="martes_manana_hasta">Mañana hasta</label>
+                    <input type="time" id="martes_manana_hasta" />
+                  </div>
+                  <div class="field">
+                    <label for="martes_tarde_desde">Tarde desde</label>
+                    <input type="time" id="martes_tarde_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="martes_tarde_hasta">Tarde hasta</label>
+                    <input type="time" id="martes_tarde_hasta" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-card" data-day="miercoles">
+                <div class="day-header">
+                  <h3 class="day-title">Miércoles</h3>
+                  <div class="day-state" id="state-miercoles">Configurá el horario del día</div>
+                </div>
+
+                <div class="field">
+                  <div class="toggle-wrap">
+                    <input type="checkbox" id="miercoles_cerrado" />
+                    <span>Cerrado</span>
+                  </div>
+                </div>
+
+                <div class="choice-group" id="modes-miercoles">
+                  <label class="choice"><input type="radio" name="miercoles_modo" value="corrido" checked /> Horario corrido</label>
+                  <label class="choice"><input type="radio" name="miercoles_modo" value="cortado" /> Horario cortado</label>
+                  <label class="choice"><input type="radio" name="miercoles_modo" value="24hs" /> 24 horas</label>
+                </div>
+
+                <div class="time-grid-2" id="corrido-miercoles">
+                  <div class="field">
+                    <label for="miercoles_desde">Desde</label>
+                    <input type="time" id="miercoles_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="miercoles_hasta">Hasta</label>
+                    <input type="time" id="miercoles_hasta" />
+                  </div>
+                </div>
+
+                <div class="time-grid-4 hidden" id="cortado-miercoles">
+                  <div class="field">
+                    <label for="miercoles_manana_desde">Mañana desde</label>
+                    <input type="time" id="miercoles_manana_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="miercoles_manana_hasta">Mañana hasta</label>
+                    <input type="time" id="miercoles_manana_hasta" />
+                  </div>
+                  <div class="field">
+                    <label for="miercoles_tarde_desde">Tarde desde</label>
+                    <input type="time" id="miercoles_tarde_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="miercoles_tarde_hasta">Tarde hasta</label>
+                    <input type="time" id="miercoles_tarde_hasta" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-card" data-day="jueves">
+                <div class="day-header">
+                  <h3 class="day-title">Jueves</h3>
+                  <div class="day-state" id="state-jueves">Configurá el horario del día</div>
+                </div>
+
+                <div class="field">
+                  <div class="toggle-wrap">
+                    <input type="checkbox" id="jueves_cerrado" />
+                    <span>Cerrado</span>
+                  </div>
+                </div>
+
+                <div class="choice-group" id="modes-jueves">
+                  <label class="choice"><input type="radio" name="jueves_modo" value="corrido" checked /> Horario corrido</label>
+                  <label class="choice"><input type="radio" name="jueves_modo" value="cortado" /> Horario cortado</label>
+                  <label class="choice"><input type="radio" name="jueves_modo" value="24hs" /> 24 horas</label>
+                </div>
+
+                <div class="time-grid-2" id="corrido-jueves">
+                  <div class="field">
+                    <label for="jueves_desde">Desde</label>
+                    <input type="time" id="jueves_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="jueves_hasta">Hasta</label>
+                    <input type="time" id="jueves_hasta" />
+                  </div>
+                </div>
+
+                <div class="time-grid-4 hidden" id="cortado-jueves">
+                  <div class="field">
+                    <label for="jueves_manana_desde">Mañana desde</label>
+                    <input type="time" id="jueves_manana_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="jueves_manana_hasta">Mañana hasta</label>
+                    <input type="time" id="jueves_manana_hasta" />
+                  </div>
+                  <div class="field">
+                    <label for="jueves_tarde_desde">Tarde desde</label>
+                    <input type="time" id="jueves_tarde_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="jueves_tarde_hasta">Tarde hasta</label>
+                    <input type="time" id="jueves_tarde_hasta" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-card" data-day="viernes">
+                <div class="day-header">
+                  <h3 class="day-title">Viernes</h3>
+                  <div class="day-state" id="state-viernes">Configurá el horario del día</div>
+                </div>
+
+                <div class="field">
+                  <div class="toggle-wrap">
+                    <input type="checkbox" id="viernes_cerrado" />
+                    <span>Cerrado</span>
+                  </div>
+                </div>
+
+                <div class="choice-group" id="modes-viernes">
+                  <label class="choice"><input type="radio" name="viernes_modo" value="corrido" checked /> Horario corrido</label>
+                  <label class="choice"><input type="radio" name="viernes_modo" value="cortado" /> Horario cortado</label>
+                  <label class="choice"><input type="radio" name="viernes_modo" value="24hs" /> 24 horas</label>
+                </div>
+
+                <div class="time-grid-2" id="corrido-viernes">
+                  <div class="field">
+                    <label for="viernes_desde">Desde</label>
+                    <input type="time" id="viernes_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="viernes_hasta">Hasta</label>
+                    <input type="time" id="viernes_hasta" />
+                  </div>
+                </div>
+
+                <div class="time-grid-4 hidden" id="cortado-viernes">
+                  <div class="field">
+                    <label for="viernes_manana_desde">Mañana desde</label>
+                    <input type="time" id="viernes_manana_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="viernes_manana_hasta">Mañana hasta</label>
+                    <input type="time" id="viernes_manana_hasta" />
+                  </div>
+                  <div class="field">
+                    <label for="viernes_tarde_desde">Tarde desde</label>
+                    <input type="time" id="viernes_tarde_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="viernes_tarde_hasta">Tarde hasta</label>
+                    <input type="time" id="viernes_tarde_hasta" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-card" data-day="sabado">
+                <div class="day-header">
+                  <h3 class="day-title">Sábado</h3>
+                  <div class="day-state" id="state-sabado">Configurá el horario del día</div>
+                </div>
+
+                <div class="field">
+                  <div class="toggle-wrap">
+                    <input type="checkbox" id="sabado_cerrado" />
+                    <span>Cerrado</span>
+                  </div>
+                </div>
+
+                <div class="choice-group" id="modes-sabado">
+                  <label class="choice"><input type="radio" name="sabado_modo" value="corrido" checked /> Horario corrido</label>
+                  <label class="choice"><input type="radio" name="sabado_modo" value="cortado" /> Horario cortado</label>
+                  <label class="choice"><input type="radio" name="sabado_modo" value="24hs" /> 24 horas</label>
+                </div>
+
+                <div class="time-grid-2" id="corrido-sabado">
+                  <div class="field">
+                    <label for="sabado_desde">Desde</label>
+                    <input type="time" id="sabado_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="sabado_hasta">Hasta</label>
+                    <input type="time" id="sabado_hasta" />
+                  </div>
+                </div>
+
+                <div class="time-grid-4 hidden" id="cortado-sabado">
+                  <div class="field">
+                    <label for="sabado_manana_desde">Mañana desde</label>
+                    <input type="time" id="sabado_manana_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="sabado_manana_hasta">Mañana hasta</label>
+                    <input type="time" id="sabado_manana_hasta" />
+                  </div>
+                  <div class="field">
+                    <label for="sabado_tarde_desde">Tarde desde</label>
+                    <input type="time" id="sabado_tarde_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="sabado_tarde_hasta">Tarde hasta</label>
+                    <input type="time" id="sabado_tarde_hasta" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-card" data-day="domingo">
+                <div class="day-header">
+                  <h3 class="day-title">Domingo</h3>
+                  <div class="day-state" id="state-domingo">Configurá el horario del día</div>
+                </div>
+
+                <div class="field">
+                  <div class="toggle-wrap">
+                    <input type="checkbox" id="domingo_cerrado" />
+                    <span>Cerrado</span>
+                  </div>
+                </div>
+
+                <div class="choice-group" id="modes-domingo">
+                  <label class="choice"><input type="radio" name="domingo_modo" value="corrido" checked /> Horario corrido</label>
+                  <label class="choice"><input type="radio" name="domingo_modo" value="cortado" /> Horario cortado</label>
+                  <label class="choice"><input type="radio" name="domingo_modo" value="24hs" /> 24 horas</label>
+                </div>
+
+                <div class="time-grid-2" id="corrido-domingo">
+                  <div class="field">
+                    <label for="domingo_desde">Desde</label>
+                    <input type="time" id="domingo_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="domingo_hasta">Hasta</label>
+                    <input type="time" id="domingo_hasta" />
+                  </div>
+                </div>
+
+                <div class="time-grid-4 hidden" id="cortado-domingo">
+                  <div class="field">
+                    <label for="domingo_manana_desde">Mañana desde</label>
+                    <input type="time" id="domingo_manana_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="domingo_manana_hasta">Mañana hasta</label>
+                    <input type="time" id="domingo_manana_hasta" />
+                  </div>
+                  <div class="field">
+                    <label for="domingo_tarde_desde">Tarde desde</label>
+                    <input type="time" id="domingo_tarde_desde" />
+                  </div>
+                  <div class="field">
+                    <label for="domingo_tarde_hasta">Tarde hasta</label>
+                    <input type="time" id="domingo_tarde_hasta" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="box">
+            <h2>Medios de pago</h2>
+            <p class="box-sub">Marcá todos los medios de pago que aceptás. Después se reflejan en tu tarjeta del perfil.</p>
+
+            <div class="payment-grid">
+              <label class="payment-item"><input type="checkbox" id="pago_efectivo" /> Efectivo</label>
+              <label class="payment-item"><input type="checkbox" id="pago_transferencia" /> Transferencia</label>
+              <label class="payment-item"><input type="checkbox" id="pago_mercadopago" /> Mercado Pago</label>
+              <label class="payment-item"><input type="checkbox" id="pago_debito" /> Débito</label>
+              <label class="payment-item"><input type="checkbox" id="pago_credito" /> Crédito</label>
+              <label class="payment-item"><input type="checkbox" id="pago_otros" /> Otros</label>
+            </div>
+
+            <div class="field" style="margin-top:14px;">
+              <label for="mediosPagoOtroTexto">Si marcaste “Otros”, especificá cuál</label>
+              <input type="text" id="mediosPagoOtroTexto" placeholder="Ej: Cuenta DNI, billetera virtual, cheque..." />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="box">
+            <h2>Factura</h2>
+            <p class="box-sub">Si hoy no facturás y mañana sí, lo podés cambiar sin drama. La app no se ofende.</p>
+
+            <label class="factura-box">
+              <input type="checkbox" id="facturaActiva" />
+              <span>Emitís factura</span>
+            </label>
           </div>
         </div>
 
@@ -640,6 +1253,8 @@
       const params = new URLSearchParams(window.location.search);
       const idRegistro = (params.get('id_registro') || '').trim();
 
+      const DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+
       const estadoBox = document.getElementById('estadoBox');
       const mensaje = document.getElementById('mensaje');
       const btnGuardar = document.getElementById('btnGuardar');
@@ -653,6 +1268,8 @@
 
       const galeriaActiva = document.getElementById('galeriaActiva');
       const galeriaWrap = document.getElementById('galeriaWrap');
+
+      const abiertoSiempre = document.getElementById('abiertoSiempre');
 
       const fotoPrincipalInput = document.getElementById('fotoPrincipal');
       const img1Input = document.getElementById('img1');
@@ -693,7 +1310,9 @@
 
       function setText(id, value, fallback) {
         const el = document.getElementById(id);
-        if (el) el.textContent = (value !== undefined && value !== null && String(value).trim() !== '') ? String(value).trim() : (fallback || '-');
+        if (el) {
+          el.textContent = (value !== undefined && value !== null && String(value).trim() !== '') ? String(value).trim() : (fallback || '-');
+        }
       }
 
       function setChecked(id, value) {
@@ -716,6 +1335,17 @@
         if (!item) return '';
         if (item.nombre_comercio) return String(item.nombre_comercio).trim();
         return [String(item.nombre || '').trim(), String(item.apellido || '').trim()].filter(Boolean).join(' ').trim();
+      }
+
+      function obtenerRubro(item) {
+        return String(
+          item.perfil ||
+          item.rubro ||
+          item.categoria ||
+          item.tipo_perfil ||
+          item.tipo ||
+          ''
+        ).trim();
       }
 
       function setPreview(previewId, base64) {
@@ -795,7 +1425,7 @@
         const dias = Number(diasRaw || 0);
 
         const diasBox = document.getElementById('diasRestantes');
-        diasBox.className = 'days-value ok';
+        diasBox.className = 'membership-days ok';
 
         btnRenovar.disabled = true;
         btnRenovar.classList.add('disabled');
@@ -807,8 +1437,8 @@
         }
 
         if (dias <= 0) {
-          diasBox.className = 'days-value danger';
-          diasBox.textContent = 'Vencida';
+          diasBox.className = 'membership-days danger';
+          diasBox.textContent = 'Membresía vencida';
           btnRenovar.disabled = false;
           btnRenovar.classList.remove('disabled');
           renewNote.textContent = 'Tu membresía está vencida. Renovala para seguir visible en Conecta2.';
@@ -816,8 +1446,8 @@
         }
 
         if (dias <= 5) {
-          diasBox.className = 'days-value danger';
-          diasBox.textContent = dias + ' día' + (dias === 1 ? '' : 's');
+          diasBox.className = 'membership-days danger';
+          diasBox.textContent = dias + ' día' + (dias === 1 ? '' : 's') + ' restantes';
           btnRenovar.disabled = false;
           btnRenovar.classList.remove('disabled');
           renewNote.textContent = 'Tu membresía está en zona crítica. Ya podés renovarla desde este panel.';
@@ -825,14 +1455,14 @@
         }
 
         if (dias <= 7) {
-          diasBox.className = 'days-value warn';
-          diasBox.textContent = dias + ' día' + (dias === 1 ? '' : 's');
+          diasBox.className = 'membership-days warn';
+          diasBox.textContent = dias + ' día' + (dias === 1 ? '' : 's') + ' restantes';
           renewNote.textContent = 'Este botón se activa cuando faltan 5 días o menos para el vencimiento.';
           return;
         }
 
-        diasBox.className = 'days-value ok';
-        diasBox.textContent = dias + ' días';
+        diasBox.className = 'membership-days ok';
+        diasBox.textContent = dias + ' días restantes';
         renewNote.textContent = 'Este botón se activa cuando faltan 5 días o menos para el vencimiento.';
       }
 
@@ -850,6 +1480,372 @@
         document.body.appendChild(script);
       }
 
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function normalizarEstadoPerfil(valorEstado) {
+        const v = String(valorEstado || '').trim().toLowerCase();
+        return ['activo', 'activa', 'ok', 'habilitado', 'habilitada', 'si', 'sí', 'true'].includes(v) ? 'activo' : 'inactivo';
+      }
+
+      function renderEstadoPerfil(valorEstado) {
+        const estado = normalizarEstadoPerfil(valorEstado);
+        const el = document.getElementById('estadoPerfil');
+
+        if (estado === 'activo') {
+          el.innerHTML = '<span class="status-value ok"><span class="status-icon">✓</span><span>Activo</span></span>';
+        } else {
+          el.innerHTML = '<span class="status-value danger"><span class="status-icon">✕</span><span>Inactivo</span></span>';
+        }
+      }
+
+      function getSelectedRadioValue(name) {
+        const selected = document.querySelector('input[name="' + name + '"]:checked');
+        return selected ? selected.value : 'corrido';
+      }
+
+      function setSelectedRadioValue(name, value) {
+        const target = document.querySelector('input[name="' + name + '"][value="' + value + '"]');
+        if (target) target.checked = true;
+      }
+
+      function bloquearInputsContenedor(containerId, bloquear) {
+        const wrap = document.getElementById(containerId);
+        if (!wrap) return;
+        wrap.querySelectorAll('input, select, textarea, button').forEach(function(el){
+          el.disabled = !!bloquear;
+        });
+      }
+
+      function actualizarUIHorarioDia(dia) {
+        const cerrado = document.getElementById(dia + '_cerrado').checked;
+        const modo = getSelectedRadioValue(dia + '_modo');
+
+        const modesWrap = document.getElementById('modes-' + dia);
+        const corridoWrap = document.getElementById('corrido-' + dia);
+        const cortadoWrap = document.getElementById('cortado-' + dia);
+        const state = document.getElementById('state-' + dia);
+
+        if (abiertoSiempre.checked) {
+          document.getElementById(dia + '_cerrado').disabled = true;
+          modesWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          corridoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          cortadoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          corridoWrap.classList.add('hidden');
+          cortadoWrap.classList.add('hidden');
+          state.textContent = 'Abierto siempre / 24 horas';
+          return;
+        }
+
+        document.getElementById(dia + '_cerrado').disabled = false;
+        modesWrap.querySelectorAll('input').forEach(function(i){ i.disabled = cerrado; });
+
+        if (cerrado) {
+          corridoWrap.classList.add('hidden');
+          cortadoWrap.classList.add('hidden');
+          corridoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          cortadoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          state.textContent = 'Cerrado';
+          return;
+        }
+
+        if (modo === '24hs') {
+          corridoWrap.classList.add('hidden');
+          cortadoWrap.classList.add('hidden');
+          corridoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          cortadoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          state.textContent = '24 horas';
+          return;
+        }
+
+        if (modo === 'cortado') {
+          corridoWrap.classList.add('hidden');
+          cortadoWrap.classList.remove('hidden');
+          corridoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+          cortadoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = false; });
+          state.textContent = 'Horario cortado';
+          return;
+        }
+
+        corridoWrap.classList.remove('hidden');
+        cortadoWrap.classList.add('hidden');
+        corridoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = false; });
+        cortadoWrap.querySelectorAll('input').forEach(function(i){ i.disabled = true; });
+        state.textContent = 'Horario corrido';
+      }
+
+      function vincularHorarios() {
+        DIAS.forEach(function(dia){
+          document.getElementById(dia + '_cerrado').addEventListener('change', function(){
+            actualizarUIHorarioDia(dia);
+            actualizarResumenHorarios();
+          });
+
+          document.querySelectorAll('input[name="' + dia + '_modo"]').forEach(function(radio){
+            radio.addEventListener('change', function(){
+              actualizarUIHorarioDia(dia);
+              actualizarResumenHorarios();
+            });
+          });
+
+          [
+            dia + '_desde',
+            dia + '_hasta',
+            dia + '_manana_desde',
+            dia + '_manana_hasta',
+            dia + '_tarde_desde',
+            dia + '_tarde_hasta'
+          ].forEach(function(id){
+            const el = document.getElementById(id);
+            if (el) {
+              el.addEventListener('input', actualizarResumenHorarios);
+              el.addEventListener('change', actualizarResumenHorarios);
+            }
+          });
+        });
+
+        abiertoSiempre.addEventListener('change', function(){
+          DIAS.forEach(actualizarUIHorarioDia);
+          actualizarResumenHorarios();
+        });
+      }
+
+      function obtenerHorariosDetalle() {
+        const result = {
+          abiertoSiempre: !!abiertoSiempre.checked,
+          dias: {}
+        };
+
+        DIAS.forEach(function(dia){
+          result.dias[dia] = {
+            cerrado: !!document.getElementById(dia + '_cerrado').checked,
+            modo: getSelectedRadioValue(dia + '_modo'),
+            desde: valor(dia + '_desde'),
+            hasta: valor(dia + '_hasta'),
+            manana_desde: valor(dia + '_manana_desde'),
+            manana_hasta: valor(dia + '_manana_hasta'),
+            tarde_desde: valor(dia + '_tarde_desde'),
+            tarde_hasta: valor(dia + '_tarde_hasta')
+          };
+        });
+
+        return result;
+      }
+
+      function capitalizar(txt) {
+        const s = String(txt || '');
+        return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+      }
+
+      function construirResumenHorarios(data) {
+        if (!data) return 'Sin horarios cargados.';
+        if (data.abiertoSiempre) return 'Abierto siempre / 24 horas';
+
+        const lineas = [];
+
+        DIAS.forEach(function(dia){
+          const d = data.dias && data.dias[dia] ? data.dias[dia] : null;
+          if (!d) return;
+
+          const nombre = capitalizar(dia);
+
+          if (d.cerrado) {
+            lineas.push(nombre + ': cerrado');
+            return;
+          }
+
+          if (d.modo === '24hs') {
+            lineas.push(nombre + ': 24 horas');
+            return;
+          }
+
+          if (d.modo === 'cortado') {
+            const md = d.manana_desde || '--:--';
+            const mh = d.manana_hasta || '--:--';
+            const td = d.tarde_desde || '--:--';
+            const th = d.tarde_hasta || '--:--';
+            lineas.push(nombre + ': ' + md + ' a ' + mh + ' / ' + td + ' a ' + th);
+            return;
+          }
+
+          const desde = d.desde || '--:--';
+          const hasta = d.hasta || '--:--';
+          lineas.push(nombre + ': ' + desde + ' a ' + hasta);
+        });
+
+        return lineas.length ? lineas.join('\n') : 'Sin horarios cargados.';
+      }
+
+      function actualizarResumenHorarios() {
+        const detalle = obtenerHorariosDetalle();
+        document.getElementById('resumenHorarios').textContent = construirResumenHorarios(detalle);
+      }
+
+      function obtenerMediosPagoDetalle() {
+        const items = [];
+        if (document.getElementById('pago_efectivo').checked) items.push('Efectivo');
+        if (document.getElementById('pago_transferencia').checked) items.push('Transferencia');
+        if (document.getElementById('pago_mercadopago').checked) items.push('Mercado Pago');
+        if (document.getElementById('pago_debito').checked) items.push('Débito');
+        if (document.getElementById('pago_credito').checked) items.push('Crédito');
+        if (document.getElementById('pago_otros').checked) {
+          const otro = valor('mediosPagoOtroTexto');
+          items.push(otro ? 'Otros: ' + otro : 'Otros');
+        }
+        return items;
+      }
+
+      function actualizarResumenPagos() {
+        const pagos = obtenerMediosPagoDetalle();
+        document.getElementById('resumenPagos').textContent = pagos.length ? pagos.join(', ') : 'Sin medios de pago cargados.';
+      }
+
+      function actualizarResumenFactura() {
+        document.getElementById('resumenFactura').textContent = document.getElementById('facturaActiva').checked ? 'Sí, emite factura.' : 'No emite factura.';
+      }
+
+      function vincularPagosYFactura() {
+        [
+          'pago_efectivo',
+          'pago_transferencia',
+          'pago_mercadopago',
+          'pago_debito',
+          'pago_credito',
+          'pago_otros',
+          'facturaActiva'
+        ].forEach(function(id){
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('change', function(){
+            actualizarResumenPagos();
+            actualizarResumenFactura();
+          });
+        });
+
+        document.getElementById('mediosPagoOtroTexto').addEventListener('input', actualizarResumenPagos);
+      }
+
+      function parsearHorariosGuardados(item) {
+        const posibles = [
+          item && item.horarios_json,
+          item && item.horarios_detalle,
+          item && item.horarios,
+          item && item.horario_json
+        ];
+
+        for (let i = 0; i < posibles.length; i++) {
+          const actual = posibles[i];
+          if (!actual) continue;
+
+          if (typeof actual === 'object') {
+            return actual;
+          }
+
+          if (typeof actual === 'string') {
+            const txt = actual.trim();
+            if (!txt) continue;
+
+            try {
+              const parsed = JSON.parse(txt);
+              if (parsed && typeof parsed === 'object') return parsed;
+            } catch (e) {}
+          }
+        }
+
+        return null;
+      }
+
+      function aplicarHorariosDefault() {
+        abiertoSiempre.checked = false;
+        DIAS.forEach(function(dia){
+          setChecked(dia + '_cerrado', false);
+          setSelectedRadioValue(dia + '_modo', 'corrido');
+          setValor(dia + '_desde', '');
+          setValor(dia + '_hasta', '');
+          setValor(dia + '_manana_desde', '');
+          setValor(dia + '_manana_hasta', '');
+          setValor(dia + '_tarde_desde', '');
+          setValor(dia + '_tarde_hasta', '');
+          actualizarUIHorarioDia(dia);
+        });
+        actualizarResumenHorarios();
+      }
+
+      function hidratarHorarios(data) {
+        if (!data || typeof data !== 'object') {
+          aplicarHorariosDefault();
+          return;
+        }
+
+        abiertoSiempre.checked = !!data.abiertoSiempre;
+
+        DIAS.forEach(function(dia){
+          const d = data.dias && data.dias[dia] ? data.dias[dia] : {};
+          setChecked(dia + '_cerrado', !!d.cerrado);
+          setSelectedRadioValue(dia + '_modo', d.modo || 'corrido');
+          setValor(dia + '_desde', d.desde || '');
+          setValor(dia + '_hasta', d.hasta || '');
+          setValor(dia + '_manana_desde', d.manana_desde || '');
+          setValor(dia + '_manana_hasta', d.manana_hasta || '');
+          setValor(dia + '_tarde_desde', d.tarde_desde || '');
+          setValor(dia + '_tarde_hasta', d.tarde_hasta || '');
+          actualizarUIHorarioDia(dia);
+        });
+
+        actualizarResumenHorarios();
+      }
+
+      function cargarMediosPago(item) {
+        const detalle = item && item.medios_pago_detalle ? item.medios_pago_detalle : null;
+        const raw = String(item.medios_pago || '').toLowerCase();
+
+        const activarPorTexto = function(checkId, patrones) {
+          const ok = patrones.some(function(p){ return raw.includes(p); });
+          setChecked(checkId, ok);
+        };
+
+        if (detalle && typeof detalle === 'object') {
+          setChecked('pago_efectivo', !!detalle.efectivo);
+          setChecked('pago_transferencia', !!detalle.transferencia);
+          setChecked('pago_mercadopago', !!detalle.mercadopago);
+          setChecked('pago_debito', !!detalle.debito);
+          setChecked('pago_credito', !!detalle.credito);
+          setChecked('pago_otros', !!detalle.otros);
+          setValor('mediosPagoOtroTexto', detalle.otros_texto || '');
+        } else {
+          activarPorTexto('pago_efectivo', ['efectivo']);
+          activarPorTexto('pago_transferencia', ['transferencia']);
+          activarPorTexto('pago_mercadopago', ['mercado pago', 'mercadopago']);
+          activarPorTexto('pago_debito', ['debito', 'débito']);
+          activarPorTexto('pago_credito', ['credito', 'crédito']);
+          const tieneOtros = raw && ![
+            'efectivo','transferencia','mercado pago','mercadopago','debito','débito','credito','crédito'
+          ].every(function(x){ return !raw.includes(x); });
+          if (!tieneOtros && raw.trim()) {
+            setChecked('pago_otros', true);
+            setValor('mediosPagoOtroTexto', item.medios_pago || '');
+          } else {
+            setChecked('pago_otros', false);
+            setValor('mediosPagoOtroTexto', '');
+          }
+        }
+
+        actualizarResumenPagos();
+      }
+
+      function cargarFactura(item) {
+        const raw = String(item.factura ?? item.emite_factura ?? item.facturacion ?? '').trim().toLowerCase();
+        const activa = ['si', 'sí', 'true', '1', 'activo', 'activa'].includes(raw);
+        setChecked('facturaActiva', activa);
+        actualizarResumenFactura();
+      }
+
       function cargarPerfil() {
         setEstado('Cargando perfil...', 'warn');
         limpiarMsg();
@@ -864,25 +1860,28 @@
             }
 
             const item = data.item;
-            actualizarBloqueMembresia(item);
             const nombrePerfil = nombrePerfilDesdeItem(item);
+            const rubro = obtenerRubro(item);
+
+            actualizarBloqueMembresia(item);
 
             setEstado('Perfil cargado', 'ok');
             setText('heroNombre', nombrePerfil, 'Panel de miembro');
             setText('heroDescripcion', item.descripcion || 'Desde acá podés administrar tu perfil.');
             setText('idRegistro', idRegistro, '-');
-            setText('estadoPerfil', item.estado || 'activo', '-');
+
+            renderEstadoPerfil(item.estado || 'activo');
+
             setText('usuarioAcceso', 'Cargando...', '-');
             setText('passwordAcceso', 'Cargando...', '-');
 
             setValor('nombrePerfil', nombrePerfil);
+            setValor('perfilRubro', rubro || 'No informado');
             setValor('descripcion', item.descripcion || '');
             setValor('whatsapp', item.whatsapp || '');
             setValor('telefono', item.telefono || item.telefono_alternativo || '');
             setValor('email', item.email || '');
             setValor('direccion', item.direccion || item.zona || '');
-            setValor('horario', item.horario || item.horarios || '');
-            setValor('mediosPago', item.medios_pago || '');
 
             const vacacionesOn =
               String(item.cerrado_por_vacaciones || item.vacaciones_activo || '')
@@ -914,6 +1913,10 @@
             setPreview('previewImg3', img3Base64);
             setPreview('previewImg4', img4Base64);
 
+            hidratarHorarios(parsearHorariosGuardados(item));
+            cargarMediosPago(item);
+            cargarFactura(item);
+
             btnVerPerfil.href = 'perfil.html?id=' + encodeURIComponent(idRegistro);
           }
         );
@@ -927,18 +1930,31 @@
               setText('usuarioAcceso', data.usuario || '-', '-');
               setText('passwordAcceso', data.password || '-', '-');
             } else {
-              setText('usuarioAcceso', '-', '-');
-              setText('passwordAcceso', '-', '-');
+              setText('usuarioAcceso', 'No disponible', '-');
+              setText('passwordAcceso', 'No disponible', '-');
             }
           }
         );
       }
 
-      async function guardarPanel() {
+     async function guardarPanel() {
         try {
           limpiarMsg();
           setEstado('Guardando cambios...', 'warn');
           btnGuardar.disabled = true;
+
+          const horariosDetalle = obtenerHorariosDetalle();
+          const horariosResumen = construirResumenHorarios(horariosDetalle);
+          const mediosPagoDetalle = {
+            efectivo: document.getElementById('pago_efectivo').checked,
+            transferencia: document.getElementById('pago_transferencia').checked,
+            mercadopago: document.getElementById('pago_mercadopago').checked,
+            debito: document.getElementById('pago_debito').checked,
+            credito: document.getElementById('pago_credito').checked,
+            otros: document.getElementById('pago_otros').checked,
+            otros_texto: valor('mediosPagoOtroTexto')
+          };
+          const mediosPagoLista = obtenerMediosPagoDetalle();
 
           const payload = {
             action: 'guardarPanelMiembro',
@@ -948,8 +1964,13 @@
             telefono: valor('telefono'),
             email: valor('email'),
             direccion: valor('direccion'),
-            horario: valor('horario'),
-            medios_pago: valor('mediosPago'),
+            horario: horariosResumen,
+            horarios: JSON.stringify(horariosDetalle),
+            horarios_json: JSON.stringify(horariosDetalle),
+            horarios_detalle: horariosDetalle,
+            medios_pago: mediosPagoLista.join(', '),
+            medios_pago_detalle: mediosPagoDetalle,
+            factura: document.getElementById('facturaActiva').checked ? 'si' : 'no',
             vacaciones: {
               activo: vacacionesActivo.checked,
               desde: vacacionesActivo.checked ? valor('vacacionesDesde') : '',
@@ -1002,6 +2023,14 @@
         window.location.href =
           'activar-membresia.html?id_registro=' + encodeURIComponent(idRegistro) + '&modo=renovacion';
       });
+
+      vincularHorarios();
+      vincularPagosYFactura();
+      mostrarFechasVacaciones();
+      mostrarGaleria();
+      aplicarHorariosDefault();
+      actualizarResumenPagos();
+      actualizarResumenFactura();
 
       cargarPerfil();
       cargarCredenciales();
