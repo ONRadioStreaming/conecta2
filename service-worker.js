@@ -1,4 +1,4 @@
-const CACHE_NAME = "conecta2-public-v1";
+const CACHE_NAME = "conecta2-public-v2";
 
 const URLS_TO_CACHE = [
   "/conecta2/",
