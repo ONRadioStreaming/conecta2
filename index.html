@@ -2194,13 +2194,7 @@ registroModal.addEventListener('click', function(e) {
   premiumSessionInfo.textContent = 'Elegí una opción para continuar.';
 }
 
-      btnPremiumLogin.classList.remove('hidden');
-      btnPremiumPanel.classList.add('hidden');
-      btnPremiumLogout.classList.add('hidden');
-      premiumActions.classList.add('single');
-      premiumSessionInfo.textContent = 'No iniciaste sesión como miembro premium.';
-    }
-
+      
     function loginPremium(usuario, password) {
       return new Promise(function(resolve) {
         const url = SCRIPT_URL
