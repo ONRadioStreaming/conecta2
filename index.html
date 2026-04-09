@@ -4,14 +4,13 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  
-<meta charset="UTF-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Conecta2</title>
   <meta name="theme-color" content="#07142b" />
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="manifest.json?v=2">
+  <link rel="manifest" href="manifest.json?v=3">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
@@ -40,6 +39,10 @@
     a {
       text-decoration: none;
       color: inherit;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     .app {
@@ -133,11 +136,8 @@
     }
 
     .top-wrap {
-  padding: 10px 16px 0;
-  margin-bottom: -70px;
-  position: relative;
-  z-index: 2;
-}
+      padding: 12px 16px 0;
+    }
 
     .hero-box {
       background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
@@ -146,13 +146,12 @@
       padding: 12px;
       box-shadow: 0 10px 24px rgba(0,0,0,0.16);
       backdrop-filter: blur(4px);
-      margin-bottom: 0;
     }
 
     .banner-wrap {
       display: flex;
       justify-content: center;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .banner-wrap img {
@@ -163,77 +162,11 @@
       box-shadow: 0 8px 18px rgba(0,0,0,0.18);
     }
 
-    .action-stack {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .btn-main, .btn-secondary, .btn-emergency {
-      width: 100%;
-      border: 0;
-      border-radius: 18px;
-      padding: 16px 18px;
-      font-size: 1.02rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
-      cursor: pointer;
-    }
-
-    .btn-main {
-      background: linear-gradient(145deg, #24c6dc, #514a9d);
-      color: #fff;
-    }
-
-    .btn-secondary {
-      background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
-      color: #fff;
-    }
-
-    .btn-profesional {
-      width: 100%;
-      border: 0;
-      border-radius: 18px;
-      padding: 16px 18px;
-      font-size: 1.02rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
-      background: linear-gradient(145deg,#8e2de2,#4a00e0);
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .btn-salud {
-      width: 100%;
-      border: 0;
-      border-radius: 18px;
-      padding: 16px 18px;
-      font-size: 1.02rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.16);
-      background: linear-gradient(135deg,#1fd1c2,#0aa2b5);
-      color: #fff;
-      cursor: pointer;
-    }
-
     .premium-card {
       background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: 24px;
-      padding: 16px;
+      padding: 14px;
       box-shadow: 0 8px 18px rgba(0,0,0,0.14);
     }
 
@@ -243,9 +176,9 @@
 
     .premium-head strong {
       display: block;
-      font-size: 1.05rem;
+      font-size: 1.06rem;
       font-weight: 800;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
 
     .premium-head span {
@@ -263,11 +196,12 @@
       margin-bottom: 10px;
     }
 
-    .premium-actions.single {
-      grid-template-columns: 1fr;
+    .premium-actions.session-on {
+      grid-template-columns: 1fr 1fr;
     }
 
-    .premium-btn {
+    .premium-btn,
+    .btn-emergency {
       width: 100%;
       border: 0;
       border-radius: 18px;
@@ -280,6 +214,12 @@
       justify-content: center;
       box-shadow: 0 8px 18px rgba(0,0,0,0.16);
       cursor: pointer;
+      font-family: inherit;
+    }
+
+    .premium-btn-register {
+      background: linear-gradient(145deg, #24c6dc, #514a9d);
+      color: #fff;
     }
 
     .premium-btn-login {
@@ -305,19 +245,17 @@
       border-radius: 14px;
       padding: 10px 12px;
       font-weight: 700;
-      margin-botton: 0px;
     }
 
     .content {
-  background: #eef4f7;
-  color: #11253d;
-  border-radius: 32px 32px 0 0;
-  padding: 92px 16px 30px;
-  min-height: auto;
-  margin-top: 0;
-  position: relative;
-  z-index: 1;
-}
+      background: #eef4f7;
+      color: #11253d;
+      border-radius: 32px 32px 0 0;
+      padding: 22px 16px 30px;
+      margin-top: 14px;
+      box-shadow: 0 -10px 24px rgba(0,0,0,0.08);
+      position: relative;
+    }
 
     .section-title {
       margin: 0 0 16px 0;
@@ -588,6 +526,7 @@
       box-shadow: 0 10px 22px rgba(0,0,0,0.16);
       border: 0;
       cursor: pointer;
+      font-family: inherit;
     }
 
     .support-card {
@@ -873,7 +812,8 @@
     }
 
     .install-modal,
-    .login-modal {
+    .login-modal,
+    .registro-modal {
       position: fixed;
       inset: 0;
       background: rgba(4, 11, 24, 0.78);
@@ -885,12 +825,14 @@
     }
 
     .install-modal.show,
-    .login-modal.show {
+    .login-modal.show,
+    .registro-modal.show {
       display: flex;
     }
 
     .install-box,
-    .login-box {
+    .login-box,
+    .registro-box {
       width: 100%;
       max-width: 420px;
       background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
@@ -899,18 +841,20 @@
       padding: 24px 18px 18px;
       box-shadow: 0 22px 42px rgba(0,0,0,0.28);
       border: 1px solid rgba(255,255,255,0.7);
-      text-align: center;
     }
 
     .install-icon,
-    .login-icon {
+    .login-icon,
+    .registro-icon {
       font-size: 2.7rem;
       line-height: 1;
       margin-bottom: 10px;
+      text-align: center;
     }
 
     .install-title,
-    .login-title {
+    .login-title,
+    .registro-title {
       margin: 0 0 10px 0;
       font-size: 1.22rem;
       font-weight: 900;
@@ -918,13 +862,24 @@
       letter-spacing: -0.02em;
     }
 
+    .install-title,
+    .registro-title {
+      text-align: center;
+    }
+
     .install-text,
-    .login-text {
+    .login-text,
+    .registro-text {
       margin: 0 0 14px 0;
       font-size: 0.97rem;
       line-height: 1.55;
       color: #4d6278;
       font-weight: 700;
+    }
+
+    .registro-text,
+    .install-text {
+      text-align: center;
     }
 
     .install-note {
@@ -940,13 +895,15 @@
       text-align: left;
     }
 
-    .install-actions {
+    .install-actions,
+    .registro-actions {
       display: grid;
       grid-template-columns: 1fr;
       gap: 10px;
     }
 
-    .install-btn {
+    .install-btn,
+    .registro-btn {
       border: 0;
       border-radius: 16px;
       padding: 14px 12px;
@@ -954,6 +911,10 @@
       font-size: 0.98rem;
       font-weight: 900;
       cursor: pointer;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .install-btn-primary {
@@ -961,11 +922,32 @@
       color: #fff;
     }
 
+    .registro-btn-comercio {
+      background: linear-gradient(145deg, #24c6dc, #514a9d);
+      color: #fff;
+    }
+
+    .registro-btn-servicio {
+      background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
+      color: #fff;
+    }
+
+    .registro-btn-profesional {
+      background: linear-gradient(145deg, #8e2de2, #4a00e0);
+      color: #fff;
+    }
+
+    .registro-btn-salud {
+      background: linear-gradient(135deg,#1fd1c2,#0aa2b5);
+      color: #fff;
+    }
+
     .install-hidden {
       display: none !important;
     }
 
-    .login-close {
+    .login-close,
+    .registro-close {
       position: absolute;
       top: 12px;
       right: 12px;
@@ -980,7 +962,8 @@
       cursor: pointer;
     }
 
-    .login-box {
+    .login-box,
+    .registro-box {
       position: relative;
       text-align: left;
     }
@@ -1074,11 +1057,37 @@
       text-align: center;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
     @media (max-width: 640px) {
+      .top-wrap {
+        padding: 10px 14px 0;
+      }
+
+      .hero-box {
+        padding: 10px;
+      }
+
+      .premium-card {
+        padding: 13px;
+      }
+
+      .premium-head span {
+        font-size: 0.84rem;
+      }
+
+      .premium-actions,
+      .premium-actions.session-on {
+        grid-template-columns: 1fr;
+      }
+
+      .premium-btn {
+        padding: 14px 14px;
+      }
+
+      .content {
+        margin-top: 12px;
+        padding: 20px 14px 28px;
+      }
+
       .farmacia-banner {
         min-height: auto;
       }
@@ -1126,139 +1135,7 @@
         min-height: 54px;
         border-radius: 14px;
       }
-
-      .premium-actions {
-        grid-template-columns: 1fr;
-      }
     }
-
-    .premium-btn-register {
-  background: linear-gradient(145deg, #24c6dc, #514a9d);
-  color: #fff;
-}
-
-.premium-actions.session-on {
-  grid-template-columns: 1fr 1fr;
-}
-
-.registro-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(4, 11, 24, 0.78);
-  z-index: 16000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
-
-.registro-modal.show {
-  display: flex;
-}
-
-.registro-box {
-  width: 100%;
-  max-width: 420px;
-  background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
-  color: #12263f;
-  border-radius: 28px;
-  padding: 24px 18px 18px;
-  box-shadow: 0 22px 42px rgba(0,0,0,0.28);
-  border: 1px solid rgba(255,255,255,0.7);
-  position: relative;
-  text-align: left;
-}
-
-.registro-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 38px;
-  height: 38px;
-  border: 0;
-  border-radius: 12px;
-  background: #edf3f8;
-  color: #17314c;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.registro-icon {
-  font-size: 2.7rem;
-  line-height: 1;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.registro-title {
-  margin: 0 0 10px 0;
-  font-size: 1.22rem;
-  font-weight: 900;
-  color: #10243d;
-  letter-spacing: -0.02em;
-  text-align: center;
-}
-
-.registro-text {
-  margin: 0 0 14px 0;
-  font-size: 0.97rem;
-  line-height: 1.55;
-  color: #4d6278;
-  font-weight: 700;
-  text-align: center;
-}
-
-.registro-actions {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-
-.registro-btn {
-  border: 0;
-  border-radius: 16px;
-  padding: 14px 12px;
-  font-family: inherit;
-  font-size: 0.98rem;
-  font-weight: 900;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.registro-btn-comercio {
-  background: linear-gradient(145deg, #24c6dc, #514a9d);
-  color: #fff;
-}
-
-.registro-btn-servicio {
-  background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
-  color: #fff;
-}
-
-.registro-btn-profesional {
-  background: linear-gradient(145deg, #8e2de2, #4a00e0);
-  color: #fff;
-}
-
-.registro-btn-salud {
-  background: linear-gradient(135deg,#1fd1c2,#0aa2b5);
-  color: #fff;
-}
-
-    @media (max-width: 640px) {
-  .top-wrap {
-    margin-bottom: -42px;
-  }
-
-  .content {
-    padding: 58px 16px 30px;
-  }
-}
-    
   </style>
 </head>
 <body>
@@ -1281,26 +1158,24 @@
             <img src="banner.png" alt="Banner Conecta2">
           </div>
 
-         
           <div class="premium-card" id="premiumAccessCard">
-  <div class="premium-head">
-    <strong>Acceso premium</strong>
-    <span>
-      Si querés sumarte, registrate ahora. Si ya tenés membresía, iniciá sesión para entrar a tu panel privado, administrar tu perfil y renovar cuando lo necesites.
-    </span>
-  </div>
+            <div class="premium-head">
+              <strong>Acceso premium</strong>
+              <span>
+                Si querés sumarte, registrate ahora. Si ya tenés membresía, iniciá sesión para entrar a tu panel privado, administrar tu perfil y renovar cuando lo necesites.
+              </span>
+            </div>
 
-  <div class="premium-actions" id="premiumActions">
-    <button class="premium-btn premium-btn-register" id="btnPremiumRegister" type="button">Registrate ahora</button>
-    <button class="premium-btn premium-btn-login" id="btnPremiumLogin" type="button">Iniciar sesión</button>
-    <a class="premium-btn premium-btn-panel hidden" id="btnPremiumPanel" href="panel-miembro.html">Mi panel</a>
-    <button class="premium-btn premium-btn-logout hidden" id="btnPremiumLogout" type="button">Cerrar sesión</button>
-  </div>
+            <div class="premium-actions" id="premiumActions">
+              <button class="premium-btn premium-btn-register" id="btnPremiumRegister" type="button">Registrate ahora</button>
+              <button class="premium-btn premium-btn-login" id="btnPremiumLogin" type="button">Iniciar sesión</button>
+              <a class="premium-btn premium-btn-panel hidden" id="btnPremiumPanel" href="panel-miembro.html">Mi panel</a>
+              <button class="premium-btn premium-btn-logout hidden" id="btnPremiumLogout" type="button">Cerrar sesión</button>
+            </div>
 
-  <div class="premium-session" id="premiumSessionInfo">
-    Elegí una opción para continuar.
-   </div>
-      </div>    
+            <div class="premium-session" id="premiumSessionInfo">
+              Elegí una opción para continuar.
+            </div>
           </div>
         </div>
       </div>
@@ -1348,9 +1223,7 @@
           </div>
 
           <div class="farmacia-overlay">
-            <div class="farmacia-label">
-              FARMACIA DE TURNO
-            </div>
+            <div class="farmacia-label">FARMACIA DE TURNO</div>
 
             <div class="farmacia-horario" id="farmaciaHorario">
               Hasta las 08:00 hs
@@ -1361,27 +1234,14 @@
             </div>
 
             <div class="farmacia-info">
-              <div class="info-line address" id="farmaciaDireccion">
-                Dirección
-              </div>
-
-              <div class="info-line phone" id="farmaciaTelefono">
-                Teléfono
-              </div>
+              <div class="info-line address" id="farmaciaDireccion">Dirección</div>
+              <div class="info-line phone" id="farmaciaTelefono">Teléfono</div>
             </div>
 
             <div class="farmacia-actions">
-              <a class="farmacia-btn btn-call" id="btnFarmaciaLlamar" href="#" target="_blank" rel="noopener">
-                Llamar
-              </a>
-
-              <a class="farmacia-btn btn-wa" id="btnFarmaciaWhatsapp" href="#" target="_blank" rel="noopener">
-                WhatsApp
-              </a>
-
-              <a class="farmacia-btn btn-map" id="btnFarmaciaMapa" href="#" target="_blank" rel="noopener">
-                Cómo llegar
-              </a>
+              <a class="farmacia-btn btn-call" id="btnFarmaciaLlamar" href="#" target="_blank" rel="noopener">Llamar</a>
+              <a class="farmacia-btn btn-wa" id="btnFarmaciaWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="farmacia-btn btn-map" id="btnFarmaciaMapa" href="#" target="_blank" rel="noopener">Cómo llegar</a>
             </div>
           </div>
         </div>
@@ -1516,7 +1376,7 @@
       <div class="install-icon">📲</div>
       <h3 class="install-title">Instalá Conecta2</h3>
       <p class="install-text">
-        La app de la ciudad de Rojas para encontrar comercios, servicios y profesionales que necesites en segundos.
+        La app para encontrar comercios, servicios y profesionales de tu localidad en segundos.
       </p>
 
       <div class="install-note install-hidden" id="iosInstallNote">
@@ -1567,22 +1427,23 @@
   </div>
 
   <div class="registro-modal" id="registroModal">
-  <div class="registro-box">
-    <button class="registro-close" id="registroCloseBtn" type="button">✕</button>
-    <div class="registro-icon">📝</div>
-    <h3 class="registro-title">Registrate en Conecta2</h3>
-    <p class="registro-text">
-      Elegí cómo querés sumarte. Acá están las cuatro opciones de registro.
-    </p>
+    <div class="registro-box">
+      <button class="registro-close" id="registroCloseBtn" type="button">✕</button>
+      <div class="registro-icon">📝</div>
+      <h3 class="registro-title">Registrate en Conecta2</h3>
+      <p class="registro-text">
+        Elegí cómo querés sumarte. Acá están las cuatro opciones de registro.
+      </p>
 
-    <div class="registro-actions">
-      <a class="registro-btn registro-btn-comercio" href="registro-comercio.html">Registrá tu comercio</a>
-      <a class="registro-btn registro-btn-servicio" href="registro-servicio.html">Ofrecé tus servicios</a>
-      <a class="registro-btn registro-btn-profesional" href="registro-profesional.html">Registrate como profesional</a>
-      <a class="registro-btn registro-btn-salud" href="registro-salud.html">Registrate como profesional de salud</a>
+      <div class="registro-actions">
+        <a class="registro-btn registro-btn-comercio" id="btnModalRegistroComercio" href="registro-comercio.html">Registrá tu comercio</a>
+        <a class="registro-btn registro-btn-servicio" id="btnModalRegistroServicio" href="registro-servicio.html">Ofrecé tus servicios</a>
+        <a class="registro-btn registro-btn-profesional" id="btnModalRegistroProfesional" href="registro-profesional.html">Registrate como profesional</a>
+        <a class="registro-btn registro-btn-salud" id="btnModalRegistroSalud" href="registro-salud.html">Registrate como profesional de salud</a>
+      </div>
     </div>
   </div>
-</div>
+
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
 
@@ -1593,7 +1454,7 @@
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
-        navigator.serviceWorker.register('./service-worker.js?v=2').catch(function(err) {
+        navigator.serviceWorker.register('./service-worker.js?v=3').catch(function(err) {
           console.log('Error registrando service worker:', err);
         });
       });
@@ -1814,6 +1675,21 @@
         targets: ["#cardComercios", "#cardServicios", "#cardProfesionales", "#cardSalud"]
       },
       {
+        title: "Acceso premium",
+        text: "Desde acá podés registrarte si querés sumarte a Conecta2 o iniciar sesión si ya tenés membresía premium.",
+        target: "#premiumAccessCard"
+      },
+      {
+        title: "Registrarte",
+        text: "Tocá en Registrate ahora para elegir si querés sumarte como comercio, servicio, profesional o profesional de salud.",
+        target: "#premiumAccessCard"
+      },
+      {
+        title: "Iniciar sesión",
+        text: "Si ya sos miembro premium, tocá en Iniciar sesión, ingresá con tu usuario y contraseña y entrá a tu panel privado.",
+        target: "#premiumAccessCard"
+      },
+      {
         title: "Emergencias",
         text: "Ante una urgencia, acá accedés rápido a números importantes como policía, bomberos y emergencias de salud.",
         target: "#openEmergency"
@@ -1824,30 +1700,9 @@
         target: "#farmaciaTurnoCard"
       },
       {
-        title: "Acceso premium",
-        text: "Si ya tenés membresía premium, tocá en Iniciar sesión, ingresá con tu usuario y contraseña, usá el ojito para verla si hace falta y marcá Recordarme si querés dejarla guardada en tu dispositivo.",
-        target: "#premiumAccessCard"
-      },
-      {
         title: "Soporte Conecta2",
         text: "Si querés dejarnos una sugerencia, una mejora o tenés alguna duda, podés escribirnos desde este módulo en cualquier momento.",
         target: ".support-card"
-      },
-      {
-        title: "Sumate a Conecta2",
-        text: "Si tenés un comercio, ofrecés servicios o sos profesional, elegí la opción que corresponda para registrarte en la app.",
-        mode: "cycle",
-        targets: ["#btnRegistroComercio", "#btnRegistroServicio", "#btnRegistroProfesional", "#btnRegistroSalud"]
-      },
-      {
-        title: "Membresía Conecta2",
-        text: "Plan trimestral: $16.000 cada 3 meses. Plan anual: $64.000, pero ahora con bonificación de $10.000 pagás $54.000.",
-        target: ".action-stack"
-      },
-      {
-        title: "¿Cómo se paga?",
-        text: "Pago online: remoto desde la misma app. Transferencia y efectivo: solo presencial. Una vez activada la membresía, podés entrar a tu panel y administrar tu perfil.",
-        target: ".action-stack"
       }
     ];
 
@@ -1910,17 +1765,6 @@
           padX = 6;
           padY = 6;
           radius = 24;
-        }
-
-        if (
-          selector === "#btnRegistroComercio" ||
-          selector === "#btnRegistroServicio" ||
-          selector === "#btnRegistroProfesional" ||
-          selector === "#btnRegistroSalud"
-        ) {
-          padX = 4;
-          padY = 4;
-          radius = 22;
         }
 
         if (
@@ -2070,13 +1914,8 @@
     }
 
     installConfirmBtn.addEventListener('click', async function() {
-      if (esIOS()) {
-        return;
-      }
-
-      if (!deferredPrompt) {
-        return;
-      }
+      if (esIOS()) return;
+      if (!deferredPrompt) return;
 
       deferredPrompt.prompt();
       await deferredPrompt.userChoice;
@@ -2175,51 +2014,41 @@
       loginModal.classList.remove('show');
       document.body.style.overflow = '';
     }
+
     function openRegistroModal() {
-  registroModal.classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
+      registroModal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
 
-function closeRegistroModal() {
-  registroModal.classList.remove('show');
-  document.body.style.overflow = '';
-}
-    btnPremiumRegister.addEventListener('click', openRegistroModal);
-registroCloseBtn.addEventListener('click', closeRegistroModal);
-
-registroModal.addEventListener('click', function(e) {
-  if (e.target === registroModal) {
-    closeRegistroModal();
-  }
-});
+    function closeRegistroModal() {
+      registroModal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
 
     function applyPremiumUI() {
-  const session = getPremiumSession();
+      const session = getPremiumSession();
 
-  if (session && session.id_registro) {
-    btnPremiumRegister.classList.add('hidden');
-    btnPremiumLogin.classList.add('hidden');
-    btnPremiumPanel.classList.remove('hidden');
-    btnPremiumLogout.classList.remove('hidden');
+      if (session && session.id_registro) {
+        btnPremiumRegister.classList.add('hidden');
+        btnPremiumLogin.classList.add('hidden');
+        btnPremiumPanel.classList.remove('hidden');
+        btnPremiumLogout.classList.remove('hidden');
 
-    premiumActions.classList.add('session-on');
+        premiumActions.classList.add('session-on');
+        btnPremiumPanel.href = 'panel-miembro.html?id_registro=' + encodeURIComponent(session.id_registro);
+        premiumSessionInfo.textContent = 'Sesión activa como: ' + (session.usuario || 'miembro premium') + '.';
+        return;
+      }
 
-    btnPremiumPanel.href = 'panel-miembro.html?id_registro=' + encodeURIComponent(session.id_registro);
-    premiumSessionInfo.textContent = 'Sesión activa como: ' + (session.usuario || 'miembro premium') + '.';
-    return;
-  }
+      btnPremiumRegister.classList.remove('hidden');
+      btnPremiumLogin.classList.remove('hidden');
+      btnPremiumPanel.classList.add('hidden');
+      btnPremiumLogout.classList.add('hidden');
 
-  btnPremiumRegister.classList.remove('hidden');
-  btnPremiumLogin.classList.remove('hidden');
-  btnPremiumPanel.classList.add('hidden');
-  btnPremiumLogout.classList.add('hidden');
+      premiumActions.classList.remove('session-on');
+      premiumSessionInfo.textContent = 'Elegí una opción para continuar.';
+    }
 
-  premiumActions.classList.remove('session-on');
-
-  premiumSessionInfo.textContent = 'Elegí una opción para continuar.';
-}
-
-      
     function loginPremium(usuario, password) {
       return new Promise(function(resolve) {
         const url = SCRIPT_URL
@@ -2235,8 +2064,18 @@ registroModal.addEventListener('click', function(e) {
       });
     }
 
+    btnPremiumRegister.addEventListener('click', openRegistroModal);
+    registroCloseBtn.addEventListener('click', closeRegistroModal);
+
+    registroModal.addEventListener('click', function(e) {
+      if (e.target === registroModal) {
+        closeRegistroModal();
+      }
+    });
+
     btnPremiumLogin.addEventListener('click', openLoginModal);
     loginCloseBtn.addEventListener('click', closeLoginModal);
+
     loginModal.addEventListener('click', function(e) {
       if (e.target === loginModal) {
         closeLoginModal();
@@ -2285,11 +2124,11 @@ registroModal.addEventListener('click', function(e) {
       }
 
       setPremiumSession({
-  usuario: usuario,
-  id_registro: res.miembro.id || '',
-  tipo: res.miembro.tipo || '',
-  estado: 'activo'
-});
+        usuario: usuario,
+        id_registro: res.miembro.id || '',
+        tipo: res.miembro.tipo || '',
+        estado: 'activo'
+      });
 
       applyPremiumUI();
       btnLoginSubmit.disabled = false;
@@ -2304,7 +2143,6 @@ registroModal.addEventListener('click', function(e) {
       cargarFarmaciaHoy();
       registrarInstalacionApp();
     });
-  
   </script>
 </body>
 </html>
