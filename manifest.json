@@ -1,7 +1,7 @@
 {
   "name": "Conecta2",
   "short_name": "Conecta2",
-  "start_url": "/conecta2/index.html",
+  "start_url": "/conecta2/index.html?v=3",
   "scope": "/conecta2/",
   "display": "standalone",
   "background_color": "#07142b",
