@@ -739,821 +739,892 @@
   </div>
 
   <script>
-    const URL_PARAMS = new URLSearchParams(window.location.search);
-    const MODO_RENOVACION = URL_PARAMS.get("modo") === "renovacion";
+  var URL_PARAMS = new URLSearchParams(window.location.search);
+  var MODO_RENOVACION = URL_PARAMS.get("modo") === "renovacion";
 
-    const CONFIG = {
-      appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec',
-      redirectIndex: 'index.html',
-      adminConfig: {
-        allowOnlyActiveMethods: true
+  var CONFIG = {
+    appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec',
+    redirectIndex: 'index.html',
+    adminConfig: {
+      allowOnlyActiveMethods: true
+    },
+    fallbackPlans: [
+      {
+        id_plan: 'trimestral',
+        nombre: 'Plan trimestral',
+        meses: 3,
+        importe: 16000,
+        activo: true,
+        orden: 1
       },
-      fallbackPlans: [
-        {
-          id_plan: 'trimestral',
-          nombre: 'Plan trimestral',
-          meses: 3,
-          importe: 16000,
-          activo: true,
-          orden: 1
-        },
-        {
-          id_plan: 'anual_promo',
-          nombre: 'Plan anual promo lanzamiento',
-          meses: 12,
-          importe: 54000,
-          activo: true,
-          orden: 2
-        },
-        {
-          id_plan: 'anual',
-          nombre: 'Plan anual',
-          meses: 12,
-          importe: 64000,
-          activo: true,
-          orden: 3
-        }
-      ],
-      methods: {
-        mercado_pago: {
-          active: true,
-          order: 1,
-          label: 'Pago online',
-          buttonClass: 'mp',
-          icon: '💳',
-          hint: 'Realizá el pago desde un enlace seguro con tu billetera virtual o medio de pago disponible.',
-          initialState: 'pendiente de pago',
-          finalButtonText: 'Ir a pagar'
-        },
-        transferencia: {
-          active: true,
-          order: 2,
-          label: 'Transferencia bancaria',
-          buttonClass: 'bank',
-          icon: '🏦',
-          hint: 'Solo para pagos presenciales. La solicitud queda pendiente de validación.',
-          initialState: 'pendiente de validación',
-          finalButtonText: 'Finalizar'
-        },
-        efectivo: {
-          active: true,
-          order: 3,
-          label: 'Efectivo',
-          buttonClass: 'cash',
-          icon: '💵',
-          hint: 'Solo para pagos presenciales. La solicitud queda pendiente de validación.',
-          initialState: 'pendiente de validación',
-          finalButtonText: 'Finalizar'
-        }
+      {
+        id_plan: 'anual_promo',
+        nombre: 'Plan anual promo lanzamiento',
+        meses: 12,
+        importe: 54000,
+        activo: true,
+        orden: 2
+      },
+      {
+        id_plan: 'anual',
+        nombre: 'Plan anual',
+        meses: 12,
+        importe: 64000,
+        activo: true,
+        orden: 3
       }
+    ],
+    methods: {
+      mercado_pago: {
+        active: true,
+        order: 1,
+        label: 'Pago online',
+        buttonClass: 'mp',
+        icon: '💳',
+        hint: 'Realizá el pago desde un enlace seguro con tu billetera virtual o medio de pago disponible.',
+        initialState: 'pendiente de pago',
+        finalButtonText: 'Ir a pagar'
+      },
+      transferencia: {
+        active: true,
+        order: 2,
+        label: 'Transferencia bancaria',
+        buttonClass: 'bank',
+        icon: '🏦',
+        hint: 'Solo para pagos presenciales. La solicitud queda pendiente de validación.',
+        initialState: 'pendiente de validación',
+        finalButtonText: 'Finalizar'
+      },
+      efectivo: {
+        active: true,
+        order: 3,
+        label: 'Efectivo',
+        buttonClass: 'cash',
+        icon: '💵',
+        hint: 'Solo para pagos presenciales. La solicitud queda pendiente de validación.',
+        initialState: 'pendiente de validación',
+        finalButtonText: 'Finalizar'
+      }
+    }
+  };
+
+  var STATE = {
+    selectedPlan: null,
+    selectedMethod: null,
+    currentSelection: null,
+    confirmMode: 'confirm',
+    isSubmitting: false,
+    membershipSaved: false,
+    paymentUrl: '',
+    memberData: null,
+    plans: [],
+    plansMap: {}
+  };
+
+  var els = {
+    btnBack: document.getElementById('btnBack'),
+    btnCancel: document.getElementById('btnCancel'),
+    btnContinue: document.getElementById('btnContinue'),
+    plansGrid: document.getElementById('plansGrid'),
+    methodsGrid: document.getElementById('methodsGrid'),
+    noticeSuccess: document.getElementById('noticeSuccess'),
+    noticeWarning: document.getElementById('noticeWarning'),
+    noticeError: document.getElementById('noticeError'),
+    missingDataBox: document.getElementById('missingDataBox'),
+    profileId: document.getElementById('profileId'),
+    profileType: document.getElementById('profileType'),
+    profileBusiness: document.getElementById('profileBusiness'),
+    profileOwner: document.getElementById('profileOwner'),
+    profilePhone: document.getElementById('profilePhone'),
+    profileEmail: document.getElementById('profileEmail'),
+    summaryType: document.getElementById('summaryType'),
+    summaryName: document.getElementById('summaryName'),
+    summaryPlan: document.getElementById('summaryPlan'),
+    summaryMethod: document.getElementById('summaryMethod'),
+    summaryAmount: document.getElementById('summaryAmount'),
+    paymentOverlay: document.getElementById('paymentOverlay'),
+    modalTitle: document.getElementById('modalTitle'),
+    modalSubtitle: document.getElementById('modalSubtitle'),
+    modalPlan: document.getElementById('modalPlan'),
+    modalAmount: document.getElementById('modalAmount'),
+    modalMethod: document.getElementById('modalMethod'),
+    modalState: document.getElementById('modalState'),
+    presentialBox: document.getElementById('presentialBox'),
+    stepsList: document.getElementById('stepsList'),
+    primaryActionBtn: document.getElementById('primaryActionBtn'),
+    secondaryActionBtn: document.getElementById('secondaryActionBtn'),
+    btnCloseModal: document.getElementById('btnCloseModal'),
+    statusMsg: document.getElementById('statusMsg'),
+    content: document.querySelector('.content')
+  };
+
+  function normalizeText(value) {
+    return (value || '').toString().trim();
+  }
+
+  function formatAmount(value) {
+    var num = Number(value || 0);
+    return '$' + num.toLocaleString('es-AR');
+  }
+
+  function pluralMes(meses) {
+    var n = Number(meses || 0);
+    return n === 1 ? 'mes' : 'meses';
+  }
+
+  function tituloActivacion(meses) {
+    var n = Number(meses || 0);
+    return 'Activación por ' + n + ' ' + pluralMes(n);
+  }
+
+  function textoVigencia(meses) {
+    var n = Number(meses || 0);
+    return 'Vigencia por ' + n + ' ' + pluralMes(n);
+  }
+
+  function descripcionPorMeses(meses) {
+    var n = Number(meses || 0);
+    return 'Ideal para empezar y quedar visible dentro de la plataforma durante ' + n + ' ' + pluralMes(n) + '.';
+  }
+
+  function getPlanBadge(plan) {
+    var id = normalizeText(plan.id_plan).toLowerCase();
+    if (id === 'anual_promo') return 'Promo lanzamiento disponible ahora';
+    return plan.nombre || 'Plan de membresía';
+  }
+
+  function getPlanLabel(plan) {
+    return plan && plan.nombre ? plan.nombre : '-';
+  }
+
+  function getPlanBenefits(plan, annualNormalAmount) {
+    var n = Number(plan.meses || 0);
+    var benefits = [
+      textoVigencia(n),
+      'Misma visibilidad y funciones',
+      'Renovación simple al vencimiento'
+    ];
+
+    if (normalizeText(plan.id_plan).toLowerCase() === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
+      benefits[2] = 'Ahorrás ' + formatAmount(annualNormalAmount - Number(plan.importe || 0));
+    }
+
+    return benefits;
+  }
+
+  function getPlanOldAmount(plan, annualNormalAmount) {
+    var id = normalizeText(plan.id_plan).toLowerCase();
+    if (id === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
+      return formatAmount(annualNormalAmount);
+    }
+    return '';
+  }
+
+  function getPlanDiscountText(plan, annualNormalAmount) {
+    var id = normalizeText(plan.id_plan).toLowerCase();
+    if (id === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
+      return 'Bonificación -' + formatAmount(annualNormalAmount - Number(plan.importe || 0));
+    }
+    return '';
+  }
+
+  function mapPlanFromBackend(plan) {
+    return {
+      id_plan: normalizeText(plan.id_plan),
+      nombre: normalizeText(plan.nombre),
+      meses: Number(plan.meses || 0),
+      importe: Number(plan.importe || 0),
+      activo: plan.activo !== false,
+      orden: Number(plan.orden || 0)
     };
+  }
 
-    const STATE = {
-      selectedPlan: null,
-      selectedMethod: null,
-      currentSelection: null,
-      confirmMode: 'confirm',
-      isSubmitting: false,
-      membershipSaved: false,
-      paymentUrl: '',
-      memberData: null,
-      plans: [],
-      plansMap: {}
-    };
-
-    const els = {
-      btnBack: document.getElementById('btnBack'),
-      btnCancel: document.getElementById('btnCancel'),
-      btnContinue: document.getElementById('btnContinue'),
-      plansGrid: document.getElementById('plansGrid'),
-      methodsGrid: document.getElementById('methodsGrid'),
-      noticeSuccess: document.getElementById('noticeSuccess'),
-      noticeWarning: document.getElementById('noticeWarning'),
-      noticeError: document.getElementById('noticeError'),
-      missingDataBox: document.getElementById('missingDataBox'),
-      profileId: document.getElementById('profileId'),
-      profileType: document.getElementById('profileType'),
-      profileBusiness: document.getElementById('profileBusiness'),
-      profileOwner: document.getElementById('profileOwner'),
-      profilePhone: document.getElementById('profilePhone'),
-      profileEmail: document.getElementById('profileEmail'),
-      summaryType: document.getElementById('summaryType'),
-      summaryName: document.getElementById('summaryName'),
-      summaryPlan: document.getElementById('summaryPlan'),
-      summaryMethod: document.getElementById('summaryMethod'),
-      summaryAmount: document.getElementById('summaryAmount'),
-      paymentOverlay: document.getElementById('paymentOverlay'),
-      modalTitle: document.getElementById('modalTitle'),
-      modalSubtitle: document.getElementById('modalSubtitle'),
-      modalPlan: document.getElementById('modalPlan'),
-      modalAmount: document.getElementById('modalAmount'),
-      modalMethod: document.getElementById('modalMethod'),
-      modalState: document.getElementById('modalState'),
-      presentialBox: document.getElementById('presentialBox'),
-      stepsList: document.getElementById('stepsList'),
-      primaryActionBtn: document.getElementById('primaryActionBtn'),
-      secondaryActionBtn: document.getElementById('secondaryActionBtn'),
-      btnCloseModal: document.getElementById('btnCloseModal'),
-      statusMsg: document.getElementById('statusMsg'),
-      content: document.querySelector('.content')
-    };
-
-    function normalizeText(value) {
-      return (value || '').toString().trim();
+  function showNotice(type, message) {
+    var boxes = [els.noticeSuccess, els.noticeWarning, els.noticeError];
+    for (var i = 0; i < boxes.length; i++) {
+      boxes[i].classList.remove('show');
+      boxes[i].textContent = '';
     }
 
-    function formatAmount(value) {
-      const num = Number(value || 0);
-      return '$' + num.toLocaleString('es-AR');
-    }
+    var target = els.noticeError;
+    if (type === 'success') target = els.noticeSuccess;
+    if (type === 'warning') target = els.noticeWarning;
 
-    function pluralMes(meses) {
-      const n = Number(meses || 0);
-      return n === 1 ? 'mes' : 'meses';
-    }
+    target.textContent = message;
+    target.classList.add('show');
+  }
 
-    function tituloActivacion(meses) {
-      const n = Number(meses || 0);
-      return 'Activación por ' + n + ' ' + pluralMes(n);
-    }
+  function getActiveEntries(obj, enforceFlag) {
+    var entries = Object.entries(obj).sort(function(a, b) {
+      return (a[1].order || 99) - (b[1].order || 99);
+    });
 
-    function textoVigencia(meses) {
-      const n = Number(meses || 0);
-      return 'Vigencia por ' + n + ' ' + pluralMes(n);
-    }
+    if (!enforceFlag) return entries;
 
-    function descripcionPorMeses(meses) {
-      const n = Number(meses || 0);
-      return 'Ideal para empezar y quedar visible dentro de la plataforma durante ' + n + ' ' + pluralMes(n) + '.';
-    }
+    return entries.filter(function(entry) {
+      return entry[1].active !== false;
+    });
+  }
 
-    function getPlanBadge(plan) {
-      const id = normalizeText(plan.id_plan).toLowerCase();
-      if (id === 'anual_promo') return 'Promo lanzamiento disponible ahora';
-      return plan.nombre || 'Plan de membresía';
-    }
+  function getPlanByKey(key) {
+    return key ? (STATE.plansMap[key] || null) : null;
+  }
 
-    function getPlanLabel(plan) {
-      return plan.nombre || '-';
-    }
+  function getMethodByKey(key) {
+    return key ? (CONFIG.methods[key] || null) : null;
+  }
 
-    function getPlanBenefits(plan, annualNormalAmount) {
-      const n = Number(plan.meses || 0);
-      const benefits = [
-        textoVigencia(n),
-        'Misma visibilidad y funciones',
-        'Renovación simple al vencimiento'
-      ];
-
-      if (normalizeText(plan.id_plan).toLowerCase() === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
-        benefits[2] = 'Ahorrás ' + formatAmount(annualNormalAmount - Number(plan.importe || 0));
-      }
-
-      return benefits;
-    }
-
-    function getPlanOldAmount(plan, annualNormalAmount) {
-      const id = normalizeText(plan.id_plan).toLowerCase();
-      if (id === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
-        return formatAmount(annualNormalAmount);
-      }
-      return '';
-    }
-
-    function getPlanDiscountText(plan, annualNormalAmount) {
-      const id = normalizeText(plan.id_plan).toLowerCase();
-      if (id === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
-        return 'Bonificación -' + formatAmount(annualNormalAmount - Number(plan.importe || 0));
-      }
-      return '';
-    }
-
-    function mapPlanFromBackend(plan) {
-      return {
-        id_plan: normalizeText(plan.id_plan),
-        nombre: normalizeText(plan.nombre),
-        meses: Number(plan.meses || 0),
-        importe: Number(plan.importe || 0),
-        activo: plan.activo !== false,
-        orden: Number(plan.orden || 0)
-      };
-    }
-
-    function showNotice(type, message) {
-      [els.noticeSuccess, els.noticeWarning, els.noticeError].forEach((box) => {
-        box.classList.remove('show');
-        box.textContent = '';
+  function scrollToElement(el) {
+    if (!el) return;
+    setTimeout(function() {
+      el.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
+    }, 120);
+  }
 
-      const target = type === 'success'
-        ? els.noticeSuccess
-        : type === 'warning'
-          ? els.noticeWarning
-          : els.noticeError;
-
-      target.textContent = message;
-      target.classList.add('show');
+  function updateContinueButtonLabel() {
+    if (STATE.selectedMethod === 'mercado_pago') {
+      els.btnContinue.textContent = 'Pagar online';
+      return;
     }
+    els.btnContinue.textContent = 'Continuar';
+  }
 
-    function getActiveEntries(obj, enforceFlag) {
-      const entries = Object.entries(obj).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
-      if (!enforceFlag) return entries;
-      return entries.filter(([, item]) => item.active !== false);
-    }
+  function prepareCurrentSelection() {
+    var plan = getPlanByKey(STATE.selectedPlan);
+    var method = getMethodByKey(STATE.selectedMethod);
 
-    function getPlanByKey(key) {
-      return key ? STATE.plansMap[key] || null : null;
-    }
+    if (!plan || !method) return false;
 
-    function getMethodByKey(key) {
-      return key ? CONFIG.methods[key] || null : null;
-    }
+    STATE.currentSelection = {
+      planKey: STATE.selectedPlan,
+      methodKey: STATE.selectedMethod,
+      plan: plan,
+      method: method
+    };
 
-    function scrollToElement(el) {
-      if (!el) return;
-      setTimeout(() => {
-        el.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 120);
-    }
+    STATE.confirmMode = 'confirm';
+    STATE.paymentUrl = '';
+    return true;
+  }
 
-    function updateContinueButtonLabel() {
-      if (STATE.selectedMethod === 'mercado_pago') {
-        els.btnContinue.textContent = 'Pagar online';
-        return;
-      }
-      els.btnContinue.textContent = 'Continuar';
-    }
+  function getStorageData() {
+    var keys = [
+      'registroPendiente',
+      'conecta2_registro_actual',
+      'conecta2_membresia_data',
+      'registroActualConecta2',
+      'datosComercio',
+      'datosServicio'
+    ];
 
-    function prepareCurrentSelection() {
-      const plan = getPlanByKey(STATE.selectedPlan);
-      const method = getMethodByKey(STATE.selectedMethod);
-
-      if (!plan || !method) return false;
-
-      STATE.currentSelection = {
-        planKey: STATE.selectedPlan,
-        methodKey: STATE.selectedMethod,
-        plan,
-        method
-      };
-
-      STATE.confirmMode = 'confirm';
-      STATE.paymentUrl = '';
-      return true;
-    }
-
-    async function submitOnlinePaymentDirect() {
-      if (!hasRequiredMemberData(STATE.memberData)) {
-        showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
-        return;
-      }
-
-      if (!STATE.selectedPlan || !STATE.selectedMethod) {
-        showNotice('warning', 'Elegí un plan y una forma de pago antes de continuar.');
-        return;
-      }
-
-      if (STATE.selectedMethod !== 'mercado_pago') return;
-      if (!prepareCurrentSelection()) return;
-      if (STATE.isSubmitting || STATE.membershipSaved) return;
+    for (var i = 0; i < keys.length; i++) {
+      var raw = sessionStorage.getItem(keys[i]) || localStorage.getItem(keys[i]);
+      if (!raw) continue;
 
       try {
-        setLoading(true);
-        showNotice('warning', 'Registrando solicitud y preparando el pago online...');
+        var parsed = JSON.parse(raw);
+        return {
+          id_registro: normalizeText(parsed.id_registro || parsed.id || parsed.idRegistro),
+          tipo_registro: normalizeText(parsed.tipo_registro || parsed.tipo),
+          nombre_negocio: normalizeText(parsed.nombre_negocio || parsed.nombreComercio || parsed.nombreServicio || parsed.nombre_servicio || parsed.nombre || parsed.razonSocial),
+          titular: normalizeText(parsed.titular || parsed.responsable || parsed.nombre_titular || parsed.nombre || parsed.nombreComercio || parsed.nombreServicio),
+          telefono: normalizeText(parsed.telefono || parsed.whatsapp || parsed.celular || parsed.telefonoAlternativo),
+          email: normalizeText(parsed.email || parsed.correo)
+        };
+      } catch (e) {}
+    }
 
-        if (!CONFIG.appsScriptUrl || CONFIG.appsScriptUrl.includes('PEGAR_AQUI')) {
-          throw new Error('Falta configurar la URL del Apps Script.');
-        }
+    return null;
+  }
 
-        const payload = buildPayload();
+  function resolveMemberData() {
+    var params = new URLSearchParams(window.location.search);
 
-        const response = await fetch(CONFIG.appsScriptUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify(payload)
+    var data = {
+      id_registro: normalizeText(params.get("id_registro") || params.get("id") || params.get("registro")),
+      tipo_registro: normalizeText(params.get("tipo_registro") || params.get("tipo")),
+      nombre_negocio: normalizeText(params.get("nombre_negocio") || params.get("negocio") || params.get("nombreComercio") || params.get("nombre_servicio") || params.get("nombre")),
+      titular: normalizeText(params.get("titular") || params.get("responsable") || params.get("nombre_titular")),
+      telefono: normalizeText(params.get("telefono") || params.get("whatsapp") || params.get("celular")),
+      email: normalizeText(params.get("email") || params.get("correo"))
+    };
+
+    if (
+      data.id_registro &&
+      data.tipo_registro &&
+      data.nombre_negocio &&
+      data.titular &&
+      data.telefono &&
+      data.email
+    ) {
+      return data;
+    }
+
+    var storageData = getStorageData();
+    if (storageData) return storageData;
+
+    return {
+      id_registro: "",
+      tipo_registro: "",
+      nombre_negocio: "",
+      titular: "",
+      telefono: "",
+      email: ""
+    };
+  }
+
+  function hasRequiredMemberData(data) {
+    return !!(data && data.tipo_registro && data.nombre_negocio && data.titular && data.telefono && data.email);
+  }
+
+  function getRegistrationLabel(data) {
+    var type = normalizeText(data && data.tipo_registro).toLowerCase();
+    if (type.indexOf('serv') >= 0) return 'Servicio';
+    if (type.indexOf('com') >= 0) return 'Comercio';
+    if (type.indexOf('prof') >= 0) return 'Profesional';
+    if (type.indexOf('sal') >= 0) return 'Salud';
+    return (data && data.tipo_registro) || '-';
+  }
+
+  function fillProfileBox() {
+    STATE.memberData = resolveMemberData();
+    var valid = hasRequiredMemberData(STATE.memberData);
+
+    els.profileId.textContent = STATE.memberData.id_registro || 'Se asignará automáticamente';
+    els.profileType.textContent = getRegistrationLabel(STATE.memberData);
+    els.profileBusiness.textContent = STATE.memberData.nombre_negocio || '-';
+    els.profileOwner.textContent = STATE.memberData.titular || '-';
+    els.profilePhone.textContent = STATE.memberData.telefono || '-';
+    els.profileEmail.textContent = STATE.memberData.email || '-';
+
+    els.summaryType.textContent = getRegistrationLabel(STATE.memberData);
+    els.summaryName.textContent = STATE.memberData.nombre_negocio || '-';
+
+    if (!valid) {
+      els.missingDataBox.classList.add('show');
+      showNotice('warning', 'Primero tenés que llegar a esta pantalla desde el formulario con los datos reales cargados.');
+    } else {
+      els.missingDataBox.classList.remove('show');
+    }
+  }
+
+  async function loadPlans() {
+    var fallback = CONFIG.fallbackPlans
+      .slice()
+      .sort(function(a, b) { return (a.orden || 99) - (b.orden || 99); })
+      .map(mapPlanFromBackend);
+
+    try {
+      var response = await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify({
+          action: 'listarPlanesMembresiaActivos'
+        })
+      });
+
+      var text = await response.text();
+      var result = null;
+
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        result = null;
+      }
+
+      if (!response.ok || !result || result.ok !== true || !Array.isArray(result.planes) || !result.planes.length) {
+        throw new Error('No se pudieron cargar los planes dinámicos.');
+      }
+
+      STATE.plans = result.planes
+        .map(mapPlanFromBackend)
+        .filter(function(plan) { return plan.activo !== false; })
+        .sort(function(a, b) { return (a.orden || 99) - (b.orden || 99); });
+    } catch (error) {
+      console.warn('Usando planes fallback:', error);
+      STATE.plans = fallback;
+      showNotice('warning', 'No se pudieron cargar los planes actualizados. Se muestran los planes de respaldo.');
+    }
+
+    STATE.plansMap = {};
+    for (var i = 0; i < STATE.plans.length; i++) {
+      STATE.plansMap[STATE.plans[i].id_plan] = STATE.plans[i];
+    }
+  }
+
+  function renderPlans() {
+    var annualNormal = null;
+    for (var i = 0; i < STATE.plans.length; i++) {
+      if (normalizeText(STATE.plans[i].id_plan).toLowerCase() === 'anual') {
+        annualNormal = STATE.plans[i];
+        break;
+      }
+    }
+
+    var annualNormalAmount = annualNormal ? Number(annualNormal.importe || 0) : 0;
+    els.plansGrid.innerHTML = '';
+
+    for (var p = 0; p < STATE.plans.length; p++) {
+      var plan = STATE.plans[p];
+      var card = document.createElement('div');
+      card.className = 'plan-card';
+      card.dataset.plan = plan.id_plan;
+
+      var oldAmountText = getPlanOldAmount(plan, annualNormalAmount);
+      var discountText = getPlanDiscountText(plan, annualNormalAmount);
+      var benefits = getPlanBenefits(plan, annualNormalAmount);
+      var benefitsHtml = '';
+
+      for (var b = 0; b < benefits.length; b++) {
+        benefitsHtml += '<div class="plan-item"><span class="dot"></span><span>' + benefits[b] + '</span></div>';
+      }
+
+      card.innerHTML =
+        '<div class="plan-badge">' + getPlanBadge(plan) + '</div>' +
+        '<h2 class="plan-title">' + tituloActivacion(plan.meses) + '</h2>' +
+        '<p class="plan-desc">' + descripcionPorMeses(plan.meses) + '</p>' +
+        ((oldAmountText || discountText)
+          ? '<div class="price-row">' +
+              (oldAmountText ? '<div class="price-old">' + oldAmountText + '</div>' : '') +
+              (discountText ? '<div class="discount">' + discountText + '</div>' : '') +
+            '</div>'
+          : '') +
+        '<div class="price-big">' + formatAmount(plan.importe) + '</div>' +
+        '<div class="plan-list">' + benefitsHtml + '</div>' +
+        '<button type="button" class="select-plan-btn">Elegir este plan</button>';
+
+      (function(planId, currentCard) {
+        currentCard.addEventListener('click', function() {
+          selectPlan(planId);
         });
 
-        const responseText = await response.text();
-        let result;
+        currentCard.querySelector('.select-plan-btn').addEventListener('click', function(event) {
+          event.stopPropagation();
+          selectPlan(planId);
+        });
+      })(plan.id_plan, card);
 
-        try {
-          result = JSON.parse(responseText);
-        } catch (parseError) {
-          throw new Error('La respuesta del servidor no tiene formato válido.');
-        }
+      els.plansGrid.appendChild(card);
+    }
+  }
 
-        if (!response.ok || result.ok === false) {
-          throw new Error(result.error || 'No se pudo registrar la solicitud.');
-        }
+  function renderMethods() {
+    var methods = getActiveEntries(CONFIG.methods, CONFIG.adminConfig.allowOnlyActiveMethods);
+    els.methodsGrid.innerHTML = '';
 
-        STATE.membershipSaved = true;
-        persistLastMembership(payload);
+    for (var i = 0; i < methods.length; i++) {
+      var key = methods[i][0];
+      var method = methods[i][1];
+      var card = document.createElement('div');
+      card.className = 'method-card';
+      card.dataset.method = key;
 
-        const paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
-        if (!paymentUrl || !/^https?:\/\//i.test(paymentUrl)) {
+      card.innerHTML =
+        '<div class="method-chip">' + (method.icon || '•') + '</div>' +
+        '<div class="method-title">' + method.label + '</div>' +
+        '<p class="method-desc">Seleccioná esta opción para continuar.</p>' +
+        '<button type="button" class="method-btn ' + (method.buttonClass || '') + '">' + method.label + '</button>' +
+        '<div class="method-caption">' + (method.hint || '') + '</div>';
+
+      (function(methodKey, currentCard) {
+        currentCard.addEventListener('click', function() {
+          selectMethod(methodKey);
+        });
+
+        currentCard.querySelector('.method-btn').addEventListener('click', function(event) {
+          event.stopPropagation();
+          selectMethod(methodKey);
+        });
+      })(key, card);
+
+      els.methodsGrid.appendChild(card);
+    }
+  }
+
+  function selectPlan(planKey) {
+    STATE.selectedPlan = planKey;
+
+    document.querySelectorAll('.plan-card').forEach(function(card) {
+      var active = card.dataset.plan === planKey;
+      card.classList.toggle('selected', active);
+      var btn = card.querySelector('.select-plan-btn');
+      if (btn) btn.classList.toggle('selected', active);
+    });
+
+    updateSummary();
+    updateContinueState();
+    updateContinueButtonLabel();
+    scrollToElement(els.methodsGrid);
+  }
+
+  function selectMethod(methodKey) {
+    STATE.selectedMethod = methodKey;
+
+    document.querySelectorAll('.method-card').forEach(function(card) {
+      card.classList.toggle('selected', card.dataset.method === methodKey);
+    });
+
+    updateSummary();
+    updateContinueState();
+    updateContinueButtonLabel();
+    scrollToElement(els.btnContinue);
+  }
+
+  function updateSummary() {
+    var plan = getPlanByKey(STATE.selectedPlan);
+    var method = getMethodByKey(STATE.selectedMethod);
+
+    els.summaryType.textContent = getRegistrationLabel(STATE.memberData);
+    els.summaryName.textContent = STATE.memberData && STATE.memberData.nombre_negocio ? STATE.memberData.nombre_negocio : '-';
+    els.summaryPlan.textContent = plan ? getPlanLabel(plan) : '-';
+    els.summaryMethod.textContent = method ? method.label : '-';
+    els.summaryAmount.textContent = plan ? formatAmount(plan.importe) : '-';
+  }
+
+  function updateContinueState() {
+    var memberValid = hasRequiredMemberData(STATE.memberData);
+    els.btnContinue.disabled = !(memberValid && STATE.selectedPlan && STATE.selectedMethod) || STATE.isSubmitting;
+  }
+
+  function buildModalSubtitle(methodKey, plan) {
+    if (methodKey === 'mercado_pago') {
+      return 'Elegiste pago online para activar ' + getPlanLabel(plan).toLowerCase() + '. Al continuar, se va a registrar la solicitud y después vas a ir al enlace de pago.';
+    }
+
+    if (methodKey === 'transferencia') {
+      return 'Elegiste transferencia bancaria para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el pago.';
+    }
+
+    return 'Elegiste pago en efectivo para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el cobro.';
+  }
+
+  function buildSteps(methodKey) {
+    var items;
+
+    if (methodKey === 'mercado_pago') {
+      items = [
+        'Primero se registrará la solicitud de membresía en Conecta2.',
+        'Después se abrirá el enlace de pago seguro para completar la operación online.',
+        'La solicitud quedará creada con estado pendiente de pago hasta la acreditación.'
+      ];
+    } else if (methodKey === 'transferencia') {
+      items = [
+        'Se registrará la solicitud de membresía con estado pendiente de validación.',
+        'Esta alternativa aplica únicamente para pagos presenciales.',
+        'Después de confirmar el pago, la membresía podrá activarse.'
+      ];
+    } else {
+      items = [
+        'Se registrará la solicitud de membresía con estado pendiente de validación.',
+        'Esta alternativa aplica únicamente para pagos presenciales.',
+        'Después de confirmar el cobro, la membresía podrá activarse.'
+      ];
+    }
+
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      html += '<li>' + items[i] + '</li>';
+    }
+    return html;
+  }
+
+  function openModal() {
+    if (!prepareCurrentSelection()) return;
+
+    var plan = STATE.currentSelection.plan;
+    var method = STATE.currentSelection.method;
+
+    els.modalTitle.textContent = 'Confirmar activación';
+    els.modalSubtitle.textContent = buildModalSubtitle(STATE.selectedMethod, plan);
+    els.modalPlan.textContent = getPlanLabel(plan);
+    els.modalAmount.textContent = formatAmount(plan.importe);
+    els.modalMethod.textContent = method.label;
+    els.modalState.textContent = method.initialState;
+    els.stepsList.innerHTML = buildSteps(STATE.selectedMethod);
+    els.presentialBox.style.display = STATE.selectedMethod === 'mercado_pago' ? 'none' : 'block';
+    els.primaryActionBtn.textContent = 'Confirmar';
+    els.secondaryActionBtn.textContent = 'Cancelar';
+
+    resetStatus();
+    setLoading(false);
+
+    els.paymentOverlay.classList.add('show');
+    els.paymentOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (STATE.isSubmitting) return;
+    els.paymentOverlay.classList.remove('show');
+    els.paymentOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    resetStatus();
+  }
+
+  function handleOverlayClick(event) {
+    if (event.target === els.paymentOverlay) closeModal();
+  }
+
+  function showStatus(message, type) {
+    els.statusMsg.textContent = message;
+    els.statusMsg.className = 'status-msg show ' + (type || 'ok');
+  }
+
+  function resetStatus() {
+    els.statusMsg.textContent = '';
+    els.statusMsg.className = 'status-msg';
+  }
+
+  function setLoading(flag) {
+    STATE.isSubmitting = flag;
+    els.primaryActionBtn.disabled = flag;
+    els.secondaryActionBtn.disabled = flag;
+    els.btnContinue.disabled = flag || !(hasRequiredMemberData(STATE.memberData) && STATE.selectedPlan && STATE.selectedMethod);
+
+    document.querySelectorAll('.select-plan-btn, .method-btn').forEach(function(btn) {
+      btn.disabled = flag;
+    });
+
+    if (els.content) {
+      els.content.classList.toggle('loading-soft', flag);
+    }
+  }
+
+  function buildPayload() {
+    var plan = STATE.currentSelection.plan;
+    var method = STATE.currentSelection.method;
+
+    return {
+      action: 'crearSolicitudMembresia',
+      action_alias: 'registrarMembresia',
+      id_registro: STATE.memberData.id_registro,
+      tipo_registro: STATE.memberData.tipo_registro,
+      nombre_negocio: STATE.memberData.nombre_negocio,
+      titular: STATE.memberData.titular,
+      telefono: STATE.memberData.telefono,
+      email: STATE.memberData.email,
+      plan: STATE.currentSelection.planKey,
+      plan_label: getPlanLabel(plan),
+      plan_nombre: tituloActivacion(plan.meses),
+      monto: Number(plan.importe || 0),
+      monto_texto: formatAmount(plan.importe),
+      medio_pago: STATE.currentSelection.methodKey,
+      medio_pago_label: method.label,
+      estado_inicial: method.initialState,
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  function persistLastMembership(payload) {
+    try {
+      sessionStorage.setItem('membresiaPendiente', JSON.stringify(payload));
+    } catch (error) {}
+  }
+
+  function setModalFinal(message, buttonText) {
+    STATE.confirmMode = 'final';
+    els.modalTitle.textContent = 'Solicitud registrada';
+    els.modalSubtitle.textContent = message;
+    els.primaryActionBtn.textContent = buttonText;
+    els.secondaryActionBtn.textContent = 'Cerrar';
+  }
+
+  async function submitOnlinePaymentDirect() {
+    if (!hasRequiredMemberData(STATE.memberData)) {
+      showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
+      return;
+    }
+
+    if (!STATE.selectedPlan || !STATE.selectedMethod) {
+      showNotice('warning', 'Elegí un plan y una forma de pago antes de continuar.');
+      return;
+    }
+
+    if (STATE.selectedMethod !== 'mercado_pago') return;
+    if (!prepareCurrentSelection()) return;
+    if (STATE.isSubmitting || STATE.membershipSaved) return;
+
+    try {
+      setLoading(true);
+      showNotice('warning', 'Registrando solicitud y preparando el pago online...');
+
+      var payload = buildPayload();
+
+      var response = await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      var responseText = await response.text();
+      var result;
+
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        throw new Error('La respuesta del servidor no tiene formato válido.');
+      }
+
+      if (!response.ok || result.ok === false) {
+        throw new Error(result.error || 'No se pudo registrar la solicitud.');
+      }
+
+      STATE.membershipSaved = true;
+      persistLastMembership(payload);
+
+      var paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
+      if (!paymentUrl || !/^https?:\/\//i.test(paymentUrl)) {
+        throw new Error('El servidor no devolvió un enlace de pago válido.');
+      }
+
+      window.location.href = paymentUrl;
+    } catch (error) {
+      console.error('ERROR COMPLETO:', error);
+      showNotice('error', error && error.message ? error.message : 'No se pudo iniciar el pago online.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function confirmPaymentAction() {
+    if (!STATE.currentSelection) return;
+
+    if (STATE.confirmMode === 'final') {
+      finalizeFlow();
+      return;
+    }
+
+    if (STATE.isSubmitting || STATE.membershipSaved) return;
+
+    try {
+      setLoading(true);
+      showStatus('Registrando solicitud...', 'ok');
+
+      var payload = buildPayload();
+      var response = await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      var responseText = await response.text();
+      var result;
+
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        throw new Error('La respuesta del servidor no tiene formato válido.');
+      }
+
+      if (!response.ok || result.ok === false) {
+        throw new Error(result.error || 'No se pudo registrar la solicitud.');
+      }
+
+      STATE.membershipSaved = true;
+      persistLastMembership(payload);
+      showNotice('success', 'Solicitud registrada correctamente para ' + (STATE.memberData.nombre_negocio || 'tu perfil') + '.');
+
+      if (STATE.currentSelection.methodKey === 'mercado_pago') {
+        STATE.paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
+        if (!STATE.paymentUrl || !/^https?:\/\//i.test(STATE.paymentUrl)) {
           throw new Error('El servidor no devolvió un enlace de pago válido.');
         }
 
-        window.location.href = paymentUrl;
-      } catch (error) {
-        console.error('ERROR COMPLETO:', error);
-        showNotice('error', error && error.message ? error.message : 'No se pudo iniciar el pago online.');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    function resolveMemberData() {
-      const params = new URLSearchParams(window.location.search);
-
-      const data = {
-        id_registro: params.get("id_registro") || "",
-        tipo_registro: params.get("tipo_registro") || "",
-        nombre_negocio: params.get("nombre_negocio") || "",
-        titular: params.get("titular") || "",
-        telefono: params.get("telefono") || "",
-        email: params.get("email") || ""
-      };
-
-      if (
-        data.id_registro &&
-        data.tipo_registro &&
-        data.nombre_negocio &&
-        data.titular &&
-        data.telefono &&
-        data.email
-      ) {
-        return data;
+        showStatus('Solicitud registrada. Ahora podés ir al enlace de pago seguro.', 'ok');
+        setModalFinal('Tu solicitud quedó registrada. Ahora seguí con el pago online para completar la activación.', STATE.currentSelection.method.finalButtonText || 'Ir a pagar');
+        return;
       }
 
-      return {
-        id_registro: "",
-        tipo_registro: "",
-        nombre_negocio: "",
-        titular: "",
-        telefono: "",
-        email: ""
-      };
-    }
-
-    function hasRequiredMemberData(data) {
-      return !!(data && data.tipo_registro && data.nombre_negocio && data.titular && data.telefono && data.email);
-    }
-
-    function getRegistrationLabel(data) {
-      const type = normalizeText(data?.tipo_registro).toLowerCase();
-      if (type.includes('serv')) return 'Servicio';
-      if (type.includes('com')) return 'Comercio';
-      if (type.includes('prof')) return 'Profesional';
-      if (type.includes('sal')) return 'Salud';
-      return data?.tipo_registro || '-';
-    }
-
-    function fillProfileBox() {
-      STATE.memberData = resolveMemberData();
-      const valid = hasRequiredMemberData(STATE.memberData);
-
-      els.profileId.textContent = STATE.memberData.id_registro || 'Se asignará automáticamente';
-      els.profileType.textContent = getRegistrationLabel(STATE.memberData);
-      els.profileBusiness.textContent = STATE.memberData.nombre_negocio || '-';
-      els.profileOwner.textContent = STATE.memberData.titular || '-';
-      els.profilePhone.textContent = STATE.memberData.telefono || '-';
-      els.profileEmail.textContent = STATE.memberData.email || '-';
-
-      els.summaryType.textContent = getRegistrationLabel(STATE.memberData);
-      els.summaryName.textContent = STATE.memberData.nombre_negocio || '-';
-
-      if (!valid) {
-        els.missingDataBox.classList.add('show');
-        showNotice('warning', 'Primero tenés que llegar a esta pantalla desde el formulario con los datos reales cargados.');
+      if (STATE.currentSelection.methodKey === 'transferencia') {
+        showStatus('Elegiste transferencia bancaria. La solicitud quedó pendiente de validación.', 'ok');
       } else {
-        els.missingDataBox.classList.remove('show');
-      }
-    }
-
-    async function loadPlans() {
-      const fallback = CONFIG.fallbackPlans
-        .slice()
-        .sort((a, b) => (a.orden || 99) - (b.orden || 99))
-        .map(mapPlanFromBackend);
-
-      try {
-        const response = await fetch(CONFIG.appsScriptUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'listarPlanesMembresiaActivos'
-          })
-        });
-
-        const text = await response.text();
-        let result = null;
-
-        try {
-          result = JSON.parse(text);
-        } catch (_) {
-          result = null;
-        }
-
-        if (!response.ok || !result || result.ok !== true || !Array.isArray(result.planes) || !result.planes.length) {
-          throw new Error('No se pudieron cargar los planes dinámicos.');
-        }
-
-        STATE.plans = result.planes
-          .map(mapPlanFromBackend)
-          .filter(plan => plan.activo !== false)
-          .sort((a, b) => (a.orden || 99) - (b.orden || 99));
-
-        if (!STATE.plans.length) throw new Error('La lista de planes llegó vacía.');
-      } catch (error) {
-        console.warn('Usando planes fallback:', error);
-        STATE.plans = fallback;
-        showNotice('warning', 'No se pudieron cargar los planes actualizados. Se muestran los planes de respaldo.');
+        showStatus('Elegiste pago en efectivo. La solicitud quedó pendiente de validación.', 'ok');
       }
 
-      STATE.plansMap = {};
-      STATE.plans.forEach(plan => {
-        STATE.plansMap[plan.id_plan] = plan;
-      });
-    }
-
-    function renderPlans() {
-      const annualNormal = STATE.plans.find(plan => normalizeText(plan.id_plan).toLowerCase() === 'anual');
-      const annualNormalAmount = annualNormal ? Number(annualNormal.importe || 0) : 0;
-
-      els.plansGrid.innerHTML = '';
-
-      STATE.plans.forEach((plan) => {
-        const card = document.createElement('div');
-        card.className = 'plan-card';
-        card.dataset.plan = plan.id_plan;
-
-        const oldAmountText = getPlanOldAmount(plan, annualNormalAmount);
-        const discountText = getPlanDiscountText(plan, annualNormalAmount);
-        const benefits = getPlanBenefits(plan, annualNormalAmount);
-
-        const benefitsHtml = benefits.map((item) => `
-          <div class="plan-item"><span class="dot"></span><span>${item}</span></div>
-        `).join('');
-
-        card.innerHTML = `
-          <div class="plan-badge">${getPlanBadge(plan)}</div>
-          <h2 class="plan-title">${tituloActivacion(plan.meses)}</h2>
-          <p class="plan-desc">${descripcionPorMeses(plan.meses)}</p>
-          ${oldAmountText || discountText ? `
-            <div class="price-row">
-              ${oldAmountText ? <div class="price-old">${oldAmountText}</div> : ''}
-              ${discountText ? <div class="discount">${discountText}</div> : ''}
-            </div>
-          ` : ''}
-          <div class="price-big">${formatAmount(plan.importe)}</div>
-          <div class="plan-list">${benefitsHtml}</div>
-          <button type="button" class="select-plan-btn">Elegir este plan</button>
-        `;
-
-        card.addEventListener('click', () => selectPlan(plan.id_plan));
-        card.querySelector('.select-plan-btn').addEventListener('click', (event) => {
-          event.stopPropagation();
-          selectPlan(plan.id_plan);
-        });
-
-        els.plansGrid.appendChild(card);
-      });
-    }
-
-    function renderMethods() {
-      const methods = getActiveEntries(CONFIG.methods, CONFIG.adminConfig.allowOnlyActiveMethods);
-      els.methodsGrid.innerHTML = '';
-
-      methods.forEach(([key, method]) => {
-        const card = document.createElement('div');
-        card.className = 'method-card';
-        card.dataset.method = key;
-
-        card.innerHTML = `
-          <div class="method-chip">${method.icon || '•'}</div>
-          <div class="method-title">${method.label}</div>
-          <p class="method-desc">Seleccioná esta opción para continuar.</p>
-          <button type="button" class="method-btn ${method.buttonClass || ''}">${method.label}</button>
-          <div class="method-caption">${method.hint || ''}</div>
-        `;
-
-        card.addEventListener('click', () => selectMethod(key));
-        card.querySelector('.method-btn').addEventListener('click', (event) => {
-          event.stopPropagation();
-          selectMethod(key);
-        });
-
-        els.methodsGrid.appendChild(card);
-      });
-    }
-
-    function selectPlan(planKey) {
-      STATE.selectedPlan = planKey;
-
-      document.querySelectorAll('.plan-card').forEach((card) => {
-        const active = card.dataset.plan === planKey;
-        card.classList.toggle('selected', active);
-        const btn = card.querySelector('.select-plan-btn');
-        if (btn) btn.classList.toggle('selected', active);
-      });
-
-      updateSummary();
-      updateContinueState();
-      updateContinueButtonLabel();
-      scrollToElement(els.methodsGrid);
-    }
-
-    function selectMethod(methodKey) {
-      STATE.selectedMethod = methodKey;
-
-      document.querySelectorAll('.method-card').forEach((card) => {
-        card.classList.toggle('selected', card.dataset.method === methodKey);
-      });
-
-      updateSummary();
-      updateContinueState();
-      updateContinueButtonLabel();
-      scrollToElement(els.btnContinue);
-    }
-
-    function updateSummary() {
-      const plan = getPlanByKey(STATE.selectedPlan);
-      const method = getMethodByKey(STATE.selectedMethod);
-
-      els.summaryType.textContent = getRegistrationLabel(STATE.memberData);
-      els.summaryName.textContent = STATE.memberData?.nombre_negocio || '-';
-      els.summaryPlan.textContent = plan ? getPlanLabel(plan) : '-';
-      els.summaryMethod.textContent = method ? method.label : '-';
-      els.summaryAmount.textContent = plan ? formatAmount(plan.importe) : '-';
-    }
-
-    function updateContinueState() {
-      const memberValid = hasRequiredMemberData(STATE.memberData);
-      els.btnContinue.disabled = !(memberValid && STATE.selectedPlan && STATE.selectedMethod) || STATE.isSubmitting;
-    }
-
-    function buildModalSubtitle(methodKey, plan) {
-      if (methodKey === 'mercado_pago') {
-        return 'Elegiste pago online para activar ' + getPlanLabel(plan).toLowerCase() + '. Al continuar, se va a registrar la solicitud y después vas a ir al enlace de pago.';
-      }
-
-      if (methodKey === 'transferencia') {
-        return 'Elegiste transferencia bancaria para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el pago.';
-      }
-
-      return 'Elegiste pago en efectivo para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el cobro.';
-    }
-
-    function buildSteps(methodKey) {
-      const items = methodKey === 'mercado_pago'
-        ? [
-            'Primero se registrará la solicitud de membresía en Conecta2.',
-            'Después se abrirá el enlace de pago seguro para completar la operación online.',
-            'La solicitud quedará creada con estado pendiente de pago hasta la acreditación.'
-          ]
-        : methodKey === 'transferencia'
-          ? [
-              'Se registrará la solicitud de membresía con estado pendiente de validación.',
-              'Esta alternativa aplica únicamente para pagos presenciales.',
-              'Después de confirmar el pago, la membresía podrá activarse.'
-            ]
-          : [
-              'Se registrará la solicitud de membresía con estado pendiente de validación.',
-              'Esta alternativa aplica únicamente para pagos presenciales.',
-              'Después de confirmar el cobro, la membresía podrá activarse.'
-            ];
-
-      return items.map((item) => <li>${item}</li>).join('');
-    }
-
-    function openModal() {
-      if (!prepareCurrentSelection()) return;
-
-      const plan = STATE.currentSelection.plan;
-      const method = STATE.currentSelection.method;
-
-      els.modalTitle.textContent = 'Confirmar activación';
-      els.modalSubtitle.textContent = buildModalSubtitle(STATE.selectedMethod, plan);
-      els.modalPlan.textContent = getPlanLabel(plan);
-      els.modalAmount.textContent = formatAmount(plan.importe);
-      els.modalMethod.textContent = method.label;
-      els.modalState.textContent = method.initialState;
-      els.stepsList.innerHTML = buildSteps(STATE.selectedMethod);
-      els.presentialBox.style.display = STATE.selectedMethod === 'mercado_pago' ? 'none' : 'block';
-      els.primaryActionBtn.textContent = 'Confirmar';
-      els.secondaryActionBtn.textContent = 'Cancelar';
-
-      resetStatus();
+      setModalFinal('La solicitud quedó registrada y pendiente de validación. Ahora podés volver al inicio.', STATE.currentSelection.method.finalButtonText || 'Finalizar');
+    } catch (error) {
+      console.error('ERROR COMPLETO:', error);
+      showStatus('Hubo un problema al registrar la solicitud. Detalle: ' + (error && error.message ? error.message : String(error)), 'error');
+      showNotice('error', error && error.message ? error.message : 'No se pudo registrar la solicitud.');
+    } finally {
       setLoading(false);
+    }
+  }
 
-      els.paymentOverlay.classList.add('show');
-      els.paymentOverlay.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+  function finalizeFlow() {
+    var target = CONFIG.redirectIndex || 'index.html';
+    var paymentUrl = STATE.paymentUrl;
+
+    try {
+      sessionStorage.removeItem('registroPendiente');
+    } catch (error) {}
+
+    if (STATE.currentSelection && STATE.currentSelection.methodKey === 'mercado_pago' && paymentUrl) {
+      window.location.href = paymentUrl;
+      return;
     }
 
-    function closeModal() {
-      if (STATE.isSubmitting) return;
-      els.paymentOverlay.classList.remove('show');
-      els.paymentOverlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      resetStatus();
+    window.location.href = target;
+  }
+
+  function goBack() {
+    if (STATE.isSubmitting) return;
+
+    if (document.referrer && document.referrer !== window.location.href) {
+      window.history.back();
+      return;
     }
 
-    function handleOverlayClick(event) {
-      if (event.target === els.paymentOverlay) closeModal();
+    window.location.href = CONFIG.redirectIndex || 'index.html';
+  }
+
+  function aplicarModoRenovacion() {
+    if (!MODO_RENOVACION) return;
+
+    var titulo = document.querySelector(".header-title");
+    if (titulo) titulo.textContent = "Renovar membresía";
+
+    var heroTitle = document.querySelector(".hero-title");
+    if (heroTitle) heroTitle.textContent = "Renová tu membresía";
+
+    var heroText = document.querySelector(".hero-text");
+    if (heroText) {
+      heroText.textContent = "Elegí el plan para renovar tu membresía y mantener tu perfil activo en Conecta2.";
     }
+  }
 
-    function showStatus(message, type) {
-      els.statusMsg.textContent = message;
-      els.statusMsg.className = 'status-msg show ' + (type || 'ok');
-    }
+  function reorderMainButtons() {
+    if (!els.btnContinue || !els.btnCancel) return;
+    var parent = els.btnContinue.parentNode;
+    if (!parent) return;
 
-    function resetStatus() {
-      els.statusMsg.textContent = '';
-      els.statusMsg.className = 'status-msg';
-    }
+    parent.insertBefore(els.btnContinue, els.btnCancel);
+  }
 
-    function setLoading(flag) {
-      STATE.isSubmitting = flag;
-      els.primaryActionBtn.disabled = flag;
-      els.secondaryActionBtn.disabled = flag;
-      els.btnContinue.disabled = flag || !(hasRequiredMemberData(STATE.memberData) && STATE.selectedPlan && STATE.selectedMethod);
-
-      document.querySelectorAll('.select-plan-btn, .method-btn').forEach((btn) => {
-        btn.disabled = flag;
-      });
-
-      els.content.classList.toggle('loading-soft', flag);
-    }
-
-    function buildPayload() {
-      const plan = STATE.currentSelection.plan;
-      const method = STATE.currentSelection.method;
-
-      return {
-        action: 'crearSolicitudMembresia',
-        action_alias: 'registrarMembresia',
-        id_registro: STATE.memberData.id_registro,
-        tipo_registro: STATE.memberData.tipo_registro,
-        nombre_negocio: STATE.memberData.nombre_negocio,
-        titular: STATE.memberData.titular,
-        telefono: STATE.memberData.telefono,
-        email: STATE.memberData.email,
-        plan: STATE.currentSelection.planKey,
-        plan_label: getPlanLabel(plan),
-        plan_nombre: tituloActivacion(plan.meses),
-        monto: Number(plan.importe || 0),
-        monto_texto: formatAmount(plan.importe),
-        medio_pago: STATE.currentSelection.methodKey,
-        medio_pago_label: method.label,
-        estado_inicial: method.initialState,
-        timestamp: new Date().toISOString()
+  function bindEvents() {
+    if (els.btnBack) {
+      els.btnBack.onclick = function() {
+        goBack();
       };
     }
 
-    function persistLastMembership(payload) {
-      try {
-        sessionStorage.setItem('membresiaPendiente', JSON.stringify(payload));
-      } catch (error) {
-        console.warn('No se pudo guardar la membresía pendiente:', error);
-      }
+    if (els.btnCancel) {
+      els.btnCancel.onclick = function() {
+        goBack();
+      };
     }
 
-    function setModalFinal(message, buttonText) {
-      STATE.confirmMode = 'final';
-      els.modalTitle.textContent = 'Solicitud registrada';
-      els.modalSubtitle.textContent = message;
-      els.primaryActionBtn.textContent = buttonText;
-      els.secondaryActionBtn.textContent = 'Cerrar';
-    }
-
-    async function confirmPaymentAction() {
-      if (!STATE.currentSelection) return;
-      if (STATE.confirmMode === 'final') {
-        finalizeFlow();
-        return;
-      }
-      if (STATE.isSubmitting || STATE.membershipSaved) return;
-
-      try {
-        setLoading(true);
-        showStatus('Registrando solicitud...', 'ok');
-
-        if (!CONFIG.appsScriptUrl || CONFIG.appsScriptUrl.includes('PEGAR_AQUI')) {
-          throw new Error('Falta configurar la URL del Apps Script.');
-        }
-
-        const payload = buildPayload();
-        const response = await fetch(CONFIG.appsScriptUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const responseText = await response.text();
-        let result;
-
-        try {
-          result = JSON.parse(responseText);
-        } catch (parseError) {
-          throw new Error('La respuesta del servidor no tiene formato válido.');
-        }
-
-        if (!response.ok || result.ok === false) {
-          throw new Error(result.error || 'No se pudo registrar la solicitud.');
-        }
-
-        STATE.membershipSaved = true;
-        persistLastMembership(payload);
-        showNotice('success', Solicitud registrada correctamente para ${STATE.memberData.nombre_negocio || 'tu perfil'}.);
-
-        if (STATE.currentSelection.methodKey === 'mercado_pago') {
-          STATE.paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
-          if (!STATE.paymentUrl || !/^https?:\/\//i.test(STATE.paymentUrl)) {
-            throw new Error('El servidor no devolvió un enlace de pago válido.');
-          }
-
-          showStatus('Solicitud registrada. Ahora podés ir al enlace de pago seguro.', 'ok');
-          setModalFinal('Tu solicitud quedó registrada. Ahora seguí con el pago online para completar la activación.', STATE.currentSelection.method.finalButtonText || 'Ir a pagar');
-          return;
-        }
-
-        if (STATE.currentSelection.methodKey === 'transferencia') {
-          showStatus('Elegiste transferencia bancaria. La solicitud quedó pendiente de validación.', 'ok');
-        } else {
-          showStatus('Elegiste pago en efectivo. La solicitud quedó pendiente de validación.', 'ok');
-        }
-
-        setModalFinal('La solicitud quedó registrada y pendiente de validación. Ahora podés volver al inicio.', STATE.currentSelection.method.finalButtonText || 'Finalizar');
-      } catch (error) {
-        console.error('ERROR COMPLETO:', error);
-        showStatus('Hubo un problema al registrar la solicitud. Detalle: ' + (error && error.message ? error.message : String(error)), 'error');
-        showNotice('error', error && error.message ? error.message : 'No se pudo registrar la solicitud.');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    function finalizeFlow() {
-      const target = CONFIG.redirectIndex || 'index.html';
-      const paymentUrl = STATE.paymentUrl;
-
-      try {
-        sessionStorage.removeItem('registroPendiente');
-      } catch (error) {
-        console.warn('No se pudo limpiar registroPendiente:', error);
-      }
-
-      if (STATE.currentSelection && STATE.currentSelection.methodKey === 'mercado_pago' && paymentUrl) {
-        window.location.href = paymentUrl;
-        return;
-      }
-
-      window.location.href = target;
-    }
-
-    function goBack() {
-      if (STATE.isSubmitting) return;
-      if (window.history.length > 1) {
-        window.history.back();
-      } else {
-        window.location.href = CONFIG.redirectIndex || 'index.html';
-      }
-    }
-
-    function aplicarModoRenovacion() {
-      if (!MODO_RENOVACION) return;
-
-      const titulo = document.querySelector(".header-title");
-      if (titulo) titulo.textContent = "Renovar membresía";
-
-      const heroTitle = document.querySelector(".hero-title");
-      if (heroTitle) heroTitle.textContent = "Renová tu membresía";
-
-      const heroText = document.querySelector(".hero-text");
-      if (heroText) {
-        heroText.textContent = "Elegí el plan para renovar tu membresía y mantener tu perfil activo en Conecta2.";
-      }
-
-      const box = document.getElementById("missingDataBox");
-      if (box) box.style.display = "none";
-    }
-
-    function bindEvents() {
-      els.btnBack.addEventListener('click', goBack);
-      els.btnCancel.addEventListener('click', goBack);
-
-      els.btnContinue.addEventListener('click', () => {
+    if (els.btnContinue) {
+      els.btnContinue.onclick = function() {
         if (!hasRequiredMemberData(STATE.memberData)) {
           showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
           return;
@@ -1570,25 +1641,43 @@
         }
 
         openModal();
-      });
+      };
+    }
 
-      els.primaryActionBtn.addEventListener('click', confirmPaymentAction);
+    if (els.primaryActionBtn) {
+      els.primaryActionBtn.onclick = function() {
+        confirmPaymentAction();
+      };
+    }
 
-      els.secondaryActionBtn.addEventListener('click', () => {
+    if (els.secondaryActionBtn) {
+      els.secondaryActionBtn.onclick = function() {
         if (STATE.confirmMode === 'final') {
           closeModal();
           window.location.href = CONFIG.redirectIndex || 'index.html';
           return;
         }
         closeModal();
-      });
-
-      els.btnCloseModal.addEventListener('click', closeModal);
-      els.paymentOverlay.addEventListener('click', handleOverlayClick);
+      };
     }
 
-    async function init() {
+    if (els.btnCloseModal) {
+      els.btnCloseModal.onclick = function() {
+        closeModal();
+      };
+    }
+
+    if (els.paymentOverlay) {
+      els.paymentOverlay.onclick = function(event) {
+        handleOverlayClick(event);
+      };
+    }
+  }
+
+  async function init() {
+    try {
       aplicarModoRenovacion();
+      reorderMainButtons();
       fillProfileBox();
       bindEvents();
       renderMethods();
@@ -1597,9 +1686,27 @@
       updateSummary();
       updateContinueState();
       updateContinueButtonLabel();
+    } catch (error) {
+      console.error('Error en init:', error);
+      showNotice('error', 'Se produjo un error al cargar la pantalla de membresía.');
+      try {
+        renderMethods();
+      } catch (_) {}
+      try {
+        STATE.plans = CONFIG.fallbackPlans.map(mapPlanFromBackend);
+        STATE.plansMap = {};
+        for (var i = 0; i < STATE.plans.length; i++) {
+          STATE.plansMap[STATE.plans[i].id_plan] = STATE.plans[i];
+        }
+        renderPlans();
+      } catch (_) {}
+      updateSummary();
+      updateContinueState();
+      updateContinueButtonLabel();
     }
+  }
 
-    init();
-  </script>
+  init();
+</script>
 </body>
 </html>
