@@ -1,9 +1,12 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Activar membresía - Conecta2</title>
-  <meta name="theme-color" content="#07142b" />  <style>
+  <meta name="theme-color" content="#07142b" />
+
+  <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
 
     :root {
@@ -34,10 +37,6 @@
       --error-line: #ffd3d3;
       --shadow: 0 8px 18px rgba(0,0,0,0.08);
       --shadow-strong: 0 20px 50px rgba(0,0,0,0.26);
-      --radius-xl: 32px;
-      --radius-lg: 24px;
-      --radius-md: 18px;
-      --radius-sm: 16px;
     }
 
     * {
@@ -270,11 +269,11 @@
     }
 
     .plan-card.selected,
-.method-card.selected {
-  border-color: #0fa6bb;
-  border-width: 2px;
-  box-shadow: 0 0 0 5px rgba(23, 208, 207, 0.18), 0 12px 26px rgba(16, 182, 210, 0.16);
-}
+    .method-card.selected {
+      border-color: #0fa6bb;
+      border-width: 2px;
+      box-shadow: 0 0 0 5px rgba(23, 208, 207, 0.18), 0 12px 26px rgba(16, 182, 210, 0.16);
+    }
 
     .plan-badge {
       display: inline-flex;
@@ -389,8 +388,8 @@
     }
 
     .select-plan-btn.selected {
-  background: linear-gradient(135deg, #0c89a3, #086e90);
-}
+      background: linear-gradient(135deg, #0c89a3, #086e90);
+    }
 
     .method-card {
       padding: 14px;
@@ -626,7 +625,13 @@
       color: var(--error-text);
       border-color: var(--error-line);
     }
-  </style></head>
+
+    .loading-soft {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  </style>
+</head>
 <body>
   <div class="app">
     <div class="header">
@@ -634,62 +639,65 @@
         <button type="button" id="btnBack" class="back-btn" aria-label="Volver">←</button>
         <div class="header-title">Activar membresía</div>
       </div>
-    </div><div class="content">
-  <div id="noticeSuccess" class="notice success"></div>
-  <div id="noticeWarning" class="notice warning"></div>
-  <div id="noticeError" class="notice error"></div>
+    </div>
 
-  <div class="hero">
-    <h1 class="hero-title">Elegí tu plan y activá tu membresía</h1>
-    <p class="hero-text">
-      Seleccioná un plan, elegí el medio de pago y confirmá la activación de tu perfil en Conecta2.
-    </p>
-  </div>
+    <div class="content">
+      <div id="noticeSuccess" class="notice success"></div>
+      <div id="noticeWarning" class="notice warning"></div>
+      <div id="noticeError" class="notice error"></div>
 
-  <div class="profile-box">
-    <strong>Datos usados para registrar la membresía</strong>
-    <div class="profile-grid">
-      <div class="profile-row"><span>ID registro</span><span id="profileId">-</span></div>
-      <div class="profile-row"><span>Tipo</span><span id="profileType">-</span></div>
-      <div class="profile-row"><span>Negocio</span><span id="profileBusiness">-</span></div>
-      <div class="profile-row"><span>Titular</span><span id="profileOwner">-</span></div>
-      <div class="profile-row"><span>Teléfono</span><span id="profilePhone">-</span></div>
-      <div class="profile-row"><span>Email</span><span id="profileEmail">-</span></div>
+      <div class="hero">
+        <h1 class="hero-title">Elegí tu plan y activá tu membresía</h1>
+        <p class="hero-text">
+          Seleccioná un plan, elegí el medio de pago y confirmá la activación de tu perfil en Conecta2.
+        </p>
+      </div>
+
+      <div class="profile-box">
+        <strong>Datos usados para registrar la membresía</strong>
+        <div class="profile-grid">
+          <div class="profile-row"><span>ID registro</span><span id="profileId">-</span></div>
+          <div class="profile-row"><span>Tipo</span><span id="profileType">-</span></div>
+          <div class="profile-row"><span>Negocio</span><span id="profileBusiness">-</span></div>
+          <div class="profile-row"><span>Titular</span><span id="profileOwner">-</span></div>
+          <div class="profile-row"><span>Teléfono</span><span id="profilePhone">-</span></div>
+          <div class="profile-row"><span>Email</span><span id="profileEmail">-</span></div>
+        </div>
+      </div>
+
+      <div id="missingDataBox" class="missing-data-box">
+        <strong>Atención:</strong> no se detectaron datos reales del registro. Para activar la membresía, esta pantalla debe abrirse con los datos del comercio o servicio ya cargados.
+      </div>
+
+      <h2 class="section-title">1. Elegí tu plan</h2>
+      <div id="plansGrid" class="plans"></div>
+
+      <h2 class="section-title">2. Elegí cómo querés pagar</h2>
+      <div id="methodsGrid" class="methods"></div>
+
+      <div class="summary-box">
+        <strong>Resumen de tu activación</strong>
+        <div class="summary-grid">
+          <div class="summary-row"><span>Registro</span><span id="summaryType">-</span></div>
+          <div class="summary-row"><span>Nombre</span><span id="summaryName">-</span></div>
+          <div class="summary-row"><span>Plan</span><span id="summaryPlan">-</span></div>
+          <div class="summary-row"><span>Pago</span><span id="summaryMethod">-</span></div>
+          <div class="summary-row"><span>Monto</span><span id="summaryAmount">-</span></div>
+        </div>
+      </div>
+
+      <div class="legend-box">
+        <strong>Importante:</strong> el pago online registra la solicitud y luego te lleva al enlace seguro para completar la operación. Transferencia bancaria y efectivo quedan como <strong>pendiente de validación</strong> hasta que el pago presencial sea confirmado.
+      </div>
+
+      <div class="actions">
+        <button type="button" id="btnCancel" class="action-btn secondary">Cancelar</button>
+        <button type="button" id="btnContinue" class="action-btn primary" disabled>Continuar</button>
+      </div>
     </div>
   </div>
 
-  <div id="missingDataBox" class="missing-data-box">
-    <strong>Atención:</strong> no se detectaron datos reales del registro. Para activar la membresía, esta pantalla debe abrirse con los datos del comercio o servicio ya cargados.
-  </div>
-
-  <h2 class="section-title">1. Elegí tu plan</h2>
-  <div id="plansGrid" class="plans"></div>
-
-  <h2 class="section-title">2. Elegí cómo querés pagar</h2>
-  <div id="methodsGrid" class="methods"></div>
-
-  <div class="summary-box">
-    <strong>Resumen de tu activación</strong>
-    <div class="summary-grid">
-      <div class="summary-row"><span>Registro</span><span id="summaryType">-</span></div>
-      <div class="summary-row"><span>Nombre</span><span id="summaryName">-</span></div>
-      <div class="summary-row"><span>Plan</span><span id="summaryPlan">-</span></div>
-      <div class="summary-row"><span>Pago</span><span id="summaryMethod">-</span></div>
-      <div class="summary-row"><span>Monto</span><span id="summaryAmount">-</span></div>
-    </div>
-  </div>
-
-  <div class="legend-box">
-    <strong>Importante:</strong> el pago online registra la solicitud y luego te lleva al enlace seguro para completar la operación. Transferencia bancaria y efectivo quedan como <strong>pendiente de validación</strong> hasta que el pago presencial sea confirmado.
-  </div>
-
-  <div class="actions">
-    <button type="button" id="btnCancel" class="action-btn secondary">Cancelar</button>
-    <button type="button" id="btnContinue" class="action-btn primary" disabled>Continuar</button>
-  </div>
-</div>
-
-  </div>  <div id="paymentOverlay" class="overlay" aria-hidden="true">
+  <div id="paymentOverlay" class="overlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-top">
         <div>
@@ -697,101 +705,75 @@
           <p id="modalSubtitle" class="modal-subtitle"></p>
         </div>
         <button type="button" class="close-btn" id="btnCloseModal">✕</button>
-      </div><div class="modal-box">
-    <div class="modal-grid">
-      <div class="modal-row"><span>Plan</span><span id="modalPlan">-</span></div>
-      <div class="modal-row"><span>Importe</span><span id="modalAmount">-</span></div>
-      <div class="modal-row"><span>Forma de pago</span><span id="modalMethod">-</span></div>
-      <div class="modal-row"><span>Estado inicial</span><span id="modalState">-</span></div>
+      </div>
+
+      <div class="modal-box">
+        <div class="modal-grid">
+          <div class="modal-row"><span>Plan</span><span id="modalPlan">-</span></div>
+          <div class="modal-row"><span>Importe</span><span id="modalAmount">-</span></div>
+          <div class="modal-row"><span>Forma de pago</span><span id="modalMethod">-</span></div>
+          <div class="modal-row"><span>Estado inicial</span><span id="modalState">-</span></div>
+        </div>
+      </div>
+
+      <div id="presentialBox" class="modal-box" style="display:none;">
+        <div class="modal-grid">
+          <div class="modal-row"><span>Modalidad</span><span>Pago presencial</span></div>
+          <div class="modal-row"><span>Activación</span><span>Requiere validación manual</span></div>
+          <div class="modal-row"><span>Estado</span><span>Pendiente de validación</span></div>
+        </div>
+      </div>
+
+      <div class="modal-box">
+        <div class="steps-title">Cómo sigue</div>
+        <ol id="stepsList" class="steps-list"></ol>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="primaryActionBtn" class="modal-btn primary">Confirmar</button>
+        <button type="button" id="secondaryActionBtn" class="modal-btn secondary">Cancelar</button>
+      </div>
+
+      <div id="statusMsg" class="status-msg"></div>
     </div>
   </div>
 
-  <div id="presentialBox" class="modal-box" style="display:none;">
-    <div class="modal-grid">
-      <div class="modal-row"><span>Modalidad</span><span>Pago presencial</span></div>
-      <div class="modal-row"><span>Activación</span><span>Requiere validación manual</span></div>
-      <div class="modal-row"><span>Estado</span><span>Pendiente de validación</span></div>
-    </div>
-  </div>
-
-  <div class="modal-box">
-    <div class="steps-title">Cómo sigue</div>
-    <ol id="stepsList" class="steps-list"></ol>
-  </div>
-
-  <div class="actions">
-    <button type="button" id="primaryActionBtn" class="modal-btn primary">Confirmar</button>
-    <button type="button" id="secondaryActionBtn" class="modal-btn secondary">Cancelar</button>
-  </div>
-
-  <div id="statusMsg" class="status-msg"></div>
-</div>
-
-  </div>  <script>
+  <script>
     const URL_PARAMS = new URLSearchParams(window.location.search);
-const MODO_RENOVACION = URL_PARAMS.get("modo") === "renovacion";
-const ID_REGISTRO_PARAM = URL_PARAMS.get("id_registro") || "";
+    const MODO_RENOVACION = URL_PARAMS.get("modo") === "renovacion";
 
-function aplicarModoRenovacion() {
-
-  if (!MODO_RENOVACION) return;
-
-  const titulo = document.querySelector(".header-title");
-  if (titulo) titulo.textContent = "Renovar membresía";
-
-  const heroTitle = document.querySelector(".hero-title");
-  if (heroTitle) heroTitle.textContent = "Renová tu membresía";
-
-  const heroText = document.querySelector(".hero-text");
-  if (heroText) heroText.textContent =
-    "Elegí el plan para renovar tu membresía y mantener tu perfil activo en Conecta2.";
-
-  const box = document.getElementById("missingDataBox");
-  if (box) box.style.display = "none";
-}
     const CONFIG = {
       appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec',
       redirectIndex: 'index.html',
       adminConfig: {
-        allowOnlyActivePlans: true,
         allowOnlyActiveMethods: true
       },
-      plans: {
-        trimestral: {
-          active: true,
-          order: 1,
-          badge: 'Plan trimestral',
-          label: 'Plan trimestral',
-          name: 'Activación por 3 meses',
-          description: 'Ideal para empezar y quedar visible dentro de la aplicación durante 3 meses.',
-          amount: 16000,
-          amountText: '$16.000',
-          oldAmountText: '',
-          discountText: '',
-          benefits: [
-            'Vigencia por 3 meses',
-            'Misma visibilidad y funciones',
-            'Renovación simple al vencimiento'
-          ]
+      fallbackPlans: [
+        {
+          id_plan: 'trimestral',
+          nombre: 'Plan trimestral',
+          meses: 3,
+          importe: 16000,
+          activo: true,
+          orden: 1
         },
-        anual_promo: {
-          active: true,
-          order: 2,
-          badge: 'Promo lanzamiento disponible ahora',
-          label: 'Plan anual',
-          name: 'Activación por 12 meses',
-          description: 'Aprovechá la promo lanzamiento, congelá tu valor y olvidate de renovar durante todo un año.',
-          amount: 54000,
-          amountText: '$54.000',
-          oldAmountText: '$64.000',
-          discountText: 'Bonificación -$10.000',
-          benefits: [
-            'Vigencia por 12 meses',
-            'Misma visibilidad y funciones',
-            'Ahorrás $10.000'
-          ]
+        {
+          id_plan: 'anual_promo',
+          nombre: 'Plan anual promo lanzamiento',
+          meses: 12,
+          importe: 54000,
+          activo: true,
+          orden: 2
+        },
+        {
+          id_plan: 'anual',
+          nombre: 'Plan anual',
+          meses: 12,
+          importe: 64000,
+          activo: true,
+          orden: 3
         }
-      },
+      ],
       methods: {
         mercado_pago: {
           active: true,
@@ -834,7 +816,9 @@ function aplicarModoRenovacion() {
       isSubmitting: false,
       membershipSaved: false,
       paymentUrl: '',
-      memberData: null
+      memberData: null,
+      plans: [],
+      plansMap: {}
     };
 
     const els = {
@@ -870,11 +854,89 @@ function aplicarModoRenovacion() {
       primaryActionBtn: document.getElementById('primaryActionBtn'),
       secondaryActionBtn: document.getElementById('secondaryActionBtn'),
       btnCloseModal: document.getElementById('btnCloseModal'),
-      statusMsg: document.getElementById('statusMsg')
+      statusMsg: document.getElementById('statusMsg'),
+      content: document.querySelector('.content')
     };
 
     function normalizeText(value) {
       return (value || '').toString().trim();
+    }
+
+    function formatAmount(value) {
+      const num = Number(value || 0);
+      return '$' + num.toLocaleString('es-AR');
+    }
+
+    function pluralMes(meses) {
+      const n = Number(meses || 0);
+      return n === 1 ? 'mes' : 'meses';
+    }
+
+    function tituloActivacion(meses) {
+      const n = Number(meses || 0);
+      return 'Activación por ' + n + ' ' + pluralMes(n);
+    }
+
+    function textoVigencia(meses) {
+      const n = Number(meses || 0);
+      return 'Vigencia por ' + n + ' ' + pluralMes(n);
+    }
+
+    function descripcionPorMeses(meses) {
+      const n = Number(meses || 0);
+      return 'Ideal para empezar y quedar visible dentro de la plataforma durante ' + n + ' ' + pluralMes(n) + '.';
+    }
+
+    function getPlanBadge(plan) {
+      const id = normalizeText(plan.id_plan).toLowerCase();
+      if (id === 'anual_promo') return 'Promo lanzamiento disponible ahora';
+      return plan.nombre || 'Plan de membresía';
+    }
+
+    function getPlanLabel(plan) {
+      return plan.nombre || '-';
+    }
+
+    function getPlanBenefits(plan, annualNormalAmount) {
+      const n = Number(plan.meses || 0);
+      const benefits = [
+        textoVigencia(n),
+        'Misma visibilidad y funciones',
+        'Renovación simple al vencimiento'
+      ];
+
+      if (normalizeText(plan.id_plan).toLowerCase() === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
+        benefits[2] = 'Ahorrás ' + formatAmount(annualNormalAmount - Number(plan.importe || 0));
+      }
+
+      return benefits;
+    }
+
+    function getPlanOldAmount(plan, annualNormalAmount) {
+      const id = normalizeText(plan.id_plan).toLowerCase();
+      if (id === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
+        return formatAmount(annualNormalAmount);
+      }
+      return '';
+    }
+
+    function getPlanDiscountText(plan, annualNormalAmount) {
+      const id = normalizeText(plan.id_plan).toLowerCase();
+      if (id === 'anual_promo' && annualNormalAmount > Number(plan.importe || 0)) {
+        return 'Bonificación -' + formatAmount(annualNormalAmount - Number(plan.importe || 0));
+      }
+      return '';
+    }
+
+    function mapPlanFromBackend(plan) {
+      return {
+        id_plan: normalizeText(plan.id_plan),
+        nombre: normalizeText(plan.nombre),
+        meses: Number(plan.meses || 0),
+        importe: Number(plan.importe || 0),
+        activo: plan.activo !== false,
+        orden: Number(plan.orden || 0)
+      };
     }
 
     function showNotice(type, message) {
@@ -900,205 +962,155 @@ function aplicarModoRenovacion() {
     }
 
     function getPlanByKey(key) {
-      return key ? CONFIG.plans[key] || null : null;
+      return key ? STATE.plansMap[key] || null : null;
     }
 
     function getMethodByKey(key) {
       return key ? CONFIG.methods[key] || null : null;
     }
 
-function scrollToElement(el) {
-  if (!el) return;
-  setTimeout(() => {
-    el.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }, 120);
-}
-
-function updateContinueButtonLabel() {
-  if (STATE.selectedMethod === 'mercado_pago') {
-    els.btnContinue.textContent = 'Pagar online';
-    return;
-  }
-
-  els.btnContinue.textContent = 'Continuar';
-}
-
-function prepareCurrentSelection() {
-  const plan = getPlanByKey(STATE.selectedPlan);
-  const method = getMethodByKey(STATE.selectedMethod);
-
-  if (!plan || !method) return false;
-
-  STATE.currentSelection = {
-    planKey: STATE.selectedPlan,
-    methodKey: STATE.selectedMethod,
-    plan,
-    method
-  };
-
-  STATE.confirmMode = 'confirm';
-  STATE.paymentUrl = '';
-
-  return true;
-}
-
-async function submitOnlinePaymentDirect() {
-  if (!hasRequiredMemberData(STATE.memberData)) {
-    showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
-    return;
-  }
-
-  if (!STATE.selectedPlan || !STATE.selectedMethod) {
-    showNotice('warning', 'Elegí un plan y una forma de pago antes de continuar.');
-    return;
-  }
-
-  if (STATE.selectedMethod !== 'mercado_pago') return;
-  if (!prepareCurrentSelection()) return;
-  if (STATE.isSubmitting || STATE.membershipSaved) return;
-
-  try {
-    setLoading(true);
-    showNotice('warning', 'Registrando solicitud y preparando el pago online...');
-
-    if (!CONFIG.appsScriptUrl || CONFIG.appsScriptUrl.includes('PEGAR_AQUI')) {
-      throw new Error('Falta configurar la URL del Apps Script.');
+    function scrollToElement(el) {
+      if (!el) return;
+      setTimeout(() => {
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 120);
     }
 
-    const payload = buildPayload();
-
-    const response = await fetch(CONFIG.appsScriptUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const responseText = await response.text();
-    let result;
-
-    try {
-      result = JSON.parse(responseText);
-    } catch (parseError) {
-      throw new Error('La respuesta del servidor no tiene formato válido.');
-    }
-
-    if (!response.ok || result.ok === false) {
-      throw new Error(result.error || 'No se pudo registrar la solicitud.');
-    }
-
-    STATE.membershipSaved = true;
-    persistLastMembership(payload);
-
-    const paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
-    if (!paymentUrl || !/^https?:\/\//i.test(paymentUrl)) {
-      throw new Error('El servidor no devolvió un enlace de pago válido.');
-    }
-
-    window.location.href = paymentUrl;
-
-  } catch (error) {
-    console.error('ERROR COMPLETO:', error);
-    showNotice('error', error && error.message ? error.message : 'No se pudo iniciar el pago online.');
-  } finally {
-    setLoading(false);
-  }
-}
-
-    function getParamsData() {
-      const params = new URLSearchParams(window.location.search);
-      return {
-        id_registro: normalizeText(params.get('id_registro') || params.get('id') || params.get('registro')),
-        tipo_registro: normalizeText(params.get('tipo_registro') || params.get('tipo')),
-        nombre_negocio: normalizeText(params.get('nombre_negocio') || params.get('negocio') || params.get('nombreComercio') || params.get('nombre_servicio') || params.get('nombre')),
-        titular: normalizeText(params.get('titular') || params.get('responsable') || params.get('nombre_titular')),
-        telefono: normalizeText(params.get('telefono') || params.get('whatsapp') || params.get('celular')),
-        email: normalizeText(params.get('email') || params.get('correo'))
-      };
-    }
-
-    function mapStorageData(parsed) {
-      if (!parsed || typeof parsed !== 'object') return null;
-      return {
-        id_registro: normalizeText(parsed.id_registro || parsed.id || parsed.registro || parsed.idRegistro),
-        tipo_registro: normalizeText(parsed.tipo_registro || parsed.tipo || parsed.category),
-        nombre_negocio: normalizeText(parsed.nombre_negocio || parsed.negocio || parsed.nombreComercio || parsed.nombre_servicio || parsed.nombreServicio || parsed.nombre || parsed.razonSocial),
-        titular: normalizeText(parsed.titular || parsed.responsable || parsed.nombre_titular),
-        telefono: normalizeText(parsed.telefono || parsed.whatsapp || parsed.celular),
-        email: normalizeText(parsed.email || parsed.correo)
-      };
-    }
-
-    function getStorageData() {
-      const possibleKeys = [
-        'registroPendiente',
-        'conecta2_registro_actual',
-        'conecta2_membresia_data',
-        'registroActualConecta2',
-        'datosComercio',
-        'datosServicio'
-      ];
-
-      for (const key of possibleKeys) {
-        const raw = sessionStorage.getItem(key) || localStorage.getItem(key);
-        if (!raw) continue;
-        try {
-          const parsed = JSON.parse(raw);
-          const mapped = mapStorageData(parsed);
-          if (mapped) return mapped;
-        } catch (error) {
-          console.warn('No se pudo leer el storage de membresía:', error);
-        }
+    function updateContinueButtonLabel() {
+      if (STATE.selectedMethod === 'mercado_pago') {
+        els.btnContinue.textContent = 'Pagar online';
+        return;
       }
-      return null;
+      els.btnContinue.textContent = 'Continuar';
+    }
+
+    function prepareCurrentSelection() {
+      const plan = getPlanByKey(STATE.selectedPlan);
+      const method = getMethodByKey(STATE.selectedMethod);
+
+      if (!plan || !method) return false;
+
+      STATE.currentSelection = {
+        planKey: STATE.selectedPlan,
+        methodKey: STATE.selectedMethod,
+        plan,
+        method
+      };
+
+      STATE.confirmMode = 'confirm';
+      STATE.paymentUrl = '';
+      return true;
+    }
+
+    async function submitOnlinePaymentDirect() {
+      if (!hasRequiredMemberData(STATE.memberData)) {
+        showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
+        return;
+      }
+
+      if (!STATE.selectedPlan || !STATE.selectedMethod) {
+        showNotice('warning', 'Elegí un plan y una forma de pago antes de continuar.');
+        return;
+      }
+
+      if (STATE.selectedMethod !== 'mercado_pago') return;
+      if (!prepareCurrentSelection()) return;
+      if (STATE.isSubmitting || STATE.membershipSaved) return;
+
+      try {
+        setLoading(true);
+        showNotice('warning', 'Registrando solicitud y preparando el pago online...');
+
+        if (!CONFIG.appsScriptUrl || CONFIG.appsScriptUrl.includes('PEGAR_AQUI')) {
+          throw new Error('Falta configurar la URL del Apps Script.');
+        }
+
+        const payload = buildPayload();
+
+        const response = await fetch(CONFIG.appsScriptUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const responseText = await response.text();
+        let result;
+
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseError) {
+          throw new Error('La respuesta del servidor no tiene formato válido.');
+        }
+
+        if (!response.ok || result.ok === false) {
+          throw new Error(result.error || 'No se pudo registrar la solicitud.');
+        }
+
+        STATE.membershipSaved = true;
+        persistLastMembership(payload);
+
+        const paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
+        if (!paymentUrl || !/^https?:\/\//i.test(paymentUrl)) {
+          throw new Error('El servidor no devolvió un enlace de pago válido.');
+        }
+
+        window.location.href = paymentUrl;
+      } catch (error) {
+        console.error('ERROR COMPLETO:', error);
+        showNotice('error', error && error.message ? error.message : 'No se pudo iniciar el pago online.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function resolveMemberData() {
+      const params = new URLSearchParams(window.location.search);
+
+      const data = {
+        id_registro: params.get("id_registro") || "",
+        tipo_registro: params.get("tipo_registro") || "",
+        nombre_negocio: params.get("nombre_negocio") || "",
+        titular: params.get("titular") || "",
+        telefono: params.get("telefono") || "",
+        email: params.get("email") || ""
+      };
+
+      if (
+        data.id_registro &&
+        data.tipo_registro &&
+        data.nombre_negocio &&
+        data.titular &&
+        data.telefono &&
+        data.email
+      ) {
+        return data;
+      }
+
+      return {
+        id_registro: "",
+        tipo_registro: "",
+        nombre_negocio: "",
+        titular: "",
+        telefono: "",
+        email: ""
+      };
     }
 
     function hasRequiredMemberData(data) {
       return !!(data && data.tipo_registro && data.nombre_negocio && data.titular && data.telefono && data.email);
     }
 
-   function resolveMemberData() {
-
-  const params = new URLSearchParams(window.location.search);
-
-  const data = {
-    id_registro: params.get("id_registro") || "",
-    tipo_registro: params.get("tipo_registro") || "",
-    nombre_negocio: params.get("nombre_negocio") || "",
-    titular: params.get("titular") || "",
-    telefono: params.get("telefono") || "",
-    email: params.get("email") || ""
-  };
-
-  if (
-    data.id_registro &&
-    data.tipo_registro &&
-    data.nombre_negocio &&
-    data.titular &&
-    data.telefono &&
-    data.email
-  ) {
-    return data;
-  }
-
-  return {
-    id_registro: "",
-    tipo_registro: "",
-    nombre_negocio: "",
-    titular: "",
-    telefono: "",
-    email: ""
-  };
-}
-
     function getRegistrationLabel(data) {
       const type = normalizeText(data?.tipo_registro).toLowerCase();
       if (type.includes('serv')) return 'Servicio';
       if (type.includes('com')) return 'Comercio';
+      if (type.includes('prof')) return 'Profesional';
+      if (type.includes('sal')) return 'Salud';
       return data?.tipo_registro || '-';
     }
 
@@ -1118,44 +1130,98 @@ async function submitOnlinePaymentDirect() {
 
       if (!valid) {
         els.missingDataBox.classList.add('show');
-        showNotice('warning', 'Primero tenés que llegar a esta pantalla desde el formulario de comercio o servicio con los datos reales cargados.');
+        showNotice('warning', 'Primero tenés que llegar a esta pantalla desde el formulario con los datos reales cargados.');
       } else {
         els.missingDataBox.classList.remove('show');
       }
     }
 
+    async function loadPlans() {
+      const fallback = CONFIG.fallbackPlans
+        .slice()
+        .sort((a, b) => (a.orden || 99) - (b.orden || 99))
+        .map(mapPlanFromBackend);
+
+      try {
+        const response = await fetch(CONFIG.appsScriptUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'listarPlanesMembresiaActivos'
+          })
+        });
+
+        const text = await response.text();
+        let result = null;
+
+        try {
+          result = JSON.parse(text);
+        } catch (_) {
+          result = null;
+        }
+
+        if (!response.ok || !result || result.ok !== true || !Array.isArray(result.planes) || !result.planes.length) {
+          throw new Error('No se pudieron cargar los planes dinámicos.');
+        }
+
+        STATE.plans = result.planes
+          .map(mapPlanFromBackend)
+          .filter(plan => plan.activo !== false)
+          .sort((a, b) => (a.orden || 99) - (b.orden || 99));
+
+        if (!STATE.plans.length) throw new Error('La lista de planes llegó vacía.');
+      } catch (error) {
+        console.warn('Usando planes fallback:', error);
+        STATE.plans = fallback;
+        showNotice('warning', 'No se pudieron cargar los planes actualizados. Se muestran los planes de respaldo.');
+      }
+
+      STATE.plansMap = {};
+      STATE.plans.forEach(plan => {
+        STATE.plansMap[plan.id_plan] = plan;
+      });
+    }
+
     function renderPlans() {
-      const plans = getActiveEntries(CONFIG.plans, CONFIG.adminConfig.allowOnlyActivePlans);
+      const annualNormal = STATE.plans.find(plan => normalizeText(plan.id_plan).toLowerCase() === 'anual');
+      const annualNormalAmount = annualNormal ? Number(annualNormal.importe || 0) : 0;
+
       els.plansGrid.innerHTML = '';
 
-      plans.forEach(([key, plan]) => {
+      STATE.plans.forEach((plan) => {
         const card = document.createElement('div');
         card.className = 'plan-card';
-        card.dataset.plan = key;
+        card.dataset.plan = plan.id_plan;
 
-        const benefitsHtml = (plan.benefits || []).map((item) => `
+        const oldAmountText = getPlanOldAmount(plan, annualNormalAmount);
+        const discountText = getPlanDiscountText(plan, annualNormalAmount);
+        const benefits = getPlanBenefits(plan, annualNormalAmount);
+
+        const benefitsHtml = benefits.map((item) => `
           <div class="plan-item"><span class="dot"></span><span>${item}</span></div>
         `).join('');
 
         card.innerHTML = `
-          <div class="plan-badge">${plan.badge || plan.label}</div>
-          <h2 class="plan-title">${plan.name}</h2>
-          <p class="plan-desc">${plan.description || ''}</p>
-          ${plan.oldAmountText || plan.discountText ? `
+          <div class="plan-badge">${getPlanBadge(plan)}</div>
+          <h2 class="plan-title">${tituloActivacion(plan.meses)}</h2>
+          <p class="plan-desc">${descripcionPorMeses(plan.meses)}</p>
+          ${oldAmountText || discountText ? `
             <div class="price-row">
-              ${plan.oldAmountText ? `<div class="price-old">${plan.oldAmountText}</div>` : ''}
-              ${plan.discountText ? `<div class="discount">${plan.discountText}</div>` : ''}
+              ${oldAmountText ? <div class="price-old">${oldAmountText}</div> : ''}
+              ${discountText ? <div class="discount">${discountText}</div> : ''}
             </div>
           ` : ''}
-          <div class="price-big">${plan.amountText}</div>
+          <div class="price-big">${formatAmount(plan.importe)}</div>
           <div class="plan-list">${benefitsHtml}</div>
           <button type="button" class="select-plan-btn">Elegir este plan</button>
         `;
 
-        card.addEventListener('click', () => selectPlan(key));
+        card.addEventListener('click', () => selectPlan(plan.id_plan));
         card.querySelector('.select-plan-btn').addEventListener('click', (event) => {
           event.stopPropagation();
-          selectPlan(key);
+          selectPlan(plan.id_plan);
         });
 
         els.plansGrid.appendChild(card);
@@ -1190,62 +1256,61 @@ async function submitOnlinePaymentDirect() {
     }
 
     function selectPlan(planKey) {
-  STATE.selectedPlan = planKey;
+      STATE.selectedPlan = planKey;
 
-  document.querySelectorAll('.plan-card').forEach((card) => {
-    const active = card.dataset.plan === planKey;
-    card.classList.toggle('selected', active);
-    const btn = card.querySelector('.select-plan-btn');
-    if (btn) btn.classList.toggle('selected', active);
-  });
+      document.querySelectorAll('.plan-card').forEach((card) => {
+        const active = card.dataset.plan === planKey;
+        card.classList.toggle('selected', active);
+        const btn = card.querySelector('.select-plan-btn');
+        if (btn) btn.classList.toggle('selected', active);
+      });
 
-  updateSummary();
-  updateContinueState();
-  updateContinueButtonLabel();
-
-  scrollToElement(els.methodsGrid);
-}
+      updateSummary();
+      updateContinueState();
+      updateContinueButtonLabel();
+      scrollToElement(els.methodsGrid);
+    }
 
     function selectMethod(methodKey) {
-  STATE.selectedMethod = methodKey;
+      STATE.selectedMethod = methodKey;
 
-  document.querySelectorAll('.method-card').forEach((card) => {
-    card.classList.toggle('selected', card.dataset.method === methodKey);
-  });
+      document.querySelectorAll('.method-card').forEach((card) => {
+        card.classList.toggle('selected', card.dataset.method === methodKey);
+      });
 
-  updateSummary();
-  updateContinueState();
-  updateContinueButtonLabel();
-
-  scrollToElement(els.btnContinue);
-}
+      updateSummary();
+      updateContinueState();
+      updateContinueButtonLabel();
+      scrollToElement(els.btnContinue);
+    }
 
     function updateSummary() {
       const plan = getPlanByKey(STATE.selectedPlan);
       const method = getMethodByKey(STATE.selectedMethod);
+
       els.summaryType.textContent = getRegistrationLabel(STATE.memberData);
       els.summaryName.textContent = STATE.memberData?.nombre_negocio || '-';
-      els.summaryPlan.textContent = plan ? plan.label : '-';
+      els.summaryPlan.textContent = plan ? getPlanLabel(plan) : '-';
       els.summaryMethod.textContent = method ? method.label : '-';
-      els.summaryAmount.textContent = plan ? plan.amountText : '-';
+      els.summaryAmount.textContent = plan ? formatAmount(plan.importe) : '-';
     }
 
     function updateContinueState() {
-  const memberValid = hasRequiredMemberData(STATE.memberData);
-  els.btnContinue.disabled = !(memberValid && STATE.selectedPlan && STATE.selectedMethod) || STATE.isSubmitting;
-}
+      const memberValid = hasRequiredMemberData(STATE.memberData);
+      els.btnContinue.disabled = !(memberValid && STATE.selectedPlan && STATE.selectedMethod) || STATE.isSubmitting;
+    }
 
     function buildModalSubtitle(methodKey, plan) {
-  if (methodKey === 'mercado_pago') {
-    return 'Elegiste pago online para activar ' + plan.name.toLowerCase() + '. Al continuar, se va a registrar la solicitud y después vas a ir al enlace de pago.';
-  }
+      if (methodKey === 'mercado_pago') {
+        return 'Elegiste pago online para activar ' + getPlanLabel(plan).toLowerCase() + '. Al continuar, se va a registrar la solicitud y después vas a ir al enlace de pago.';
+      }
 
-  if (methodKey === 'transferencia') {
-    return 'Elegiste transferencia bancaria para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el pago.';
-  }
+      if (methodKey === 'transferencia') {
+        return 'Elegiste transferencia bancaria para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el pago.';
+      }
 
-  return 'Elegiste pago en efectivo para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el cobro.';
-}
+      return 'Elegiste pago en efectivo para una activación presencial. La solicitud quedará pendiente de validación hasta confirmar el cobro.';
+    }
 
     function buildSteps(methodKey) {
       const items = methodKey === 'mercado_pago'
@@ -1266,33 +1331,33 @@ async function submitOnlinePaymentDirect() {
               'Después de confirmar el cobro, la membresía podrá activarse.'
             ];
 
-      return items.map((item) => `<li>${item}</li>`).join('');
+      return items.map((item) => <li>${item}</li>).join('');
     }
 
     function openModal() {
-  if (!prepareCurrentSelection()) return;
+      if (!prepareCurrentSelection()) return;
 
-  const plan = STATE.currentSelection.plan;
-  const method = STATE.currentSelection.method;
+      const plan = STATE.currentSelection.plan;
+      const method = STATE.currentSelection.method;
 
-  els.modalTitle.textContent = 'Confirmar activación';
-  els.modalSubtitle.textContent = buildModalSubtitle(STATE.selectedMethod, plan);
-  els.modalPlan.textContent = plan.name;
-  els.modalAmount.textContent = plan.amountText;
-  els.modalMethod.textContent = method.label;
-  els.modalState.textContent = method.initialState;
-  els.stepsList.innerHTML = buildSteps(STATE.selectedMethod);
-  els.presentialBox.style.display = STATE.selectedMethod === 'mercado_pago' ? 'none' : 'block';
-  els.primaryActionBtn.textContent = 'Confirmar';
-  els.secondaryActionBtn.textContent = 'Cancelar';
+      els.modalTitle.textContent = 'Confirmar activación';
+      els.modalSubtitle.textContent = buildModalSubtitle(STATE.selectedMethod, plan);
+      els.modalPlan.textContent = getPlanLabel(plan);
+      els.modalAmount.textContent = formatAmount(plan.importe);
+      els.modalMethod.textContent = method.label;
+      els.modalState.textContent = method.initialState;
+      els.stepsList.innerHTML = buildSteps(STATE.selectedMethod);
+      els.presentialBox.style.display = STATE.selectedMethod === 'mercado_pago' ? 'none' : 'block';
+      els.primaryActionBtn.textContent = 'Confirmar';
+      els.secondaryActionBtn.textContent = 'Cancelar';
 
-  resetStatus();
-  setLoading(false);
+      resetStatus();
+      setLoading(false);
 
-  els.paymentOverlay.classList.add('show');
-  els.paymentOverlay.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-}
+      els.paymentOverlay.classList.add('show');
+      els.paymentOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
 
     function closeModal() {
       if (STATE.isSubmitting) return;
@@ -1321,14 +1386,18 @@ async function submitOnlinePaymentDirect() {
       els.primaryActionBtn.disabled = flag;
       els.secondaryActionBtn.disabled = flag;
       els.btnContinue.disabled = flag || !(hasRequiredMemberData(STATE.memberData) && STATE.selectedPlan && STATE.selectedMethod);
+
       document.querySelectorAll('.select-plan-btn, .method-btn').forEach((btn) => {
         btn.disabled = flag;
       });
+
+      els.content.classList.toggle('loading-soft', flag);
     }
 
     function buildPayload() {
       const plan = STATE.currentSelection.plan;
       const method = STATE.currentSelection.method;
+
       return {
         action: 'crearSolicitudMembresia',
         action_alias: 'registrarMembresia',
@@ -1339,10 +1408,10 @@ async function submitOnlinePaymentDirect() {
         telefono: STATE.memberData.telefono,
         email: STATE.memberData.email,
         plan: STATE.currentSelection.planKey,
-        plan_label: plan.label,
-        plan_nombre: plan.name,
-        monto: plan.amount,
-        monto_texto: plan.amountText,
+        plan_label: getPlanLabel(plan),
+        plan_nombre: tituloActivacion(plan.meses),
+        monto: Number(plan.importe || 0),
+        monto_texto: formatAmount(plan.importe),
         medio_pago: STATE.currentSelection.methodKey,
         medio_pago_label: method.label,
         estado_inicial: method.initialState,
@@ -1368,12 +1437,10 @@ async function submitOnlinePaymentDirect() {
 
     async function confirmPaymentAction() {
       if (!STATE.currentSelection) return;
-
       if (STATE.confirmMode === 'final') {
         finalizeFlow();
         return;
       }
-
       if (STATE.isSubmitting || STATE.membershipSaved) return;
 
       try {
@@ -1408,7 +1475,7 @@ async function submitOnlinePaymentDirect() {
 
         STATE.membershipSaved = true;
         persistLastMembership(payload);
-        showNotice('success', `Solicitud registrada correctamente para ${STATE.memberData.nombre_negocio || 'tu perfil'}.`);
+        showNotice('success', Solicitud registrada correctamente para ${STATE.memberData.nombre_negocio || 'tu perfil'}.);
 
         if (STATE.currentSelection.methodKey === 'mercado_pago') {
           STATE.paymentUrl = normalizeText(result.redirect_url || result.payment_url || result.url_pago || '');
@@ -1464,26 +1531,49 @@ async function submitOnlinePaymentDirect() {
       }
     }
 
+    function aplicarModoRenovacion() {
+      if (!MODO_RENOVACION) return;
+
+      const titulo = document.querySelector(".header-title");
+      if (titulo) titulo.textContent = "Renovar membresía";
+
+      const heroTitle = document.querySelector(".hero-title");
+      if (heroTitle) heroTitle.textContent = "Renová tu membresía";
+
+      const heroText = document.querySelector(".hero-text");
+      if (heroText) {
+        heroText.textContent = "Elegí el plan para renovar tu membresía y mantener tu perfil activo en Conecta2.";
+      }
+
+      const box = document.getElementById("missingDataBox");
+      if (box) box.style.display = "none";
+    }
+
     function bindEvents() {
+      els.btnBack.addEventListener('click', goBack);
+      els.btnCancel.addEventListener('click', goBack);
+
       els.btnContinue.addEventListener('click', () => {
-  if (!hasRequiredMemberData(STATE.memberData)) {
-    showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
-    return;
-  }
+        if (!hasRequiredMemberData(STATE.memberData)) {
+          showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
+          return;
+        }
 
-  if (!STATE.selectedPlan || !STATE.selectedMethod) {
-    showNotice('warning', 'Elegí un plan y una forma de pago antes de continuar.');
-    return;
-  }
+        if (!STATE.selectedPlan || !STATE.selectedMethod) {
+          showNotice('warning', 'Elegí un plan y una forma de pago antes de continuar.');
+          return;
+        }
 
-  if (STATE.selectedMethod === 'mercado_pago') {
-    submitOnlinePaymentDirect();
-    return;
-  }
+        if (STATE.selectedMethod === 'mercado_pago') {
+          submitOnlinePaymentDirect();
+          return;
+        }
 
-  openModal();
-});
+        openModal();
+      });
+
       els.primaryActionBtn.addEventListener('click', confirmPaymentAction);
+
       els.secondaryActionBtn.addEventListener('click', () => {
         if (STATE.confirmMode === 'final') {
           closeModal();
@@ -1492,20 +1582,24 @@ async function submitOnlinePaymentDirect() {
         }
         closeModal();
       });
+
       els.btnCloseModal.addEventListener('click', closeModal);
       els.paymentOverlay.addEventListener('click', handleOverlayClick);
     }
 
-    function init() {
-  fillProfileBox();
-  renderPlans();
-  renderMethods();
-  updateSummary();
-  updateContinueState();
-  updateContinueButtonLabel();
-  bindEvents();
-}
+    async function init() {
+      aplicarModoRenovacion();
+      fillProfileBox();
+      bindEvents();
+      renderMethods();
+      await loadPlans();
+      renderPlans();
+      updateSummary();
+      updateContinueState();
+      updateContinueButtonLabel();
+    }
 
     init();
-  </script></body>
+  </script>
+</body>
 </html>
