@@ -1094,43 +1094,42 @@
   }
 
   function renderPlans() {
-    const plans = getActiveEntries(CONFIG.plans, true);
-    els.plansGrid.innerHTML = '';
+  const plans = getActiveEntries(CONFIG.plans, CONFIG.adminConfig.allowOnlyActivePlans);
+  els.plansGrid.innerHTML = '';
 
-    plans.forEach(([key, plan]) => {
-      const card = document.createElement('div');
-      card.className = 'plan-card';
-      card.dataset.plan = key;
+  plans.forEach(([key, plan]) => {
+    const card = document.createElement('div');
+    card.className = 'plan-card';
+    card.dataset.plan = key;
 
-      const benefitsHtml = (plan.benefits || []).map((item) => `
-        <div class="plan-item"><span class="dot"></span><span>${item}</span></div>
-      `).join('');
+    const benefitsHtml = (plan.benefits || []).map((item) => `
+      <div class="plan-item"><span class="dot"></span><span>${item}</span></div>
+    `).join('');
 
-      card.innerHTML = `
-  <div class="plan-badge">${plan.badge || plan.label}</div>
-  <h2 class="plan-title">${plan.name}</h2>
-  <p class="plan-desc">${plan.description || ''}</p>
-  ${plan.oldAmountText || plan.discountText ? `
-    <div class="price-row">
-      ${plan.oldAmountText ? <div class="price-old">${plan.oldAmountText}</div> : ''}
-      ${plan.discountText ? <div class="discount">${plan.discountText}</div> : ''}
-    </div>
-  ` : ''}
-  <div class="price-big">${plan.amountText}</div>
-  <div class="plan-list">${benefitsHtml}</div>
-  <button type="button" class="select-plan-btn">Elegir este plan</button>
-`;
+    card.innerHTML = `
+      <div class="plan-badge">${plan.badge || plan.label}</div>
+      <h2 class="plan-title">${plan.name}</h2>
+      <p class="plan-desc">${plan.description || ''}</p>
+      ${plan.oldAmountText || plan.discountText ? `
+        <div class="price-row">
+          ${plan.oldAmountText ? <div class="price-old">${plan.oldAmountText}</div> : ''}
+          ${plan.discountText ? <div class="discount">${plan.discountText}</div> : ''}
+        </div>
+      ` : ''}
+      <div class="price-big">${plan.amountText}</div>
+      <div class="plan-list">${benefitsHtml}</div>
+      <button type="button" class="select-plan-btn">Elegir este plan</button>
+    `;
 
-      card.addEventListener('click', () => selectPlan(key));
+    card.addEventListener('click', () => selectPlan(key));
+    card.querySelector('.select-plan-btn').addEventListener('click', (event) => {
+      event.stopPropagation();
+      selectPlan(key);
+    });
 
-      const btn = card.querySelector('.select-plan-btn');
-      if (btn) {
-        btn.addEventListener('click', (event) => {
-          event.stopPropagation();
-          selectPlan(key);
-        });
-      }
-
+    els.plansGrid.appendChild(card);
+  });
+}
       els.plansGrid.appendChild(card);
     });
   }
