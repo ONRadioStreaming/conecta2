@@ -1107,19 +1107,19 @@
       `).join('');
 
       card.innerHTML = `
-        <div class="plan-badge">${plan.badge || plan.label}</div>
-        <h2 class="plan-title">${plan.name}</h2>
-        <p class="plan-desc">${plan.description || ''}</p>
-        ${plan.oldAmountText || plan.discountText ? `
-          <div class="price-row">
-            ${plan.oldAmountText ? <div class="price-old">${plan.oldAmountText}</div> : ''}
-            ${plan.discountText ? <div class="discount">${plan.discountText}</div> : ''}
-          </div>
-        ` : ''}
-        <div class="price-big">${plan.amountText}</div>
-        <div class="plan-list">${benefitsHtml}</div>
-        <button type="button" class="select-plan-btn">Elegir este plan</button>
-      `;
+  <div class="plan-badge">${plan.badge || plan.label}</div>
+  <h2 class="plan-title">${plan.name}</h2>
+  <p class="plan-desc">${plan.description || ''}</p>
+  ${plan.oldAmountText || plan.discountText ? `
+    <div class="price-row">
+      ${plan.oldAmountText ? <div class="price-old">${plan.oldAmountText}</div> : ''}
+      ${plan.discountText ? <div class="discount">${plan.discountText}</div> : ''}
+    </div>
+  ` : ''}
+  <div class="price-big">${plan.amountText}</div>
+  <div class="plan-list">${benefitsHtml}</div>
+  <button type="button" class="select-plan-btn">Elegir este plan</button>
+`;
 
       card.addEventListener('click', () => selectPlan(key));
 
