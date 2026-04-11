@@ -916,7 +916,7 @@ let PLAN_SOURCE = CONFIG.plans;
   }
 
   function getPlanByKey(key) {
-    return key ? CONFIG.plans[key] || null : null;
+    return key ? PLAN_SOURCE[key] || null : null;
   }
 
   function getMethodByKey(key) {
@@ -1094,7 +1094,7 @@ let PLAN_SOURCE = CONFIG.plans;
   }
 
   function renderPlans() {
-  const plans = getActiveEntries(CONFIG.plans, CONFIG.adminConfig.allowOnlyActivePlans);
+  const plans = getActiveEntries(PLAN_SOURCE, CONFIG.adminConfig.allowOnlyActivePlans);
   els.plansGrid.innerHTML = '';
 
   plans.forEach(([key, plan]) => {
@@ -1597,8 +1597,17 @@ let PLAN_SOURCE = CONFIG.plans;
       aplicarModoRenovacion();
       reorderMainButtons();
       fillProfileBox();
-      renderPlans();
-      renderMethods();
+      fetch(CONFIG.appsScriptUrl + '?action=getPlanes')
+  .then(r => r.json())
+  .then(data => {
+    if (data && Object.keys(data).length) {
+      PLAN_SOURCE = data;
+    }
+    renderPlans();
+  })
+  .catch(() => {
+    renderPlans();
+  });
       updateSummary();
       updateContinueState();
       updateContinueButtonLabel();
