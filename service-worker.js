@@ -29,6 +29,12 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+
+// NO interceptar llamadas al backend (Apps Script)
+if (url.hostname.includes("script.google.com")) {
+  return;
+}
   const request = event.request;
 
   if (request.method !== "GET") return;
