@@ -39,9 +39,7 @@ if (url.hostname.includes("script.google.com")) {
 
   if (request.method !== "GET") return;
 
-  const url = new URL(request.url);
-
-  if (url.origin !== self.location.origin) return;
+    if (url.origin !== self.location.origin) return;
 
   const isHTMLRequest =
     request.mode === "navigate" ||
