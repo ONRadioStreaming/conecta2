@@ -671,33 +671,45 @@
           </div>
 
           <div class="grid-2">
-            <div class="field-group">
-              <label for="categoriaPrincipal">Categoría principal *</label>
-              <select id="categoriaPrincipal" required>
-  <option value="">Seleccionar</option>
-  <option>Alimentos y bebidas</option>
-  <option>Gastronomía</option>
-  <option>Salud y farmacias</option>
-  <option>Belleza y estética</option>
-  <option>Moda y ropa</option>
-  <option>Hogar y construcción</option>
-  <option>Ferretería y oficios</option>
-  <option>Tecnología y electrónica</option>
-  <option>Automotor</option>
-  <option>Mascotas</option>
-  <option>Deportes y fitness</option>
-  <option>Educación y librerías</option>
-  <option>Servicios empresariales</option>
-  <option>Transporte y logística</option>
-  <option>Otros rubros</option>
+  <div class="field-group">
+    <label for="categoriaPrincipal">Categoría principal *</label>
+    <select id="categoriaPrincipal" required>
+<option value="">Seleccionar</option>
+<option>Alimentos y bebidas</option>
+<option>Gastronomía</option>
+<option>Salud y farmacias</option>
+<option>Belleza y estética</option>
+<option>Moda y ropa</option>
+<option>Hogar y construcción</option>
+<option>Ferretería y oficios</option>
+<option>Tecnología y electrónica</option>
+<option>Automotor</option>
+<option>Mascotas</option>
+<option>Deportes y fitness</option>
+<option>Educación y librerías</option>
+<option>Servicios empresariales</option>
+<option>Transporte y logística</option>
+<option>Otros rubros</option>
 </select>
-            </div>
+  </div>
 
-            <div class="field-group">
-              <label for="direccion">Dirección *</label>
-              <input type="text" id="direccion" placeholder="Ej: Av. San Martín 450, Rojas" required>
-            </div>
-          </div>
+  <div class="field-group">
+    <label for="direccion">Dirección *</label>
+    <input type="text" id="direccion" placeholder="Ej: Av. San Martín 450" required>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="field-group">
+    <label for="ciudad">Ciudad / Localidad *</label>
+    <input type="text" id="ciudad" placeholder="Ej: Rojas" required>
+  </div>
+
+  <div class="field-group">
+    <label for="codigoPostal">Código Postal *</label>
+    <input type="text" id="codigoPostal" placeholder="Ej: 2705" required>
+  </div>
+</div>
 
           <div class="field-group">
             <label for="rubroComercial">Rubro *</label>
@@ -1471,6 +1483,8 @@
       if (valor('rubroComercial') === 'Otro' && !valor('otroRubro')) faltantes.push("Especificá cuál");
       if (!valor('descripcion')) faltantes.push("Descripción");
       if (!valor('direccion')) faltantes.push("Dirección");
+      if (!valor('ciudad')) faltantes.push("Ciudad / Localidad");
+      if (!valor('codigoPostal')) faltantes.push("Código Postal");
 
       if (!valor('email')) faltantes.push("Correo electrónico");
       if (valor('email') && !emailValido(valor('email'))) faltantes.push("Correo electrónico válido");
@@ -1539,6 +1553,8 @@
       const rubroFinal = obtenerRubroFinal();
       const descripcion = valor('descripcion');
       const direccion = valor('direccion');
+      const ciudad = valor('ciudad');
+      const codigoPostal = valor('codigoPostal');
       const factura = valor('factura');
       const whatsapp = limpiarTelefono(valor('whatsapp'));
       const telefono = limpiarTelefono(valor('telefonoAlternativo'));
@@ -1550,7 +1566,7 @@
       document.getElementById('cardJob').textContent = rubroFinal;
       document.getElementById('cardDesc').textContent = descripcion;
       document.getElementById('cardAvatar').src = previewImg.src || '';
-      document.getElementById('cardDireccionTexto').textContent = direccion;
+      document.getElementById('cardDireccionTexto').textContent = direccion + ', ' + ciudad + ' (' + codigoPostal + ')';
 
       const cardStatus = document.getElementById('cardStatus');
       cardStatus.textContent = disponible ? 'Disponible ahora' : 'No disponible';
@@ -1655,6 +1671,10 @@
           rubroFinal: obtenerRubroFinal(),
           descripcion: valor('descripcion'),
           direccion: valor('direccion'),
+          ciudad: valor('ciudad'),
+          localidad: valor('ciudad'),
+          codigoPostal: valor('codigoPostal'),
+          codigo_postal: valor('codigoPostal'),
           email: valor('email'),
           whatsapp: limpiarTelefono(valor('whatsapp')),
           telefonoAlternativo: limpiarTelefono(valor('telefonoAlternativo')),
