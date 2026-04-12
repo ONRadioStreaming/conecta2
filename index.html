@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#07142b" />
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="manifest.json?v=4">
+  <link rel="manifest" href="manifest.json?v=3">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
@@ -2232,6 +2232,19 @@ Cargá tu perfil laboral
       verificarNuevaVersion();
     }, 250);
   }
+
+const btnPerfilLaboral = document.getElementById("btnPerfilLaboral");
+
+if (btnPerfilLaboral) {
+  const urlPerfilLaboral = "https://onradiostreaming.github.io/conecta2/registro-perfil-laboral.html?v=1";
+
+  btnPerfilLaboral.setAttribute("href", urlPerfilLaboral);
+
+  btnPerfilLaboral.addEventListener("click", function(e) {
+    e.preventDefault();
+    window.location.href = urlPerfilLaboral;
+  });
+}
 
   fillRememberedCredentials();
   applyPremiumUI();
