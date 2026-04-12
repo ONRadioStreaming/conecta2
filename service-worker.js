@@ -1,8 +1,8 @@
-const CACHE_NAME = "conecta2-public-v3";
+const CACHE_NAME = "conecta2-public-v4";
 
 const STATIC_ASSETS = [
   "/conecta2/",
-  "/conecta2/manifest.json",
+  "/conecta2/manifest.json?v=4",
   "/conecta2/icon-192.png",
   "/conecta2/icon-512.png",
   "/conecta2/logo.png",
@@ -22,9 +22,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
+        keys.map((key) => caches.delete(key))
       )
     ).then(() => self.clients.claim())
   );
@@ -43,17 +41,15 @@ self.addEventListener("fetch", (event) => {
     request.mode === "navigate" ||
     (request.headers.get("accept") || "").includes("text/html");
 
-  // Para HTML: red primero, para evitar versiones viejas
+  // HTML siempre desde red, sin cachear páginas
   if (isHTMLRequest) {
     event.respondWith(
-      fetch(request)
-        .then((networkResponse) => networkResponse)
-        .catch(() => caches.match(request).then((cached) => cached || caches.match("/conecta2/index.html")))
+      fetch(request, { cache: "no-store" }).catch(() => caches.match("/conecta2/"))
     );
     return;
   }
 
-  // Para assets estáticos: caché primero
+  // Assets: caché primero
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
