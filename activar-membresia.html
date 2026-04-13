@@ -1167,13 +1167,15 @@ let METHOD_SOURCE = CONFIG.methods;
 
   function selectPlan(planKey) {
     STATE.selectedPlan = planKey;
-
+    
     document.querySelectorAll('.plan-card').forEach((card) => {
       const active = card.dataset.plan === planKey;
       card.classList.toggle('selected', active);
       const btn = card.querySelector('.select-plan-btn');
       if (btn) btn.classList.toggle('selected', active);
     });
+    
+    renderMethods();
 
     updateSummary();
     updateContinueState();
