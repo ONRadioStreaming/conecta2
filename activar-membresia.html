@@ -752,7 +752,61 @@
     // IMPORTANTE:
     // Las claves internas NO se cambian porque las usa el backend.
     // Por eso sigue siendo "trimestral" aunque visualmente sea "Plan mensual".
-    plans: {},
+    plans: {
+  trimestral: {
+    active: true,
+    order: 1,
+    badge: 'Promo lanzamiento disponible ahora',
+    label: 'Plan mensual',
+    name: 'Activación por 1 mes',
+    description: 'Ideal para empezar y quedar visible dentro de la plataforma durante 1 mes.',
+    amount: 20000,
+    amountText: '$20.000',
+    oldAmountText: '',
+    discountText: '',
+    benefits: [
+      'Vigencia por 1 mes',
+      'Misma visibilidad y funciones',
+      'Renovación simple al vencimiento'
+    ]
+  },
+
+  anual_promo: {
+    active: true,
+    order: 2,
+    badge: 'Promo lanzamiento disponible ahora',
+    label: 'Plan anual promo lanzamiento',
+    name: 'Activación por 12 meses',
+    description: 'Aprovechá la promo lanzamiento, congelá tu valor y olvidate de renovar durante todo un año.',
+    amount: 54000,
+    amountText: '$54.000',
+    oldAmountText: '$64.000',
+    discountText: 'Bonificación -$10.000',
+    benefits: [
+      'Vigencia por 12 meses',
+      'Misma visibilidad y funciones',
+      'Ahorrás $10.000'
+    ]
+  },
+
+  anual: {
+    active: true,
+    order: 3,
+    badge: 'Plan anual',
+    label: 'Plan anual',
+    name: 'Activación por 12 meses',
+    description: 'Ideal para mantener tu perfil activo durante 12 meses completos.',
+    amount: 64000,
+    amountText: '$64.000',
+    oldAmountText: '',
+    discountText: '',
+    benefits: [
+      'Vigencia por 12 meses',
+      'Misma visibilidad y funciones',
+      'Renovación simple al vencimiento'
+    ]
+  }
+},
   methods: {
       mercado_pago: {
         active: true,
