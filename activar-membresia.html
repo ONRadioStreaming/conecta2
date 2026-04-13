@@ -1597,20 +1597,44 @@ let METHOD_SOURCE = CONFIG.methods;
     }
   }
 
+function cargarPlanesJSONP() {
+  const callbackName = 'conecta2PlanesCallback_' + Date.now();
+
+  window[callbackName] = function(data) {
+    try {
+      if (data && typeof data === 'object' && Object.keys(data).length) {
+        PLAN_SOURCE = data;
+      }
+    } finally {
+      renderPlans();
+      try { delete window[callbackName]; } catch (_) {}
+      const s = document.getElementById(callbackName);
+      if (s) s.remove();
+    }
+  };
+
+  const script = document.createElement('script');
+  script.id = callbackName;
+  script.src = CONFIG.appsScriptUrl + '?action=getPlanes&callback=' + callbackName;
+  script.onerror = function() {
+    renderPlans();
+    try { delete window[callbackName]; } catch (_) {}
+    const s = document.getElementById(callbackName);
+    if (s) s.remove();
+  };
+
+  document.body.appendChild(script);
+}
+
   function init() {
     try {
       aplicarModoRenovacion();
       reorderMainButtons();
       fillProfileBox();
-      fetch(CONFIG.appsScriptUrl + '?action=getPlanes')
-  .then(r => r.json())
-  .then(data => {
-    if (data && Object.keys(data).length) {
-      PLAN_SOURCE = data;
-    }
-    renderPlans();
-  })
-  .catch(() => {
+      
+cargarPlanesJSONP();
+  
+.catch(() => {
     renderPlans();
   });
       updateSummary();
