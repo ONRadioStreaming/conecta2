@@ -302,6 +302,19 @@
     .cat-4 { background: linear-gradient(135deg,#1fd1c2,#0aa2b5); }
     .cat-11 { background: linear-gradient(145deg, #24c6dc, #514a9d); }
     .cat-15 { background: linear-gradient(145deg, #8e2de2, #4a00e0); }
+    .cat-20 { background: linear-gradient(145deg, #2563eb, #1d4ed8); }
+
+.category-single-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.category-single-center .category-card {
+  width: calc(50% - 6px);
+  max-width: 220px;
+  min-height: 118px;
+}
 
     .category-card .card-title {
       display: block;
@@ -1243,34 +1256,43 @@ body.onboarding-active #mainApp {
   <h2 class="section-title">Categorías</h2>
 
   <div class="grid" id="categoryGrid">
-    <a class="category-card cat-11" id="cardComercios" href="categoria.html?cat=comercios" data-name="comercios">
-      <div>
-        <span class="card-title">Comercios</span>
-        <span class="card-subtitle">Locales y negocios físicos</span>
-      </div>
-    </a>
+  <a class="category-card cat-11" id="cardComercios" href="categoria.html?cat=comercios" data-name="comercios">
+    <div>
+      <span class="card-title">Comercios</span>
+      <span class="card-subtitle">Locales y negocios físicos</span>
+    </div>
+  </a>
 
-    <a class="category-card cat-3" id="cardServicios" href="categoria.html?cat=servicios" data-name="servicios">
-      <div>
-        <span class="card-title">Servicios</span>
-        <span class="card-subtitle">Personas que realizan trabajos o tareas</span>
-      </div>
-    </a>
+  <a class="category-card cat-3" id="cardServicios" href="categoria.html?cat=servicios" data-name="servicios">
+    <div>
+      <span class="card-title">Servicios</span>
+      <span class="card-subtitle">Personas que realizan trabajos o tareas</span>
+    </div>
+  </a>
 
-    <a class="category-card cat-15" id="cardProfesionales" href="categoria.html?cat=profesionales" data-name="profesionales">
-      <div>
-        <span class="card-title">Profesionales</span>
-        <span class="card-subtitle">Profesiones universitarias o técnicas</span>
-      </div>
-    </a>
+  <a class="category-card cat-15" id="cardProfesionales" href="categoria.html?cat=profesionales" data-name="profesionales">
+    <div>
+      <span class="card-title">Profesionales</span>
+      <span class="card-subtitle">Profesiones universitarias o técnicas</span>
+    </div>
+  </a>
 
-    <a class="category-card cat-4" id="cardSalud" href="categoria.html?cat=salud" data-name="salud">
-      <div>
-        <span class="card-title">Salud</span>
-        <span class="card-subtitle">Profesionales de la salud</span>
-      </div>
-    </a>
-  </div>
+  <a class="category-card cat-4" id="cardSalud" href="categoria.html?cat=salud" data-name="salud">
+    <div>
+      <span class="card-title">Salud</span>
+      <span class="card-subtitle">Profesionales de la salud</span>
+    </div>
+  </a>
+</div>
+
+<div class="category-single-center" id="institucionesWrap">
+  <a class="category-card cat-20" id="cardInstituciones" href="categoria.html?cat=instituciones" data-name="instituciones">
+    <div>
+      <span class="card-title">Instituciones</span>
+      <span class="card-subtitle">Organizaciones y entidades sin fines de lucro</span>
+    </div>
+  </a>
+</div>
 
   <div class="section-block" id="perfilLaboralWrap">
   <div class="perfil-laboral-label" id="perfilLaboralLabel">Buscás trabajo?</div>
