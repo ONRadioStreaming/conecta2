@@ -969,10 +969,21 @@ form.addEventListener("submit", async function(e) {
     const result = await response.json();
 
     if (result.ok) {
-      mostrarExito(
-  "Gracias por registrar tu institución en Conecta2.<br><br>" +
-  "Tu institución ya forma parte de la plataforma."
-);
+  const idRegistro = result.id_registro || "";
+  const nombreInstitucion = valor("nombreInstitucion");
+  const usuarioGenerado = result.usuario || "";
+  const passwordGenerado = result.password || "";
+
+  const destino =
+    "membresia-confirmada-gratuita.html" +
+    "?id_registro=" + encodeURIComponent(idRegistro) +
+    "&nombre=" + encodeURIComponent(nombreInstitucion) +
+    "&usuario=" + encodeURIComponent(usuarioGenerado) +
+    "&password=" + encodeURIComponent(passwordGenerado);
+
+  window.location.href = destino;
+  return;
+}
 
       form.reset();
       archivoFoto = null;
