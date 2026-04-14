@@ -178,7 +178,7 @@
       background: #f8fbfd;
       color: #21364f;
       border-radius: 16px;
-      padding: 14px 14px;
+      padding: 14px;
       font-size: 0.96rem;
       font-family: inherit;
       font-weight: 700;
@@ -268,26 +268,6 @@
       color: #173a68;
       font-size: 0.98rem;
       font-weight: 800;
-    }
-
-    .toggle-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #eef7fc;
-      border: 1px solid #d7eaf6;
-      border-radius: 14px;
-      padding: 12px 14px;
-      color: #244b68;
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .toggle-box input[type="checkbox"] {
-      width: auto;
-      margin: 0;
-      transform: scale(1.15);
     }
 
     .checkbox-group {
@@ -570,29 +550,21 @@
       color: #24497a;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     @media (max-width: 640px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .photo-actions {
-        grid-template-columns: 1fr;
-      }
-
-      .checkbox-group {
-        grid-template-columns: 1fr;
-      }
-
-      .actions {
+      .grid-2,
+      .photo-actions,
+      .checkbox-group,
+      .actions,
+      .card-buttons {
         grid-template-columns: 1fr;
       }
 
       .card-top {
         flex-direction: column;
-      }
-
-      .card-buttons {
-        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -640,9 +612,7 @@
 
             <div class="preview-frame">
               <img id="previewImg" alt="Vista previa">
-              <div id="previewPlaceholder" class="preview-placeholder">
-                Vista previa<br>de la foto
-              </div>
+              <div id="previewPlaceholder" class="preview-placeholder">Vista previa<br>de la foto</div>
             </div>
           </div>
 
@@ -684,8 +654,8 @@
             </div>
 
             <div class="field-group">
-              <label for="telefono">Teléfono</label>
-              <input type="tel" id="telefono" placeholder="Teléfono para llamadas">
+              <label for="telefono">Teléfono alternativo</label>
+              <input type="tel" id="telefono" placeholder="Opcional">
             </div>
           </div>
 
@@ -862,392 +832,415 @@
     </div>
   </div>
 
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
 
-const form = document.getElementById("perfilLaboralForm");
-const fotoCamara = document.getElementById("fotoCamara");
-const fotoGaleria = document.getElementById("fotoGaleria");
-const previewImg = document.getElementById("previewImg");
-const previewPlaceholder = document.getElementById("previewPlaceholder");
-const errorBox = document.getElementById("errorBox");
-const successBox = document.getElementById("successBox");
-const btnPreview = document.getElementById("btnPreview");
-const previewCard = document.getElementById("previewCard");
-const cardBtnWhatsapp = document.getElementById("cardBtnWhatsapp");
-const cardBtnCall = document.getElementById("cardBtnCall");
-const cardBtnMail = document.getElementById("cardBtnMail");
-const rubroPrincipal = document.getElementById("rubroPrincipal");
-const otroRubroGroup = document.getElementById("otroRubroGroup");
-const otroRubro = document.getElementById("otroRubro");
-const confirmacionPerfil = document.getElementById("confirmacionPerfil");
+    const form = document.getElementById("perfilLaboralForm");
+    const fotoCamara = document.getElementById("fotoCamara");
+    const fotoGaleria = document.getElementById("fotoGaleria");
+    const previewImg = document.getElementById("previewImg");
+    const previewPlaceholder = document.getElementById("previewPlaceholder");
+    const errorBox = document.getElementById("errorBox");
+    const successBox = document.getElementById("successBox");
+    const btnPreview = document.getElementById("btnPreview");
+    const previewCard = document.getElementById("previewCard");
+    const cardBtnWhatsapp = document.getElementById("cardBtnWhatsapp");
+    const cardBtnCall = document.getElementById("cardBtnCall");
+    const cardBtnMail = document.getElementById("cardBtnMail");
+    const rubroPrincipal = document.getElementById("rubroPrincipal");
+    const otroRubroGroup = document.getElementById("otroRubroGroup");
+    const otroRubro = document.getElementById("otroRubro");
+    const confirmacionPerfil = document.getElementById("confirmacionPerfil");
 
-let archivoFoto = null;
+    let archivoFoto = null;
 
-function valor(id) {
-  const el = document.getElementById(id);
-  if (!el) return "";
-  return String(el.value || "").trim();
-}
-
-function limpiarMensajes() {
-  errorBox.classList.remove("show");
-  errorBox.innerHTML = "";
-  successBox.classList.remove("show");
-  successBox.innerHTML = "";
-}
-
-function mostrarError(html) {
-  errorBox.innerHTML = html;
-  errorBox.classList.add("show");
-  successBox.classList.remove("show");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function mostrarExito(html) {
-  successBox.innerHTML = html;
-  successBox.classList.add("show");
-  errorBox.classList.remove("show");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function limpiarTelefono(numero) {
-  return (numero || "").replace(/\D/g, "");
-}
-
-function telefonoValido(numero) {
-  const limpio = limpiarTelefono(numero);
-  return limpio.length >= 6 && limpio.length <= 15;
-}
-
-function emailValido(email) {
-  const limpio = (email || "").trim();
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(limpio);
-}
-
-function edadValida(edad) {
-  const n = Number(edad);
-  return Number.isInteger(n) && n >= 16 && n <= 99;
-}
-
-function procesarFoto(file) {
-  if (!file) return;
-  archivoFoto = file;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    previewImg.src = e.target.result;
-    previewImg.style.display = "block";
-    previewPlaceholder.style.display = "none";
-  };
-  reader.readAsDataURL(file);
-}
-
-fotoCamara.addEventListener("change", function() {
-  procesarFoto(this.files[0]);
-});
-
-fotoGaleria.addEventListener("change", function() {
-  procesarFoto(this.files[0]);
-});
-
-function actualizarOtroRubro() {
-  if (rubroPrincipal.value === "Otro") {
-    otroRubroGroup.classList.remove("hidden");
-  } else {
-    otroRubroGroup.classList.add("hidden");
-    otroRubro.value = "";
-  }
-}
-
-rubroPrincipal.addEventListener("change", actualizarOtroRubro);
-actualizarOtroRubro();
-
-function obtenerRubroFinal() {
-  if (rubroPrincipal.value === "Otro") return valor("otroRubro");
-  return valor("rubroPrincipal");
-}
-
-function convertirImagenABase64(file) {
-  return new Promise(function(resolve, reject) {
-    const reader = new FileReader();
-    reader.onload = function() {
-      resolve(reader.result);
-    };
-    reader.onerror = function(error) {
-      reject(error);
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function abrirWhatsapp(numero) {
-  const limpio = limpiarTelefono(numero);
-  if (!limpio) return;
-  window.open("https://wa.me/" + limpio, "_blank");
-}
-
-function abrirMail(correo) {
-  const limpio = (correo || "").trim();
-  if (!limpio) return;
-  window.location.href = "mailto:" + limpio;
-}
-
-function textoCheckbox(id, texto) {
-  return document.getElementById(id).checked ? texto : "";
-}
-
-function partirTextoEnLineas(texto) {
-  return String(texto || "")
-    .split("\n")
-    .map(function(item) { return item.trim(); })
-    .filter(Boolean);
-}
-
-function llenarBlockLineas(id, texto, fallback) {
-  const box = document.getElementById(id);
-  box.innerHTML = "";
-
-  const lineas = partirTextoEnLineas(texto);
-  if (lineas.length === 0) {
-    const div = document.createElement("div");
-    div.textContent = fallback || "-";
-    box.appendChild(div);
-    return;
-  }
-
-  lineas.forEach(function(item) {
-    const div = document.createElement("div");
-    div.textContent = item;
-    box.appendChild(div);
-  });
-}
-
-function llenarBlockChips(id, items, fallback) {
-  const box = document.getElementById(id);
-  box.innerHTML = "";
-
-  const lista = (items || []).filter(Boolean);
-  if (lista.length === 0) {
-    const chip = document.createElement("div");
-    chip.className = "card-chip";
-    chip.textContent = fallback || "-";
-    box.appendChild(chip);
-    return;
-  }
-
-  lista.forEach(function(item) {
-    const chip = document.createElement("div");
-    chip.className = "card-chip";
-    chip.textContent = item;
-    box.appendChild(chip);
-  });
-}
-
-function validarFormulario() {
-  limpiarMensajes();
-  const faltantes = [];
-
-  if (!archivoFoto) faltantes.push("Foto personal");
-  if (!valor("nombre")) faltantes.push("Nombre");
-  if (!valor("apellido")) faltantes.push("Apellido");
-  if (!valor("edad")) faltantes.push("Edad");
-  if (valor("edad") && !edadValida(valor("edad"))) faltantes.push("Edad válida entre 16 y 99");
-  if (!valor("ciudad")) faltantes.push("Ciudad / Localidad");
-  if (!valor("codigoPostal")) faltantes.push("Código Postal");
-  if (!valor("whatsapp")) faltantes.push("WhatsApp");
-  if (valor("whatsapp") && !telefonoValido(valor("whatsapp"))) faltantes.push("WhatsApp válido");
-  if (valor("telefono") && !telefonoValido(valor("telefono"))) faltantes.push("Teléfono válido");
-  if (!valor("email")) faltantes.push("Correo electrónico");
-  if (valor("email") && !emailValido(valor("email"))) faltantes.push("Correo electrónico válido");
-  if (!valor("rubroPrincipal")) faltantes.push("Rubro principal");
-  if (valor("rubroPrincipal") === "Otro" && !valor("otroRubro")) faltantes.push("Especificá cuál");
-  if (!valor("especialidad")) faltantes.push("Oficio / puesto / especialidad");
-  if (!valor("presentacion")) faltantes.push("Presentación personal");
-  if (!valor("experiencia")) faltantes.push("Experiencia laboral");
-  if (!valor("habilidades")) faltantes.push("Habilidades / oficios");
-  if (!valor("disponibilidad")) faltantes.push("Disponibilidad");
-  if (!valor("zonaTrabajo")) faltantes.push("Zona en la que podés trabajar");
-  if (!confirmacionPerfil.checked) faltantes.push("Confirmación del perfil laboral");
-
-  if (faltantes.length > 0) {
-    mostrarError("Faltan completar o corregir estos campos:<br><br>• " + faltantes.join("<br>• "));
-    return false;
-  }
-
-  return true;
-}
-
-function construirVistaPrevia() {
-  const nombreCompleto = (valor("nombre") + " " + valor("apellido")).trim();
-  const rubroFinal = obtenerRubroFinal();
-  const especialidad = valor("especialidad");
-  const edad = valor("edad");
-  const ciudad = valor("ciudad");
-  const codigoPostal = valor("codigoPostal");
-  const presentacion = valor("presentacion");
-  const experiencia = valor("experiencia");
-  const estudios = valor("estudios");
-  const habilidades = valor("habilidades");
-  const disponibilidad = valor("disponibilidad");
-  const zonaTrabajo = valor("zonaTrabajo");
-  const observaciones = valor("observaciones");
-  const whatsapp = limpiarTelefono(valor("whatsapp"));
-  const telefono = limpiarTelefono(valor("telefono"));
-  const email = valor("email");
-
-  document.getElementById("cardName").textContent = nombreCompleto;
-  document.getElementById("cardJob").textContent = especialidad;
-  document.getElementById("cardEdad").textContent = edad + " años";
-  document.getElementById("cardDisponibilidad").textContent = disponibilidad;
-  document.getElementById("cardDesc").textContent = presentacion;
-  document.getElementById("cardAvatar").src = previewImg.src || "";
-
-  llenarBlockLineas(
-    "cardUbicacionBlock",
-    ciudad + " (" + codigoPostal + ")\nZona de trabajo: " + zonaTrabajo,
-    "Sin ubicación"
-  );
-
-  const rubroItems = [rubroFinal, especialidad].filter(Boolean);
-  llenarBlockChips("cardRubroBlock", rubroItems, "Sin rubro");
-
-  llenarBlockLineas("cardExperienciaBlock", experiencia, "Sin experiencia cargada");
-  llenarBlockLineas("cardEstudiosBlock", estudios, "No informó estudios");
-  llenarBlockLineas("cardHabilidadesBlock", habilidades, "Sin habilidades cargadas");
-
-  const extras = [];
-  if (document.getElementById("carnetConducir").checked) extras.push("Carnet de conducir");
-  if (document.getElementById("movilidadPropia").checked) extras.push("Movilidad propia");
-  if (observaciones) extras.push(observaciones);
-  llenarBlockChips("cardExtrasBlock", extras, "Sin datos adicionales");
-
-  cardBtnWhatsapp.onclick = function() {
-    if (whatsapp) abrirWhatsapp(whatsapp);
-  };
-
-  cardBtnCall.onclick = function() {
-    if (telefono) window.location.href = "tel:" + telefono;
-  };
-
-  cardBtnMail.onclick = function() {
-    if (email) abrirMail(email);
-  };
-
-  cardBtnWhatsapp.style.display = whatsapp ? "block" : "none";
-  cardBtnCall.style.display = telefono ? "block" : "none";
-  cardBtnMail.style.display = email ? "block" : "none";
-
-  previewCard.classList.add("show");
-  previewCard.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-btnPreview.addEventListener("click", function() {
-  if (!validarFormulario()) return;
-  construirVistaPrevia();
-});
-
-form.addEventListener("submit", async function(e) {
-  e.preventDefault();
-  if (!validarFormulario()) return;
-
-  const submitBtn = form.querySelector(".btn-submit");
-
-  try {
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Publicando...";
-
-    const file = archivoFoto;
-    const fotoBase64 = file ? await convertirImagenABase64(file) : "";
-    const nombreCompleto = (valor("nombre") + " " + valor("apellido")).trim();
-
-    const payload = {
-      action: "registrarPerfilLaboral",
-      tipo: "perfil_laboral",
-      tipo_registro: "perfil_laboral",
-      nombre: valor("nombre"),
-      apellido: valor("apellido"),
-      nombreCompleto: nombreCompleto,
-      nombre_completo: nombreCompleto,
-      edad: valor("edad"),
-      ciudad: valor("ciudad"),
-      localidad: valor("ciudad"),
-      codigoPostal: valor("codigoPostal"),
-      codigo_postal: valor("codigoPostal"),
-      whatsapp: limpiarTelefono(valor("whatsapp")),
-      telefono: limpiarTelefono(valor("telefono")),
-      email: valor("email"),
-      rubroPrincipal: valor("rubroPrincipal"),
-      rubro_principal: obtenerRubroFinal(),
-      otroRubro: valor("otroRubro"),
-      especialidad: valor("especialidad"),
-      oficio: valor("especialidad"),
-      puesto: valor("especialidad"),
-      presentacion: valor("presentacion"),
-      experiencia: valor("experiencia"),
-      estudios: valor("estudios"),
-      habilidades: valor("habilidades"),
-      disponibilidad: valor("disponibilidad"),
-      zonaTrabajo: valor("zonaTrabajo"),
-      zona_trabajo: valor("zonaTrabajo"),
-      carnetConducir: document.getElementById("carnetConducir").checked ? "si" : "no",
-      carnet_conducir: document.getElementById("carnetConducir").checked ? "si" : "no",
-      movilidadPropia: document.getElementById("movilidadPropia").checked ? "si" : "no",
-      movilidad_propia: document.getElementById("movilidadPropia").checked ? "si" : "no",
-      observaciones: valor("observaciones"),
-      confirmacionPerfil: confirmacionPerfil.checked ? "si" : "no",
-      confirmacion_perfil: confirmacionPerfil.checked ? "si" : "no",
-      fotoBase64: fotoBase64
-    };
-
-    const response = await fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const result = await response.json();
-
-    if (result.ok) {
-      mostrarExito(
-        "Tu perfil laboral fue cargado correctamente.<br><br>" +
-        "Ya quedó publicado en Conecta2 y podrá ser visualizado por comercios y empresas que buscan empleados."
-      );
-
-      form.reset();
-      archivoFoto = null;
-      previewImg.src = "";
-      previewImg.style.display = "none";
-      previewPlaceholder.style.display = "block";
-      previewCard.classList.remove("show");
-      actualizarOtroRubro();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    } else {
-      mostrarError("No se pudo guardar el perfil laboral.<br><br>Detalle: " + (result.error || result.message || "Error desconocido"));
+    function valor(id) {
+      const el = document.getElementById(id);
+      return el ? String(el.value || "").trim() : "";
     }
 
-  } catch (error) {
-    mostrarError("Ocurrió un error al publicar el perfil laboral.<br><br>Detalle: " + error);
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Publicar perfil laboral";
-  }
-});
+    function limpiarMensajes() {
+      errorBox.classList.remove("show");
+      errorBox.innerHTML = "";
+      successBox.classList.remove("show");
+      successBox.innerHTML = "";
+    }
 
-document.addEventListener("contextmenu", function(e) {
-  if (previewCard.classList.contains("show") && previewCard.contains(e.target)) {
-    e.preventDefault();
-  }
-});
+    function mostrarError(html) {
+      errorBox.innerHTML = html;
+      errorBox.classList.add("show");
+      successBox.classList.remove("show");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-document.addEventListener("copy", function(e) {
-  if (previewCard.classList.contains("show") && previewCard.contains(document.activeElement)) {
-    e.preventDefault();
-  }
-});
-</script>
+    function mostrarExito(html) {
+      successBox.innerHTML = html;
+      successBox.classList.add("show");
+      errorBox.classList.remove("show");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function limpiarTelefono(numero) {
+      return String(numero || "").replace(/\D/g, "");
+    }
+
+    function telefonoValido(numero) {
+      const limpio = limpiarTelefono(numero);
+      return limpio.length >= 6 && limpio.length <= 15;
+    }
+
+    function emailValido(email) {
+      const limpio = String(email || "").trim();
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(limpio);
+    }
+
+    function edadValida(edad) {
+      const n = Number(edad);
+      return Number.isInteger(n) && n >= 16 && n <= 99;
+    }
+
+    function procesarFoto(file) {
+      if (!file) return;
+      archivoFoto = file;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImg.src = e.target.result;
+        previewImg.style.display = "block";
+        previewPlaceholder.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    }
+
+    fotoCamara.addEventListener("change", function() {
+      procesarFoto(this.files[0]);
+    });
+
+    fotoGaleria.addEventListener("change", function() {
+      procesarFoto(this.files[0]);
+    });
+
+    function actualizarOtroRubro() {
+      if (rubroPrincipal.value === "Otro") {
+        otroRubroGroup.classList.remove("hidden");
+      } else {
+        otroRubroGroup.classList.add("hidden");
+        otroRubro.value = "";
+      }
+    }
+
+    rubroPrincipal.addEventListener("change", actualizarOtroRubro);
+    actualizarOtroRubro();
+
+    function obtenerRubroFinal() {
+      return rubroPrincipal.value === "Otro" ? valor("otroRubro") : valor("rubroPrincipal");
+    }
+
+    function convertirImagenABase64(file) {
+      return new Promise(function(resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = function() {
+          resolve(reader.result);
+        };
+        reader.onerror = function(error) {
+          reject(error);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function abrirWhatsapp(numero) {
+      const limpio = limpiarTelefono(numero);
+      if (limpio) window.open("https://wa.me/" + limpio, "_blank");
+    }
+
+    function abrirMail(correo) {
+      const limpio = String(correo || "").trim();
+      if (limpio) window.location.href = "mailto:" + limpio;
+    }
+
+    function partirTextoEnLineas(texto) {
+      return String(texto || "")
+        .split("\n")
+        .map(function(item) { return item.trim(); })
+        .filter(Boolean);
+    }
+
+    function llenarBlockLineas(id, texto, fallback) {
+      const box = document.getElementById(id);
+      box.innerHTML = "";
+
+      const lineas = partirTextoEnLineas(texto);
+      if (lineas.length === 0) {
+        const div = document.createElement("div");
+        div.textContent = fallback || "-";
+        box.appendChild(div);
+        return;
+      }
+
+      lineas.forEach(function(item) {
+        const div = document.createElement("div");
+        div.textContent = item;
+        box.appendChild(div);
+      });
+    }
+
+    function llenarBlockChips(id, items, fallback) {
+      const box = document.getElementById(id);
+      box.innerHTML = "";
+
+      const lista = (items || []).filter(Boolean);
+      if (lista.length === 0) {
+        const chip = document.createElement("div");
+        chip.className = "card-chip";
+        chip.textContent = fallback || "-";
+        box.appendChild(chip);
+        return;
+      }
+
+      lista.forEach(function(item) {
+        const chip = document.createElement("div");
+        chip.className = "card-chip";
+        chip.textContent = item;
+        box.appendChild(chip);
+      });
+    }
+
+    function construirDescripcionPersonal() {
+      const partes = [];
+
+      if (valor("presentacion")) partes.push("Presentación: " + valor("presentacion"));
+      if (valor("zonaTrabajo")) partes.push("Zona de trabajo: " + valor("zonaTrabajo"));
+      if (valor("observaciones")) partes.push("Observaciones: " + valor("observaciones"));
+
+      return partes.join("\n\n").trim();
+    }
+
+    function construirHabilidadesFinal() {
+      const partes = [];
+
+      if (valor("habilidades")) partes.push(valor("habilidades"));
+      if (obtenerRubroFinal()) partes.push("Rubro principal: " + obtenerRubroFinal());
+      if (document.getElementById("movilidadPropia").checked) partes.push("Movilidad propia");
+
+      return partes.join("\n").trim();
+    }
+
+    function obtenerTelefonoPrincipal() {
+      return limpiarTelefono(valor("whatsapp")) || limpiarTelefono(valor("telefono")) || "";
+    }
+
+    function validarFormulario() {
+      limpiarMensajes();
+      const faltantes = [];
+
+      if (!archivoFoto) faltantes.push("Foto personal");
+      if (!valor("nombre")) faltantes.push("Nombre");
+      if (!valor("apellido")) faltantes.push("Apellido");
+      if (!valor("edad")) faltantes.push("Edad");
+      if (valor("edad") && !edadValida(valor("edad"))) faltantes.push("Edad válida entre 16 y 99");
+      if (!valor("ciudad")) faltantes.push("Ciudad / Localidad");
+      if (!valor("codigoPostal")) faltantes.push("Código Postal");
+      if (!valor("whatsapp")) faltantes.push("WhatsApp");
+      if (valor("whatsapp") && !telefonoValido(valor("whatsapp"))) faltantes.push("WhatsApp válido");
+      if (valor("telefono") && !telefonoValido(valor("telefono"))) faltantes.push("Teléfono alternativo válido");
+      if (!valor("email")) faltantes.push("Correo electrónico");
+      if (valor("email") && !emailValido(valor("email"))) faltantes.push("Correo electrónico válido");
+      if (!valor("rubroPrincipal")) faltantes.push("Rubro principal");
+      if (valor("rubroPrincipal") === "Otro" && !valor("otroRubro")) faltantes.push("Especificá cuál");
+      if (!valor("especialidad")) faltantes.push("Oficio / puesto / especialidad");
+      if (!valor("presentacion")) faltantes.push("Presentación personal");
+      if (!valor("experiencia")) faltantes.push("Experiencia laboral");
+      if (!valor("habilidades")) faltantes.push("Habilidades / oficios");
+      if (!valor("disponibilidad")) faltantes.push("Disponibilidad");
+      if (!valor("zonaTrabajo")) faltantes.push("Zona en la que podés trabajar");
+      if (!confirmacionPerfil.checked) faltantes.push("Confirmación del perfil laboral");
+
+      if (faltantes.length > 0) {
+        mostrarError("Faltan completar o corregir estos campos:<br><br>• " + faltantes.join("<br>• "));
+        return false;
+      }
+
+      return true;
+    }
+
+    function construirVistaPrevia() {
+      const nombreCompleto = (valor("nombre") + " " + valor("apellido")).trim();
+      const rubroFinal = obtenerRubroFinal();
+      const especialidad = valor("especialidad");
+      const edad = valor("edad");
+      const ciudad = valor("ciudad");
+      const codigoPostal = valor("codigoPostal");
+      const presentacion = valor("presentacion");
+      const experiencia = valor("experiencia");
+      const estudios = valor("estudios");
+      const habilidades = valor("habilidades");
+      const disponibilidad = valor("disponibilidad");
+      const zonaTrabajo = valor("zonaTrabajo");
+      const observaciones = valor("observaciones");
+      const whatsapp = limpiarTelefono(valor("whatsapp"));
+      const telefono = limpiarTelefono(valor("telefono"));
+      const email = valor("email");
+
+      document.getElementById("cardName").textContent = nombreCompleto;
+      document.getElementById("cardJob").textContent = especialidad;
+      document.getElementById("cardEdad").textContent = edad + " años";
+      document.getElementById("cardDisponibilidad").textContent = disponibilidad;
+      document.getElementById("cardDesc").textContent = presentacion;
+      document.getElementById("cardAvatar").src = previewImg.src || "";
+
+      llenarBlockLineas(
+        "cardUbicacionBlock",
+        ciudad + " (" + codigoPostal + ")\nZona de trabajo: " + zonaTrabajo,
+        "Sin ubicación"
+      );
+
+      llenarBlockChips("cardRubroBlock", [rubroFinal, especialidad].filter(Boolean), "Sin rubro");
+      llenarBlockLineas("cardExperienciaBlock", experiencia, "Sin experiencia cargada");
+      llenarBlockLineas("cardEstudiosBlock", estudios, "No informó estudios");
+      llenarBlockLineas("cardHabilidadesBlock", habilidades, "Sin habilidades cargadas");
+
+      const extras = [];
+      if (document.getElementById("carnetConducir").checked) extras.push("Carnet de conducir");
+      if (document.getElementById("movilidadPropia").checked) extras.push("Movilidad propia");
+      if (observaciones) extras.push(observaciones);
+      llenarBlockChips("cardExtrasBlock", extras, "Sin datos adicionales");
+
+      cardBtnWhatsapp.onclick = function() {
+        if (whatsapp) abrirWhatsapp(whatsapp);
+      };
+
+      cardBtnCall.onclick = function() {
+        const numeroLlamada = telefono || whatsapp;
+        if (numeroLlamada) window.location.href = "tel:" + numeroLlamada;
+      };
+
+      cardBtnMail.onclick = function() {
+        if (email) abrirMail(email);
+      };
+
+      cardBtnWhatsapp.style.display = whatsapp ? "block" : "none";
+      cardBtnCall.style.display = (telefono || whatsapp) ? "block" : "none";
+      cardBtnMail.style.display = email ? "block" : "none";
+
+      previewCard.classList.add("show");
+      previewCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    btnPreview.addEventListener("click", function() {
+      if (!validarFormulario()) return;
+      construirVistaPrevia();
+    });
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      if (!validarFormulario()) return;
+
+      const submitBtn = form.querySelector(".btn-submit");
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Publicando...";
+
+        const fotoBase64 = archivoFoto ? await convertirImagenABase64(archivoFoto) : "";
+        const nombreCompleto = (valor("nombre") + " " + valor("apellido")).trim();
+        const rubroFinal = obtenerRubroFinal();
+        const telefonoPrincipal = obtenerTelefonoPrincipal();
+        const descripcionPersonal = construirDescripcionPersonal();
+        const habilidadesFinal = construirHabilidadesFinal();
+
+        const payload = {
+          action: "registrarPerfilLaboral",
+          tipo: "perfil_laboral",
+          tipo_registro: "perfil_laboral",
+
+          nombre: valor("nombre"),
+          apellido: valor("apellido"),
+          edad: valor("edad"),
+          telefono: telefonoPrincipal,
+          email: valor("email"),
+          ciudad: valor("ciudad"),
+          cp: valor("codigoPostal"),
+          formacion: valor("estudios"),
+          experiencia: valor("experiencia"),
+          habilidades: habilidadesFinal,
+          oficios: valor("especialidad"),
+          disponibilidad: valor("disponibilidad"),
+          carnet_conducir: document.getElementById("carnetConducir").checked ? "si" : "no",
+          descripcion_personal: descripcionPersonal,
+          foto_base64: fotoBase64,
+          estado: "activo",
+
+          nombreCompleto: nombreCompleto,
+          nombre_completo: nombreCompleto,
+          codigoPostal: valor("codigoPostal"),
+          codigo_postal: valor("codigoPostal"),
+          whatsapp: limpiarTelefono(valor("whatsapp")),
+          telefono_alternativo: limpiarTelefono(valor("telefono")),
+          rubroPrincipal: valor("rubroPrincipal"),
+          rubro_principal: rubroFinal,
+          otroRubro: valor("otroRubro"),
+          especialidad: valor("especialidad"),
+          oficio: valor("especialidad"),
+          puesto: valor("especialidad"),
+          presentacion: valor("presentacion"),
+          estudios: valor("estudios"),
+          zonaTrabajo: valor("zonaTrabajo"),
+          zona_trabajo: valor("zonaTrabajo"),
+          movilidadPropia: document.getElementById("movilidadPropia").checked ? "si" : "no",
+          movilidad_propia: document.getElementById("movilidadPropia").checked ? "si" : "no",
+          observaciones: valor("observaciones"),
+          confirmacionPerfil: confirmacionPerfil.checked ? "si" : "no",
+          confirmacion_perfil: confirmacionPerfil.checked ? "si" : "no"
+        };
+
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          mostrarExito(
+            "Tu perfil laboral fue cargado correctamente.<br><br>" +
+            "Ya quedó publicado en Conecta2 y podrá ser visualizado por comercios y empresas que buscan empleados."
+          );
+
+          form.reset();
+          archivoFoto = null;
+          previewImg.src = "";
+          previewImg.style.display = "none";
+          previewPlaceholder.style.display = "block";
+          previewCard.classList.remove("show");
+          actualizarOtroRubro();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        mostrarError("No se pudo guardar el perfil laboral.<br><br>Detalle: " + (result.error || result.message || "Error desconocido"));
+      } catch (error) {
+        mostrarError("Ocurrió un error al publicar el perfil laboral.<br><br>Detalle: " + error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Publicar perfil laboral";
+      }
+    });
+
+    document.addEventListener("contextmenu", function(e) {
+      if (previewCard.classList.contains("show") && previewCard.contains(e.target)) {
+        e.preventDefault();
+      }
+    });
+
+    document.addEventListener("copy", function(e) {
+      if (previewCard.classList.contains("show") && previewCard.contains(document.activeElement)) {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
