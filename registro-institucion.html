@@ -994,10 +994,7 @@ form.addEventListener("submit", async function(e) {
       actualizarOtroTipo();
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
-    } else {
-      mostrarError("No se pudo guardar la publicación.<br><br>Detalle: " + (result.error || result.message || "Error desconocido"));
-    }
-
+    
   } catch (error) {
     mostrarError("Ocurrió un error al publicar la institución.<br><br>Detalle: " + error);
   } finally {
