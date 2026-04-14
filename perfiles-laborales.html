@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil | Conecta2</title>
+  <meta name="theme-color" content="#07142b" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Manrope', Arial, sans-serif;
+      background: #07142b;
+      color: #0f172a;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(29, 211, 209, 0.14), transparent 28%),
+        linear-gradient(180deg, #041126 0%, #071b3a 34%, #eef4f7 34%, #eef4f7 100%);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero-wrap {
+      padding: 16px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      color: #fff;
+      padding: 18px 16px 20px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px 0;
+      font-size: 1.8rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.88);
+      font-weight: 600;
+    }
+
+    .content {
+      background: #eef4f7;
+      border-radius: 32px 32px 0 0;
+      padding: 22px 16px 30px;
+      min-height: calc(100vh - 180px);
+    }
+
+    .loading-state,
+    .error-state {
+      border-radius: 20px;
+      padding: 22px 18px;
+      text-align: center;
+      font-size: 0.94rem;
+      background: #f8fbff;
+      border: 1px solid #e4edf8;
+      color: #475569;
+      font-weight: 700;
+    }
+
+    .error-state {
+      color: #b91c1c;
+      background: #fff5f5;
+      border-color: #fecaca;
+    }
+
+    .profile-card {
+      background: #fff;
+      border: 1px solid #e8eef7;
+      border-radius: 26px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      display: none;
+    }
+
+    .profile-card.show {
+      display: block;
+    }
+
+    .profile-top {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .profile-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #edf3fb, #dbe7f3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-photo-fallback {
+      font-size: 2.2rem;
+      color: #6c7f95;
+    }
+
+    .profile-name {
+      margin: 0 0 8px 0;
+      font-size: 1.7rem;
+      line-height: 1.08;
+      color: #183b72;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      word-break: break-word;
+    }
+
+    .profile-rubro {
+      margin: 0 0 10px;
+      color: #6b7a90;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: #eef7ee;
+      color: #1f7a1f;
+      margin-bottom: 10px;
+    }
+
+    .status-pill.inactivo {
+      background: #fff3f3;
+      color: #b91c1c;
+    }
+
+    .state-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #14a44d;
+      line-height: 1.35;
+    }
+
+    .state-line.closed {
+      color: #b45309;
+    }
+
+    .state-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .section {
+      margin-top: 18px;
+      background: #f8fbff;
+      border: 1px solid #e4edf8;
+      border-radius: 20px;
+      padding: 15px;
+    }
+
+    .section-title {
+      margin: 0 0 12px 0;
+      font-size: 1rem;
+      color: #183b72;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .desc-text {
+      margin: 0;
+      color: #4c5f74;
+      font-size: 0.96rem;
+      line-height: 1.6;
+      font-weight: 600;
+      white-space: pre-line;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #27415f;
+      font-size: 0.96rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .info-icon {
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .info-text {
+      word-break: break-word;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 10px 13px;
+      white-space: nowrap;
+      font-size: 0.88rem;
+      font-weight: 800;
+      background: #f2f6fb;
+      color: #21406c;
+      box-shadow: inset 0 0 0 1px #d9e4ef;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+      border: 0;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #23ca57, #14ad43);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #f5f8fc;
+      color: #21406c;
+      box-shadow: inset 0 0 0 1px #dfe8f3;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 420px) {
+      .profile-top {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-photo {
+        width: 120px;
+        height: 120px;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero-wrap">
+      <div class="hero">
+        <div class="hero-top">
+          <button type="button" class="back-btn" id="btnBack">←</button>
+        </div>
+        <h1 id="heroTitle">Perfil</h1>
+        <p id="heroSubtitle">Conocé más detalles de este perfil.</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div id="loadingState" class="loading-state">Cargando perfil...</div>
+      <div id="errorState" class="error-state hidden">No se pudo cargar el perfil.</div>
+
+      <div id="profileCard" class="profile-card">
+        <div class="profile-top">
+          <div class="profile-photo" id="profilePhoto"></div>
+
+          <div>
+            <div id="statusPill" class="status-pill">Activo</div>
+            <h2 id="profileName" class="profile-name">-</h2>
+            <p id="profileRubro" class="profile-rubro">-</p>
+
+            <div id="stateLine" class="state-line">
+              <span class="state-dot"></span>
+              <span id="stateText">Disponible ahora</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="sectionDesc" class="section hidden">
+          <h3 class="section-title">Descripción</h3>
+          <p id="profileDesc" class="desc-text"></p>
+        </div>
+
+        <div class="section">
+          <h3 class="section-title">Información</h3>
+          <div class="info-list" id="infoList"></div>
+        </div>
+
+        <div id="sectionMedios" class="section hidden">
+          <h3 class="section-title">Medios de pago</h3>
+          <div id="mediosPagoChips" class="chips"></div>
+        </div>
+
+        <div class="actions">
+          <a id="btnWhatsApp" class="btn-action btn-primary hidden" target="_blank" rel="noopener">WhatsApp</a>
+          <a id="btnCall" class="btn-action btn-primary hidden">Llamar</a>
+          <button id="btnBackBottom" type="button" class="btn-action btn-secondary">Volver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL_BASE = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+
+    const params = new URLSearchParams(window.location.search);
+    const id = String(params.get("id") || "").trim();
+    const cat = String(params.get("cat") || "").trim().toLowerCase();
+
+    const els = {
+      btnBack: document.getElementById("btnBack"),
+      btnBackBottom: document.getElementById("btnBackBottom"),
+      heroTitle: document.getElementById("heroTitle"),
+      heroSubtitle: document.getElementById("heroSubtitle"),
+      loadingState: document.getElementById("loadingState"),
+      errorState: document.getElementById("errorState"),
+      profileCard: document.getElementById("profileCard"),
+      profilePhoto: document.getElementById("profilePhoto"),
+      statusPill: document.getElementById("statusPill"),
+      profileName: document.getElementById("profileName"),
+      profileRubro: document.getElementById("profileRubro"),
+      stateLine: document.getElementById("stateLine"),
+      stateText: document.getElementById("stateText"),
+      sectionDesc: document.getElementById("sectionDesc"),
+      profileDesc: document.getElementById("profileDesc"),
+      infoList: document.getElementById("infoList"),
+      sectionMedios: document.getElementById("sectionMedios"),
+      mediosPagoChips: document.getElementById("mediosPagoChips"),
+      btnWhatsApp: document.getElementById("btnWhatsApp"),
+      btnCall: document.getElementById("btnCall")
+    };
+
+    function volver() {
+      if (window.history.length > 1) {
+        window.history.back();
+        return;
+      }
+
+      if (cat) {
+        window.location.href = "categoria.html?cat=" + encodeURIComponent(cat);
+        return;
+      }
+
+      window.location.href = "index.html";
+    }
+
+    els.btnBack.addEventListener("click", volver);
+    els.btnBackBottom.addEventListener("click", volver);
+
+    function limpiarNumero(numero) {
+      return String(numero || "").replace(/\D/g, "");
+    }
+
+    function escaparHtml(texto) {
+      return String(texto || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function capitalizarPalabras(texto) {
+      return String(texto || "")
+        .toLowerCase()
+        .split(" ")
+        .filter(Boolean)
+        .map(function(p) {
+          return p.charAt(0).toUpperCase() + p.slice(1);
+        })
+        .join(" ");
+    }
+
+    function descripcionValida(texto) {
+      const limpio = String(texto || "").trim();
+      return limpio && limpio.length >= 6;
+    }
+
+    function resolverImagen(item) {
+  const posibles = [
+    item.foto_base64,
+    item.fotobase64,
+    item.fotoBase64,
+    item.foto,
+    item.imagen,
+    item.logo
+  ];
+
+  for (let i = 0; i < posibles.length; i++) {
+    const valor = String(posibles[i] || "").trim();
+    if (!valor) continue;
+
+    if (valor.startsWith("data:image")) return valor;
+    if (valor.startsWith("http://") || valor.startsWith("https://")) return valor;
+
+    if (valor.length > 100) {
+      return "data:image/jpeg;base64," + valor;
+    }
+  }
+
+  return "";
+}
+
+    function obtenerHorariosObjeto(horariosRaw) {
+      if (!horariosRaw) return null;
+      if (typeof horariosRaw === "object") return horariosRaw;
+
+      try {
+        return JSON.parse(horariosRaw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function rangoDiasTexto(dias) {
+      const orden = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+      const abreviado = {
+        lunes: "Lun",
+        martes: "Mar",
+        miercoles: "Mié",
+        jueves: "Jue",
+        viernes: "Vie",
+        sabado: "Sáb",
+        domingo: "Dom"
+      };
+
+      const indices = dias
+        .map(function(d){ return orden.indexOf(d); })
+        .filter(function(i){ return i >= 0; })
+        .sort(function(a,b){ return a-b; });
+
+      if (!indices.length) return "";
+
+      const grupos = [];
+      let inicio = indices[0];
+      let anterior = indices[0];
+
+      for (let i = 1; i < indices.length; i++) {
+        if (indices[i] === anterior + 1) {
+          anterior = indices[i];
+        } else {
+          grupos.push([inicio, anterior]);
+          inicio = indices[i];
+          anterior = indices[i];
+        }
+      }
+
+      grupos.push([inicio, anterior]);
+
+      return grupos.map(function(g) {
+        if (g[0] === g[1]) return abreviado[orden[g[0]]];
+        return abreviado[orden[g[0]]] + " a " + abreviado[orden[g[1]]];
+      }).join(", ");
+    }
+
+    function obtenerHorarioTexto(item) {
+      const obj = obtenerHorariosObjeto(item.horarios || item.horario || "");
+      if (!obj) {
+        const plano = String(item.horarios || item.horario || "").trim();
+        return plano || "Horario no informado";
+      }
+
+      const orden = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+      const grupos = {};
+
+      orden.forEach(function(dia) {
+        const valor = String(obj[dia] || "").trim();
+        if (!valor) return;
+        if (!grupos[valor]) grupos[valor] = [];
+        grupos[valor].push(dia);
+      });
+
+      const claves = Object.keys(grupos);
+      if (!claves.length) return "Horario no informado";
+
+      if (claves.length === 1) {
+        const valor = claves[0];
+        const diasTexto = rangoDiasTexto(grupos[valor]) || "Todos los días";
+        return diasTexto + " · " + valor;
+      }
+
+      return claves.map(function(valor) {
+        return rangoDiasTexto(grupos[valor]) + " · " + valor;
+      }).join(" | ");
+    }
+
+    function horarioHoyDetalle(item) {
+      const vacacionesActivo = String(item.vacaciones_activo || "").toLowerCase();
+      const vacacionesDesde = String(item.vacaciones_desde || "").trim();
+      const vacacionesHasta = String(item.vacaciones_hasta || "").trim();
+
+      if (vacacionesActivo === "si" || vacacionesActivo === "true" || vacacionesActivo === "activo") {
+        return {
+          texto: vacacionesDesde && vacacionesHasta
+            ? "Cerrado por vacaciones (" + vacacionesDesde + " al " + vacacionesHasta + ")"
+            : "Cerrado por vacaciones",
+          clase: "closed"
+        };
+      }
+
+      const obj = obtenerHorariosObjeto(item.horarios || item.horario || "");
+      const estadoBase = String(item.estado || "activo").toLowerCase();
+
+      if (estadoBase !== "activo") {
+        return { texto: "No disponible ahora", clase: "closed" };
+      }
+
+      if (!obj) {
+        return { texto: "Disponible ahora", clase: "" };
+      }
+
+      const dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+      const ahora = new Date();
+      const diaActual = dias[ahora.getDay()];
+      const detalle = String(obj[diaActual] || "").trim();
+
+      if (!detalle) {
+        return { texto: "Consultar disponibilidad", clase: "" };
+      }
+
+      const detalleLower = detalle.toLowerCase();
+
+      if (detalleLower.includes("cerrado")) {
+        return { texto: "Cerrado ahora", clase: "closed" };
+      }
+
+      if (detalleLower.includes("24 horas")) {
+        return { texto: "Abierto ahora", clase: "" };
+      }
+
+      const horaActual = ahora.getHours() * 60 + ahora.getMinutes();
+      const regex = /(\d{1,2}:\d{2})\s*(?:a|-)\s*(\d{1,2}:\d{2})/gi;
+      let match;
+      let encontrado = false;
+      let abierto = false;
+
+      while ((match = regex.exec(detalleLower)) !== null) {
+        encontrado = true;
+        const desde = match[1].split(":");
+        const hasta = match[2].split(":");
+
+        const minDesde = (parseInt(desde[0], 10) * 60) + parseInt(desde[1], 10);
+        const minHasta = (parseInt(hasta[0], 10) * 60) + parseInt(hasta[1], 10);
+
+        if (horaActual >= minDesde && horaActual <= minHasta) {
+          abierto = true;
+          break;
+        }
+      }
+
+      if (encontrado) {
+        return abierto
+          ? { texto: "Abierto ahora", clase: "" }
+          : { texto: "Cerrado ahora", clase: "closed" };
+      }
+
+      return { texto: "Disponible ahora", clase: "" };
+    }
+
+    function obtenerNombre(item) {
+
+  const nombreComercio = String(item.nombre_comercio || "").trim();
+
+  const nombreServicio = String(
+    item.nombre_servicio ||
+    item.nombreservicio ||
+    ""
+  ).trim();
+
+  const nombreProfesional = String(
+    item.nombreprofesional ||
+    item.nombre_profesional ||
+    ""
+  ).trim();
+
+  const nombre = String(item.nombre || "").trim();
+  const apellido = String(item.apellido || "").trim();
+
+  const nombrePersona = (nombre + " " + apellido).trim();
+
+  return nombreComercio || nombreServicio || nombreProfesional || nombrePersona || "Perfil";
+
+    }
+
+    function obtenerRubro(item) {
+      return String(
+        item.rubro_final ||
+        item.rubro ||
+        item.rubro_especialidad ||
+        item.rubroespecialidad ||
+        item.subcategoria ||
+        item.categoria_principal ||
+        item.categoriaprincipal ||
+        "Sin rubro"
+      ).trim();
+    }
+
+    function agregarInfo(icono, texto) {
+      const limpio = String(texto || "").trim();
+      if (!limpio) return;
+
+      const div = document.createElement("div");
+      div.className = "info-item";
+      div.innerHTML =
+        '<span class="info-icon">' + escaparHtml(icono) + '</span>' +
+        '<span class="info-text">' + escaparHtml(limpio) + '</span>';
+      els.infoList.appendChild(div);
+    }
+
+    function renderMediosPago(item) {
+      const medios = String(item.mediospago || item.medios_pago || "")
+        .split(",")
+        .map(function(x) { return String(x || "").trim(); })
+        .filter(Boolean);
+
+      if (!medios.length) return;
+
+      els.sectionMedios.classList.remove("hidden");
+      els.mediosPagoChips.innerHTML = medios
+        .map(function(medio) {
+          return '<span class="chip">' + escaparHtml(medio) + '</span>';
+        })
+        .join("");
+    }
+
+    function renderPerfil(item) {
+      const nombre = obtenerNombre(item);
+      const rubro = obtenerRubro(item);
+      const descripcion = String(item.descripcion || item.detalle || "").trim();
+      const direccion = String(item.direccion || item.domicilio || "").trim();
+      const zona = String(item.zona || "").trim();
+      const telefono = String(item.telefono || item.celular || item.telefonoalternativo || "").trim();
+      const telefonoAlt = String(item.telefonoalternativo || "").trim();
+      const whatsapp = String(item.whatsapp || "").trim();
+      const whatsappAlt1 = String(item.whatsappalt1 || "").trim();
+      const whatsappAlt2 = String(item.whatsappalt2 || "").trim();
+      const nombreWhatsappAlt1 = String(item.nombrewhatsappalt1 || "").trim();
+      const nombreWhatsappAlt2 = String(item.nombrewhatsappalt2 || "").trim();
+      const email = String(item.email || "").trim();
+      const matricula = String(item.matricula || "").trim();
+      const horarioTexto = obtenerHorarioTexto(item);
+      const estadoBase = String(item.estado || "activo").toLowerCase();
+      const estadoPill = estadoBase === "activo" ? "Activo" : "Inactivo";
+      const estadoPillClass = estadoBase === "activo" ? "status-pill" : "status-pill inactivo";
+      const estadoActual = horarioHoyDetalle(item);
+      const imagen = resolverImagen(item);
+
+      els.heroTitle.textContent = nombre;
+      els.heroSubtitle.textContent = rubro || "Conocé más detalles de este perfil.";
+
+      els.profileName.textContent = nombre;
+      els.profileRubro.textContent = capitalizarPalabras(rubro);
+      els.statusPill.textContent = estadoPill;
+      els.statusPill.className = estadoPillClass;
+      els.stateText.textContent = estadoActual.texto;
+      els.stateLine.className = "state-line " + (estadoActual.clase || "");
+
+      if (imagen) {
+        els.profilePhoto.innerHTML =
+          '<img src="' + imagen + '" alt="' + escaparHtml(nombre) + '" onerror="this.parentNode.innerHTML=\'<div class=&quot;profile-photo-fallback&quot;>🏪</div>\'">';
+      } else {
+        els.profilePhoto.innerHTML = '<div class="profile-photo-fallback">🏪</div>';
+      }
+
+      if (descripcionValida(descripcion)) {
+        els.sectionDesc.classList.remove("hidden");
+        els.profileDesc.textContent = descripcion;
+      }
+
+      els.infoList.innerHTML = "";
+
+      agregarInfo("🕒", horarioTexto);
+      if (direccion) agregarInfo("📍", direccion);
+      if (zona) agregarInfo("🗺️", "Zona de atención: " + zona);
+      if (email) agregarInfo("✉️", email);
+      if (matricula) agregarInfo("🪪", "Matrícula: " + matricula);
+      if (telefonoAlt) agregarInfo("☎️", "Teléfono alternativo: " + telefonoAlt);
+      if (whatsappAlt1) agregarInfo("💬", (nombreWhatsappAlt1 ? nombreWhatsappAlt1 + ": " : "WhatsApp alternativo 1: ") + whatsappAlt1);
+      if (whatsappAlt2) agregarInfo("💬", (nombreWhatsappAlt2 ? nombreWhatsappAlt2 + ": " : "WhatsApp alternativo 2: ") + whatsappAlt2);
+
+      renderMediosPago(item);
+
+      const whatsappLimpio = limpiarNumero(whatsapp || whatsappAlt1 || whatsappAlt2);
+      const telefonoLimpio = limpiarNumero(telefono || telefonoAlt);
+
+      if (whatsappLimpio) {
+        els.btnWhatsApp.classList.remove("hidden");
+        els.btnWhatsApp.href = "https://wa.me/" + whatsappLimpio;
+      }
+
+      if (telefonoLimpio) {
+        els.btnCall.classList.remove("hidden");
+        els.btnCall.href = "tel:" + telefonoLimpio;
+      }
+
+      els.loadingState.classList.add("hidden");
+      els.errorState.classList.add("hidden");
+      els.profileCard.classList.add("show");
+    }
+
+    function mostrarError(mensaje) {
+      els.loadingState.classList.add("hidden");
+      els.profileCard.classList.remove("show");
+      els.errorState.classList.remove("hidden");
+      els.errorState.textContent = mensaje || "No se pudo cargar el perfil.";
+    }
+
+    function cargarPerfil() {
+      if (!id) {
+        mostrarError("Falta el identificador del perfil.");
+        return;
+      }
+
+      const callbackName = "conecta2Perfil_" + Date.now();
+
+      window[callbackName] = function(response) {
+        try {
+          if (!response || response.ok === false || !response.item) {
+            mostrarError((response && response.error) || "No se encontró el perfil.");
+            return;
+          }
+
+          renderPerfil(response.item);
+        } catch (error) {
+          console.error("Error procesando perfil:", error);
+          mostrarError("Ocurrió un error al procesar el perfil.");
+        } finally {
+          try { delete window[callbackName]; } catch (e) {}
+          const script = document.getElementById(callbackName);
+          if (script) script.remove();
+        }
+      };
+
+      const script = document.createElement("script");
+      script.id = callbackName;
+      script.src = API_URL_BASE
+        + "?action=obtenerPerfil"
+        + "&id=" + encodeURIComponent(id)
+        + "&cat=" + encodeURIComponent(cat)
+        + "&callback=" + encodeURIComponent(callbackName);
+
+      script.onerror = function() {
+        try { delete window[callbackName]; } catch (e) {}
+        script.remove();
+        mostrarError("No se pudo cargar el perfil desde el servidor.");
+      };
+
+      document.body.appendChild(script);
+    }
+
+    cargarPerfil();
+  </script>
+</body>
+</html>
