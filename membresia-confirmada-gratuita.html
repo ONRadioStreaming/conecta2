@@ -337,7 +337,7 @@
       <p class="foot-note">La publicación puede reflejarse en la app en breve. Guardá estos datos de acceso para administrar tu perfil cuando lo necesites.</p>
 
       <div class="actions">
-        <a class="btn btn-primary" id="btnPanel" href="panel-miembro.html">Ir a mi panel</a>
+        <a class="btn btn-primary" id="btnPanel" href="panel-miembro-gratuito.html">Ir a mi panel</a>
         <a class="btn btn-secondary" href="https://onradiostreaming.github.io/conecta2/">Volver a la aplicación</a>
       </div>
     </section>
@@ -537,7 +537,7 @@
 
       const btnPanel = document.getElementById('btnPanel');
       if (btnPanel && resumen.idRegistro) {
-        btnPanel.href = 'panel-miembro.html?id_registro=' + encodeURIComponent(resumen.idRegistro);
+        btnPanel.href = 'panel-miembro-gratuito.html?id_registro=' + encodeURIComponent(resumen.idRegistro);
       }
 
       generarConfetti();
