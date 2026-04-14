@@ -2004,7 +2004,13 @@ Cargá tu perfil laboral
       btnPremiumLogout.classList.remove("hidden");
 
       premiumActions.classList.add("session-on");
-      btnPremiumPanel.href = "panel-miembro.html?id_registro=" + encodeURIComponent(session.id_registro);
+      const tipoSesion = String(session.tipo || "").trim().toLowerCase();
+
+if (tipoSesion === "institucion") {
+  btnPremiumPanel.href = "panel-institucion.html?id_registro=" + encodeURIComponent(session.id_registro || "");
+} else {
+  btnPremiumPanel.href = "panel-miembro.html?id_registro=" + encodeURIComponent(session.id_registro || "");
+}
       premiumSessionInfo.textContent = "Sesión activa como: " + (session.usuario || "miembro premium") + ".";
       applyPerfilLaboralUI(session);
       return;
