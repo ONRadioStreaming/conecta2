@@ -943,29 +943,23 @@ form.addEventListener("submit", async function(e) {
     const fotoBase64 = file ? await convertirImagenABase64(file) : "";
 
     const payload = {
-      action: "registrarInstitucion",
-      tipo: "institucion",
-      tipo_registro: "institucion",
-      nombreInstitucion: valor("nombreInstitucion"),
-      nombre_institucion: valor("nombreInstitucion"),
-      tipoInstitucion: valor("tipoInstitucion"),
-      tipo_institucion: obtenerTipoFinal(),
-      otroTipoInstitucion: valor("otroTipoInstitucion"),
-      descripcion: valor("descripcion"),
-      direccion: valor("direccion"),
-      ciudad: valor("ciudad"),
-      localidad: valor("ciudad"),
-      codigoPostal: valor("codigoPostal"),
-      codigo_postal: valor("codigoPostal"),
-      zona: valor("zona"),
-      telefono: limpiarTelefono(valor("telefono")),
-      whatsapp: limpiarTelefono(valor("whatsapp")),
-      email: valor("email"),
-      sitioWeb: valor("sitioWeb"),
-      sitio_web: valor("sitioWeb"),
-      confirmacionInstitucion: confirmacionInstitucion.checked ? "si" : "no",
-      fotoBase64: fotoBase64
-    };
+  action: "registrarInstitucion",
+  tipo: "institucion",
+  nombre: valor("nombreInstitucion"),
+  descripcion: valor("descripcion"),
+  direccion: valor("direccion"),
+  whatsapp: limpiarTelefono(valor("whatsapp")),
+  telefono: limpiarTelefono(valor("telefono")),
+  email: valor("email"),
+  localidad: valor("ciudad"),
+  cp: valor("codigoPostal"),
+
+  tipo_institucion: obtenerTipoFinal(),
+  zona: valor("zona"),
+  sitio_web: valor("sitioWeb"),
+  confirmacion_institucion: confirmacionInstitucion.checked ? "si" : "no",
+  fotoBase64: fotoBase64
+};
 
     const response = await fetch(SCRIPT_URL, {
  method: "POST",
@@ -979,9 +973,9 @@ form.addEventListener("submit", async function(e) {
 
     if (result.ok) {
       mostrarExito(
-        "Tu institución fue registrada correctamente.<br><br>" +
-        "La publicación gratuita fue enviada con éxito y ya forma parte de Conecta2."
-      );
+  "Gracias por registrar tu institución en Conecta2.<br><br>" +
+  "Tu institución ya forma parte de la plataforma."
+);
 
       form.reset();
       archivoFoto = null;
