@@ -1,0 +1,1028 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel institución | Conecta2</title>
+  <style>
+    :root{
+      --bg1:#0f172a;
+      --bg2:#1e293b;
+      --card:rgba(255,255,255,.97);
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --accent:#2563eb;
+      --accent2:#06b6d4;
+      --ok:#16a34a;
+      --warn:#ca8a04;
+      --danger:#dc2626;
+      --shadow:0 20px 45px rgba(0,0,0,.28);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.25), transparent 30%),
+        radial-gradient(circle at top right, rgba(6,182,212,.18), transparent 28%),
+        linear-gradient(145deg, var(--bg1), var(--bg2));
+      padding:24px;
+    }
+
+    .wrap{
+      max-width:1180px;
+      margin:0 auto;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.35);
+      padding:26px;
+    }
+
+    .topbar{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      margin-bottom:22px;
+    }
+
+    h1{
+      margin:0 0 8px;
+      font-size:clamp(1.9rem,4vw,2.6rem);
+      line-height:1.08;
+    }
+
+    .sub{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+      max-width:780px;
+      font-size:1.04rem;
+    }
+
+    .top-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      width:100%;
+    }
+
+    .btn{
+      appearance:none;
+      border:none;
+      text-decoration:none;
+      cursor:pointer;
+      border-radius:16px;
+      padding:14px 18px;
+      font-size:1rem;
+      font-weight:800;
+      transition:.15s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:54px;
+    }
+
+    .btn:hover{ transform:translateY(-1px); }
+
+    .btn-primary{
+      color:#fff;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow:0 12px 28px rgba(37,99,235,.28);
+    }
+
+    .btn-secondary{
+      background:#e2e8f0;
+      color:#0f172a;
+    }
+
+    .hero{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      margin-bottom:18px;
+    }
+
+    .hero-top{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:14px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 16px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:.95rem;
+      width:max-content;
+    }
+
+    .pill.ok{
+      background:rgba(22,163,74,.12);
+      color:#166534;
+    }
+
+    .pill.warn{
+      background:rgba(234,179,8,.14);
+      color:#854d0e;
+    }
+
+    .pill.danger{
+      background:rgba(239,68,68,.14);
+      color:#991b1b;
+    }
+
+    .hero-title{
+      margin:0 0 6px;
+      font-size:1.95rem;
+      line-height:1.1;
+    }
+
+    .hero-desc{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:1.02rem;
+    }
+
+    .access-card{
+      margin:20px 0 18px;
+      padding:24px 20px 18px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:#fff;
+      text-align:center;
+      box-shadow:0 10px 24px rgba(15,23,42,.05);
+    }
+
+    .access-title{
+      font-size:1.35rem;
+      font-weight:900;
+      margin:0 0 8px;
+      color:#0f172a;
+    }
+
+    .access-type{
+      font-size:2rem;
+      font-weight:900;
+      margin:0;
+      line-height:1.05;
+      color:#166534;
+    }
+
+    .access-note{
+      color:#64748b;
+      font-size:.95rem;
+      line-height:1.45;
+      margin-top:12px;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .mini-item{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      min-height:94px;
+    }
+
+    .mini-item small{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      font-size:.73rem;
+      color:#64748b;
+      margin-bottom:8px;
+    }
+
+    .mini-item strong{
+      display:block;
+      font-size:1.02rem;
+      line-height:1.35;
+      word-break:break-word;
+    }
+
+    .status-value{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:900;
+    }
+
+    .status-value.ok{ color:#15803d; }
+    .status-value.danger{ color:#dc2626; }
+
+    .status-icon{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      font-size:.92rem;
+      font-weight:900;
+      flex:0 0 24px;
+    }
+
+    .status-value.ok .status-icon{
+      background:rgba(22,163,74,.12);
+      color:#15803d;
+    }
+
+    .status-value.danger .status-icon{
+      background:rgba(220,38,38,.12);
+      color:#dc2626;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .col-4{ grid-column:span 4; }
+    .col-6{ grid-column:span 6; }
+    .col-8{ grid-column:span 8; }
+    .col-12{ grid-column:span 12; }
+
+    .box{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px;
+    }
+
+    .box h2{
+      margin:0 0 8px;
+      font-size:1.1rem;
+    }
+
+    .box-sub{
+      margin:0 0 16px;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:.94rem;
+    }
+
+    .field{
+      margin-bottom:14px;
+    }
+
+    .field:last-child{ margin-bottom:0; }
+
+    label{
+      display:block;
+      margin-bottom:6px;
+      font-size:.88rem;
+      color:#475569;
+      font-weight:800;
+    }
+
+    input, textarea{
+      width:100%;
+      border:1px solid #cbd5e1;
+      border-radius:14px;
+      padding:12px 14px;
+      font-size:1rem;
+      outline:none;
+      background:#fff;
+      color:#0f172a;
+    }
+
+    textarea{
+      min-height:115px;
+      resize:vertical;
+    }
+
+    input[readonly], textarea[readonly]{
+      background:#f1f5f9;
+      color:#334155;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .preview-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .img-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .img-preview{
+      width:100%;
+      aspect-ratio:16/10;
+      border-radius:14px;
+      border:1px dashed #cbd5e1;
+      background:#f8fafc center center / cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#64748b;
+      font-weight:700;
+      text-align:center;
+      padding:12px;
+      overflow:hidden;
+    }
+
+    .img-preview.has-image{
+      color:transparent;
+      border-style:solid;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:24px;
+    }
+
+    .msg{
+      margin-top:18px;
+      padding:14px 16px;
+      border-radius:14px;
+      font-weight:700;
+      display:none;
+    }
+
+    .msg.ok{
+      display:block;
+      background:rgba(22,163,74,.12);
+      color:#166534;
+      border:1px solid rgba(22,163,74,.18);
+    }
+
+    .msg.error{
+      display:block;
+      background:rgba(220,38,38,.12);
+      color:#991b1b;
+      border:1px solid rgba(220,38,38,.18);
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.45;
+    }
+
+    .summary-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      min-height:96px;
+      white-space:pre-line;
+      line-height:1.5;
+      color:#334155;
+    }
+
+    .toggle-wrap{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+    }
+
+    .toggle-wrap input{
+      width:20px;
+      height:20px;
+      margin:0;
+      flex:0 0 20px;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    @media (max-width: 980px){
+      .col-4,.col-6,.col-8,.col-12{ grid-column:span 12; }
+    }
+
+    @media (max-width: 760px){
+      .row,
+      .mini-grid,
+      .preview-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 600px){
+      body{ padding:14px; }
+      .card{ padding:18px; }
+      .actions{
+        flex-direction:column;
+      }
+      .btn{
+        width:100%;
+      }
+      .top-actions .btn{
+        width:100%;
+        min-height:56px;
+      }
+      .top-actions{
+        grid-template-columns:1fr 1fr;
+      }
+      .hero-title{
+        font-size:1.6rem;
+      }
+      .access-type{
+        font-size:1.8rem;
+      }
+    }
+
+    @media (max-width: 420px){
+      .top-actions{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+      }
+      .top-actions .btn{
+        padding:12px 10px;
+        font-size:.94rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <div class="topbar">
+        <div>
+          <h1>Panel institución</h1>
+          <p class="sub">
+            Desde acá podés administrar el perfil de tu institución, actualizar sus datos, su foto principal y su galería de imágenes.
+          </p>
+        </div>
+
+        <div class="top-actions">
+          <a class="btn btn-secondary" href="https://onradiostreaming.github.io/conecta2/">Volver a la app</a>
+          <button class="btn btn-secondary" id="btnRecargar" type="button">Recargar datos</button>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-top">
+          <div class="pill ok" id="estadoBox">Cargando institución...</div>
+        </div>
+
+        <h2 class="hero-title" id="heroNombre">Cargando institución...</h2>
+        <p class="hero-desc" id="heroDescripcion">Desde acá podés administrar el perfil institucional.</p>
+
+        <div class="access-card">
+          <h3 class="access-title">Acceso institucional</h3>
+          <p class="access-type" id="diasRestantes">Plan gratuito</p>
+          <div class="access-note" id="renewNote">
+            Este perfil institucional no requiere pago ni renovación para mantenerse activo.
+          </div>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini-item">
+            <small>ID de registro</small>
+            <strong id="idRegistro">-</strong>
+          </div>
+
+          <div class="mini-item">
+            <small>Estado del perfil</small>
+            <strong id="estadoPerfil">-</strong>
+          </div>
+
+          <div class="mini-item">
+            <small>Usuario</small>
+            <strong id="usuarioAcceso">-</strong>
+          </div>
+
+          <div class="mini-item">
+            <small>Contraseña</small>
+            <strong id="passwordAcceso">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-8">
+          <div class="box">
+            <h2>Datos principales de la institución</h2>
+            <p class="box-sub">El nombre de la institución y el tipo de institución no se editan desde acá. El resto sí lo podés actualizar cuando quieras.</p>
+
+            <div class="field">
+              <label for="nombrePerfil">Nombre de la institución</label>
+              <input type="text" id="nombrePerfil" readonly />
+            </div>
+
+            <div class="field">
+              <label for="perfilRubro">Tipo de institución</label>
+              <input type="text" id="perfilRubro" readonly />
+            </div>
+
+            <div class="field">
+              <label for="descripcion">Descripción</label>
+              <textarea id="descripcion" placeholder="Contá brevemente qué hace la institución, a quién está dirigida y qué ofrece a la comunidad."></textarea>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="whatsapp">WhatsApp</label>
+                <input type="text" id="whatsapp" placeholder="Ej: 2474..." />
+              </div>
+              <div class="field">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" placeholder="Opcional" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" placeholder="Ej: nombre@gmail.com" />
+              </div>
+
+              <div class="field">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Ej: Av. San Martín 450" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="ciudad">Ciudad / Localidad</label>
+                <input type="text" id="ciudad" placeholder="Ej: Rojas" />
+              </div>
+
+              <div class="field">
+                <label for="codigoPostal">Código Postal</label>
+                <input type="text" id="codigoPostal" placeholder="Ej: 2705" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="box">
+            <h2>Resumen institucional</h2>
+            <p class="box-sub">Esto ayuda a ver rápido cómo quedará la información principal de la institución.</p>
+
+            <div class="field">
+              <label>Resumen visible</label>
+              <div class="summary-box" id="resumenInstitucion">Sin información cargada.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="box">
+            <h2>Foto principal</h2>
+
+            <div class="field">
+              <label for="fotoPrincipal">Cambiar foto principal / logo</label>
+              <input type="file" id="fotoPrincipal" accept="image/*" />
+            </div>
+
+            <div class="img-box">
+              <div class="img-preview" id="previewFotoPrincipal">Sin imagen</div>
+            </div>
+
+            <p class="muted" style="margin-top:12px;">
+              Esta foto puede ser el frente de la institución, su logo o una imagen representativa actual.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="box">
+            <h2>Galería del perfil (hasta 4 imágenes)</h2>
+
+            <div class="field">
+              <div class="toggle-wrap">
+                <input type="checkbox" id="galeriaActiva" />
+                <span>Activar galería visible en el perfil</span>
+              </div>
+            </div>
+
+            <p class="muted">
+              Podés mostrar actividades, espacios, eventos, instalaciones o imágenes representativas de la institución.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="box">
+            <div id="galeriaWrap" class="preview-grid hidden">
+              <div class="img-box">
+                <label for="img1">Imagen 1</label>
+                <input type="file" id="img1" accept="image/*" />
+                <div class="img-preview" id="previewImg1" style="margin-top:10px;">Sin imagen</div>
+              </div>
+
+              <div class="img-box">
+                <label for="img2">Imagen 2</label>
+                <input type="file" id="img2" accept="image/*" />
+                <div class="img-preview" id="previewImg2" style="margin-top:10px;">Sin imagen</div>
+              </div>
+
+              <div class="img-box">
+                <label for="img3">Imagen 3</label>
+                <input type="file" id="img3" accept="image/*" />
+                <div class="img-preview" id="previewImg3" style="margin-top:10px;">Sin imagen</div>
+              </div>
+
+              <div class="img-box">
+                <label for="img4">Imagen 4</label>
+                <input type="file" id="img4" accept="image/*" />
+                <div class="img-preview" id="previewImg4" style="margin-top:10px;">Sin imagen</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="btnGuardar" type="button">Guardar cambios</button>
+        <a class="btn btn-secondary" id="btnVerPerfil" href="javascript:void(0)">Ver perfil público</a>
+      </div>
+
+      <div id="mensaje" class="msg"></div>
+    </section>
+  </div>
+
+<script>
+  (async function () {
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec';
+    const params = new URLSearchParams(window.location.search);
+    const idRegistro = (params.get('id_registro') || '').trim();
+
+    const estadoBox = document.getElementById('estadoBox');
+    const mensaje = document.getElementById('mensaje');
+    const btnGuardar = document.getElementById('btnGuardar');
+    const btnRecargar = document.getElementById('btnRecargar');
+    const btnVerPerfil = document.getElementById('btnVerPerfil');
+
+    const galeriaActiva = document.getElementById('galeriaActiva');
+    const galeriaWrap = document.getElementById('galeriaWrap');
+
+    const fotoPrincipalInput = document.getElementById('fotoPrincipal');
+    const img1Input = document.getElementById('img1');
+    const img2Input = document.getElementById('img2');
+    const img3Input = document.getElementById('img3');
+    const img4Input = document.getElementById('img4');
+
+    let fotoPrincipalBase64 = '';
+    let img1Base64 = '';
+    let img2Base64 = '';
+    let img3Base64 = '';
+    let img4Base64 = '';
+
+    function setMsg(texto, tipo) {
+      mensaje.className = 'msg ' + tipo;
+      mensaje.textContent = texto;
+    }
+
+    function limpiarMsg() {
+      mensaje.className = 'msg';
+      mensaje.textContent = '';
+    }
+
+    function setEstado(texto, clase) {
+      estadoBox.className = 'pill ' + (clase || 'ok');
+      estadoBox.textContent = texto;
+    }
+
+    function valor(id, fallback) {
+      const el = document.getElementById(id);
+      return el ? (el.value || fallback || '').trim() : '';
+    }
+
+    function setValor(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.value = value || '';
+    }
+
+    function setText(id, value, fallback) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = (value !== undefined && value !== null && String(value).trim() !== '') ? String(value).trim() : (fallback || '-');
+      }
+    }
+
+    function setChecked(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.checked = !!value;
+    }
+
+    function mostrarGaleria() {
+      galeriaWrap.classList.toggle('hidden', !galeriaActiva.checked);
+    }
+
+    galeriaActiva.addEventListener('change', mostrarGaleria);
+
+    function setPreview(previewId, base64) {
+      const box = document.getElementById(previewId);
+      if (!box) return;
+
+      if (base64) {
+        box.style.backgroundImage = 'url("' + base64 + '")';
+        box.classList.add('has-image');
+        box.textContent = ' ';
+      } else {
+        box.style.backgroundImage = 'none';
+        box.classList.remove('has-image');
+        box.textContent = 'Sin imagen';
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result || '');
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function bindImageInput(input, callback) {
+      input.addEventListener('change', async function () {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        try {
+          const base64 = await fileToBase64(file);
+          callback(base64);
+          actualizarResumenInstitucion();
+        } catch (error) {
+          setMsg('No se pudo leer una de las imágenes seleccionadas.', 'error');
+        }
+      });
+    }
+
+    bindImageInput(fotoPrincipalInput, function(base64) {
+      fotoPrincipalBase64 = base64;
+      setPreview('previewFotoPrincipal', fotoPrincipalBase64);
+    });
+
+    bindImageInput(img1Input, function(base64) {
+      img1Base64 = base64;
+      setPreview('previewImg1', img1Base64);
+    });
+
+    bindImageInput(img2Input, function(base64) {
+      img2Base64 = base64;
+      setPreview('previewImg2', img2Base64);
+    });
+
+    bindImageInput(img3Input, function(base64) {
+      img3Base64 = base64;
+      setPreview('previewImg3', img3Base64);
+    });
+
+    bindImageInput(img4Input, function(base64) {
+      img4Base64 = base64;
+      setPreview('previewImg4', img4Base64);
+    });
+
+    if (!idRegistro) {
+      setEstado('Falta ID de registro', 'danger');
+      setMsg('No se encontró el ID de registro para abrir el panel institucional.', 'error');
+      btnGuardar.disabled = true;
+      return;
+    }
+
+    function jsonp(url, callback) {
+      const script = document.createElement('script');
+      const callbackName = 'jsonp_cb_' + Math.floor(Math.random() * 1000000);
+
+      window[callbackName] = function(data) {
+        try { delete window[callbackName]; } catch (e) {}
+        if (script.parentNode) script.parentNode.removeChild(script);
+        callback(data);
+      };
+
+      script.src = url + '&callback=' + callbackName;
+      document.body.appendChild(script);
+    }
+
+    function normalizarEstadoPerfil(valorEstado) {
+      const v = String(valorEstado || '').trim().toLowerCase();
+      return ['activo', 'activa', 'ok', 'habilitado', 'habilitada', 'si', 'sí', 'true'].includes(v) ? 'activo' : 'inactivo';
+    }
+
+    function renderEstadoPerfil(valorEstado) {
+      const estado = normalizarEstadoPerfil(valorEstado);
+      const el = document.getElementById('estadoPerfil');
+
+      if (estado === 'activo') {
+        el.innerHTML = '<span class="status-value ok"><span class="status-icon">✓</span><span>Activo</span></span>';
+      } else {
+        el.innerHTML = '<span class="status-value danger"><span class="status-icon">✕</span><span>Inactivo</span></span>';
+      }
+    }
+
+    function actualizarResumenInstitucion() {
+      const partes = [];
+
+      const tipo = valor('perfilRubro');
+      const descripcion = valor('descripcion');
+      const direccion = valor('direccion');
+      const ciudad = valor('ciudad');
+      const cp = valor('codigoPostal');
+      const whatsapp = valor('whatsapp');
+      const telefono = valor('telefono');
+      const email = valor('email');
+
+      if (tipo) partes.push('Tipo: ' + tipo);
+      if (descripcion) partes.push('Descripción: ' + descripcion);
+      if (direccion) partes.push('Dirección: ' + direccion);
+      if (ciudad || cp) partes.push('Ubicación: ' + [ciudad, cp].filter(Boolean).join(' - '));
+      if (whatsapp) partes.push('WhatsApp: ' + whatsapp);
+      if (telefono) partes.push('Teléfono: ' + telefono);
+      if (email) partes.push('Email: ' + email);
+
+      document.getElementById('resumenInstitucion').textContent = partes.length
+        ? partes.join('\n')
+        : 'Sin información cargada.';
+    }
+
+    function cargarPerfil() {
+      setEstado('Cargando institución...', 'warn');
+      limpiarMsg();
+
+      jsonp(
+        SCRIPT_URL + '?action=obtenerPerfil&id=' + encodeURIComponent(idRegistro),
+        function(data) {
+          if (!data || !data.ok || !data.item) {
+            setEstado('No se pudo cargar', 'danger');
+            setMsg('No se pudo obtener el perfil institucional.', 'error');
+            return;
+          }
+
+          const item = data.item;
+          const nombreInstitucion = String(item.nombre || item.nombre_comercio || '').trim();
+          const tipoInstitucion = String(item.tipo_institucion || item.rubro || item.perfil || '').trim();
+
+          setEstado('Perfil cargado', 'ok');
+          setText('heroNombre', nombreInstitucion || 'Panel institución', 'Panel institución');
+          setText('heroDescripcion', item.descripcion || 'Desde acá podés administrar el perfil institucional.');
+          setText('idRegistro', idRegistro, '-');
+
+          renderEstadoPerfil(item.estado || 'activo');
+
+          setText('usuarioAcceso', 'Cargando...', '-');
+          setText('passwordAcceso', 'Cargando...', '-');
+
+          setValor('nombrePerfil', nombreInstitucion);
+          setValor('perfilRubro', tipoInstitucion);
+          setValor('descripcion', item.descripcion || '');
+          setValor('whatsapp', item.whatsapp || '');
+          setValor('telefono', item.telefono || '');
+          setValor('email', item.email || '');
+          setValor('direccion', item.direccion || '');
+          setValor('ciudad', item.ciudad || item.localidad || '');
+          setValor('codigoPostal', item.codigo_postal || item.codigoPostal || item.cp || '');
+
+          const galeriaOn =
+            String(item.galeria_activa || '')
+              .trim()
+              .toLowerCase() === 'si';
+
+          setChecked('galeriaActiva', galeriaOn);
+          mostrarGaleria();
+
+          fotoPrincipalBase64 = item.foto_base64 || '';
+          img1Base64 = item.imagen_1 || '';
+          img2Base64 = item.imagen_2 || '';
+          img3Base64 = item.imagen_3 || '';
+          img4Base64 = item.imagen_4 || '';
+
+          setPreview('previewFotoPrincipal', fotoPrincipalBase64);
+          setPreview('previewImg1', img1Base64);
+          setPreview('previewImg2', img2Base64);
+          setPreview('previewImg3', img3Base64);
+          setPreview('previewImg4', img4Base64);
+
+          actualizarResumenInstitucion();
+          btnVerPerfil.href = 'perfil.html?id=' + encodeURIComponent(idRegistro) + '&cat=instituciones';
+        }
+      );
+    }
+
+    function cargarCredenciales() {
+      jsonp(
+        SCRIPT_URL + '?action=obtenerCredencialesMiembroAPI&id_registro=' + encodeURIComponent(idRegistro),
+        function(data) {
+          if (data && data.ok) {
+            setText('usuarioAcceso', data.usuario || '-', '-');
+            setText('passwordAcceso', data.password || '-', '-');
+          } else {
+            setText('usuarioAcceso', 'No disponible', '-');
+            setText('passwordAcceso', 'No disponible', '-');
+          }
+        }
+      );
+    }
+
+    async function guardarPanel() {
+      try {
+        limpiarMsg();
+        setEstado('Guardando cambios...', 'warn');
+        btnGuardar.disabled = true;
+
+        const payload = {
+          action: 'guardarPanelMiembro',
+          id_registro: idRegistro,
+          descripcion: valor('descripcion'),
+          whatsapp: valor('whatsapp'),
+          telefono: valor('telefono'),
+          email: valor('email'),
+          direccion: valor('direccion'),
+          ciudad: valor('ciudad'),
+          localidad: valor('ciudad'),
+          codigo_postal: valor('codigoPostal'),
+          codigoPostal: valor('codigoPostal'),
+          foto_base64: fotoPrincipalBase64,
+          galeria_activa: galeriaActiva.checked ? 'si' : 'no',
+          imagen_1: img1Base64,
+          imagen_2: img2Base64,
+          imagen_3: img3Base64,
+          imagen_4: img4Base64
+        };
+
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!data || !data.ok) {
+          setEstado('No se pudo guardar', 'danger');
+          setMsg(data && data.error ? data.error : 'No se pudieron guardar los cambios.', 'error');
+          btnGuardar.disabled = false;
+          return;
+        }
+
+        setEstado('Cambios guardados', 'ok');
+        setMsg('Los cambios del panel institucional se guardaron correctamente.', 'ok');
+        btnGuardar.disabled = false;
+        actualizarResumenInstitucion();
+      } catch (error) {
+        setEstado('Error al guardar', 'danger');
+        setMsg('Ocurrió un error al guardar el panel institucional.', 'error');
+        btnGuardar.disabled = false;
+      }
+    }
+
+    btnGuardar.addEventListener('click', guardarPanel);
+
+    btnRecargar.addEventListener('click', function () {
+      location.reload();
+    });
+
+    ['descripcion', 'whatsapp', 'telefono', 'email', 'direccion', 'ciudad', 'codigoPostal'].forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', actualizarResumenInstitucion);
+        el.addEventListener('change', actualizarResumenInstitucion);
+      }
+    });
+
+    mostrarGaleria();
+    actualizarResumenInstitucion();
+    cargarPerfil();
+    cargarCredenciales();
+  })();
+</script>
+</body>
+</html>
