@@ -304,17 +304,17 @@
     .cat-15 { background: linear-gradient(145deg, #8e2de2, #4a00e0); }
     .cat-20 { background: linear-gradient(145deg, #2563eb, #1d4ed8); }
 
-.category-single-center {
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
-}
+    .category-single-center {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+    }
 
-.category-single-center .category-card {
-  width: calc(50% - 6px);
-  max-width: 220px;
-  min-height: 118px;
-}
+    .category-single-center .category-card {
+      width: calc(50% - 6px);
+      max-width: 220px;
+      min-height: 118px;
+    }
 
     .category-card .card-title {
       display: block;
@@ -521,55 +521,55 @@
     }
 
     .guide-btn-wrap {
-  display: none;
-}
+      display: none;
+    }
 
-.btn-guide {
-  display: none;
-}
+    .btn-guide {
+      display: none;
+    }
 
-.btn-laboral {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background: linear-gradient(145deg, #0f172a, #1e3a8a);
-  color: #fff;
-  border-radius: 22px;
-  padding: 16px 14px;
-  font-weight: 900;
-  font-size: 1rem;
-  letter-spacing: -0.02em;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.16);
-  border: 0;
-  cursor: pointer;
-  font-family: inherit;
-  line-height: 1.35;
-}
+    .btn-laboral {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(145deg, #0f172a, #1e3a8a);
+      color: #fff;
+      border-radius: 22px;
+      padding: 16px 14px;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1.35;
+    }
 
-.perfil-laboral-label {
-  margin-bottom: 10px;
-  font-size: 1rem;
-  line-height: 1.4;
-  color: #14304c;
-  font-weight: 800;
-  text-align: center;
-}
+    .perfil-laboral-label {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #14304c;
+      font-weight: 800;
+      text-align: center;
+    }
 
-.emergency-note {
-  margin-top: 14px;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #5b6f82;
-  font-weight: 700;
-  text-align: center;
-  background: #ffffff;
-  border: 1px solid #dde7ef;
-  border-radius: 18px;
-  padding: 12px 13px;
-}
+    .emergency-note {
+      margin-top: 14px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #5b6f82;
+      font-weight: 700;
+      text-align: center;
+      background: #ffffff;
+      border: 1px solid #dde7ef;
+      border-radius: 18px;
+      padding: 12px 13px;
+    }
 
     .support-card {
       margin-top: 16px;
@@ -596,6 +596,12 @@
       font-weight: 700;
     }
 
+    .support-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
     .support-btn {
       display: flex;
       width: 100%;
@@ -608,6 +614,14 @@
       font-weight: 800;
       font-size: 1rem;
       box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .support-btn-secondary {
+      background: linear-gradient(145deg, #0f172a, #1e3a8a);
+      color: #fff;
     }
 
     .footer {
@@ -761,24 +775,24 @@
       display: flex;
     }
 
-#updateModal .install-box {
-  border: 1px solid rgba(36, 198, 220, 0.22);
-  box-shadow: 0 22px 42px rgba(0,0,0,0.28), 0 0 0 1px rgba(36, 198, 220, 0.08);
-}
+    #updateModal .install-box {
+      border: 1px solid rgba(36, 198, 220, 0.22);
+      box-shadow: 0 22px 42px rgba(0,0,0,0.28), 0 0 0 1px rgba(36, 198, 220, 0.08);
+    }
 
     .install-box,
-.login-box,
-.registro-box {
-  width: 100%;
-  max-width: 420px;
-  background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
-  color: #12263f;
-  border-radius: 28px;
-  padding: 24px 18px 18px;
-  box-shadow: 0 22px 42px rgba(0,0,0,0.28);
-  border: 1px solid rgba(255,255,255,0.7);
-  position: relative;
-}
+    .login-box,
+    .registro-box {
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(180deg, #ffffff 0%, #eef4f7 100%);
+      color: #12263f;
+      border-radius: 28px;
+      padding: 24px 18px 18px;
+      box-shadow: 0 22px 42px rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,255,255,0.7);
+      position: relative;
+    }
 
     .install-icon,
     .login-icon,
@@ -879,15 +893,15 @@
       color: #fff;
     }
 
-     .registro-btn-institucion {
-       background: linear-gradient(145deg, #2563eb, #1d4ed8);
-       color: #fff;
-     }
+    .registro-btn-institucion {
+      background: linear-gradient(145deg, #2563eb, #1d4ed8);
+      color: #fff;
+    }
 
-     .registro-btn-laboral {
-       background: linear-gradient(145deg, #0f766e, #0d9488);
-       color: #fff;
-     }
+    .registro-btn-laboral {
+      background: linear-gradient(145deg, #0f766e, #0d9488);
+      color: #fff;
+    }
 
     .install-hidden {
       display: none !important;
@@ -909,20 +923,20 @@
       cursor: pointer;
     }
 
-.install-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 38px;
-  height: 38px;
-  border: 0;
-  border-radius: 12px;
-  background: #edf3f8;
-  color: #17314c;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
-}
+    .install-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 12px;
+      background: #edf3f8;
+      color: #17314c;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
 
     .login-box,
     .registro-box {
@@ -1019,6 +1033,109 @@
       text-align: center;
     }
 
+    .tutorial-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 18000;
+      background: rgba(1, 6, 18, 0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tutorial-overlay.show {
+      display: flex;
+    }
+
+    .tutorial-shell {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: #041126;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .tutorial-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .tutorial-bottom-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: minmax(112px, 1fr) auto minmax(140px, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+      background:
+        linear-gradient(180deg, rgba(4, 11, 30, 0.12) 0%, rgba(3, 10, 28, 0.92) 30%, rgba(3, 10, 28, 0.98) 100%);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .tutorial-btn {
+      border: 0;
+      min-height: 58px;
+      border-radius: 999px;
+      padding: 0 22px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.28);
+      white-space: nowrap;
+    }
+
+    .tutorial-btn-secondary {
+      background: linear-gradient(145deg, rgba(24, 40, 88, 0.96), rgba(11, 23, 60, 0.96));
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .tutorial-btn-primary {
+      background: linear-gradient(135deg, #0a46ff, #15c8ff);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.16);
+      justify-self: end;
+    }
+
+    .tutorial-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tutorial-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.34);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.18);
+      transition: all .18s ease;
+    }
+
+    .tutorial-dot.active {
+      background: #57e2ff;
+      box-shadow: 0 0 0 3px rgba(87, 226, 255, 0.16), 0 0 16px rgba(87, 226, 255, 0.9);
+      transform: scale(1.06);
+    }
+
     @media (max-width: 640px) {
       .top-wrap {
         padding: 10px 14px 0;
@@ -1097,128 +1214,52 @@
         min-height: 54px;
         border-radius: 14px;
       }
+
+      .tutorial-bottom-bar {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+      }
+
+      .tutorial-dots {
+        order: -1;
+      }
+
+      .tutorial-btn {
+        min-height: 54px;
+        font-size: 0.96rem;
+      }
+
+      .tutorial-btn-primary,
+      .tutorial-btn-secondary {
+        justify-self: stretch;
+        width: 100%;
+      }
     }
-    .onboarding-card {
-  position: fixed;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  width: min(440px, calc(100% - 24px));
-  background: #ffffff;
-  color: #12263f;
-  border-radius: 24px;
-  padding: 18px 16px 16px;
-  box-shadow: 0 18px 36px rgba(0,0,0,0.28);
-  display: none;
-  z-index: 17000;
-}
-
-.onboarding-card.show {
-  display: block;
-}
-
-.onboarding-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 38px;
-  height: 38px;
-  border: 0;
-  border-radius: 12px;
-  background: #edf3f8;
-  color: #17314c;
-  font-size: 1rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.onboarding-title {
-  font-size: 1.12rem;
-  font-weight: 900;
-  color: #10243d;
-  margin: 4px 48px 10px 0;
-  line-height: 1.2;
-}
-
-.onboarding-text {
-  font-size: 0.96rem;
-  line-height: 1.58;
-  color: #4d6278;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-
-.onboarding-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.onboarding-btn {
-  border: 0;
-  border-radius: 16px;
-  padding: 14px 12px;
-  font-family: inherit;
-  font-size: 0.96rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.onboarding-btn-secondary {
-  background: #edf3f8;
-  color: #17314c;
-}
-
-.onboarding-btn-primary {
-  background: linear-gradient(145deg, #ff9f1c, #ff6f3d);
-  color: #fff;
-}
-
-body.onboarding-active .app > main > *:not(.onboarding-keep-visible) {
-  transition: filter .25s ease, opacity .25s ease;
-}
-
-.onboarding-focus {
-  position: relative;
-  z-index: 16000 !important;
-  box-shadow: 0 0 0 3px rgba(255,255,255,0.95), 0 0 0 8px rgba(255,159,28,0.26), 0 0 28px rgba(255,159,28,0.35);
-  border-radius: 24px;
-}
-
-body.onboarding-active #mainApp {
-  overflow: visible;
-}
-
-@media (max-width: 640px) {
-  .onboarding-card {
-    bottom: 14px;
-    width: calc(100% - 20px);
-    border-radius: 22px;
-    padding: 16px 14px 14px;
-  }
-
-  .onboarding-title {
-    font-size: 1.02rem;
-  }
-
-  .onboarding-text {
-    font-size: 0.92rem;
-    line-height: 1.5;
-  }
-}
   </style>
 </head>
 <body>
   <div id="intro">
     <div id="welcomeText">
       <h2>Bienvenido a Conecta2</h2>
-<p>La nueva plataforma digital de visibilidad comercial.</p>
-<p>Conectá personas, comercios, servicios y profesionales en un solo lugar.</p>
+      <p>La nueva plataforma digital de visibilidad comercial.</p>
+      <p>Conectá personas, comercios, servicios y profesionales en un solo lugar.</p>
     </div>
 
     <div id="logoStage">
       <img src="logo.png" alt="Logo Conecta2">
       <p>A tan solo un clic de encontrar lo que buscás</p>
+    </div>
+  </div>
+
+  <div class="tutorial-overlay" id="tutorialOverlay">
+    <div class="tutorial-shell">
+      <img class="tutorial-image" id="tutorialImage" src="tutorial01.png" alt="Tutorial Conecta2">
+      <div class="tutorial-bottom-bar">
+        <button class="tutorial-btn tutorial-btn-secondary" id="tutorialSkipBtn" type="button">Omitir</button>
+        <div class="tutorial-dots" id="tutorialDots"></div>
+        <button class="tutorial-btn tutorial-btn-primary" id="tutorialNextBtn" type="button">Siguiente</button>
+      </div>
     </div>
   </div>
 
@@ -1253,99 +1294,100 @@ body.onboarding-active #mainApp {
       </div>
 
       <section class="content" id="categorias">
-  <h2 class="section-title">Categorías</h2>
+        <h2 class="section-title">Categorías</h2>
 
-  <div class="grid" id="categoryGrid">
-  <a class="category-card cat-11" id="cardComercios" href="categoria.html?cat=comercios" data-name="comercios">
-    <div>
-      <span class="card-title">Comercios</span>
-      <span class="card-subtitle">Locales y negocios físicos</span>
-    </div>
-  </a>
+        <div class="grid" id="categoryGrid">
+          <a class="category-card cat-11" id="cardComercios" href="categoria.html?cat=comercios" data-name="comercios">
+            <div>
+              <span class="card-title">Comercios</span>
+              <span class="card-subtitle">Locales y negocios físicos</span>
+            </div>
+          </a>
 
-  <a class="category-card cat-3" id="cardServicios" href="categoria.html?cat=servicios" data-name="servicios">
-    <div>
-      <span class="card-title">Servicios</span>
-      <span class="card-subtitle">Personas que realizan trabajos o tareas</span>
-    </div>
-  </a>
+          <a class="category-card cat-3" id="cardServicios" href="categoria.html?cat=servicios" data-name="servicios">
+            <div>
+              <span class="card-title">Servicios</span>
+              <span class="card-subtitle">Personas que realizan trabajos o tareas</span>
+            </div>
+          </a>
 
-  <a class="category-card cat-15" id="cardProfesionales" href="categoria.html?cat=profesionales" data-name="profesionales">
-    <div>
-      <span class="card-title">Profesionales</span>
-      <span class="card-subtitle">Profesiones universitarias o técnicas</span>
-    </div>
-  </a>
+          <a class="category-card cat-15" id="cardProfesionales" href="categoria.html?cat=profesionales" data-name="profesionales">
+            <div>
+              <span class="card-title">Profesionales</span>
+              <span class="card-subtitle">Profesiones universitarias o técnicas</span>
+            </div>
+          </a>
 
-  <a class="category-card cat-4" id="cardSalud" href="categoria.html?cat=salud" data-name="salud">
-    <div>
-      <span class="card-title">Salud</span>
-      <span class="card-subtitle">Profesionales de la salud</span>
-    </div>
-  </a>
-</div>
+          <a class="category-card cat-4" id="cardSalud" href="categoria.html?cat=salud" data-name="salud">
+            <div>
+              <span class="card-title">Salud</span>
+              <span class="card-subtitle">Profesionales de la salud</span>
+            </div>
+          </a>
+        </div>
 
-<div class="category-single-center" id="institucionesWrap">
-  <a class="category-card cat-20" id="cardInstituciones" href="categoria.html?cat=instituciones" data-name="instituciones">
-    <div>
-      <span class="card-title">Instituciones</span>
-      <span class="card-subtitle">Organizaciones y entidades sin fines de lucro</span>
-    </div>
-  </a>
-</div>
+        <div class="category-single-center" id="institucionesWrap">
+          <a class="category-card cat-20" id="cardInstituciones" href="categoria.html?cat=instituciones" data-name="instituciones">
+            <div>
+              <span class="card-title">Instituciones</span>
+              <span class="card-subtitle">Organizaciones y entidades sin fines de lucro</span>
+            </div>
+          </a>
+        </div>
 
-  <div class="section-block" id="perfilLaboralWrap">
-  <div class="perfil-laboral-label" id="perfilLaboralLabel">Buscás trabajo?</div>
-  <a class="btn-laboral" id="btnPerfilLaboral" href="registro-perfil-laboral.html">
-Cargá tu perfil laboral
-</a>
-</div>
+        <div class="section-block" id="perfilLaboralWrap">
+          <div class="perfil-laboral-label" id="perfilLaboralLabel">Buscás trabajo?</div>
+          <a class="btn-laboral" id="btnPerfilLaboral" href="registro-perfil-laboral.html">Cargá tu perfil laboral</a>
+        </div>
 
-<div class="section-block" id="emergenciasWrap">
-  <div class="emergency-note">
-    Accedé rápido a números útiles en caso de emergencia.
-  </div>
-</div>
+        <div class="section-block" id="emergenciasWrap">
+          <div class="emergency-note">
+            Accedé rápido a números útiles en caso de emergencia.
+          </div>
+        </div>
 
-<div class="emergency-bottom">
-  <button class="btn-emergency" id="btnEmergencias" type="button">Emergencias</button>
-</div>
+        <div class="emergency-bottom">
+          <button class="btn-emergency" id="btnEmergencias" type="button">Emergencias</button>
+        </div>
 
-  <div class="farmacia-banner" id="farmaciaTurno">
-    <div class="pharmacy-cross-glow">
-      <span>+</span>
-    </div>
+        <div class="farmacia-banner" id="farmaciaTurno">
+          <div class="pharmacy-cross-glow">
+            <span>+</span>
+          </div>
 
-    <div class="farmacia-overlay">
-      <div class="farmacia-label">FARMACIA DE TURNO</div>
+          <div class="farmacia-overlay">
+            <div class="farmacia-label">FARMACIA DE TURNO</div>
 
-      <div class="farmacia-horario" id="farmaciaHorario">
-        Hasta las 08:00 hs
-      </div>
+            <div class="farmacia-horario" id="farmaciaHorario">
+              Hasta las 08:00 hs
+            </div>
 
-      <div class="farmacia-name" id="farmaciaNombre">
-        FARMACIA
-      </div>
+            <div class="farmacia-name" id="farmaciaNombre">
+              FARMACIA
+            </div>
 
-      <div class="farmacia-info">
-        <div class="info-line address" id="farmaciaDireccion">Dirección</div>
-        <div class="info-line phone" id="farmaciaTelefono">Teléfono</div>
-      </div>
+            <div class="farmacia-info">
+              <div class="info-line address" id="farmaciaDireccion">Dirección</div>
+              <div class="info-line phone" id="farmaciaTelefono">Teléfono</div>
+            </div>
 
-      <div class="farmacia-actions">
-        <a class="farmacia-btn btn-call" id="btnFarmaciaLlamar" href="#" target="_blank" rel="noopener">Llamar</a>
-        <a class="farmacia-btn btn-wa" id="btnFarmaciaWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
-        <a class="farmacia-btn btn-map" id="btnFarmaciaMapa" href="#" target="_blank" rel="noopener">Cómo llegar</a>
-      </div>
-    </div>
-  </div>
+            <div class="farmacia-actions">
+              <a class="farmacia-btn btn-call" id="btnFarmaciaLlamar" href="#" target="_blank" rel="noopener">Llamar</a>
+              <a class="farmacia-btn btn-wa" id="btnFarmaciaWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="farmacia-btn btn-map" id="btnFarmaciaMapa" href="#" target="_blank" rel="noopener">Cómo llegar</a>
+            </div>
+          </div>
+        </div>
 
-  <div class="support-card section-block" id="soporteConecta2">
-    <h3 class="support-title">Soporte Conecta2</h3>
-    <p class="support-text">¿Tenés dudas o querés hacernos una sugerencia? Escribinos.</p>
-    <a class="support-btn" href="https://wa.me/542474445664?text=Hola%2C%20estoy%20navegando%20en%20Conecta2%20y%20quiero%20hacer%20una%20consulta%20o%20enviar%20una%20sugerencia." target="_blank">Escribinos</a>
-  </div>
-</section>
+        <div class="support-card section-block" id="soporteConecta2">
+          <h3 class="support-title">Soporte Conecta2</h3>
+          <p class="support-text">¿Tenés dudas o querés hacernos una sugerencia? Escribinos.</p>
+          <div class="support-actions">
+            <a class="support-btn" href="https://wa.me/542474445664?text=Hola%2C%20estoy%20navegando%20en%20Conecta2%20y%20quiero%20hacer%20una%20consulta%20o%20enviar%20una%20sugerencia." target="_blank">Escribinos</a>
+            <button class="support-btn support-btn-secondary" id="btnVerTutorial" type="button">Ver tutorial</button>
+          </div>
+        </div>
+      </section>
 
       <div class="footer">
         <div class="footer-logo">
@@ -1448,39 +1490,38 @@ Cargá tu perfil laboral
     </div>
   </div>
 
- 
   <div class="install-modal" id="installModal">
-  <div class="install-box">
-    <button class="install-close" id="installCloseBtn" type="button">✕</button>
-    <div class="install-icon">📲</div>
-    <h3 class="install-title">Instalá Conecta2</h3>
-    <p class="install-text">
-      La app para encontrar comercios, servicios y profesionales de tu localidad en segundos.
-    </p>
+    <div class="install-box">
+      <button class="install-close" id="installCloseBtn" type="button">✕</button>
+      <div class="install-icon">📲</div>
+      <h3 class="install-title">Instalá Conecta2</h3>
+      <p class="install-text">
+        La app para encontrar comercios, servicios y profesionales de tu localidad en segundos.
+      </p>
 
-    <div class="install-note install-hidden" id="iosInstallNote">
-      En iPhone o iPad, tocá el botón de compartir de Safari y después elegí <strong>Agregar a pantalla de inicio</strong>.
-    </div>
+      <div class="install-note install-hidden" id="iosInstallNote">
+        En iPhone o iPad, tocá el botón de compartir de Safari y después elegí <strong>Agregar a pantalla de inicio</strong>.
+      </div>
 
-    <div class="install-actions">
-      <button class="install-btn install-btn-primary" id="installConfirmBtn" type="button">Instalar</button>
-    </div>
-  </div>
-</div>
-
-<div class="install-modal" id="updateModal">
-  <div class="install-box">
-    <div class="install-icon">🚀</div>
-    <h3 class="install-title">Hay una nueva versión disponible</h3>
-    <p class="install-text" id="updateModalText">
-      Detectamos una actualización de Conecta2. Tocá el botón de abajo para cargar la versión más reciente.
-    </p>
-
-    <div class="install-actions">
-      <button class="install-btn install-btn-primary" id="updateNowBtn" type="button">Actualizar ahora</button>
+      <div class="install-actions">
+        <button class="install-btn install-btn-primary" id="installConfirmBtn" type="button">Instalar</button>
+      </div>
     </div>
   </div>
-</div>
+
+  <div class="install-modal" id="updateModal">
+    <div class="install-box">
+      <div class="install-icon">🚀</div>
+      <h3 class="install-title">Hay una nueva versión disponible</h3>
+      <p class="install-text" id="updateModalText">
+        Detectamos una actualización de Conecta2. Tocá el botón de abajo para cargar la versión más reciente.
+      </p>
+
+      <div class="install-actions">
+        <button class="install-btn install-btn-primary" id="updateNowBtn" type="button">Actualizar ahora</button>
+      </div>
+    </div>
+  </div>
 
   <div class="login-modal" id="loginModal">
     <div class="login-box">
@@ -1529,745 +1570,711 @@ Cargá tu perfil laboral
       </p>
 
       <div class="registro-actions">
-  <a class="registro-btn registro-btn-comercio" id="btnModalRegistroComercio" href="registro-comercio.html">Registrá tu comercio</a>
-  <a class="registro-btn registro-btn-servicio" id="btnModalRegistroServicio" href="registro-servicio.html">Ofrecé tus servicios</a>
-  <a class="registro-btn registro-btn-profesional" id="btnModalRegistroProfesional" href="registro-profesional.html">Registrate como profesional</a>
-  <a class="registro-btn registro-btn-salud" id="btnModalRegistroSalud" href="registro-salud.html">Registrate como profesional de salud</a>
-  <a class="registro-btn registro-btn-institucion" id="btnModalRegistroInstitucion" href="registro-institucion.html">Registrá una institución</a>
-  </div>
+        <a class="registro-btn registro-btn-comercio" id="btnModalRegistroComercio" href="registro-comercio.html">Registrá tu comercio</a>
+        <a class="registro-btn registro-btn-servicio" id="btnModalRegistroServicio" href="registro-servicio.html">Ofrecé tus servicios</a>
+        <a class="registro-btn registro-btn-profesional" id="btnModalRegistroProfesional" href="registro-profesional.html">Registrate como profesional</a>
+        <a class="registro-btn registro-btn-salud" id="btnModalRegistroSalud" href="registro-salud.html">Registrate como profesional de salud</a>
+        <a class="registro-btn registro-btn-institucion" id="btnModalRegistroInstitucion" href="registro-institucion.html">Registrá una institución</a>
+      </div>
     </div>
   </div>
 
   <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
 
-  const LS_PREMIUM_SESSION = "conecta2_premium_session";
-  const LS_PREMIUM_REMEMBER = "conecta2_premium_remember";
-  const LS_PREMIUM_USER = "conecta2_premium_user";
-  const LS_PREMIUM_PASS = "conecta2_premium_pass";
-  const LS_APP_VERSION = "conecta2_app_version";
-  const APP_VERSION = "4";
+    const LS_PREMIUM_SESSION = "conecta2_premium_session";
+    const LS_PREMIUM_REMEMBER = "conecta2_premium_remember";
+    const LS_PREMIUM_USER = "conecta2_premium_user";
+    const LS_PREMIUM_PASS = "conecta2_premium_pass";
+    const LS_APP_VERSION = "conecta2_app_version";
+    const LS_TUTORIAL_VISTO = "conecta2_tutorial_visual_v1";
+    const APP_VERSION = "4";
 
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("./service-worker.js?v=3").catch(function(err) {
-        console.log("Error registrando service worker:", err);
+    const TUTORIAL_IMAGES = [
+      "tutorial01.png",
+      "tutorial02.png",
+      "tutorial03.png",
+      "tutorial04.png",
+      "tutorial05.png",
+      "tutorial06.png",
+      "tutorial07.png",
+      "tutorial08.png",
+      "tutorial09.png",
+      "tutorial10.png"
+    ];
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./service-worker.js?v=3").catch(function(err) {
+          console.log("Error registrando service worker:", err);
+        });
       });
-    });
-  }
-
-  const intro = document.getElementById("intro");
-  const mainApp = document.getElementById("mainApp");
-
-  function mostrarAppSinIntro() {
-    intro.style.display = "none";
-    mainApp.classList.add("visible");
-  }
-
-  function intentarMostrarTourInicial() {
-    const yaVioTour = localStorage.getItem("conecta2_tour_visto") === "true";
-    if (!yaVioTour) {
-      setTimeout(function() {
-        abrirGuia();
-      }, 700);
-    } else {
-      setTimeout(function() {
-        intentarMostrarInstaladorDespuesDelTour();
-        verificarNuevaVersion();
-      }, 450);
     }
-  }
 
-  if (sessionStorage.getItem("conecta2_intro_seen") === "true") {
-    mostrarAppSinIntro();
-    window.addEventListener("load", function () {
-      setTimeout(intentarMostrarTourInicial, 300);
-    });
-  } else {
-    window.addEventListener("load", function () {
-      setTimeout(function () {
-        intro.style.opacity = "0";
-        mainApp.classList.add("visible");
-      }, 5200);
+    const intro = document.getElementById("intro");
+    const mainApp = document.getElementById("mainApp");
 
-      setTimeout(function () {
-        intro.style.display = "none";
-        sessionStorage.setItem("conecta2_intro_seen", "true");
-        intentarMostrarTourInicial();
-      }, 5700);
-    });
-  }
+    const tutorialOverlay = document.getElementById("tutorialOverlay");
+    const tutorialImage = document.getElementById("tutorialImage");
+    const tutorialDots = document.getElementById("tutorialDots");
+    const tutorialSkipBtn = document.getElementById("tutorialSkipBtn");
+    const tutorialNextBtn = document.getElementById("tutorialNextBtn");
+    const btnVerTutorial = document.getElementById("btnVerTutorial");
 
-  const btnEmergencias = document.getElementById("btnEmergencias");
-  const closeEmergency = document.getElementById("closeEmergency");
-  const emergencyModal = document.getElementById("emergencyModal");
+    let tutorialIndex = 0;
+    let tutorialAbrirInstaladorAlSalir = true;
 
-  if (btnEmergencias && closeEmergency && emergencyModal) {
-    btnEmergencias.addEventListener("click", function () {
-      emergencyModal.classList.add("show");
+    function tutorialYaVisto() {
+      return localStorage.getItem(LS_TUTORIAL_VISTO) === "true";
+    }
+
+    function marcarTutorialVisto() {
+      localStorage.setItem(LS_TUTORIAL_VISTO, "true");
+    }
+
+    function actualizarTutorialUI() {
+      tutorialImage.src = TUTORIAL_IMAGES[tutorialIndex];
+      tutorialImage.alt = "Tutorial Conecta2 " + (tutorialIndex + 1);
+
+      tutorialDots.innerHTML = "";
+      for (let i = 0; i < TUTORIAL_IMAGES.length; i++) {
+        const dot = document.createElement("span");
+        dot.className = "tutorial-dot" + (i === tutorialIndex ? " active" : "");
+        tutorialDots.appendChild(dot);
+      }
+
+      tutorialNextBtn.textContent = tutorialIndex === TUTORIAL_IMAGES.length - 1 ? "Finalizar" : "Siguiente";
+    }
+
+    function abrirTutorial(desdeBoton) {
+      tutorialAbrirInstaladorAlSalir = !desdeBoton;
+      tutorialIndex = 0;
+      actualizarTutorialUI();
+      tutorialOverlay.classList.add("show");
       document.body.style.overflow = "hidden";
-    });
+      marcarTutorialVisto();
+    }
 
-    closeEmergency.addEventListener("click", function () {
-      emergencyModal.classList.remove("show");
+    function cerrarTutorial(abrirInstalador) {
+      tutorialOverlay.classList.remove("show");
       document.body.style.overflow = "";
-    });
 
-    emergencyModal.addEventListener("click", function (e) {
-      if (e.target === emergencyModal) {
+      if (abrirInstalador && !esStandalone()) {
+        setTimeout(function() {
+          mostrarInstalador();
+        }, 220);
+      }
+    }
+
+    function siguienteTutorial() {
+      if (tutorialIndex >= TUTORIAL_IMAGES.length - 1) {
+        cerrarTutorial(tutorialAbrirInstaladorAlSalir);
+        return;
+      }
+
+      tutorialIndex += 1;
+      actualizarTutorialUI();
+    }
+
+    function omitirTutorial() {
+      cerrarTutorial(tutorialAbrirInstaladorAlSalir);
+    }
+
+    if (tutorialSkipBtn) {
+      tutorialSkipBtn.addEventListener("click", omitirTutorial);
+    }
+
+    if (tutorialNextBtn) {
+      tutorialNextBtn.addEventListener("click", siguienteTutorial);
+    }
+
+    if (btnVerTutorial) {
+      btnVerTutorial.addEventListener("click", function() {
+        abrirTutorial(true);
+      });
+    }
+
+    function mostrarAppSinIntro() {
+      intro.style.display = "none";
+      mainApp.classList.add("visible");
+    }
+
+    function intentarMostrarTutorialInicial() {
+      if (!tutorialYaVisto()) {
+        setTimeout(function() {
+          abrirTutorial(false);
+        }, 700);
+      } else {
+        setTimeout(function() {
+          intentarMostrarInstaladorDespuesDelTour();
+          verificarNuevaVersion();
+        }, 450);
+      }
+    }
+
+    if (sessionStorage.getItem("conecta2_intro_seen") === "true") {
+      mostrarAppSinIntro();
+      window.addEventListener("load", function () {
+        setTimeout(intentarMostrarTutorialInicial, 300);
+      });
+    } else {
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          intro.style.opacity = "0";
+          mainApp.classList.add("visible");
+        }, 5200);
+
+        setTimeout(function () {
+          intro.style.display = "none";
+          sessionStorage.setItem("conecta2_intro_seen", "true");
+          intentarMostrarTutorialInicial();
+        }, 5700);
+      });
+    }
+
+    const btnEmergencias = document.getElementById("btnEmergencias");
+    const closeEmergency = document.getElementById("closeEmergency");
+    const emergencyModal = document.getElementById("emergencyModal");
+
+    if (btnEmergencias && closeEmergency && emergencyModal) {
+      btnEmergencias.addEventListener("click", function () {
+        emergencyModal.classList.add("show");
+        document.body.style.overflow = "hidden";
+      });
+
+      closeEmergency.addEventListener("click", function () {
         emergencyModal.classList.remove("show");
         document.body.style.overflow = "";
-      }
-    });
-  }
-
-  function jsonp(url, callback, onError) {
-    const script = document.createElement("script");
-    const callbackName = "cb_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
-    let finished = false;
-
-    window[callbackName] = function(data) {
-      if (finished) return;
-      finished = true;
-      try { delete window[callbackName]; } catch (e) {}
-      if (script.parentNode) script.parentNode.removeChild(script);
-      callback(data || null);
-    };
-
-    script.onerror = function() {
-      if (finished) return;
-      finished = true;
-      try { delete window[callbackName]; } catch (e) {}
-      if (script.parentNode) script.parentNode.removeChild(script);
-      if (onError) onError();
-    };
-
-    script.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "callback=" + encodeURIComponent(callbackName);
-    document.body.appendChild(script);
-
-    setTimeout(function() {
-      if (finished) return;
-      finished = true;
-      try { delete window[callbackName]; } catch (e) {}
-      if (script.parentNode) script.parentNode.removeChild(script);
-      if (onError) onError();
-    }, 10000);
-  }
-
-  function registrarInstalacionApp() {
-    let deviceId = localStorage.getItem("conecta2_device_id");
-
-    if (!deviceId) {
-      deviceId = "dev-" + Date.now() + "-" + Math.floor(Math.random() * 1000000);
-      localStorage.setItem("conecta2_device_id", deviceId);
-    }
-
-    const formData = new FormData();
-    formData.append("action", "registrarInstalacion");
-    formData.append("device_id", deviceId);
-    formData.append("origen", "app");
-    formData.append(
-      "modo",
-      window.matchMedia("(display-mode: standalone)").matches ? "standalone" : "browser"
-    );
-
-    fetch(SCRIPT_URL, {
-      method: "POST",
-      body: formData
-    }).catch(function() {});
-  }
-
-  function obtenerTextoCorteFarmacia(hastaHora) {
-    const ahora = new Date();
-    const fechaBase = new Date(ahora);
-
-    if (ahora.getHours() < 8) {
-      fechaBase.setDate(fechaBase.getDate() - 1);
-    }
-
-    const fechaCorte = new Date(fechaBase);
-    fechaCorte.setDate(fechaCorte.getDate() + 1);
-
-    const dias = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
-    const nombreDia = dias[fechaCorte.getDay()];
-    const numeroDia = fechaCorte.getDate();
-
-    return "Hasta las " + (hastaHora || "08:00") + " hs del " + nombreDia + " " + numeroDia;
-  }
-
-  function cargarFarmaciaHoy() {
-    const formData = new FormData();
-    formData.append("action", "farmaciaHoy");
-
-    fetch(SCRIPT_URL, {
-      method: "POST",
-      body: formData
-    })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        if (!data.ok) return;
-
-        const f = data.farmacia || {};
-        const t = data.turno || {};
-
-        document.getElementById("farmaciaNombre").textContent = f.nombre || "Farmacia";
-        document.getElementById("farmaciaDireccion").textContent = f.direccion || "Dirección no disponible";
-        document.getElementById("farmaciaTelefono").textContent = f.telefono || "Teléfono no disponible";
-        document.getElementById("farmaciaHorario").textContent = obtenerTextoCorteFarmacia(t.hasta || "08:00");
-
-        const btnLlamar = document.getElementById("btnFarmaciaLlamar");
-        const btnWhatsapp = document.getElementById("btnFarmaciaWhatsapp");
-        const btnMapa = document.getElementById("btnFarmaciaMapa");
-
-        if (f.telefono_llamada) {
-          btnLlamar.href = "tel:" + f.telefono_llamada;
-          btnLlamar.style.pointerEvents = "auto";
-          btnLlamar.style.opacity = "1";
-        } else {
-          btnLlamar.href = "#";
-          btnLlamar.style.pointerEvents = "none";
-          btnLlamar.style.opacity = "0.7";
-        }
-
-        if (f.whatsapp) {
-          btnWhatsapp.href = "https://wa.me/" + String(f.whatsapp).replace(/\D/g, "");
-          btnWhatsapp.style.pointerEvents = "auto";
-          btnWhatsapp.style.opacity = "1";
-        } else {
-          btnWhatsapp.href = "#";
-          btnWhatsapp.style.pointerEvents = "none";
-          btnWhatsapp.style.opacity = "0.7";
-        }
-
-        if (f.maps) {
-          btnMapa.href = f.maps;
-          btnMapa.style.pointerEvents = "auto";
-          btnMapa.style.opacity = "1";
-        } else {
-          btnMapa.href = "#";
-          btnMapa.style.pointerEvents = "none";
-          btnMapa.style.opacity = "0.7";
-        }
-      })
-      .catch(function(err) {
-        console.log("Error farmacia", err);
       });
-  }
 
-  const installModal = document.getElementById("installModal");
-  const installConfirmBtn = document.getElementById("installConfirmBtn");
-  const installCloseBtn = document.getElementById("installCloseBtn");
-  const iosInstallNote = document.getElementById("iosInstallNote");
-  const updateModal = document.getElementById("updateModal");
-  const updateNowBtn = document.getElementById("updateNowBtn");
-
-  let deferredPrompt = null;
-
-  function esStandalone() {
-    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-  }
-
-  function esIOS() {
-    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-  }
-
-  function mostrarInstalador() {
-    if (!installModal) return;
-    if (esStandalone()) return;
-
-    if (esIOS()) {
-      iosInstallNote.classList.remove("install-hidden");
-    } else {
-      iosInstallNote.classList.add("install-hidden");
+      emergencyModal.addEventListener("click", function (e) {
+        if (e.target === emergencyModal) {
+          emergencyModal.classList.remove("show");
+          document.body.style.overflow = "";
+        }
+      });
     }
 
-    installModal.classList.add("show");
-    document.body.style.overflow = "hidden";
-  }
+    function jsonp(url, callback, onError) {
+      const script = document.createElement("script");
+      const callbackName = "cb_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
+      let finished = false;
 
-  function cerrarInstalador() {
-    if (!installModal) return;
-    installModal.classList.remove("show");
-    document.body.style.overflow = "";
-  }
+      window[callbackName] = function(data) {
+        if (finished) return;
+        finished = true;
+        try { delete window[callbackName]; } catch (e) {}
+        if (script.parentNode) script.parentNode.removeChild(script);
+        callback(data || null);
+      };
 
-  function intentarMostrarInstaladorDespuesDelTour() {
-    if (esStandalone()) return;
-    mostrarInstalador();
-  }
+      script.onerror = function() {
+        if (finished) return;
+        finished = true;
+        try { delete window[callbackName]; } catch (e) {}
+        if (script.parentNode) script.parentNode.removeChild(script);
+        if (onError) onError();
+      };
 
-  if (installConfirmBtn) {
-    installConfirmBtn.addEventListener("click", async function() {
+      script.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "callback=" + encodeURIComponent(callbackName);
+      document.body.appendChild(script);
+
+      setTimeout(function() {
+        if (finished) return;
+        finished = true;
+        try { delete window[callbackName]; } catch (e) {}
+        if (script.parentNode) script.parentNode.removeChild(script);
+        if (onError) onError();
+      }, 10000);
+    }
+
+    function registrarInstalacionApp() {
+      let deviceId = localStorage.getItem("conecta2_device_id");
+
+      if (!deviceId) {
+        deviceId = "dev-" + Date.now() + "-" + Math.floor(Math.random() * 1000000);
+        localStorage.setItem("conecta2_device_id", deviceId);
+      }
+
+      const formData = new FormData();
+      formData.append("action", "registrarInstalacion");
+      formData.append("device_id", deviceId);
+      formData.append("origen", "app");
+      formData.append(
+        "modo",
+        window.matchMedia("(display-mode: standalone)").matches ? "standalone" : "browser"
+      );
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: formData
+      }).catch(function() {});
+    }
+
+    function obtenerTextoCorteFarmacia(hastaHora) {
+      const ahora = new Date();
+      const fechaBase = new Date(ahora);
+
+      if (ahora.getHours() < 8) {
+        fechaBase.setDate(fechaBase.getDate() - 1);
+      }
+
+      const fechaCorte = new Date(fechaBase);
+      fechaCorte.setDate(fechaCorte.getDate() + 1);
+
+      const dias = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+      const nombreDia = dias[fechaCorte.getDay()];
+      const numeroDia = fechaCorte.getDate();
+
+      return "Hasta las " + (hastaHora || "08:00") + " hs del " + nombreDia + " " + numeroDia;
+    }
+
+    function cargarFarmaciaHoy() {
+      const formData = new FormData();
+      formData.append("action", "farmaciaHoy");
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: formData
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data.ok) return;
+
+          const f = data.farmacia || {};
+          const t = data.turno || {};
+
+          document.getElementById("farmaciaNombre").textContent = f.nombre || "Farmacia";
+          document.getElementById("farmaciaDireccion").textContent = f.direccion || "Dirección no disponible";
+          document.getElementById("farmaciaTelefono").textContent = f.telefono || "Teléfono no disponible";
+          document.getElementById("farmaciaHorario").textContent = obtenerTextoCorteFarmacia(t.hasta || "08:00");
+
+          const btnLlamar = document.getElementById("btnFarmaciaLlamar");
+          const btnWhatsapp = document.getElementById("btnFarmaciaWhatsapp");
+          const btnMapa = document.getElementById("btnFarmaciaMapa");
+
+          if (f.telefono_llamada) {
+            btnLlamar.href = "tel:" + f.telefono_llamada;
+            btnLlamar.style.pointerEvents = "auto";
+            btnLlamar.style.opacity = "1";
+          } else {
+            btnLlamar.href = "#";
+            btnLlamar.style.pointerEvents = "none";
+            btnLlamar.style.opacity = "0.7";
+          }
+
+          if (f.whatsapp) {
+            btnWhatsapp.href = "https://wa.me/" + String(f.whatsapp).replace(/\D/g, "");
+            btnWhatsapp.style.pointerEvents = "auto";
+            btnWhatsapp.style.opacity = "1";
+          } else {
+            btnWhatsapp.href = "#";
+            btnWhatsapp.style.pointerEvents = "none";
+            btnWhatsapp.style.opacity = "0.7";
+          }
+
+          if (f.maps) {
+            btnMapa.href = f.maps;
+            btnMapa.style.pointerEvents = "auto";
+            btnMapa.style.opacity = "1";
+          } else {
+            btnMapa.href = "#";
+            btnMapa.style.pointerEvents = "none";
+            btnMapa.style.opacity = "0.7";
+          }
+        })
+        .catch(function(err) {
+          console.log("Error farmacia", err);
+        });
+    }
+
+    const installModal = document.getElementById("installModal");
+    const installConfirmBtn = document.getElementById("installConfirmBtn");
+    const installCloseBtn = document.getElementById("installCloseBtn");
+    const iosInstallNote = document.getElementById("iosInstallNote");
+    const updateModal = document.getElementById("updateModal");
+    const updateNowBtn = document.getElementById("updateNowBtn");
+
+    let deferredPrompt = null;
+
+    function esStandalone() {
+      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    }
+
+    function esIOS() {
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    }
+
+    function mostrarInstalador() {
+      if (!installModal) return;
+      if (esStandalone()) return;
+
       if (esIOS()) {
-        return;
+        iosInstallNote.classList.remove("install-hidden");
+      } else {
+        iosInstallNote.classList.add("install-hidden");
       }
 
-      if (!deferredPrompt) {
-        return;
-      }
+      installModal.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
 
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
+    function cerrarInstalador() {
+      if (!installModal) return;
+      installModal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    function intentarMostrarInstaladorDespuesDelTour() {
+      if (esStandalone()) return;
+      mostrarInstalador();
+    }
+
+    if (installConfirmBtn) {
+      installConfirmBtn.addEventListener("click", async function() {
+        if (esIOS()) {
+          return;
+        }
+
+        if (!deferredPrompt) {
+          return;
+        }
+
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      });
+    }
+
+    if (installCloseBtn) {
+      installCloseBtn.addEventListener("click", function() {
+        cerrarInstalador();
+      });
+    }
+
+    if (installModal) {
+      installModal.addEventListener("click", function(e) {
+        if (e.target === installModal) {
+          cerrarInstalador();
+        }
+      });
+    }
+
+    window.addEventListener("beforeinstallprompt", function(e) {
+      e.preventDefault();
+      deferredPrompt = e;
     });
-  }
 
-  if (installCloseBtn) {
-    installCloseBtn.addEventListener("click", function() {
+    window.addEventListener("appinstalled", function() {
+      deferredPrompt = null;
       cerrarInstalador();
     });
-  }
 
-  if (installModal) {
-    installModal.addEventListener("click", function(e) {
-      if (e.target === installModal) {
-        cerrarInstalador();
-      }
-    });
-  }
-
-  window.addEventListener("beforeinstallprompt", function(e) {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
-
-  window.addEventListener("appinstalled", function() {
-    deferredPrompt = null;
-    cerrarInstalador();
-  });
-
-  function mostrarModalActualizacion() {
-    if (!updateModal) return;
-    updateModal.classList.add("show");
-    document.body.style.overflow = "hidden";
-  }
-
-  function cerrarModalActualizacion() {
-    if (!updateModal) return;
-    updateModal.classList.remove("show");
-    document.body.style.overflow = "";
-  }
-
-  function verificarNuevaVersion() {
-    const versionGuardada = localStorage.getItem(LS_APP_VERSION);
-
-    if (!versionGuardada) {
-      localStorage.setItem(LS_APP_VERSION, APP_VERSION);
-      return;
+    function mostrarModalActualizacion() {
+      if (!updateModal) return;
+      updateModal.classList.add("show");
+      document.body.style.overflow = "hidden";
     }
 
-    if (versionGuardada !== APP_VERSION) {
-      mostrarModalActualizacion();
-    }
-  }
-
-  if (updateNowBtn) {
-    updateNowBtn.addEventListener("click", function() {
-      localStorage.setItem(LS_APP_VERSION, APP_VERSION);
-
-      if ("caches" in window) {
-        caches.keys().then(function(names) {
-          return Promise.all(
-            names.map(function(name) {
-              return caches.delete(name);
-            })
-          );
-        }).finally(function() {
-          window.location.reload(true);
-        });
-      } else {
-        window.location.reload(true);
-      }
-    });
-  }
-
-  if (updateModal) {
-    updateModal.addEventListener("click", function(e) {
-      if (e.target === updateModal) {
-        cerrarModalActualizacion();
-      }
-    });
-  }
-
-  const loginModal = document.getElementById("loginModal");
-  const loginCloseBtn = document.getElementById("loginCloseBtn");
-  const btnPremiumLogin = document.getElementById("btnPremiumLogin");
-  const btnPremiumPanel = document.getElementById("btnPremiumPanel");
-  const btnPremiumLogout = document.getElementById("btnPremiumLogout");
-  const premiumSessionInfo = document.getElementById("premiumSessionInfo");
-  const premiumActions = document.getElementById("premiumActions");
-  const btnPremiumRegister = document.getElementById("btnPremiumRegister");
-  const registroModal = document.getElementById("registroModal");
-  const registroCloseBtn = document.getElementById("registroCloseBtn");
-
-  const loginPremiumForm = document.getElementById("loginPremiumForm");
-  const loginUsuario = document.getElementById("loginUsuario");
-  const loginPassword = document.getElementById("loginPassword");
-  const rememberPremium = document.getElementById("rememberPremium");
-  const togglePassBtn = document.getElementById("togglePassBtn");
-  const loginMsg = document.getElementById("loginMsg");
-  const btnLoginSubmit = document.getElementById("btnLoginSubmit");
-
-  const btnPerfilLaboral = document.getElementById("btnPerfilLaboral");
-  const perfilLaboralLabel = document.getElementById("perfilLaboralLabel");
-
-  function getPremiumSession() {
-    try {
-      return JSON.parse(localStorage.getItem(LS_PREMIUM_SESSION) || "null");
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function setPremiumSession(data) {
-    localStorage.setItem(LS_PREMIUM_SESSION, JSON.stringify(data));
-  }
-
-  function clearPremiumSession() {
-    localStorage.removeItem(LS_PREMIUM_SESSION);
-  }
-
-  function getRememberFlag() {
-    return localStorage.getItem(LS_PREMIUM_REMEMBER) === "true";
-  }
-
-  function saveRememberedCredentials(usuario, password) {
-    localStorage.setItem(LS_PREMIUM_REMEMBER, "true");
-    localStorage.setItem(LS_PREMIUM_USER, usuario || "");
-    localStorage.setItem(LS_PREMIUM_PASS, password || "");
-  }
-
-  function clearRememberedCredentials() {
-    localStorage.removeItem(LS_PREMIUM_REMEMBER);
-    localStorage.removeItem(LS_PREMIUM_USER);
-    localStorage.removeItem(LS_PREMIUM_PASS);
-  }
-
-  function fillRememberedCredentials() {
-    const remember = getRememberFlag();
-    rememberPremium.checked = remember;
-    loginUsuario.value = remember ? (localStorage.getItem(LS_PREMIUM_USER) || "") : "";
-    loginPassword.value = remember ? (localStorage.getItem(LS_PREMIUM_PASS) || "") : "";
-  }
-
-  function openLoginModal() {
-    fillRememberedCredentials();
-    loginMsg.textContent = "";
-    loginModal.classList.add("show");
-    document.body.style.overflow = "hidden";
-    setTimeout(function() {
-      if (loginUsuario.value) {
-        loginPassword.focus();
-      } else {
-        loginUsuario.focus();
-      }
-    }, 80);
-  }
-
-  function closeLoginModal() {
-    loginModal.classList.remove("show");
-    document.body.style.overflow = "";
-  }
-
-  function openRegistroModal() {
-    registroModal.classList.add("show");
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeRegistroModal() {
-    registroModal.classList.remove("show");
-    document.body.style.overflow = "";
-  }
-
-  function applyPerfilLaboralUI(session) {
-  if (!btnPerfilLaboral || !perfilLaboralLabel) return;
-
-  if (session && session.id_registro) {
-    perfilLaboralLabel.textContent = "Buscás personal?";
-    btnPerfilLaboral.textContent = "Ver perfiles laborales";
-    btnPerfilLaboral.href = "perfiles-laborales.html";
-    return;
-  }
-
-  perfilLaboralLabel.textContent = "Buscás trabajo?";
-  btnPerfilLaboral.textContent = "Cargá tu perfil laboral";
-  btnPerfilLaboral.href = "registro-perfil-laboral.html";
-}
-
-  function applyPremiumUI() {
-    const session = getPremiumSession();
-
-    if (session && session.id_registro) {
-      btnPremiumRegister.classList.add("hidden");
-      btnPremiumLogin.classList.add("hidden");
-      btnPremiumPanel.classList.remove("hidden");
-      btnPremiumLogout.classList.remove("hidden");
-
-      premiumActions.classList.add("session-on");
-      const tipoSesion = String(session.tipo || "").trim().toLowerCase();
-
-if (tipoSesion === "institucion") {
-  btnPremiumPanel.href = "panel-institucion.html?id_registro=" + encodeURIComponent(session.id_registro || "");
-} else {
-  btnPremiumPanel.href = "panel-miembro.html?id_registro=" + encodeURIComponent(session.id_registro || "");
-}
-      premiumSessionInfo.textContent = "Sesión activa como: " + (session.usuario || "miembro premium") + ".";
-      applyPerfilLaboralUI(session);
-      return;
+    function cerrarModalActualizacion() {
+      if (!updateModal) return;
+      updateModal.classList.remove("show");
+      document.body.style.overflow = "";
     }
 
-    btnPremiumRegister.classList.remove("hidden");
-    btnPremiumLogin.classList.remove("hidden");
-    btnPremiumPanel.classList.add("hidden");
-    btnPremiumLogout.classList.add("hidden");
+    function verificarNuevaVersion() {
+      const versionGuardada = localStorage.getItem(LS_APP_VERSION);
 
-    premiumActions.classList.remove("session-on");
-    premiumSessionInfo.textContent = "Elegí una opción para continuar.";
-    applyPerfilLaboralUI(null);
-  }
-
-  function loginPremium(usuario, password) {
-    return new Promise(function(resolve) {
-      const url = SCRIPT_URL
-        + "?action=loginMiembroPremium"
-        + "&usuario=" + encodeURIComponent(usuario)
-        + "&password=" + encodeURIComponent(password);
-
-      jsonp(url, function(data) {
-        resolve(data || null);
-      }, function() {
-        resolve(null);
-      });
-    });
-  }
-
-  if (btnPremiumRegister) {
-    btnPremiumRegister.addEventListener("click", openRegistroModal);
-  }
-
-  if (registroCloseBtn) {
-    registroCloseBtn.addEventListener("click", closeRegistroModal);
-  }
-
-  if (registroModal) {
-    registroModal.addEventListener("click", function(e) {
-      if (e.target === registroModal) {
-        closeRegistroModal();
-      }
-    });
-  }
-
-  if (btnPremiumLogin) {
-    btnPremiumLogin.addEventListener("click", openLoginModal);
-  }
-
-  if (loginCloseBtn) {
-    loginCloseBtn.addEventListener("click", closeLoginModal);
-  }
-
-  if (loginModal) {
-    loginModal.addEventListener("click", function(e) {
-      if (e.target === loginModal) {
-        closeLoginModal();
-      }
-    });
-  }
-
-  if (togglePassBtn) {
-    togglePassBtn.addEventListener("click", function() {
-      const isPassword = loginPassword.getAttribute("type") === "password";
-      loginPassword.setAttribute("type", isPassword ? "text" : "password");
-      togglePassBtn.textContent = isPassword ? "🙈" : "👁";
-    });
-  }
-
-  if (btnPremiumLogout) {
-    btnPremiumLogout.addEventListener("click", function() {
-      clearPremiumSession();
-      applyPremiumUI();
-    });
-  }
-
-  if (loginPremiumForm) {
-    loginPremiumForm.addEventListener("submit", async function(e) {
-      e.preventDefault();
-
-      const usuario = String(loginUsuario.value || "").trim();
-      const password = String(loginPassword.value || "").trim();
-
-      if (!usuario || !password) {
-        loginMsg.textContent = "Completá usuario y contraseña.";
+      if (!versionGuardada) {
+        localStorage.setItem(LS_APP_VERSION, APP_VERSION);
         return;
       }
 
+      if (versionGuardada !== APP_VERSION) {
+        mostrarModalActualizacion();
+      }
+    }
+
+    if (updateNowBtn) {
+      updateNowBtn.addEventListener("click", function() {
+        localStorage.setItem(LS_APP_VERSION, APP_VERSION);
+
+        if ("caches" in window) {
+          caches.keys().then(function(names) {
+            return Promise.all(
+              names.map(function(name) {
+                return caches.delete(name);
+              })
+            );
+          }).finally(function() {
+            window.location.reload(true);
+          });
+        } else {
+          window.location.reload(true);
+        }
+      });
+    }
+
+    if (updateModal) {
+      updateModal.addEventListener("click", function(e) {
+        if (e.target === updateModal) {
+          cerrarModalActualizacion();
+        }
+      });
+    }
+
+    const loginModal = document.getElementById("loginModal");
+    const loginCloseBtn = document.getElementById("loginCloseBtn");
+    const btnPremiumLogin = document.getElementById("btnPremiumLogin");
+    const btnPremiumPanel = document.getElementById("btnPremiumPanel");
+    const btnPremiumLogout = document.getElementById("btnPremiumLogout");
+    const premiumSessionInfo = document.getElementById("premiumSessionInfo");
+    const premiumActions = document.getElementById("premiumActions");
+    const btnPremiumRegister = document.getElementById("btnPremiumRegister");
+    const registroModal = document.getElementById("registroModal");
+    const registroCloseBtn = document.getElementById("registroCloseBtn");
+
+    const loginPremiumForm = document.getElementById("loginPremiumForm");
+    const loginUsuario = document.getElementById("loginUsuario");
+    const loginPassword = document.getElementById("loginPassword");
+    const rememberPremium = document.getElementById("rememberPremium");
+    const togglePassBtn = document.getElementById("togglePassBtn");
+    const loginMsg = document.getElementById("loginMsg");
+    const btnLoginSubmit = document.getElementById("btnLoginSubmit");
+
+    const btnPerfilLaboral = document.getElementById("btnPerfilLaboral");
+    const perfilLaboralLabel = document.getElementById("perfilLaboralLabel");
+
+    function getPremiumSession() {
+      try {
+        return JSON.parse(localStorage.getItem(LS_PREMIUM_SESSION) || "null");
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setPremiumSession(data) {
+      localStorage.setItem(LS_PREMIUM_SESSION, JSON.stringify(data));
+    }
+
+    function clearPremiumSession() {
+      localStorage.removeItem(LS_PREMIUM_SESSION);
+    }
+
+    function getRememberFlag() {
+      return localStorage.getItem(LS_PREMIUM_REMEMBER) === "true";
+    }
+
+    function saveRememberedCredentials(usuario, password) {
+      localStorage.setItem(LS_PREMIUM_REMEMBER, "true");
+      localStorage.setItem(LS_PREMIUM_USER, usuario || "");
+      localStorage.setItem(LS_PREMIUM_PASS, password || "");
+    }
+
+    function clearRememberedCredentials() {
+      localStorage.removeItem(LS_PREMIUM_REMEMBER);
+      localStorage.removeItem(LS_PREMIUM_USER);
+      localStorage.removeItem(LS_PREMIUM_PASS);
+    }
+
+    function fillRememberedCredentials() {
+      const remember = getRememberFlag();
+      rememberPremium.checked = remember;
+      loginUsuario.value = remember ? (localStorage.getItem(LS_PREMIUM_USER) || "") : "";
+      loginPassword.value = remember ? (localStorage.getItem(LS_PREMIUM_PASS) || "") : "";
+    }
+
+    function openLoginModal() {
+      fillRememberedCredentials();
       loginMsg.textContent = "";
-      btnLoginSubmit.disabled = true;
-      btnLoginSubmit.textContent = "Ingresando...";
+      loginModal.classList.add("show");
+      document.body.style.overflow = "hidden";
+      setTimeout(function() {
+        if (loginUsuario.value) {
+          loginPassword.focus();
+        } else {
+          loginUsuario.focus();
+        }
+      }, 80);
+    }
 
-      const res = await loginPremium(usuario, password);
+    function closeLoginModal() {
+      loginModal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
 
-      if (!res || res.ok !== true) {
-        loginMsg.textContent = (res && res.error) ? res.error : "No se pudo iniciar sesión. Revisá tus datos.";
+    function openRegistroModal() {
+      registroModal.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeRegistroModal() {
+      registroModal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    function applyPerfilLaboralUI(session) {
+      if (!btnPerfilLaboral || !perfilLaboralLabel) return;
+
+      if (session && session.id_registro) {
+        perfilLaboralLabel.textContent = "Buscás personal?";
+        btnPerfilLaboral.textContent = "Ver perfiles laborales";
+        btnPerfilLaboral.href = "perfiles-laborales.html";
+        return;
+      }
+
+      perfilLaboralLabel.textContent = "Buscás trabajo?";
+      btnPerfilLaboral.textContent = "Cargá tu perfil laboral";
+      btnPerfilLaboral.href = "registro-perfil-laboral.html";
+    }
+
+    function applyPremiumUI() {
+      const session = getPremiumSession();
+
+      if (session && session.id_registro) {
+        btnPremiumRegister.classList.add("hidden");
+        btnPremiumLogin.classList.add("hidden");
+        btnPremiumPanel.classList.remove("hidden");
+        btnPremiumLogout.classList.remove("hidden");
+
+        premiumActions.classList.add("session-on");
+        const tipoSesion = String(session.tipo || "").trim().toLowerCase();
+
+        if (tipoSesion === "institucion") {
+          btnPremiumPanel.href = "panel-institucion.html?id_registro=" + encodeURIComponent(session.id_registro || "");
+        } else {
+          btnPremiumPanel.href = "panel-miembro.html?id_registro=" + encodeURIComponent(session.id_registro || "");
+        }
+
+        premiumSessionInfo.textContent = "Sesión activa como: " + (session.usuario || "miembro premium") + ".";
+        applyPerfilLaboralUI(session);
+        return;
+      }
+
+      btnPremiumRegister.classList.remove("hidden");
+      btnPremiumLogin.classList.remove("hidden");
+      btnPremiumPanel.classList.add("hidden");
+      btnPremiumLogout.classList.add("hidden");
+
+      premiumActions.classList.remove("session-on");
+      premiumSessionInfo.textContent = "Elegí una opción para continuar.";
+      applyPerfilLaboralUI(null);
+    }
+
+    function loginPremium(usuario, password) {
+      return new Promise(function(resolve) {
+        const url = SCRIPT_URL
+          + "?action=loginMiembroPremium"
+          + "&usuario=" + encodeURIComponent(usuario)
+          + "&password=" + encodeURIComponent(password);
+
+        jsonp(url, function(data) {
+          resolve(data || null);
+        }, function() {
+          resolve(null);
+        });
+      });
+    }
+
+    if (btnPremiumRegister) {
+      btnPremiumRegister.addEventListener("click", openRegistroModal);
+    }
+
+    if (registroCloseBtn) {
+      registroCloseBtn.addEventListener("click", closeRegistroModal);
+    }
+
+    if (registroModal) {
+      registroModal.addEventListener("click", function(e) {
+        if (e.target === registroModal) {
+          closeRegistroModal();
+        }
+      });
+    }
+
+    if (btnPremiumLogin) {
+      btnPremiumLogin.addEventListener("click", openLoginModal);
+    }
+
+    if (loginCloseBtn) {
+      loginCloseBtn.addEventListener("click", closeLoginModal);
+    }
+
+    if (loginModal) {
+      loginModal.addEventListener("click", function(e) {
+        if (e.target === loginModal) {
+          closeLoginModal();
+        }
+      });
+    }
+
+    if (togglePassBtn) {
+      togglePassBtn.addEventListener("click", function() {
+        const isPassword = loginPassword.getAttribute("type") === "password";
+        loginPassword.setAttribute("type", isPassword ? "text" : "password");
+        togglePassBtn.textContent = isPassword ? "🙈" : "👁";
+      });
+    }
+
+    if (btnPremiumLogout) {
+      btnPremiumLogout.addEventListener("click", function() {
+        clearPremiumSession();
+        applyPremiumUI();
+      });
+    }
+
+    if (loginPremiumForm) {
+      loginPremiumForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const usuario = String(loginUsuario.value || "").trim();
+        const password = String(loginPassword.value || "").trim();
+
+        if (!usuario || !password) {
+          loginMsg.textContent = "Completá usuario y contraseña.";
+          return;
+        }
+
+        loginMsg.textContent = "";
+        btnLoginSubmit.disabled = true;
+        btnLoginSubmit.textContent = "Ingresando...";
+
+        const res = await loginPremium(usuario, password);
+
+        if (!res || res.ok !== true) {
+          loginMsg.textContent = (res && res.error) ? res.error : "No se pudo iniciar sesión. Revisá tus datos.";
+          btnLoginSubmit.disabled = false;
+          btnLoginSubmit.textContent = "Ingresar";
+          return;
+        }
+
+        if (rememberPremium.checked) {
+          saveRememberedCredentials(usuario, password);
+        } else {
+          clearRememberedCredentials();
+        }
+
+        setPremiumSession({
+          usuario: usuario,
+          id_registro: res.miembro.id || "",
+          tipo: res.miembro.tipo || "",
+          estado: "activo"
+        });
+
+        applyPremiumUI();
         btnLoginSubmit.disabled = false;
         btnLoginSubmit.textContent = "Ingresar";
-        return;
-      }
-
-      if (rememberPremium.checked) {
-        saveRememberedCredentials(usuario, password);
-      } else {
-        clearRememberedCredentials();
-      }
-
-      setPremiumSession({
-        usuario: usuario,
-        id_registro: res.miembro.id || "",
-        tipo: res.miembro.tipo || "",
-        estado: "activo"
+        closeLoginModal();
       });
+    }
 
-      applyPremiumUI();
-      btnLoginSubmit.disabled = false;
-      btnLoginSubmit.textContent = "Ingresar";
-      closeLoginModal();
+    fillRememberedCredentials();
+    applyPremiumUI();
+
+    window.addEventListener("load", function () {
+      cargarFarmaciaHoy();
+      registrarInstalacionApp();
     });
-  }
-
-  const onboardingSteps = [
-    {
-      selector: "#categorias",
-      title: "Categorías",
-      text: "Entrá en la categoría que necesites para encontrar lo que buscás."
-    },
-    {
-      selector: "#btnPerfilLaboral",
-      title: "Perfiles laborales",
-      text: "Desde acá podés cargar tu perfil laboral o, si sos premium, acceder a perfiles para tu actividad."
-    },
-    {
-      selector: "#btnEmergencias",
-      title: "Emergencias",
-      text: "Ante una urgencia, desde acá accedés rápido a números importantes."
-    },
-    {
-      selector: "#farmaciaTurno",
-      title: "Farmacia de turno",
-      text: "Acá podés ver qué farmacia está de turno, hasta qué hora y cómo comunicarte."
-    },
-    {
-      selector: "#accesoPremium",
-      title: "Acceso premium",
-      text: "Desde acá podés registrarte en Conecta2 o iniciar sesión si ya tenés membresía premium."
-    },
-    {
-      selector: "#soporteConecta2",
-      title: "Soporte Conecta2",
-      text: "Si tenés dudas o querés enviarnos una sugerencia, podés escribirnos desde acá."
-    }
-  ];
-
-  let onboardingIndex = 0;
-
-  function ensureOnboardingCard() {
-    let card = document.getElementById("onboardingCard");
-
-    if (!card) {
-      card = document.createElement("div");
-      card.id = "onboardingCard";
-      card.className = "onboarding-card";
-
-      card.innerHTML =
-        "<button class=\"onboarding-close\" id=\"onboardingCloseBtn\" type=\"button\">✕</button>" +
-        "<div class=\"onboarding-title\" id=\"onboardingTitle\"></div>" +
-        "<div class=\"onboarding-text\" id=\"onboardingText\"></div>" +
-        "<div class=\"onboarding-actions\">" +
-        "<button class=\"onboarding-btn onboarding-btn-secondary\" id=\"onboardingSkipBtn\" type=\"button\">Cerrar</button>" +
-        "<button class=\"onboarding-btn onboarding-btn-secondary\" id=\"onboardingNextBtn\" type=\"button\">Siguiente</button>" +
-        "</div>";
-
-      document.body.appendChild(card);
-
-      document.getElementById("onboardingCloseBtn").addEventListener("click", cerrarGuia);
-      document.getElementById("onboardingSkipBtn").addEventListener("click", cerrarGuia);
-      document.getElementById("onboardingNextBtn").addEventListener("click", siguientePasoGuia);
-    }
-
-    return card;
-  }
-
-  function limpiarOnboardingFocus() {
-    document.querySelectorAll(".onboarding-focus").forEach(function(el) {
-      el.classList.remove("onboarding-focus");
-    });
-  }
-
-  function mostrarPasoGuia(index) {
-    const step = onboardingSteps[index];
-    if (!step) {
-      cerrarGuia();
-      return;
-    }
-
-    limpiarOnboardingFocus();
-
-    const el = document.querySelector(step.selector);
-    if (!el) {
-      siguientePasoGuia();
-      return;
-    }
-
-    el.classList.add("onboarding-focus");
-
-    el.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-
-    const card = ensureOnboardingCard();
-    document.getElementById("onboardingTitle").textContent = step.title;
-    document.getElementById("onboardingText").textContent = step.text;
-    document.getElementById("onboardingNextBtn").textContent = index === onboardingSteps.length - 1 ? "Finalizar" : "Siguiente";
-
-    card.classList.add("show");
-    document.body.classList.add("onboarding-active");
-  }
-
-  function abrirGuia() {
-    localStorage.setItem("conecta2_tour_visto", "true");
-    onboardingIndex = 0;
-    mostrarPasoGuia(onboardingIndex);
-  }
-
-  function siguientePasoGuia() {
-    onboardingIndex += 1;
-    if (onboardingIndex >= onboardingSteps.length) {
-      cerrarGuia();
-      return;
-    }
-    mostrarPasoGuia(onboardingIndex);
-  }
-
-  function cerrarGuia() {
-    limpiarOnboardingFocus();
-    const card = document.getElementById("onboardingCard");
-    if (card) {
-      card.classList.remove("show");
-    }
-    document.body.classList.remove("onboarding-active");
-
-    setTimeout(function() {
-      intentarMostrarInstaladorDespuesDelTour();
-      verificarNuevaVersion();
-    }, 250);
-  }
-
-  fillRememberedCredentials();
-  applyPremiumUI();
-
-  window.addEventListener("load", function () {
-    cargarFarmaciaHoy();
-    registrarInstalacionApp();
-  });
-</script>
+  </script>
 </body>
 </html>
