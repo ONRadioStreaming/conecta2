@@ -902,6 +902,178 @@ const previewCard = document.getElementById('previewCard');
 const cardBtnWhatsapp = document.getElementById('cardBtnWhatsapp');
 const cardBtnCall = document.getElementById('cardBtnCall');
 
+const categoriaPrincipal = document.getElementById('categoriaPrincipal');
+const rubroEspecialidad = document.getElementById('rubroEspecialidad');
+const otroRubroGroup = document.getElementById('otroRubroGroup');
+const otroRubro = document.getElementById('otroRubro');
+
+const RUBROS_POR_CATEGORIA = {
+  "Administración y gestión": [
+    "Contador/a",
+    "Administrador/a de empresas",
+    "Asesor/a impositivo",
+    "Asesor/a previsional",
+    "Gestor/a administrativo",
+    "Liquidación de sueldos",
+    "Otro"
+  ],
+  "Arquitectura y obras": [
+    "Arquitecto/a",
+    "Maestro mayor de obras",
+    "Ingeniero/a civil",
+    "Diseñador/a de interiores",
+    "Paisajista",
+    "Dirección de obra",
+    "Otro"
+  ],
+  "Comunicación y marketing": [
+    "Community manager",
+    "Marketing digital",
+    "Publicidad",
+    "Periodista",
+    "Redactor/a",
+    "Productor/a audiovisual",
+    "Fotógrafo/a",
+    "Otro"
+  ],
+  "Derecho y asesoría legal": [
+    "Abogado/a",
+    "Mediador/a",
+    "Escribano/a",
+    "Asesor/a legal",
+    "Perito/a judicial",
+    "Otro"
+  ],
+  "Diseño y creatividad": [
+    "Diseñador/a gráfico",
+    "Diseñador/a web",
+    "Diseñador/a industrial",
+    "Ilustrador/a",
+    "Editor/a de video",
+    "Animador/a",
+    "Otro"
+  ],
+  "Educación y formación": [
+    "Docente particular",
+    "Profesor/a de apoyo escolar",
+    "Profesor/a de idiomas",
+    "Capacitador/a",
+    "Formador/a técnico/a",
+    "Tallerista",
+    "Otro"
+  ],
+  "Ingeniería y técnica": [
+    "Ingeniero/a electrónico",
+    "Ingeniero/a industrial",
+    "Técnico/a electrónico",
+    "Técnico/a electromecánico",
+    "Técnico/a en seguridad e higiene",
+    "Otro"
+  ],
+  "Inmobiliaria y seguros": [
+    "Corredor/a inmobiliario",
+    "Productor/a de seguros",
+    "Tasador/a",
+    "Asesor/a inmobiliario",
+    "Otro"
+  ],
+  "Informática y sistemas": [
+    "Programador/a",
+    "Desarrollador/a web",
+    "Soporte técnico",
+    "Técnico/a en PC",
+    "Especialista en redes",
+    "Diseñador/a UX/UI",
+    "Otro"
+  ],
+  "Salud mental y acompañamiento": [
+    "Psicólogo/a",
+    "Psicopedagogo/a",
+    "Acompañante terapéutico",
+    "Coach",
+    "Orientador/a familiar",
+    "Otro"
+  ],
+  "Servicios empresariales": [
+    "Consultor/a",
+    "Asesor/a empresarial",
+    "Recursos humanos",
+    "Auditor/a",
+    "Analista",
+    "Otro"
+  ],
+  "Traducción e idiomas": [
+    "Traductor/a",
+    "Intérprete",
+    "Profesor/a de inglés",
+    "Profesor/a de portugués",
+    "Profesor/a de otros idiomas",
+    "Otro"
+  ],
+  "Otros rubros": [
+    "Otro"
+  ]
+};
+
+function resetRubroEspecialidad(texto) {
+  rubroEspecialidad.innerHTML = "";
+  const option = document.createElement("option");
+  option.value = "";
+  option.textContent = texto || "Primero elegí una categoría";
+  rubroEspecialidad.appendChild(option);
+  rubroEspecialidad.value = "";
+  rubroEspecialidad.disabled = true;
+  otroRubroGroup.classList.add("hidden");
+  otroRubro.value = "";
+  otroRubro.required = false;
+}
+
+function cargarRubrosSegunCategoria() {
+  const categoria = String(categoriaPrincipal.value || "").trim();
+
+  if (!categoria || !RUBROS_POR_CATEGORIA[categoria]) {
+    resetRubroEspecialidad("Primero elegí una categoría");
+    return;
+  }
+
+  const rubros = RUBROS_POR_CATEGORIA[categoria];
+
+  rubroEspecialidad.innerHTML = "";
+
+  const primera = document.createElement("option");
+  primera.value = "";
+  primera.textContent = "Seleccionar";
+  rubroEspecialidad.appendChild(primera);
+
+  rubros.forEach(function(rubro) {
+    const option = document.createElement("option");
+    option.value = rubro;
+    option.textContent = rubro;
+    rubroEspecialidad.appendChild(option);
+  });
+
+  rubroEspecialidad.disabled = false;
+  rubroEspecialidad.value = "";
+  otroRubroGroup.classList.add("hidden");
+  otroRubro.value = "";
+  otroRubro.required = false;
+}
+
+categoriaPrincipal.addEventListener("change", cargarRubrosSegunCategoria);
+
+rubroEspecialidad.addEventListener("change", function() {
+  if (rubroEspecialidad.value === "Otro") {
+    otroRubroGroup.classList.remove("hidden");
+    otroRubro.required = true;
+  } else {
+    otroRubroGroup.classList.add("hidden");
+    otroRubro.value = "";
+    otroRubro.required = false;
+  }
+});
+
+resetRubroEspecialidad("Primero elegí una categoría");
+
 let archivoFoto = null;
 
 function valor(id){
