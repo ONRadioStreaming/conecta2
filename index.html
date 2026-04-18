@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#07142b" />
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="manifest.json?v=3">
+  <link rel="manifest" href="manifest.json?v=4">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap');
@@ -303,6 +303,7 @@
     .cat-11 { background: linear-gradient(145deg, #24c6dc, #514a9d); }
     .cat-15 { background: linear-gradient(145deg, #8e2de2, #4a00e0); }
     .cat-20 { background: linear-gradient(145deg, #2563eb, #1d4ed8); }
+    .cat-30 { background: linear-gradient(145deg, #0f766e, #14b8a6); }
 
     .category-single-center {
       display: flex;
@@ -1358,6 +1359,13 @@
         <h2 class="section-title">Categorías</h2>
 
         <div class="grid" id="categoryGrid">
+          <a class="category-card cat-30" id="cardEmpresas" href="categoria.html?cat=empresas" data-name="empresas">
+            <div>
+              <span class="card-title">Empresas</span>
+              <span class="card-subtitle">Industrias, fábricas, transporte, logística y más</span>
+            </div>
+          </a>
+
           <a class="category-card cat-11" id="cardComercios" href="categoria.html?cat=comercios" data-name="comercios">
             <div>
               <span class="card-title">Comercios</span>
@@ -1372,6 +1380,13 @@
             </div>
           </a>
 
+          <a class="category-card cat-20" id="cardInstituciones" href="categoria.html?cat=instituciones" data-name="instituciones">
+            <div>
+              <span class="card-title">Instituciones</span>
+              <span class="card-subtitle">Organizaciones y entidades sin fines de lucro</span>
+            </div>
+          </a>
+
           <a class="category-card cat-15" id="cardProfesionales" href="categoria.html?cat=profesionales" data-name="profesionales">
             <div>
               <span class="card-title">Profesionales</span>
@@ -1383,15 +1398,6 @@
             <div>
               <span class="card-title">Salud</span>
               <span class="card-subtitle">Profesionales de la salud</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="category-single-center" id="institucionesWrap">
-          <a class="category-card cat-20" id="cardInstituciones" href="categoria.html?cat=instituciones" data-name="instituciones">
-            <div>
-              <span class="card-title">Instituciones</span>
-              <span class="card-subtitle">Organizaciones y entidades sin fines de lucro</span>
             </div>
           </a>
         </div>
@@ -1577,6 +1583,7 @@
       <p class="install-text" id="updateModalText">
         Detectamos una actualización de Conecta2. Tocá el botón de abajo para cargar la versión más reciente.
       </p>
+      <p class="install-text" id="updateVersionText" style="margin-top:-4px;font-size:0.9rem;font-weight:800;color:#16324f;">Versión disponible: -</p>
 
       <div class="install-actions">
         <button class="install-btn install-btn-primary" id="updateNowBtn" type="button">Actualizar ahora</button>
@@ -1632,6 +1639,7 @@
 
       <div class="registro-actions">
         <a class="registro-btn registro-btn-comercio" id="btnModalRegistroComercio" href="registro-comercio.html">Registrá tu comercio</a>
+        <a class="registro-btn registro-btn-laboral" id="btnModalRegistroEmpresa" href="registro-empresa.html">Registrá tu empresa</a>
         <a class="registro-btn registro-btn-servicio" id="btnModalRegistroServicio" href="registro-servicio.html">Ofrecé tus servicios</a>
         <a class="registro-btn registro-btn-profesional" id="btnModalRegistroProfesional" href="registro-profesional.html">Registrate como profesional</a>
         <a class="registro-btn registro-btn-salud" id="btnModalRegistroSalud" href="registro-salud.html">Registrate como profesional de salud</a>
@@ -1649,7 +1657,14 @@
     const LS_PREMIUM_PASS = "conecta2_premium_pass";
     const LS_APP_VERSION = "conecta2_app_version";
     const LS_TUTORIAL_VISTO = "conecta2_tutorial_visual_v1";
-    const APP_VERSION = "4";
+    const LS_REMOTE_CONFIG = "conecta2_remote_config";
+    const APP_BUILD_VERSION = "5";
+    const DEFAULT_UPDATE_MESSAGE = "Hay una nueva versión de Conecta2 disponible. Tocá el botón de abajo para cargar la versión más reciente.";
+    const DEFAULT_REMOTE_CONFIG = {
+      version_app: APP_BUILD_VERSION,
+      mensaje_actualizacion: DEFAULT_UPDATE_MESSAGE,
+      mostrar_actualizacion: "si"
+    };
 
     const TUTORIAL_IMAGES = [
       "tutorial01.png",
@@ -1664,10 +1679,37 @@
       "tutorial10.png"
     ];
 
+    let swRegistration = null;
+    let swRefreshing = false;
+    let publishedAppConfig = Object.assign({}, DEFAULT_REMOTE_CONFIG);
+
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
-        navigator.serviceWorker.register("./service-worker.js?v=3").catch(function(err) {
+        navigator.serviceWorker.register("./service-worker.js?v=4").then(function(registration) {
+          swRegistration = registration;
+
+          if (registration.waiting) {
+            mostrarModalActualizacion();
+          }
+
+          registration.addEventListener("updatefound", function() {
+            const newWorker = registration.installing;
+            if (!newWorker) return;
+
+            newWorker.addEventListener("statechange", function() {
+              if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                mostrarModalActualizacion();
+              }
+            });
+          });
+        }).catch(function(err) {
           console.log("Error registrando service worker:", err);
+        });
+
+        navigator.serviceWorker.addEventListener("controllerchange", function() {
+          if (swRefreshing) return;
+          swRefreshing = true;
+          window.location.reload();
         });
       });
     }
@@ -1849,6 +1891,44 @@
       }, 10000);
     }
 
+
+    function normalizarValorSiNo(value, fallback) {
+      if (value === undefined || value === null || value === "") return fallback;
+      return value;
+    }
+
+    async function obtenerConfiguracionApp() {
+      try {
+        const response = await fetch(SCRIPT_URL + "?action=obtenerConfiguracionApp&t=" + Date.now(), {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        const data = await response.json();
+
+        if (!data || data.ok !== true) {
+          return Object.assign({}, DEFAULT_REMOTE_CONFIG);
+        }
+
+        const config = {
+          version_app: String(normalizarValorSiNo(data.version_app, DEFAULT_REMOTE_CONFIG.version_app)).trim(),
+          mensaje_actualizacion: String(normalizarValorSiNo(data.mensaje_actualizacion, DEFAULT_REMOTE_CONFIG.mensaje_actualizacion)).trim(),
+          mostrar_actualizacion: String(normalizarValorSiNo(data.mostrar_actualizacion, DEFAULT_REMOTE_CONFIG.mostrar_actualizacion)).trim().toLowerCase()
+        };
+
+        localStorage.setItem(LS_REMOTE_CONFIG, JSON.stringify(config));
+        return config;
+      } catch (error) {
+        try {
+          const saved = JSON.parse(localStorage.getItem(LS_REMOTE_CONFIG) || "null");
+          if (saved && saved.version_app) {
+            return saved;
+          }
+        } catch (e) {}
+        return Object.assign({}, DEFAULT_REMOTE_CONFIG);
+      }
+    }
+
     function registrarInstalacionApp() {
       let deviceId = localStorage.getItem("conecta2_device_id");
 
@@ -1955,6 +2035,8 @@
     const iosInstallNote = document.getElementById("iosInstallNote");
     const updateModal = document.getElementById("updateModal");
     const updateNowBtn = document.getElementById("updateNowBtn");
+    const updateModalText = document.getElementById("updateModalText");
+    const updateVersionText = document.getElementById("updateVersionText");
 
     let deferredPrompt = null;
 
@@ -2033,6 +2115,18 @@
 
     function mostrarModalActualizacion() {
       if (!updateModal) return;
+
+      const mensaje = String((publishedAppConfig && publishedAppConfig.mensaje_actualizacion) || DEFAULT_UPDATE_MESSAGE).trim();
+      const versionPublicada = String((publishedAppConfig && publishedAppConfig.version_app) || APP_BUILD_VERSION).trim();
+
+      if (updateModalText) {
+        updateModalText.textContent = mensaje || DEFAULT_UPDATE_MESSAGE;
+      }
+
+      if (updateVersionText) {
+        updateVersionText.textContent = "Versión disponible: " + versionPublicada;
+      }
+
       updateModal.classList.add("show");
       document.body.style.overflow = "hidden";
     }
@@ -2043,36 +2137,62 @@
       document.body.style.overflow = "";
     }
 
-    function verificarNuevaVersion() {
-      const versionGuardada = localStorage.getItem(LS_APP_VERSION);
+    async function verificarNuevaVersion() {
+      publishedAppConfig = await obtenerConfiguracionApp();
+
+      const versionPublicada = String((publishedAppConfig && publishedAppConfig.version_app) || APP_BUILD_VERSION).trim();
+      const mostrarActualizacion = String((publishedAppConfig && publishedAppConfig.mostrar_actualizacion) || "si").trim().toLowerCase();
+      const versionGuardada = String(localStorage.getItem(LS_APP_VERSION) || "").trim();
 
       if (!versionGuardada) {
-        localStorage.setItem(LS_APP_VERSION, APP_VERSION);
+        localStorage.setItem(LS_APP_VERSION, versionPublicada);
         return;
       }
 
-      if (versionGuardada !== APP_VERSION) {
+      if (mostrarActualizacion === "no") {
+        return;
+      }
+
+      if (versionGuardada !== versionPublicada) {
         mostrarModalActualizacion();
+      }
+    }
+
+    async function actualizarAplicacionAhora() {
+      const versionPublicada = String((publishedAppConfig && publishedAppConfig.version_app) || APP_BUILD_VERSION).trim();
+      localStorage.setItem(LS_APP_VERSION, versionPublicada);
+
+      if (swRegistration) {
+        try {
+          await swRegistration.update();
+        } catch (e) {}
+      }
+
+      if (swRegistration && swRegistration.waiting) {
+        swRegistration.waiting.postMessage({ type: "SKIP_WAITING" });
+        return;
+      }
+
+      if ("caches" in window) {
+        caches.keys().then(function(names) {
+          return Promise.all(
+            names.map(function(name) {
+              return caches.delete(name);
+            })
+          );
+        }).finally(function() {
+          const separator = window.location.href.indexOf("?") >= 0 ? "&" : "?";
+          window.location.href = window.location.pathname + window.location.search + separator + "v=" + encodeURIComponent(versionPublicada) + "&_ts=" + Date.now() + window.location.hash;
+        });
+      } else {
+        const separator = window.location.href.indexOf("?") >= 0 ? "&" : "?";
+        window.location.href = window.location.pathname + window.location.search + separator + "v=" + encodeURIComponent(versionPublicada) + "&_ts=" + Date.now() + window.location.hash;
       }
     }
 
     if (updateNowBtn) {
       updateNowBtn.addEventListener("click", function() {
-        localStorage.setItem(LS_APP_VERSION, APP_VERSION);
-
-        if ("caches" in window) {
-          caches.keys().then(function(names) {
-            return Promise.all(
-              names.map(function(name) {
-                return caches.delete(name);
-              })
-            );
-          }).finally(function() {
-            window.location.reload(true);
-          });
-        } else {
-          window.location.reload(true);
-        }
+        actualizarAplicacionAhora();
       });
     }
 
@@ -2332,9 +2452,20 @@
     fillRememberedCredentials();
     applyPremiumUI();
 
+    document.addEventListener("visibilitychange", function() {
+      if (document.visibilityState === "visible") {
+        verificarNuevaVersion();
+      }
+    });
+
+    window.addEventListener("focus", function() {
+      verificarNuevaVersion();
+    });
+
     window.addEventListener("load", function () {
       cargarFarmaciaHoy();
       registrarInstalacionApp();
+      verificarNuevaVersion();
     });
   </script>
 </body>
