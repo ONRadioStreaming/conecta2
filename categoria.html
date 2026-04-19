@@ -968,6 +968,10 @@
           datosOriginales = datosOriginales.filter(function (item) {
             const tipoItem = String(item.tipo || "").toLowerCase().trim();
 
+            if (categoria === "empresas") {
+              return tipoItem === "empresa";
+            }
+            
             if (categoria === "comercios") {
               return tipoItem === "comercio";
             }
