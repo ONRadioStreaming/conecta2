@@ -702,6 +702,11 @@
               <textarea id="descripcion" placeholder="Contale a tus clientes qué hacés, qué ofrecés y qué te destaca."></textarea>
             </div>
 
+            <div class="toggle-box">
+              <input type="checkbox" id="delivery">
+              <label for="delivery">Contamos con delivery</label>
+            </div>
+            
             <div class="row">
               <div class="field">
                 <label for="whatsapp">WhatsApp</label>
@@ -1889,6 +1894,7 @@
             setValor('nombrePerfil', nombrePerfil);
             setValor('perfilRubro', rubro || 'No informado');
             setValor('descripcion', item.descripcion || '');
+            setChecked('delivery', String(item.delivery || '').trim().toLowerCase() === 'si');
             setValor('whatsapp', item.whatsapp || '');
             setValor('telefono', item.telefono || item.telefonoAlternativo || item.telefono_alternativo || '');
             setValor('email', item.email || '');
@@ -1973,6 +1979,7 @@
             action: 'guardarPanelMiembro',
             id_registro: idRegistro,
             descripcion: valor('descripcion'),
+            delivery: document.getElementById('delivery').checked ? 'si' : 'no',
             whatsapp: valor('whatsapp'),
             telefono: valor('telefono'),
             email: valor('email'),
