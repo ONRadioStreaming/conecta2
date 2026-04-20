@@ -888,6 +888,11 @@
           ? "Información institucional disponible"
           : obtenerHorarioTexto(item);
 
+        const tieneDelivery = String(item.delivery || "").toLowerCase().trim();
+          const deliveryHtml = (categoria === "comercios" && (tieneDelivery === "si" || tieneDelivery === "true" || tieneDelivery === "1"))
+          ? '<div class="info-item"><span class="info-icon">🛵</span><span class="info-text">Tenemos delivery</span></div>'
+          : '';
+        
         let fotoHtml = '<div class="card-photo-fallback">' + (categoria === "instituciones" ? '🏛️' : '🏪') + '</div>';
         if (imagen) {
           fotoHtml = '<img src="' + imagen + '" alt="' + escaparHtml(nombre) + '" onerror="this.parentNode.innerHTML=&quot;<div class=\'card-photo-fallback\'>🏪</div>&quot;">';
@@ -931,6 +936,7 @@
           + '<span class="info-icon">🕒</span>'
           + '<span class="info-text">' + escaparHtml(horarioTexto) + '</span>'
           + '</div>'
+          + deliveryHtml
           + '<div class="info-item">'
           + '<span class="info-icon">📍</span>'
           + '<span class="info-text">' + escaparHtml(direccion) + '</span>'
