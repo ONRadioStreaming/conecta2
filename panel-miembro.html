@@ -1264,6 +1264,11 @@
       const params = new URLSearchParams(window.location.search);
       const idRegistro = (params.get('id_registro') || '').trim();
 
+      if (idRegistro.startsWith("COM-")) {
+       window.location.href = SCRIPT_URL + "?view=panel-miembro&id_registro=" + idRegistro;
+       return;
+      }
+      
       const DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
 
       const estadoBox = document.getElementById('estadoBox');
