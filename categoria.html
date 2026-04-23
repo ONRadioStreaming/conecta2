@@ -889,7 +889,7 @@
           : obtenerHorarioTexto(item);
 
         const tieneDelivery = String(item.delivery || "").toLowerCase().trim();
-          const deliveryHtml = (categoria === "comercios" && (tieneDelivery === "si" || tieneDelivery === "true" || tieneDelivery === "1"))
+          const deliveryHtml = ( (tieneDelivery === "si" || tieneDelivery === "true" || tieneDelivery === "1"))
           ? '<div class="info-item"><span class="info-icon">🛵</span><span class="info-text">Tenemos delivery</span></div>'
           : '';
         
