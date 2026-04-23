@@ -742,6 +742,7 @@
       const nombreWhatsappAlt2 = String(item.nombrewhatsappalt2 || "").trim();
       const email = String(item.email || "").trim();
       const matricula = String(item.matricula || "").trim();
+      const delivery = String(item.delivery || "").trim().toLowerCase();
       const horarioTexto = obtenerHorarioTexto(item);
       const estadoBase = String(item.estado || "activo").toLowerCase();
       const estadoPill = estadoBase === "activo" ? "Activo" : "Inactivo";
@@ -774,13 +775,16 @@
       els.infoList.innerHTML = "";
 
       agregarInfo("🕒", horarioTexto);
-      if (direccion) agregarInfo("📍", direccion);
-      if (zona) agregarInfo("🗺️", "Zona de atención: " + zona);
-      if (email) agregarInfo("✉️", email);
-      if (matricula) agregarInfo("🪪", "Matrícula: " + matricula);
-      if (telefonoAlt) agregarInfo("☎️", "Teléfono alternativo: " + telefonoAlt);
-      if (whatsappAlt1) agregarInfo("💬", (nombreWhatsappAlt1 ? nombreWhatsappAlt1 + ": " : "WhatsApp alternativo 1: ") + whatsappAlt1);
-      if (whatsappAlt2) agregarInfo("💬", (nombreWhatsappAlt2 ? nombreWhatsappAlt2 + ": " : "WhatsApp alternativo 2: ") + whatsappAlt2);
+if (direccion) agregarInfo("📍", direccion);
+if (zona) agregarInfo("🗺️", "Zona de atención: " + zona);
+if (delivery === "si" || delivery === "sí" || delivery === "true" || delivery === "1") {
+  agregarInfo("🛵", "Hace delivery");
+}
+if (email) agregarInfo("✉️", email);
+if (matricula) agregarInfo("🪪", "Matrícula: " + matricula);
+if (telefonoAlt) agregarInfo("☎️", "Teléfono alternativo: " + telefonoAlt);
+if (whatsappAlt1) agregarInfo("💬", (nombreWhatsappAlt1 ? nombreWhatsappAlt1 + ": " : "WhatsApp alternativo 1: ") + whatsappAlt1);
+if (whatsappAlt2) agregarInfo("💬", (nombreWhatsappAlt2 ? nombreWhatsappAlt2 + ": " : "WhatsApp alternativo 2: ") + whatsappAlt2);
 
       renderMediosPago(item);
 
