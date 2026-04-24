@@ -888,8 +888,17 @@
           ? "Información institucional disponible"
           : obtenerHorarioTexto(item);
 
-        const tieneDelivery = String(item.delivery || "").toLowerCase().trim();
-          const deliveryHtml = ( (tieneDelivery === "si" || tieneDelivery === "true" || tieneDelivery === "1"))
+        const tieneDelivery = String(item.delivery || "")
+  .toLowerCase()
+  .trim()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, ""); // saca tildes
+
+const deliveryActivo = ["si", "true", "1", "yes"].includes(tieneDelivery);
+
+const deliveryHtml = (categoria === "comercios" && deliveryActivo)
+  ? '<div class="info-item"><span class="info-icon">🛵</span><span class="info-text">Tenemos delivery</span></div>'
+  : '';
           ? '<div class="info-item"><span class="info-icon">🛵</span><span class="info-text">Tenemos delivery</span></div>'
           : '';
         
