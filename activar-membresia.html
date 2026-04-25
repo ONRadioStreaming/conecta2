@@ -1250,6 +1250,12 @@ if (MODO_RENOVACION) {
     const amount = Number(plan.amount || 0);
     return planKey !== 'mes_prueba' && amount > 0;
   });
+} else {
+  plans = plans.filter(([key, plan]) => {
+    const planKey = normalizeText(key).toLowerCase();
+    const amount = Number(plan.amount || 0);
+    return planKey === 'mes_prueba' || amount === 0;
+  });
 }
   els.plansGrid.innerHTML = '';
 
