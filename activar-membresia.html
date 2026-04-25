@@ -672,9 +672,9 @@
       <h2 class="section-title">1. Elegí tu plan</h2>
       <div id="plansGrid" class="plans"></div>
 
-      <h2 class="section-title">2. Elegí cómo querés pagar</h2>
-      <div id="methodsGrid" class="methods"></div>
-
+      <h2 id="methodsTitle" class="section-title">2. Elegí cómo querés pagar</h2>
+<div id="methodsGrid" class="methods"></div>
+      
       <div class="summary-box">
         <strong>Resumen de tu activación</strong>
         <div class="summary-grid">
@@ -686,7 +686,7 @@
         </div>
       </div>
 
-      <div class="legend-box">
+      <div id="legendBox" class="legend-box">
         <strong>Importante:</strong> el pago online registra la solicitud y luego te lleva al enlace seguro para completar la operación. Transferencia bancaria y efectivo quedan como <strong>pendiente de validación</strong> hasta que el pago presencial sea confirmado.
       </div>
 
@@ -887,7 +887,8 @@ let METHOD_SOURCE = CONFIG.methods;
     primaryActionBtn: document.getElementById('primaryActionBtn'),
     secondaryActionBtn: document.getElementById('secondaryActionBtn'),
     btnCloseModal: document.getElementById('btnCloseModal'),
-    statusMsg: document.getElementById('statusMsg')
+    statusMsg: document.getElementById('statusMsg'),
+    legendBox: document.getElementById('legendBox')
   };
 
   function normalizeText(value) {
@@ -924,11 +925,32 @@ let METHOD_SOURCE = CONFIG.methods;
   }
 
   function getMethodByKey(key) {
+    if (key === 'free' || key === 'gratis' || key === 'sin_pago') {
+      return {
+        active: true,
+        order: 0,
+        label: 'No requiere pago',
+        buttonClass: '',
+        icon: '🎁',
+        hint: 'Prueba gratis por 30 días.',
+        initialState: 'activo',
+        finalButtonText: 'Finalizar'
+      };
+    }
+
     return key ? CONFIG.methods[key] || null : null;
   }
 
   function updateContinueButtonLabel() {
     if (!els.btnContinue) return;
+
+    const plan = getPlanByKey(STATE.selectedPlan);
+    const amount = Number(plan?.amount || plan?.importe || 0);
+
+    if (amount === 0 && STATE.selectedPlan) {
+      els.btnContinue.textContent = 'Activar prueba gratis';
+      return;
+    }
 
     if (STATE.selectedMethod === 'mercado_pago') {
       els.btnContinue.textContent = 'Pagar online';
@@ -936,6 +958,13 @@ let METHOD_SOURCE = CONFIG.methods;
     }
 
     els.btnContinue.textContent = 'Continuar';
+  }
+
+
+  function isSelectedPlanFree() {
+    const plan = getPlanByKey(STATE.selectedPlan);
+    const amount = Number(plan?.amount || plan?.importe || 0);
+    return amount === 0 && !!STATE.selectedPlan;
   }
 
   function getParamsData() {
@@ -1359,6 +1388,29 @@ let METHOD_SOURCE = CONFIG.methods;
 
   function selectPlan(planKey) {
     STATE.selectedPlan = planKey;
+
+  const plan = getPlanByKey(planKey);
+const isFree = Number(plan?.amount || plan?.importe || 0) === 0;
+
+// Ocultar o mostrar medios de pago
+const methodsTitle = document.getElementById("methodsTitle");
+
+if (isFree) {
+  if (methodsTitle) methodsTitle.textContent = "2. Activá tu prueba gratis";
+  els.methodsGrid.style.display = "none";
+
+  // Limpiar método seleccionado
+  STATE.selectedMethod = "free";
+  if (els.legendBox) {
+    els.legendBox.innerHTML = '<strong>Importante:</strong> tu prueba gratis dura 30 días. No necesitás elegir medio de pago. Podés hacerte premium cuando quieras desde tu panel.';
+  }
+} else {
+  if (methodsTitle) methodsTitle.textContent = "2. Elegí cómo querés pagar";
+  els.methodsGrid.style.display = "grid";
+  if (els.legendBox) {
+    els.legendBox.innerHTML = '<strong>Importante:</strong> el pago online registra la solicitud y luego te lleva al enlace seguro para completar la operación. Transferencia bancaria y efectivo quedan como <strong>pendiente de validación</strong> hasta que el pago presencial sea confirmado.';
+  }
+}
     
     document.querySelectorAll('.plan-card').forEach((card) => {
       const active = card.dataset.plan === planKey;
@@ -1373,7 +1425,7 @@ let METHOD_SOURCE = CONFIG.methods;
     updateContinueState();
     updateContinueButtonLabel();
 
-    if (els.methodsGrid) {
+    if (!isFree && els.methodsGrid) {
       els.methodsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
@@ -1398,20 +1450,53 @@ let METHOD_SOURCE = CONFIG.methods;
     const plan = getPlanByKey(STATE.selectedPlan);
     const method = getMethodByKey(STATE.selectedMethod);
 
+    const amount = Number(plan?.amount || plan?.importe || 0);
+    const isFree = amount === 0 && !!plan;
+    const amountText = plan
+      ? (plan.amountText || plan.monto_texto || (isFree ? '$0' : ('$' + amount.toLocaleString('es-AR'))))
+      : '-';
+
     els.summaryType.textContent = getRegistrationLabel(STATE.memberData);
     els.summaryName.textContent = STATE.memberData?.nombre_negocio || '-';
-    els.summaryPlan.textContent = plan ? plan.label : '-';
-    els.summaryMethod.textContent = method ? method.label : '-';
-    els.summaryAmount.textContent = plan ? plan.amountText : '-';
+
+    if (plan) {
+      els.summaryPlan.textContent = plan.label || plan.name || plan.nombre || (isFree ? 'Prueba gratis por 30 días' : 'Plan premium');
+      els.summaryAmount.textContent = amountText;
+    } else {
+      els.summaryPlan.textContent = '-';
+      els.summaryAmount.textContent = '-';
+    }
+
+    if (isFree) {
+      els.summaryMethod.textContent = 'No requiere pago';
+    } else {
+      els.summaryMethod.textContent = method ? method.label : '-';
+    }
   }
 
   function updateContinueState() {
     const memberValid = hasRequiredMemberData(STATE.memberData);
+    const plan = getPlanByKey(STATE.selectedPlan);
+    const amount = Number(plan?.amount || plan?.importe || 0);
+    const isFree = amount === 0 && !!STATE.selectedPlan;
+
+    if (isFree) {
+      els.btnContinue.disabled = !(memberValid && STATE.selectedPlan) || STATE.isSubmitting;
+      return;
+    }
+
     els.btnContinue.disabled = !(memberValid && STATE.selectedPlan && STATE.selectedMethod) || STATE.isSubmitting;
   }
 
   function prepareCurrentSelection() {
     const plan = getPlanByKey(STATE.selectedPlan);
+    const amount = Number(plan?.amount || plan?.importe || 0);
+    const isFree = amount === 0 && !!STATE.selectedPlan;
+
+    if (isFree && !STATE.selectedMethod) {
+      STATE.selectedMethod = 'free';
+    }
+
     const method = getMethodByKey(STATE.selectedMethod);
 
     if (!plan || !method) return false;
@@ -1513,7 +1598,16 @@ let METHOD_SOURCE = CONFIG.methods;
     STATE.isSubmitting = flag;
     els.primaryActionBtn.disabled = flag;
     els.secondaryActionBtn.disabled = flag;
-    els.btnContinue.disabled = flag || !(hasRequiredMemberData(STATE.memberData) && STATE.selectedPlan && STATE.selectedMethod);
+
+    const plan = getPlanByKey(STATE.selectedPlan);
+    const amount = Number(plan?.amount || plan?.importe || 0);
+    const isFree = amount === 0 && !!STATE.selectedPlan;
+
+    if (isFree) {
+      els.btnContinue.disabled = flag || !(hasRequiredMemberData(STATE.memberData) && STATE.selectedPlan);
+    } else {
+      els.btnContinue.disabled = flag || !(hasRequiredMemberData(STATE.memberData) && STATE.selectedPlan && STATE.selectedMethod);
+    }
 
     document.querySelectorAll('.select-plan-btn, .method-btn').forEach((btn) => {
       btn.disabled = flag;
@@ -1523,6 +1617,8 @@ let METHOD_SOURCE = CONFIG.methods;
   function buildPayload() {
     const plan = STATE.currentSelection.plan;
     const method = STATE.currentSelection.method;
+    const amount = Number(plan.amount || plan.importe || 0);
+    const isFree = amount === 0;
 
     return {
       action: 'crearSolicitudMembresia',
@@ -1534,13 +1630,13 @@ let METHOD_SOURCE = CONFIG.methods;
       telefono: STATE.memberData.telefono,
       email: STATE.memberData.email,
       plan: STATE.currentSelection.planKey,
-      plan_label: plan.label,
-      plan_nombre: plan.name,
-      monto: plan.amount,
-      monto_texto: plan.amountText,
-      medio_pago: STATE.currentSelection.methodKey,
-      medio_pago_label: method.label,
-      estado_inicial: method.initialState,
+      plan_label: plan.label || plan.name || plan.nombre || (isFree ? 'Prueba gratis por 30 días' : 'Plan premium'),
+      plan_nombre: plan.name || plan.nombre || plan.label || (isFree ? 'Prueba gratis por 30 días' : 'Plan premium'),
+      monto: amount,
+      monto_texto: plan.amountText || plan.monto_texto || (isFree ? '$0' : ('$' + amount.toLocaleString('es-AR'))),
+      medio_pago: isFree ? 'sin_pago' : STATE.currentSelection.methodKey,
+      medio_pago_label: isFree ? 'No requiere pago' : method.label,
+      estado_inicial: isFree ? 'activo' : method.initialState,
       timestamp: new Date().toISOString()
     };
   }
@@ -1557,6 +1653,63 @@ let METHOD_SOURCE = CONFIG.methods;
     els.modalSubtitle.textContent = message;
     els.primaryActionBtn.textContent = buttonText;
     els.secondaryActionBtn.textContent = 'Cerrar';
+  }
+
+  async function submitFreeActivationDirect() {
+    if (!hasRequiredMemberData(STATE.memberData)) {
+      showNotice('warning', 'Primero tenés que completar el registro antes de activar la membresía.');
+      return;
+    }
+
+    if (!STATE.selectedPlan) {
+      showNotice('warning', 'Elegí el plan de prueba antes de continuar.');
+      return;
+    }
+
+    if (!isSelectedPlanFree()) return;
+    if (!prepareCurrentSelection()) return;
+    if (STATE.isSubmitting || STATE.membershipSaved) return;
+
+    try {
+      setLoading(true);
+      showNotice('warning', 'Activando tu prueba gratis...');
+
+      const payload = buildPayload();
+
+      const response = await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const responseText = await response.text();
+      let result;
+
+      try {
+        result = JSON.parse(responseText);
+      } catch (_) {
+        throw new Error('La respuesta del servidor no tiene formato válido.');
+      }
+
+      if (!response.ok || result.ok === false) {
+        throw new Error(result.error || 'No se pudo activar la prueba gratis.');
+      }
+
+      STATE.membershipSaved = true;
+      persistLastMembership(payload);
+      showNotice('success', 'Prueba gratis activada correctamente para ' + (STATE.memberData.nombre_negocio || 'tu perfil') + '.');
+
+      setTimeout(() => {
+        window.location.href = CONFIG.redirectIndex || 'index.html';
+      }, 900);
+    } catch (error) {
+      console.error('ERROR COMPLETO:', error);
+      showNotice('error', error && error.message ? error.message : 'No se pudo activar la prueba gratis.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function submitOnlinePaymentDirect() {
@@ -1753,6 +1906,11 @@ let METHOD_SOURCE = CONFIG.methods;
 
         if (!STATE.selectedPlan || !STATE.selectedMethod) {
           showNotice('warning', 'Elegí un plan y una forma de pago antes de continuar.');
+          return;
+        }
+
+        if (isSelectedPlanFree()) {
+          submitFreeActivationDirect();
           return;
         }
 
