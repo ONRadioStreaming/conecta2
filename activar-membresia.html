@@ -1244,19 +1244,20 @@ let METHOD_SOURCE = CONFIG.methods;
   function renderPlans() {
   let plans = getActiveEntries(PLAN_SOURCE, CONFIG.adminConfig.allowOnlyActivePlans);
 
-if (MODO_RENOVACION) {
-  plans = plans.filter(([key, plan]) => {
-    const planKey = normalizeText(key).toLowerCase();
-    const amount = Number(plan.amount || 0);
-    return planKey !== 'mes_prueba' && amount > 0;
-  });
-} else {
-  plans = plans.filter(([key, plan]) => {
-    const planKey = normalizeText(key).toLowerCase();
-    const amount = Number(plan.amount || 0);
-    return planKey === 'mes_prueba' || amount === 0;
-  });
-}
+  if (MODO_RENOVACION) {
+    plans = plans.filter(([key, plan]) => {
+      const planKey = normalizeText(key).toLowerCase();
+      const amount = Number(plan.amount || plan.importe || 0);
+      return planKey !== 'mes_prueba' && amount > 0;
+    });
+  } else {
+    plans = plans.filter(([key, plan]) => {
+      const planKey = normalizeText(key).toLowerCase();
+      const amount = Number(plan.amount || plan.importe || 0);
+      return planKey === 'mes_prueba' || amount === 0;
+    });
+  }
+
   els.plansGrid.innerHTML = '';
 
   plans.forEach(([key, plan]) => {
@@ -1264,21 +1265,53 @@ if (MODO_RENOVACION) {
     card.className = 'plan-card';
     card.dataset.plan = key;
 
-    const benefitsHtml = (plan.benefits || []).map((item) => `
+    const importe = Number(plan.amount || plan.importe || 0);
+    const meses = Number(plan.meses || 1);
+    const isFree = importe === 0;
+
+    const badge = isFree
+      ? '30 días de prueba'
+      : (plan.badge || plan.label || plan.nombre || 'Plan premium');
+
+    const title = isFree
+      ? 'Prueba gratis por 30 días'
+      : (plan.name || plan.nombre || plan.label || 'Plan premium');
+
+    const description = isFree
+      ? 'Probá Conecta2 durante 30 días y empezá a mostrar tu perfil en la plataforma.'
+      : (plan.description || ('Activá tu perfil y accedé a todas las funciones durante ' + meses + ' mes' + (meses > 1 ? 'es' : '') + '.'));
+
+    const amountText = plan.amountText || (importe === 0 ? '$0' : ('$' + importe.toLocaleString('es-AR')));
+
+    const benefits = isFree
+      ? [
+          'Duración de prueba: 30 días',
+          'Publicación de tu perfil en la app',
+          'Acceso parcial a funciones',
+          'Podés pasar a premium cuando quieras'
+        ]
+      : (plan.benefits && plan.benefits.length ? plan.benefits : [
+          'Acceso completo a la plataforma',
+          'Visualización de perfiles laborales',
+          'Mayor visibilidad en la app',
+          'Renovación simple al vencimiento'
+        ]);
+
+    const benefitsHtml = benefits.map((item) => `
       <div class="plan-item"><span class="dot"></span><span>${item}</span></div>
     `).join('');
 
     card.innerHTML = `
-      <div class="plan-badge">${plan.badge || plan.label}</div>
-      <h2 class="plan-title">${plan.name}</h2>
-      <p class="plan-desc">${plan.description || ''}</p>
+      <div class="plan-badge">${badge}</div>
+      <h2 class="plan-title">${title}</h2>
+      <p class="plan-desc">${description}</p>
       ${plan.oldAmountText || plan.discountText ? `
         <div class="price-row">
           ${plan.oldAmountText ? '<div class="price-old">' + plan.oldAmountText + '</div>' : ''}
           ${plan.discountText ? '<div class="discount">' + plan.discountText + '</div>' : ''}
         </div>
       ` : ''}
-      <div class="price-big">${plan.amountText}</div>
+      <div class="price-big">${amountText}</div>
       <div class="plan-list">${benefitsHtml}</div>
       <button type="button" class="select-plan-btn">Elegir este plan</button>
     `;
