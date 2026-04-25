@@ -1033,9 +1033,20 @@ let METHOD_SOURCE = CONFIG.methods;
     return null;
   }
 
-  function hasRequiredMemberData(data) {
+    function hasRequiredMemberData(data) {
+    if (!data) return false;
+
+    if (MODO_RENOVACION) {
+      return !!(
+        data.id_registro &&
+        data.tipo_registro &&
+        data.nombre_negocio &&
+        data.telefono &&
+        data.email
+      );
+    }
+
     return !!(
-      data &&
       data.tipo_registro &&
       data.nombre_negocio &&
       data.titular &&
