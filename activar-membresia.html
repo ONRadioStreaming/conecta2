@@ -1075,9 +1075,8 @@ let METHOD_SOURCE = CONFIG.methods;
     return data?.tipo_registro || '-';
   }
 
-  function fillProfileBox() {
-    STATE.memberData = resolveMemberData();
-    const valid = hasRequiredMemberData(STATE.memberData);
+    function aplicarDatosMiembro(data) {
+    STATE.memberData = data || {};
 
     els.profileId.textContent = STATE.memberData.id_registro || 'Se asignará automáticamente';
     els.profileType.textContent = getRegistrationLabel(STATE.memberData);
@@ -1088,6 +1087,140 @@ let METHOD_SOURCE = CONFIG.methods;
 
     els.summaryType.textContent = getRegistrationLabel(STATE.memberData);
     els.summaryName.textContent = STATE.memberData.nombre_negocio || '-';
+
+    updateSummary();
+    updateContinueState();
+  }
+
+  function normalizarDatosPerfilRenovacion(item) {
+    if (!item || typeof item !== 'object') return null;
+
+    return {
+      id_registro: normalizeText(item.id_registro || item.id || item.registro),
+      tipo_registro: normalizeText(item.tipo_registro || item.tipo || item.categoria || 'Comercio'),
+      nombre_negocio: normalizeText(
+        item.nombre_negocio ||
+        item.nombre ||
+        item.negocio ||
+        item.nombreComercio ||
+        item.nombre_servicio ||
+        item.empresa ||
+        item.comercio
+      ),
+      titular: normalizeText(
+        item.titular ||
+        item.responsable ||
+        item.nombre_titular ||
+        item.nombreTitular ||
+        item.duenio ||
+        item.dueño ||
+        item.nombre_responsable
+      ),
+      telefono: normalizeText(
+        item.telefono ||
+        item.whatsapp ||
+        item.celular ||
+        item.tel
+      ),
+      email: normalizeText(
+        item.email ||
+        item.correo ||
+        item.mail
+      )
+    };
+  }
+
+  function cargarPerfilRenovacionPorJSONP(idRegistro) {
+    return new Promise((resolve, reject) => {
+      const callbackName = 'conecta2PerfilRenovacionCallback_' + Date.now();
+
+      window[callbackName] = function(data) {
+        try {
+          const item = data && data.item ? data.item : data;
+          resolve(normalizarDatosPerfilRenovacion(item));
+        } catch (error) {
+          reject(error);
+        } finally {
+          try { delete window[callbackName]; } catch (_) {}
+          const s = document.getElementById(callbackName);
+          if (s) s.remove();
+        }
+      };
+
+      const script = document.createElement('script');
+      script.id = callbackName;
+      script.src = CONFIG.appsScriptUrl
+        + '?action=obtenerPerfil'
+        + '&id_registro=' + encodeURIComponent(idRegistro)
+        + '&id=' + encodeURIComponent(idRegistro)
+        + '&callback=' + callbackName;
+
+      script.onerror = function() {
+        try { delete window[callbackName]; } catch (_) {}
+        const s = document.getElementById(callbackName);
+        if (s) s.remove();
+        reject(new Error('No se pudo consultar el perfil para renovar.'));
+      };
+
+      document.body.appendChild(script);
+    });
+  }
+
+  async function fillProfileBox() {
+    STATE.memberData = resolveMemberData();
+
+    if (MODO_RENOVACION) {
+      const idRegistro = normalizeText(
+        URL_PARAMS.get('id_registro') ||
+        URL_PARAMS.get('id') ||
+        URL_PARAMS.get('registro') ||
+        STATE.memberData.id_registro
+      );
+
+      if (!idRegistro) {
+        els.missingDataBox.classList.add('show');
+        showNotice('warning', 'No se recibió el ID del registro para renovar.');
+        aplicarDatosMiembro(STATE.memberData);
+        return;
+      }
+
+      aplicarDatosMiembro({
+        id_registro: idRegistro,
+        tipo_registro: STATE.memberData.tipo_registro || 'Comercio',
+        nombre_negocio: 'Cargando...',
+        titular: 'Cargando...',
+        telefono: 'Cargando...',
+        email: 'Cargando...'
+      });
+
+      try {
+        const perfil = await cargarPerfilRenovacionPorJSONP(idRegistro);
+
+        if (!hasRequiredMemberData(perfil)) {
+          els.missingDataBox.classList.add('show');
+          showNotice('warning', 'No se pudieron cargar todos los datos del registro para renovar.');
+          aplicarDatosMiembro({
+            ...STATE.memberData,
+            ...perfil,
+            id_registro: idRegistro
+          });
+          return;
+        }
+
+        els.missingDataBox.classList.remove('show');
+        aplicarDatosMiembro(perfil);
+        return;
+      } catch (error) {
+        console.error('Error cargando perfil de renovación:', error);
+        els.missingDataBox.classList.add('show');
+        showNotice('error', 'No se pudo cargar el registro para renovar. Revisá el ID o la conexión con Apps Script.');
+        aplicarDatosMiembro(STATE.memberData);
+        return;
+      }
+    }
+
+    const valid = hasRequiredMemberData(STATE.memberData);
+    aplicarDatosMiembro(STATE.memberData);
 
     if (!valid) {
       els.missingDataBox.classList.add('show');
