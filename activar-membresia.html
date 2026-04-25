@@ -1242,7 +1242,15 @@ let METHOD_SOURCE = CONFIG.methods;
   }
 
   function renderPlans() {
-  const plans = getActiveEntries(PLAN_SOURCE, CONFIG.adminConfig.allowOnlyActivePlans);
+  let plans = getActiveEntries(PLAN_SOURCE, CONFIG.adminConfig.allowOnlyActivePlans);
+
+if (MODO_RENOVACION) {
+  plans = plans.filter(([key, plan]) => {
+    const planKey = normalizeText(key).toLowerCase();
+    const amount = Number(plan.amount || 0);
+    return planKey !== 'mes_prueba' && amount > 0;
+  });
+}
   els.plansGrid.innerHTML = '';
 
   plans.forEach(([key, plan]) => {
