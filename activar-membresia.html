@@ -1351,8 +1351,12 @@ let METHOD_SOURCE = CONFIG.methods;
       selectPlan(key);
     });
 
-    els.plansGrid.appendChild(card);
+        els.plansGrid.appendChild(card);
   });
+
+  if (!MODO_RENOVACION && plans.length === 1) {
+    selectPlan(plans[0][0]);
+  }
 }
      
   function renderMethods() {
