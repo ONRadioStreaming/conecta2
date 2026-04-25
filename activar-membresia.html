@@ -1092,7 +1092,7 @@ let METHOD_SOURCE = CONFIG.methods;
     els.profileId.textContent = STATE.memberData.id_registro || 'Se asignará automáticamente';
     els.profileType.textContent = getRegistrationLabel(STATE.memberData);
     els.profileBusiness.textContent = STATE.memberData.nombre_negocio || '-';
-    els.profileOwner.textContent = STATE.memberData.titular || '-';
+    els.profileOwner.textContent = STATE.memberData.titular || STATE.memberData.nombre_negocio || STATE.memberData.nombre || 'Perfil Conecta2';
     els.profilePhone.textContent = STATE.memberData.telefono || '-';
     els.profileEmail.textContent = STATE.memberData.email || '-';
 
