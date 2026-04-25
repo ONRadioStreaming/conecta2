@@ -1638,7 +1638,7 @@ if (isFree) {
       plan_nombre: plan.name || plan.nombre || plan.label || (isFree ? 'Prueba gratis por 30 días' : 'Plan premium'),
       monto: amount,
       monto_texto: plan.amountText || plan.monto_texto || (isFree ? '$0' : ('$' + amount.toLocaleString('es-AR'))),
-      medio_pago: isFree ? 'sin_pago' : STATE.currentSelection.methodKey,
+      medio_pago: isFree ? 'efectivo' : STATE.currentSelection.methodKey,
       medio_pago_label: isFree ? 'No requiere pago' : method.label,
       estado_inicial: isFree ? 'activo' : method.initialState,
       timestamp: new Date().toISOString()
