@@ -1342,7 +1342,7 @@ let METHOD_SOURCE = CONFIG.methods;
       ` : ''}
       <div class="price-big">${amountText}</div>
       <div class="plan-list">${benefitsHtml}</div>
-      <button type="button" class="select-plan-btn">Activar prueba gratis</button>
+      <button type="button" class="select-plan-btn">${isFree ? 'Plan seleccionado' : 'Elegir este plan'}</button>
     `;
 
     card.addEventListener('click', () => selectPlan(key));
