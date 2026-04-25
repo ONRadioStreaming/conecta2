@@ -419,14 +419,26 @@ const STORAGE_KEY = 'conecta2_ultimo_resumen_membresia_' + (idRegistroStorage ||
         return [nombre, apellido].filter(Boolean).join(' ').trim();
       }
 
-      function titularDesdePerfil(item) {
+            function titularDesdePerfil(item) {
         if (!item) return '';
-        if (item.titular) return String(item.titular).trim();
+
+        const titular = String(item.titular || '').trim();
+        if (titular && titular !== '-') return titular;
+
         const nombre = String(item.nombre || '').trim();
         const apellido = String(item.apellido || '').trim();
         const nombreCompleto = [nombre, apellido].filter(Boolean).join(' ').trim();
-        if (nombreCompleto) return nombreCompleto;
-        if (item.nombre_comercio) return String(item.nombre_comercio).trim();
+        if (nombreCompleto && nombreCompleto !== '-') return nombreCompleto;
+
+        const nombreComercio = String(item.nombre_comercio || '').trim();
+        if (nombreComercio && nombreComercio !== '-') return nombreComercio;
+
+        const nombreServicio = String(item.nombre_servicio || '').trim();
+        if (nombreServicio && nombreServicio !== '-') return nombreServicio;
+
+        const nombreEmpresa = String(item.nombre_empresa || '').trim();
+        if (nombreEmpresa && nombreEmpresa !== '-') return nombreEmpresa;
+
         return '';
       }
 
@@ -629,8 +641,8 @@ password: firstOf(
           resumen.nombreNegocio = nombreDesdePerfil(perfil.item);
         }
 
-        if (!resumen.titular) {
-          resumen.titular = titularDesdePerfil(perfil.item);
+        if (!resumen.titular || resumen.titular === '-') {
+          resumen.titular = titularDesdePerfil(perfil.item) || resumen.nombreNegocio || 'Perfil Conecta2';
         }
 
         renderResumen(resumen);
