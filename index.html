@@ -2324,7 +2324,9 @@
         if (tipoSesion === "institucion") {
           btnPremiumPanel.href = "panel-institucion.html?id_registro=" + encodeURIComponent(session.id_registro || "");
         } else {
-          btnPremiumPanel.href = "panel-miembro.html?id_registro=" + encodeURIComponent(session.id_registro || "");
+          const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUCqWb6pYziwFrHWwXgSNwDfs4dt2KmdEZS18qFxcqlrSF4ywXdrDSrRM_Efka8Iij/exec";
+
+btnPremiumPanel.href = SCRIPT_URL + "?view=panel-miembro&id_registro=" + encodeURIComponent(session.id_registro || "");
         }
 
         premiumSessionInfo.textContent = "Sesión activa como: " + (session.usuario || "miembro premium") + ".";
